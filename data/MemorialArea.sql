@@ -1,5 +1,5 @@
 CREATE DATABASE MemorialArea
-
+GO
 USE MemorialArea
 
 -- Create Role table
@@ -11,8 +11,8 @@ CREATE TABLE Role (
 -- Create Account table
 CREATE TABLE Account (
     accountId VARCHAR(10) PRIMARY KEY,
-    username NVARCHAR(30),
-    password VARCHAR(30),
+    username NVARCHAR(50),
+    password VARCHAR(50),
     hide BIT,
     passwordResetToken VARCHAR,
     tokenExpiration VARCHAR,
@@ -40,7 +40,7 @@ CREATE TABLE SolemnVisit (
 -- LogSolemVisit
 CREATE TABLE LogSolemVisit (
 	visitId VARCHAR(10),
-    name NVARCHAR(30),
+    name NVARCHAR(50),
     portraitImage VARCHAR(max),
     letterImage VARCHAR(max),
     createDate DATE,
@@ -55,16 +55,16 @@ CREATE TABLE LogSolemVisit (
 -- Create Blog table
 CREATE TABLE Blog (
     blogId VARCHAR(10) PRIMARY KEY,
-    blogTitle NVARCHAR(50),
-    blogContent NVARCHAR(255),
+    blogTitle NVARCHAR(255),
+    blogContent NVARCHAR(max),
     createDate DATETIME,
     userId VARCHAR(10),
 );
 
 CREATE TABLE LogBlog (
 	blogId VARCHAR(10),
-    blogTitle NVARCHAR(50),
-    blogContent NVARCHAR(255),
+    blogTitle NVARCHAR(255),
+    blogContent NVARCHAR(max),
     createDate DATETIME,
     userId VARCHAR(10),
 	logBlogId INT PRIMARY KEY,
@@ -91,7 +91,7 @@ CREATE TABLE LogSlideImage (
 
 CREATE TABLE LogSlideShow (
 	slideShowId INT,
-	title VARCHAR(50),
+	title VARCHAR(255),
     image VARCHAR(max),
 	createDate DATETIME,
 	userId VARCHAR(10),
@@ -104,7 +104,7 @@ CREATE TABLE LogSlideShow (
 
 CREATE TABLE SlideShow (
 	slideShowId INT PRIMARY KEY,
-	title VARCHAR(50),
+	title VARCHAR(255),
     image VARCHAR(max),
 	createDate DATETIME,
 	userId VARCHAR(10),
@@ -113,11 +113,11 @@ CREATE TABLE SlideShow (
 -- Create Book table
 CREATE TABLE Book (
     bookId VARCHAR(10) PRIMARY KEY,
-	title VARCHAR(50),
+	title VARCHAR(255),
     image VARCHAR(max),
 	createDate DATETIME,
 	userId VARCHAR(10),
-    bookContent VARCHAR(255),
+    bookContent VARCHAR(max),
     publisher VARCHAR(50),
     author VARCHAR(50),
     yearPublic DATETIME,
@@ -125,11 +125,11 @@ CREATE TABLE Book (
 
 CREATE TABLE LogBook (
 	bookId VARCHAR(10),
-	title VARCHAR(50),
+	title VARCHAR(255),
     image VARCHAR(max),
 	createDate DATETIME,
 	userId VARCHAR(10),
-    bookContent VARCHAR(255),
+    bookContent VARCHAR(max),
     publisher VARCHAR(50),
     author VARCHAR(50),
     yearPublic DATETIME,
@@ -143,7 +143,7 @@ CREATE TABLE LogBook (
 -- Create Magazine table
 CREATE TABLE Magazine (
     magazineId VARCHAR(10) PRIMARY KEY,
-	title VARCHAR(50),
+	title VARCHAR(255),
     image VARCHAR(max),
 	createDate DATETIME,
 	userId VARCHAR(10),
@@ -152,7 +152,7 @@ CREATE TABLE Magazine (
 
 CREATE TABLE LogMagazine (
 	magazineId VARCHAR(10),
-	title VARCHAR(50),
+	title VARCHAR(255),
     image VARCHAR(max),
 	createDate DATETIME,
 	userId VARCHAR(10),
@@ -167,7 +167,7 @@ CREATE TABLE LogMagazine (
 -- Create Video table
 CREATE TABLE Video (
     videoId VARCHAR(10) PRIMARY KEY,
-	title VARCHAR(50),
+	title VARCHAR(255),
     image VARCHAR(max),
 	createDate DATETIME,
 	userId VARCHAR(10),
@@ -177,7 +177,7 @@ CREATE TABLE Video (
 
 CREATE TABLE LogVideo (
     videoId VARCHAR(10),
-	title VARCHAR(50),
+	title VARCHAR(255),
     image VARCHAR(max),
 	createDate DATETIME,
 	userId VARCHAR(10),
@@ -193,7 +193,7 @@ CREATE TABLE LogVideo (
 -- Create Music table
 CREATE TABLE Music (
     musicId VARCHAR(10) PRIMARY KEY,
-	title VARCHAR(50),
+	title VARCHAR(255),
 	createDate DATETIME,
 	userId VARCHAR(10),
 	imageLink VARCHAR(max),
@@ -202,7 +202,7 @@ CREATE TABLE Music (
 
 CREATE TABLE LogMusic (
 	musicId VARCHAR(10),
-	title VARCHAR(50),
+	title VARCHAR(255),
 	createDate DATETIME,
 	userId VARCHAR(10),
 	imageLink VARCHAR(max),
