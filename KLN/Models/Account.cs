@@ -32,7 +32,8 @@ namespace KLN.Models
         [ForeignKey("role_id")]
         public virtual Role? role { get; set; }
 
+        // User 1 - 1
         [NotMapped]
-        public User user { get; set; }
+        public virtual User? user { get; set; }
     }
 }

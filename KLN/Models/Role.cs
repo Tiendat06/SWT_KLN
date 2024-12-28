@@ -11,7 +11,7 @@ namespace KLN.Models
         [Column("role_id", TypeName ="varchar")]
         public required string role_id { get; set; }
 
-        [Column("role_name", TypeName ="nvarchar")]
+        [Column("role_name", TypeName ="varchar")]
         public string? role_name { get; set; } = string.Empty;
 
         [NotMapped]
