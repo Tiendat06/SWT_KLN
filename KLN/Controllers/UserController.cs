@@ -14,7 +14,7 @@ namespace KLN.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
+        [HttpGet("v1")]
         public IActionResult getUsersList()
         {
             var usersList = _userService.getAllUsers();

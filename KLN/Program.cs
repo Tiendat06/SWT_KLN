@@ -4,6 +4,18 @@ using KLN.Services;
 using Microsoft.EntityFrameworkCore;
 using Scrutor;
 var builder = WebApplication.CreateBuilder(args);
+var FE_URL = builder.Configuration["FE_URL"] ?? "http://localhost:5000";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin", builder =>
+    {
+        builder.WithOrigins(FE_URL)
+        .AllowCredentials()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
 
 // Add services to the container.
 
@@ -30,6 +42,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthorization();
 

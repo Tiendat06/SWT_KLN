@@ -1,70 +1,29 @@
-# Getting Started with Create React App
+# <span style='color: red'>IMPORTANT: <br /> Please do not eject this project. If you want to edit webpack configuration, please override instead of eject. ^_^</span>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Project Structure
+### `/src`
+* The root directory, where all the source code of the application is stored. This is the heart of the ReactJS project, where all the logic and interface is built.
+### `/assets`
+* Store static files such as images, fonts, or other shared resources throughout the application. This is where files that do not change during the entire execution of the application are placed.
+### `/components`
+* Contains reusable components that are shared between different parts of the application. These components are often small building blocks that help build the interface.
+### `/context`
+* This is where global state is managed using the Context API or Redux-related logic. This directory is especially useful when you need to share state between multiple components in your application.
+### `/features`
+* Organize modules by feature, grouping related components, styles, and logic together. This organization helps clearly separate each function in the application.
+### `/hooks`
+* Store React Custom Hooks. These hooks help encapsulate reusable logic, for example, hooks for handling forms or connecting to an API.
+### `/layouts`
+* Includes components that define the structure of the application, such as headers, footers, or layout wrappers. This is where the overall look and feel of the entire application is managed.
+### `/pages`
+* Contains page-level components. This is where pages like the home page, product detail page, or contact page are defined...
+### `/routes`
+* Contains routes for each page of the website, used in the routing structure of the React Router DOM.
+### `/services`
+* Manages API calls, connections to external services, or integrations with third-party libraries. This is where data is handled to and from the server.
+### `/store`
+* Manage reducers for each web page in the project
+### `/styles`
+* Store CSS, SCSS, or global style files and component-specific styles. Makes managing and reusing style rules easy.
+### `/utils`
+* Contains utility functions and helpers that are common to the entire application. For example, date formatting, string manipulation, or input validation.
