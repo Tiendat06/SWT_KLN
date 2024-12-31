@@ -9,7 +9,7 @@ export const AdminProvider = ({ children }) => {
         age: 18
     }
     return (
-        <AdminContext.Provider value={dataContext} >
+        <AdminContext.Provider value={{dataContext}} >
             {children}
         </AdminContext.Provider>
     )

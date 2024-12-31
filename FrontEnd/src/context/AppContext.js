@@ -9,7 +9,7 @@ export const AppProvider = ({ children }) => {
         age: 18
     }
     return (
-        <AppContext.Provider value={dataContext} >
+        <AppContext.Provider value={{dataContext}} >
             {children}
         </AppContext.Provider>
     )

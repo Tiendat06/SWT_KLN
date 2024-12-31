@@ -16,7 +16,7 @@ builder.Services.AddCors(options =>
         .AllowAnyMethod();
     });
 });
-
+// Dependency Injection
 // Add services to the container.
 
 builder.Services.AddDbContext<DatabaseManager>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
