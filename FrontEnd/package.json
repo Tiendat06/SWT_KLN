@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^44.1.0",
+    "@ckeditor/ckeditor5-react": "^9.4.0",
     "clsx": "^2.1.1",
     "normalize.css": "^8.0.1",
+    "primeicons": "^7.0.0",
     "primereact": "^10.8.5",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
@@ -19,7 +22,8 @@
     "babel-plugin-module-resolver": "^5.0.2",
     "cra-template": "1.2.0",
     "customize-cra": "^1.0.0",
-    "react-app-rewired": "^2.2.1"
+    "react-app-rewired": "^2.2.1",
+    "sass-loader": "^16.0.4"
   },
   "scripts": {
     "start": "react-app-rewired start",

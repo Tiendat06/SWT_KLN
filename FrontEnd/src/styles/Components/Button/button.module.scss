@@ -1,0 +1,27 @@
+@use "../../GlobalStyles/index" as *;
+@use "../../Utils/mixins" as *;
+@use "../../Utils/variables" as *;
+
+@mixin default_button {
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  outline: none;
+  border: none;
+  font-size: 16px;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.button-1 {
+  background-color: $app-color-3;
+  color: #ffffff;
+  @include default_button;
+}
+
+.button-2 {
+  background-color: $app-color-6;
+  color: $app-text-color-1;
+  @include default_button;
+  padding: 5px 15px;
+  border-radius: 5px;
+}

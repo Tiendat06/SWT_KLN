@@ -1,0 +1,99 @@
+@use "../GlobalStyles/index" as *;
+@use "../Utils/mixins" as *;
+@use "../Utils/variables" as *;
+
+.header-top{
+  background-color: $app-color-3;
+  display: flex;
+  justify-content: space-between;
+  height: $header-top-height;
+  padding: 0 35px 0 35px;
+  &__logo{
+    display: flex;
+    align-items: center;
+    &-img{
+      width: 43px;
+      height: 43px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    &-para{
+      color: $app-color-6;
+      margin-bottom: 0;
+      font-weight: bold;
+    }
+  }
+
+  &__right{
+    display: flex;
+    align-items: center;
+    &-icon-search{
+      width: 20px;
+      height: 20px;
+      margin-right: 25px;
+      cursor: pointer;
+    }
+    &-login{
+      display: flex;
+      align-items: center;
+      &-icon{
+        width: 23px;
+        height: 23px;
+      }
+      &-para{
+        margin-bottom: 0;
+        margin-left: 5px;
+        color: $app-color-6;
+        cursor: pointer;
+      }
+    }
+    &-icon-vn{
+      margin-left: 25px;
+      width: 33px;
+      height: 21px;
+      cursor: pointer;
+      border: 1px solid $app-color-6;
+    }
+  }
+}
+
+.header-bottom{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 35px 0 35px;
+  height: $header-bottom-height;
+  box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.4);
+  background-color: #ffffff;
+  &__title{
+    //display: flex;
+    text-align: center;
+    &-kln{
+      color: rgb(20, 72, 159);
+      font-weight: bold;
+      margin-bottom: 0;
+    }
+    &-tdt{
+      color: $app-color-3;
+      font-weight: bold;
+      margin-bottom: 0;
+    }
+  }
+
+  &__navigate-list{
+    display: flex;
+    justify-content: end;
+  }
+  &__navigate-item{
+    padding: 0 15px 0 15px;
+    &__para{
+      color: $app-color-5;
+      font-weight: bold;
+      margin-bottom: 0;
+    }
+
+    &__para:hover, &__para:focus{
+      color: $app-color-3;
+    }
+  }
+}

@@ -1,0 +1,16 @@
+@use "../GlobalStyles/index" as *;
+@use "../Utils/mixins" as *;
+@use "../Utils/variables" as *;
+
+.footer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $app-color-7;
+  height: $footer-height;
+  &-bottom{
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 0;
+  }
+}

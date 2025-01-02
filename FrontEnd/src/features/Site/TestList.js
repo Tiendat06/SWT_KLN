@@ -14,7 +14,7 @@ function TestList() {
         <>
             <ul>
                 {testData?.data?.map((item, index) => (
-                    <li key={index}>{item.name}</li>
+                    <li key={index}><p className='mb-0'>{item.name}</p></li>
                 ))}
             </ul>
             <Button onClick={onClickButtonIncrease}>Increase ({count})</Button>
