@@ -313,6 +313,7 @@ IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Blog')
 BEGIN
 CREATE TABLE Blog (
     blogId VARCHAR(10) PRIMARY KEY,
+    blogImage VARCHAR(max),
     blogTitle NVARCHAR(255),
     blogContent NVARCHAR(max),
     createDate DATETIME,
