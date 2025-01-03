@@ -3,5 +3,6 @@ import Footer from '~/components/Partials/Footer/Footer'
 import Body from '~/components/Partials/Body/Body'
 import Button from "./Button/Button";
 import SlideBanner from "~/components/SlideBanner/SlideBanner";
+import PDFViewer from "~/components/PDFViewer/PDFViewer";
 
-export {Header, Footer, Body, Button, SlideBanner}
+export {Header, Footer, Body, Button, SlideBanner, PDFViewer}

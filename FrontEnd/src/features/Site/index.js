@@ -1,4 +1,4 @@
-import TestList from "./TestList";
-import CounterTestList from "./CounterTestList";
+import NewsList from './NewsList';
+import BooksList from './BooksList';
 
-export {TestList, CounterTestList};
+export {NewsList, BooksList};

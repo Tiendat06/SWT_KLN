@@ -1,5 +1,197 @@
 @use "../GlobalStyles/index" as *;
+@use "../Utils/mixins" as *;
+@use "../Utils/variables" as *;
 
-.test{
-  font-size: 50px;
+.home-info{
+  margin-top: 30px;
+  &__title{
+    text-align: center;
+    &-1{
+      color: $app-color-4;
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 18px;
+    }
+    &-2{
+      color: $app-color-3;
+      font-weight: bold;
+      font-size: 21px;
+    }
+  }
+
+  &__content{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 20px;
+    &-img-list{
+      display: flex;
+      justify-content: center;
+    }
+
+    &-img--item{
+      width: 383px;
+      height: 420px;
+      object-fit: cover;
+      padding: 10px;
+    }
+
+    &-img--sub{
+
+      &-item{
+        width: 236px;
+        height: 210px;
+        object-fit: cover;
+        padding: 10px;
+      }
+    }
+
+    &-text{
+      padding-right: 10px;
+
+      &-title{
+        font-weight: bold;
+        color: $app-color-5;
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
+
+.home-outstanding{
+  display: flex;
+  flex-wrap: wrap;
+  margin: 30px 0;
+  padding: 0 30px;
+}
+
+.home-news{
+  padding: 0 20px 0 50px;
+  &__title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &-text{
+      color: $app-color-3;
+      font-weight: bold;
+      margin-bottom: 0;
+      font-size: 21px;
+    }
+  }
+  &__img{
+    cursor: pointer;
+  }
+
+  &__blog{
+    margin-top: 30px;
+    &-content{
+      position: relative;
+      cursor: pointer;
+      display: block;
+    }
+    &-content:hover a{
+      color: $app-color-3;
+      text-shadow:
+              0 0 3px white,
+              0 0 6px white,
+              0 0 10px white,
+              0 0 15px white,
+              0 0 20px white;
+    }
+    &-img{
+      width: 100%;
+    }
+    &-para{
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-bottom: 0;
+      font-weight: 700;
+      a {
+        color: #ffffff;
+      }
+    }
+
+    &-list{
+      margin-top: 30px;
+    }
+    &-item{
+      padding: 20px 10px;
+      border-bottom: 1px solid $app-color-5;
+      font-weight: 700;
+      cursor: pointer;
+      display: block;
+    }
+  }
+
+  &__sentence{
+    margin-top: 50px;
+    background-color: #ffffff;
+    img{
+      width: 100%;
+      padding: 35px 0 0 0;
+      border-radius: 20px;
+      box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+    }
+  }
+}
+
+.home-book{
+  padding: 0 20px 0 50px;
+
+  &__item{
+    cursor: pointer;
+  }
+  &__title{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    &-text{
+      font-weight: bold;
+      color: $app-color-3;
+      font-size: 21px;
+      margin-bottom: 0;
+    }
+  }
+
+  &__img{
+    margin-top: 30px;
+    position: relative;
+    &-item{
+      width: 100%;
+      height: 273px;
+      object-fit: cover;
+    }
+    &-sub{
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      &-item{
+        margin-right: 10px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
+      &-para{
+        color: #ffffff;
+        margin-bottom: 0;
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
+    }
+  }
+
+  &__text{
+    padding: 10px 0 20px 0;
+    border-bottom: 1px solid $app-color-5;
+    &-para{
+      margin-bottom: 0;
+      font-weight: bold;
+      color: $app-color-5;
+    }
+  }
 }
