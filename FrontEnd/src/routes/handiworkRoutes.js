@@ -1,8 +1,14 @@
 import {Handiwork} from "~/pages"
 
-const handiworkRoutes = [
+const handiworkJRoutes = [
     {path: "/handiwork", element: <Handiwork />},
-    // -------------------------------
+
+]
+
+const handiworkRoutes = [
+    ...handiworkJRoutes,
 ];
+
+export { handiworkJRoutes };
 
 export default handiworkRoutes;

@@ -1,15 +1,12 @@
 import clsx from "clsx";
-import styles from "~/styles/Site/site.module.scss";
+import styles from "~/styles/Pages/Site/site.module.scss";
 import {plus_icon_1, book_home_1, book_home_2} from "~/assets/img";
-import {siteRoutes} from '~/routes/appRoutes';
+import {siteJRoutes} from '~/routes/appRoutes';
 import {Link} from "react-router-dom";
+import {getBookListDataTop3} from "~/services/SiteService";
 
 function BooksList() {
-    const bookList = [
-        {bookId: '1', title: 'Chân dung Bác Tôn của Công ty Thảm len xuất khẩu Sài Gòn.', image: book_home_1, createDate: '', userId: '', bookContent: '', publisher: '', author: '', yearPublic: ''},
-        {bookId: '2', title: 'Chân dung Bác Tôn của Công ty Thảm len xuất khẩu Sài Gòn.', image: book_home_1, createDate: '', userId: '', bookContent: '', publisher: '', author: '', yearPublic: ''},
-        {bookId: '3', title: 'Chân dung Bác Tôn của Công ty Thảm len xuất khẩu Sài Gòn.', image: book_home_1, createDate: '', userId: '', bookContent: '', publisher: '', author: '', yearPublic: ''},
-    ]
+    const bookList = getBookListDataTop3();
 
     return (
         <>
@@ -19,7 +16,7 @@ function BooksList() {
                     <img className={clsx(styles['home-book__title-img'])} src={`${plus_icon_1}`} alt=""/>
                 </div>
                 {bookList?.map((book, index) => (
-                    <Link key={book.bookId} to={siteRoutes[0].path} className={clsx(styles["home-book__item"])}>
+                    <Link key={book.bookId} to={siteJRoutes[0].path} className={clsx(styles["home-book__item"])}>
                         <div className={clsx(styles["home-book__img"])}>
                             <img className={clsx(styles['home-book__img-item'])} src={book.image} alt=""/>
                             <div className={clsx(styles['home-book__img-sub'])}>

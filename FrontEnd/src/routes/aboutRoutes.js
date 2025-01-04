@@ -1,8 +1,15 @@
-import {About} from "~/pages"
+import {About, AboutGenealogy, AboutBiography} from "~/pages"
+
+const aboutJRoutes = [
+    {path: "/about", element: <About />},
+    {path: "/about-genealogy", element: <AboutGenealogy />},
+    {path: "/about-biography", element: <AboutBiography />},
+]
 
 const aboutRoutes = [
-    {path: "/about", element: <About />},
-    // -------------------------------
+    ...aboutJRoutes,
 ];
+
+export { aboutJRoutes };
 
 export default aboutRoutes;

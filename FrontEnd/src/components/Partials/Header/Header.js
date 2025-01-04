@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 
 import styles from "~/styles/Layouts/header.module.scss";
 import {tdtu_logo, search_icon, user_icon, vn_icon} from "~/assets/img";
-import {siteRoutes, aboutRoutes, memorialAreaRoutes, handiworkRoutes} from "~/routes/appRoutes";
+import {siteJRoutes, aboutJRoutes, memorialAreaJRoutes, handiworkJRoutes} from "~/routes/appRoutes";
 
 function Header() {
     return (
@@ -28,16 +28,16 @@ function Header() {
                     <p className={clsx(styles['header-bottom__title-tdt'])}>CHỦ TỊCH TÔN ĐỨC THẮNG</p>
                 </div>
                 <ul className={clsx(styles['header-bottom__navigate-list'])}>
-                    <Link to={siteRoutes[0].path} className={clsx(styles['header-bottom__navigate-item'])}>
+                    <Link to={siteJRoutes[0].path} className={clsx(styles['header-bottom__navigate-item'])}>
                         <p className={clsx(styles['header-bottom__navigate-item__para'], 'link-underline')}>TRANG CHỦ</p>
                     </Link>
-                    <Link to={aboutRoutes[0].path} className={clsx(styles['header-bottom__navigate-item'])}>
+                    <Link to={aboutJRoutes[0].path} className={clsx(styles['header-bottom__navigate-item'])}>
                         <p className={clsx(styles['header-bottom__navigate-item__para'], 'link-underline')}>CHỦ TỊCH TÔN ĐỨC THẮNG</p>
                     </Link>
-                    <Link to={memorialAreaRoutes[0].path} className={clsx(styles['header-bottom__navigate-item'])}>
+                    <Link to={memorialAreaJRoutes[0].path} className={clsx(styles['header-bottom__navigate-item'])}>
                         <p className={clsx(styles['header-bottom__navigate-item__para'], 'link-underline')}>KHU LƯU NIỆM BÁC TÔN</p>
                     </Link>
-                    <Link to={handiworkRoutes[0].path} className={clsx(styles['header-bottom__navigate-item'])}>
+                    <Link to={handiworkJRoutes[0].path} className={clsx(styles['header-bottom__navigate-item'])}>
                         <p className={clsx(styles['header-bottom__navigate-item__para'], 'link-underline')}>CÔNG TRÌNH MANG TÊN BÁC TÔN</p>
                     </Link>
                 </ul>

@@ -1,6 +1,6 @@
-@use "../GlobalStyles/index" as *;
-@use "../Utils/mixins" as *;
-@use "../Utils/variables" as *;
+@use "../../GlobalStyles/index" as *;
+@use "../../Utils/mixins" as *;
+@use "../../Utils/variables" as *;
 
 .home-info{
   margin-top: 30px;
@@ -60,7 +60,7 @@
 .home-outstanding{
   display: flex;
   flex-wrap: wrap;
-  margin: 30px 0;
+  margin: 30px 0 50px 0;
   padding: 0 30px;
 }
 
@@ -88,7 +88,7 @@
       cursor: pointer;
       display: block;
     }
-    &-content:hover a{
+    &-content:hover p{
       color: $app-color-3;
       text-shadow:
               0 0 3px white,
@@ -107,9 +107,9 @@
       transform: translateX(-50%);
       margin-bottom: 0;
       font-weight: 700;
-      a {
-        color: #ffffff;
-      }
+      color: #ffffff;
+      -webkit-transition: all 500ms ease 0s;
+      transition: all 500ms ease 0s;
     }
 
     &-list{

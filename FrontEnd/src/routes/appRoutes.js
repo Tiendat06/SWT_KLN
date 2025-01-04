@@ -1,9 +1,9 @@
-import siteRoutes from "./siteRoutes";
-import aboutRoutes from "./aboutRoutes";
-import memorialAreaRoutes from "./memorialAreaRoutes";
-import handiworkRoutes from "./handiworkRoutes";
+import siteRoutes, {siteJRoutes} from "./siteRoutes";
+import aboutRoutes, {aboutJRoutes} from "./aboutRoutes";
+import memorialAreaRoutes, {memorialAreaJRoutes} from "./memorialAreaRoutes";
+import handiworkRoutes, {handiworkJRoutes} from "./handiworkRoutes";
 
-export {siteRoutes, aboutRoutes, memorialAreaRoutes, handiworkRoutes};
+export {siteJRoutes, aboutJRoutes, memorialAreaJRoutes, handiworkJRoutes};
 
 const appRoutes = [
     ...siteRoutes,

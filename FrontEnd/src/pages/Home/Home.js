@@ -1,4 +1,4 @@
-import styles from '~/styles/Site/site.module.scss';
+import styles from '~/styles/Pages/Site/site.module.scss';
 import {home_img_1, home_img_2, home_img_3} from '~/assets/img';
 import clsx from "clsx";
 import {SlideBanner} from "~/components";

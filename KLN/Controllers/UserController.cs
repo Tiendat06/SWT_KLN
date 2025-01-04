@@ -1,4 +1,6 @@
-﻿using KLN.Services;
+﻿using KLN.Models;
+using KLN.Response;
+using KLN.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +17,7 @@ namespace KLN.Controllers
         }
         
         [HttpGet("v1")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(APIResponse<List<User>>))]
         public IActionResult getUsersList()
         {
             var usersList = _userService.getAllUsers();
