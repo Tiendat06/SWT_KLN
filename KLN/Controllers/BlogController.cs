@@ -16,6 +16,10 @@ namespace KLN.Controllers
     {
         private readonly DatabaseManager _context;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public BlogController(DatabaseManager context)
         {
             _context = context;
