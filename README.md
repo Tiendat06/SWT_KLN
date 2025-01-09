@@ -6,3 +6,4 @@ Step 4: Run "dotnet restore" in "KLN" folder to install lib
 Step 5: Run dotnet (BE) project  
 Step 6: Run "npm start" in "FrontEnd" folder  
 Step 7: Don't forget to create .env file in "FrontEnd" folder and use the .env file in the document is provided
+Step 8: Go to "http://localhost:5000" and enjoy the app  
