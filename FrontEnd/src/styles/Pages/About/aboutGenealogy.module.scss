@@ -1,3 +1,142 @@
 @use "../../GlobalStyles/index" as *;
 @use "../../Utils/mixins" as *;
 @use "../../Utils/variables" as *;
+
+.aboutgenealogy {
+    margin-top: $app-page-title-margin-top;
+
+    &-title {
+        height: $app-page-title-height;
+        background-color: $app-color-3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &__text {
+            font-weight: bold;
+            color: $app-color-8;
+            margin-bottom: 0;
+        }
+    }
+
+    &-genealogy,&-politicalactivity {
+        display: flex;
+        padding: 0 50px;
+        margin-top: 50px;
+        flex-wrap: wrap;
+
+        &__img {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: auto;
+
+            img {
+                max-width: 100%;
+                height: auto;
+                object-fit: contain;
+            }
+        }
+
+        &__info {
+            padding: 0 20px 0 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: nowrap;
+
+
+            &-title {
+                margin: 0;
+                padding: 0;
+                color: $app-color-5;
+                font-weight: bold;
+                font-size: 21px;
+                text-align: center;
+                margin-top: 50px;
+            }
+
+            &-text {
+                margin-left: -80%;
+                color: $app-color-3;
+                font-weight: bold;
+                text-align: left;
+                overflow: hidden;
+
+            }
+            &-text1 {
+                margin-right: -145%;
+                color: $app-color-3;
+                font-weight: bold;
+                text-align: right;
+                overflow: hidden;
+
+            }
+
+            &-hr {
+                border: none;
+                border-bottom: 1px solid $app-color-5;
+                width: 88%;
+                cursor: pointer;
+                display: block;
+            }
+            &-hr1 {
+                border: none;
+                border-bottom: 1px solid $app-color-5;
+                width: 130%;
+                cursor: pointer;
+                display: block;
+                margin-left: 40%;
+            }
+            &__img1 {
+                max-width: 400px; 
+                display: flex;
+                justify-content: flex-end; 
+                margin-left: 20px;
+            
+                img {
+                  object-fit: cover; 
+                  margin-right:-100%;
+                }
+            }
+
+            &-para {
+                text-align: left;
+                margin-left: -45%;
+                padding-left: 50px;
+                width: 50%;
+            }
+
+            &-para1 {
+                margin-left: 25px;
+                padding-left: 50px;
+            }
+            &-para2{
+                text-align: left;
+                margin-left: 120%;
+                padding-left: 50px;
+                width: 50%;
+            }
+            &-para3 {
+                white-space: nowrap; 
+                width: 100%;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            
+            
+            &__img2 {
+
+                img {
+                    width: auto;
+                    object-fit: cover;
+                }
+            }
+
+        }
+    }
+}
