@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import styles from "~/styles/Pages/Site/site.module.scss";
-import {plus_icon_1, book_home_1, book_home_2} from "~/assets/img";
+import {plus_icon_1, /*book_home_1,*/ book_home_2} from "~/assets/img";
 import {siteJRoutes} from '~/routes/appRoutes';
 import {Link} from "react-router-dom";
 import {getBookListDataTop3} from "~/services/SiteService";

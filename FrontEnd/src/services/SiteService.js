@@ -2,7 +2,7 @@ import UseFetchAPI from "~/hooks/UseFetchAPI";
 import {book_home_1} from "~/assets/img";
 
 export const getTestData = (count) => {
-    const {data, error, loading} = UseFetchAPI('api/User/v1', {
+    const {data} = UseFetchAPI('api/User/v1', {
         dependency: [count]
     });
     return data;
