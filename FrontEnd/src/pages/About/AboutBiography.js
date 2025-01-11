@@ -26,7 +26,6 @@ function AboutBiography() {
                             và Trưởng ban Thường trực Quốc hội (1955-1960).
                         </p>
                     </div>
-
                 </div>
                 <div className={clsx(styles["aboutbiography-politicalactivity"])}>
                     <div className={clsx(styles["aboutbiography-politicalactivity__info"], 'col-lg-9 col-md-9 col-sm-12')}>
