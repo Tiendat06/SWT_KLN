@@ -24,7 +24,8 @@ import tieu_su_1 from '~/assets/img/ctich_tdt/tieu-su-1.png';
 import gia_pha from '~/assets/img/ctich_tdt/gia_pha.png';
 import tuong_BacTon from '~/assets/img/ctich_tdt/tuong_BacTon.png';
 import tau from '~/assets/img/ctich_tdt/ship.png';
-
+import bacTon from '~/assets/img/ctich_tdt/BacTon.png';
+import bacva_cacemnho from '~/assets/img/ctich_tdt/Bac_va _cacemnho.png';
 // icon
 export { search_icon, user_icon, plus_icon_1, next_icon_1, previous_icon_1 };
 
@@ -38,3 +39,5 @@ export {home_img_1, home_img_2, home_img_3, blog_home_1, book_home_1, book_home_
 export {gia_pha_1, tieu_su_1,gia_pha};
 export {tuong_BacTon};
 export {tau};
+export {bacTon};
+export {bacva_cacemnho};

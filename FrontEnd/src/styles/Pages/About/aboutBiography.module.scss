@@ -1,0 +1,191 @@
+@use "../../GlobalStyles/index" as *;
+@use "../../Utils/mixins" as *;
+@use "../../Utils/variables" as *;
+
+.aboutbiography {
+    margin-top: $app-page-title-margin-top;
+
+    &-title {
+        height: $app-page-title-height;
+        background-color: $app-color-3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &__text {
+            font-weight: bold;
+            color: $app-color-8;
+            margin-bottom: 0;
+        }
+    }
+
+    &-biography,&-politicalactivity,&-family{
+        display: flex;
+        padding: 0 50px;
+        flex-wrap: wrap;
+        margin-top: 10px; 
+
+        &__img {
+            flex: 1;
+            position: relative;
+
+            img {
+                margin-top: 50px;
+                // max-width: 100%;
+                width: 300px;
+                height: 400px;
+                object-fit: contain;
+                margin-left: 230px; 
+                margin-right: 100px; 
+            }
+        }
+        &-text {
+            text-align: center;
+            margin-left: 100px;
+            margin-top: -2%; 
+            font-weight: bold;
+        }
+
+        &__content{
+            flex: 2;
+            background:  $app-color-9;
+            margin-top: 2%;
+            width:max-content;
+            height: 430px;
+            margin-left: -10%;
+            
+
+            &-text{
+                
+                justify-content: center;
+                align-items: center;
+                margin-top: 13%;
+                margin-left:12%;
+                margin-bottom: 30%;
+                line-height: 2.0;
+                font-weight: normal;
+                
+            }
+            
+        }
+
+        &__highlighted{
+            &-text{
+                color:$app-color-3;
+                font-weight: bold;
+            }
+        }
+
+        &__info {
+            padding: 0 20px 0 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: nowrap;
+
+
+            &-title {
+                margin: 0;
+                padding: 0;
+                color: $app-color-5;
+                font-weight: bold;
+                text-align: center;
+                margin-top: 50px;
+            }
+
+            
+
+            &-text {
+                margin-right: -50%;
+                color: $app-color-3;
+                font-weight: bold;
+                text-align: right;
+                overflow: hidden;
+
+            }
+           
+            &-hr {
+                border: none;
+                margin-top: 0;
+                border-bottom: 2px solid $app-color-5;
+                width: 100%;
+                cursor: pointer;
+                display: block;
+                margin-left: 40%;
+            }
+
+           
+            &-para {
+                margin-left: 32%;
+                padding-left: 50px;
+                width: 100%;
+                font-weight: medium;
+            }
+            &-imgBacandCacem{
+                img{
+                    margin-bottom: 10%;
+                    margin-left: 85%;
+
+                }
+            }
+
+        }
+        &__infofamily{
+            padding: 0 20px 0 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: nowrap;
+
+
+            &-title {
+                margin: 0;
+                padding: 0;
+                color: $app-color-5;
+                font-weight: bold;
+                text-align: center;
+                margin-top: 50px;
+            }
+
+            
+
+            &-text {
+                margin-right: -50%;
+                color: $app-color-3;
+                font-weight: bold;
+                text-align: right;
+                overflow: hidden;
+
+            }
+           
+            &-hr {
+                border: none;
+                margin-top: 0;
+                border-bottom: 2px solid $app-color-5;
+                width: 100%;
+                cursor: pointer;
+                display: block;
+                margin-left: 40%;
+            }
+
+           
+            &-para {
+                margin-left: 32%;
+                padding-left: 50px;
+                width: 100%;
+                font-weight: medium;
+            }
+            &-imgBacandCacem{
+                img{
+                    margin-left: 85%;
+                    margin-bottom: 100%;
+
+                }
+            }
+        }
+    }
+}
