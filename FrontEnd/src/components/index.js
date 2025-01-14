@@ -4,5 +4,6 @@ import Body from '~/components/Partials/Body/Body'
 import Button from "./Button/Button";
 import SlideBanner from "~/components/SlideBanner/SlideBanner";
 import PDFViewer from "~/components/PDFViewer/PDFViewer";
+import CustomReactPaginate from "~/components/CustomReactPaginate/CustomReactPaginate";
 
-export {Header, Footer, Body, Button, SlideBanner, PDFViewer}
+export {Header, Footer, Body, Button, SlideBanner, PDFViewer, CustomReactPaginate}

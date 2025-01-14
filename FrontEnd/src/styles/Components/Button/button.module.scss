@@ -26,3 +26,11 @@
   border-radius: 5px;
 }
 
+.button-3 {
+  @include default_button;
+  border-radius: 30px;
+  padding: 5px 15px;
+  background-color: $app-color-8;
+  color: $app-color-10;
+}
+

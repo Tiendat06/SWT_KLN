@@ -34,7 +34,7 @@ function TDTMasterpiece() {
             <div className={clsx(styles["about-masterpiece"])}>
                 <div className={clsx(styles["about-masterpiece__title"])}>
                     <p className={clsx(styles['about-masterpiece__title-text'])}>TÁC PHẨM MANG TÊN BÁC TÔN</p>
-                    <Link to={aboutJRoutes[0].path} className={clsx(styles['about-masterpiece__title-more'])}>Xem thêm</Link>
+                    <Link to={aboutJRoutes[3].path} className={clsx(styles['about-masterpiece__title-more'])}>Xem thêm</Link>
                 </div>
                 <div className={clsx(styles["about-masterpiece__list"])}>
                     <Carousel value={masterPieceList}

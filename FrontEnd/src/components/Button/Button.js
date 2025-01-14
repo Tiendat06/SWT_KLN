@@ -8,10 +8,16 @@ function Button({children,
                     btnClassName = '',
                     onClick = () => {},
                     options= 1}) {
+    const buttonStyle = {
+        1: styles['button-1'],
+        2: styles['button-2'],
+        3: styles['button-3'],
+    }[options] || styles['button-1'];
+
     return (
         <>
             <Link to={urlLink}>
-                <button className={clsx(options === 1 ? styles['button-1'] : styles['button-2'], btnClassName)}
+                <button className={clsx(buttonStyle, btnClassName)}
                         onClick={onClick}>
                     {children}
                 </button>
