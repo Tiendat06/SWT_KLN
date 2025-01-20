@@ -1,11 +1,10 @@
 import UseFetchAPI from "~/hooks/UseFetchAPI";
 import {book_home_1} from "~/assets/img";
 
-export const getTestData = (count) => {
-    const {data} = UseFetchAPI('api/User/v1', {
-        dependency: [count]
+export const getTestData = async (count) => {
+    return await UseFetchAPI({
+        api: 'api/User/v1',
     });
-    return data;
 }
 
 export const getBookListDataTop3 = () => {
