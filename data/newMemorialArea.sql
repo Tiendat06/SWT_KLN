@@ -548,7 +548,7 @@ BEGIN
 INSERT INTO [Blog]
 ([blogId], [blogImage], [blogTitle], [blogContent], [createDate], [userId])
 VALUES
-    ('BLO000001', 'https://res-console.cloudinary.com/dydpf7z8u/thumbnails/v1/image/upload/v1736512957/YWcxLTEzNTh4ODQ0X2lycmFucQ==/preview', 'Blog1', 'Blog1', '2025-01-14 03:04:50.827', 'USR000001');
+    ('BLO000001', 'https://res-console.cloudinary.com/dydpf7z8u/thumbnails/v1/image/upload/v1736512957/YWcxLTEzNTh4ODQ0X2lycmFucQ==/preview', 'Blog1', 'Blog1', '2025-01-14 03:04:50.827', 'USR000001'),
     ('BLO000002', 'https://res-console.cloudinary.com/dydpf7z8u/thumbnails/v1/image/upload/v1736512957/YWczLTEwMjR4NjgzX2R6b2VqMg==/preview', 'Blog2', 'Blog2', '2025-01-14 03:04:50.827', 'USR000001');
 END
 
