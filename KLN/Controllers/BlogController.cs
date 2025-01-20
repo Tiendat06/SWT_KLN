@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using KLN.Config;
 using KLN.Models;
+using KLN.Services;
 
 namespace KLN.Controllers
 {
@@ -14,36 +15,39 @@ namespace KLN.Controllers
     [ApiController]
     public class BlogController : ControllerBase
     {
-        private readonly DatabaseManager _context;
+        private readonly BlogService _blogService;
+        private readonly LogBlogService _logBlogService;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="context"></param>
-        public BlogController(DatabaseManager context)
+        public BlogController(BlogService blogService, LogBlogService logBlogService)
         {
-            _context = context;
+            _blogService = blogService;
+            _logBlogService = logBlogService;
         }
 
         // GET: api/Blog
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Blog>>> GetBlog()
         {
-            return await _context.Blogs.ToListAsync();
+            var blogs = await _blogService.GetAllBlogsAsync();
+            return Ok(new { status = true, data = blogs, msg = "Load blogs successfully" });
         }
 
         // GET: api/Blog/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Blog>> GetBlog(string id)
         {
-            var blog = await _context.Blogs.FindAsync(id);
+            var blog = await _blogService.GetBlogByIdAsync(id);
 
             if (blog == null)
             {
-                return NotFound();
+                return NotFound(new { status = false, msg = "Blog not found" });
             }
 
-            return blog;
+            return Ok(new { status = true, data = blog, msg = "Load blog successfully" });
         }
 
         // PUT: api/Blog/5
@@ -53,28 +57,23 @@ namespace KLN.Controllers
         {
             if (id != blog.blogId)
             {
-                return BadRequest();
+                return BadRequest(new { status = false, msg = "Blog ID mismatch" });
             }
-
-            _context.Entry(blog).State = EntityState.Modified;
-
-            try
+            var oldBlog = await _blogService.GetBlogByIdAsync(id);
+            if (oldBlog == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound(new { status = false, msg = "Blog not found" });
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BlogExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _logBlogService.LogBlogActionAsync(oldBlog, "Update", "O");
 
-            return NoContent();
+            var result = await _blogService.UpdateBlogAsync(blog);
+            if (!result)
+            {
+                return NotFound(new { status = false, msg = "Blog not found" });
+            }
+            await _logBlogService.LogBlogActionAsync(blog, "Update", "N");
+
+            return Ok(new { status = true, data = blog, msg = "Update blog successfully" });
         }
 
         // POST: api/Blog
@@ -82,45 +81,39 @@ namespace KLN.Controllers
         [HttpPost]
         public async Task<ActionResult<Blog>> PostBlog(Blog blog)
         {
-            _context.Blogs.Add(blog);
-            try
+            var createdBlog = await _blogService.CreateBlogAsync(blog);
+            if (createdBlog == null)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (BlogExists(blog.blogId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(new { status = false, msg = "Error in creating blog" });
             }
 
-            return CreatedAtAction("GetBlog", new { id = blog.blogId }, blog);
+            var createdLog = await _logBlogService.LogBlogActionAsync(createdBlog, "Create", "N");
+            if (createdLog == null)
+            {
+                return BadRequest(new { status = false, msg = "Error in creating log blog" });
+            }
+
+            return CreatedAtAction("GetBlog", new { id = blog.blogId }, new { status = true, data = createdBlog, msg = "Blog created successfully" });
         }
 
         // DELETE: api/Blog/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBlog(string id)
         {
-            var blog = await _context.Blogs.FindAsync(id);
+            var blog = await _blogService.DeleteBlogAsync(id);
             if (blog == null)
             {
-                return NotFound();
+                return NotFound(new { status = false, msg = "Blog not found" });
             }
 
-            _context.Blogs.Remove(blog);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            var log = await _logBlogService.LogBlogActionAsync(blog, "Delete", "N");
+            if (log == null)
+            {
+                return BadRequest(new { status = false, msg = "Error in creating delete log blog" });
+            }
+            return Ok(new { status = true, data = blog, msg = "Delete blog successfully" });
         }
 
-        private bool BlogExists(string id)
-        {
-            return _context.Blogs.Any(e => e.blogId == id);
-        }
+        
     }
 }

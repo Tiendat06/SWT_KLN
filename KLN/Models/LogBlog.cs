@@ -20,9 +20,6 @@ namespace KLN.Models
         [Column("createDate", TypeName ="datetime")]
         public DateTime? createDate { get; set; } = DateTime.Now;
 
-        [Column("version", TypeName = "varchar")]
-        public string? version { get; set; } = string.Empty;
-
         [Column("updateDate", TypeName ="datetime")]
         public DateTime? updateDate {  get; set; } = DateTime.Now;
 

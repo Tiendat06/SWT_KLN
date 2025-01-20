@@ -300,8 +300,7 @@ CREATE TABLE LogSolemnVisit (
     letterImage VARCHAR(max),
     createDate DATE,
     userId VARCHAR(10),
-    logSolemnId INT PRIMARY KEY,
-    version VARCHAR(max),
+    logSolemnId INT PRIMARY KEY IDENTITY(1,1),
     updateDate DATETIME,
     process VARCHAR(max),
     flag VARCHAR(1)
@@ -330,8 +329,7 @@ CREATE TABLE LogBlog (
     blogContent NVARCHAR(max),
     createDate DATETIME,
     userId VARCHAR(10),
-    logBlogId INT PRIMARY KEY,
-    version VARCHAR(max),
+    logBlogId INT PRIMARY KEY IDENTITY(1,1),
     updateDate DATETIME,
     process VARCHAR(max),
     flag VARCHAR(1)
@@ -353,7 +351,7 @@ END
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'LogSlideImage')
 BEGIN
 CREATE TABLE LogSlideImage (
-    logSlideImageId INT PRIMARY KEY,
+    logSlideImageId INT PRIMARY KEY IDENTITY(1,1),
     logSlideShowId INT,
     imageLink VARCHAR(max),
     capture VARCHAR(max)
@@ -369,8 +367,7 @@ CREATE TABLE LogSlideShow (
     image VARCHAR(max),
     createDate DATETIME,
     userId VARCHAR(10),
-    logSlideShowId INT PRIMARY KEY,
-    version VARCHAR(max),
+    logSlideShowId INT PRIMARY KEY IDENTITY(1,1),
     updateDate DATETIME,
     process VARCHAR(max),
     flag VARCHAR(1)
@@ -418,8 +415,7 @@ CREATE TABLE LogBook (
     publisher NVARCHAR(50),
     author NVARCHAR(50),
     yearPublic DATETIME,
-    logBookId INT PRIMARY KEY,
-    version VARCHAR(max),
+    logBookId INT PRIMARY KEY IDENTITY(1,1),
     updateDate DATETIME,
     process VARCHAR(max),
     flag VARCHAR(1)
@@ -449,8 +445,7 @@ CREATE TABLE LogMagazine (
     createDate DATETIME,
     userId VARCHAR(10),
     magazineContent NVARCHAR(max),
-    logMagazineId INT PRIMARY KEY,
-    version VARCHAR(max),
+    logMagazineId INT PRIMARY KEY IDENTITY(1,1),
     updateDate DATETIME,
     process VARCHAR(max),
     flag VARCHAR(1)
@@ -463,7 +458,6 @@ BEGIN
 CREATE TABLE Video (
                        videoId VARCHAR(10) PRIMARY KEY,
                        title NVARCHAR(255),
-                       image VARCHAR(max),
         createDate DATETIME,
         userId VARCHAR(10),
         imageLink VARCHAR(max),
@@ -477,13 +471,11 @@ BEGIN
 CREATE TABLE LogVideo (
                           videoId VARCHAR(10),
                           title NVARCHAR(255),
-                          image VARCHAR(max),
         createDate DATETIME,
         userId VARCHAR(10),
         imageLink VARCHAR(max),
         videoLink VARCHAR(max),
-        logVideoId INT PRIMARY KEY,
-        version VARCHAR(max),
+        logVideoId INT PRIMARY KEY IDENTITY(1,1),
         updateDate DATETIME,
         process VARCHAR(max),
         flag VARCHAR(1)
@@ -496,6 +488,7 @@ BEGIN
 CREATE TABLE Music (
     musicId VARCHAR(10) PRIMARY KEY,
     title NVARCHAR(255),
+    author NVARCHAR(50),
     createDate DATETIME,
     userId VARCHAR(10),
     imageLink VARCHAR(max),
@@ -509,12 +502,12 @@ BEGIN
 CREATE TABLE LogMusic (
     musicId VARCHAR(10),
     title NVARCHAR(255),
+    author NVARCHAR(50),
     createDate DATETIME,
     userId VARCHAR(10),
     imageLink VARCHAR(max),
     audioLink VARCHAR(max),
-    logMusicId INT PRIMARY KEY,
-    version VARCHAR(max),
+    logMusicId INT PRIMARY KEY IDENTITY(1,1),
     updateDate DATETIME,
     process VARCHAR(max),
     flag VARCHAR(1)
@@ -548,4 +541,75 @@ INSERT INTO [Role]
 VALUES
     ('ROL0000001', 'Admin'),
     ('ROL0000002', 'User');
+END
+
+IF NOT EXISTS (SELECT * FROM [Blog])
+BEGIN
+INSERT INTO [Blog]
+([blogId], [blogImage], [blogTitle], [blogContent], [createDate], [userId])
+VALUES
+    ('BLO000001', 'https://res-console.cloudinary.com/dydpf7z8u/thumbnails/v1/image/upload/v1736512957/YWcxLTEzNTh4ODQ0X2lycmFucQ==/preview', 'Blog1', 'Blog1', '2025-01-14 03:04:50.827', 'USR000001');
+    ('BLO000002', 'https://res-console.cloudinary.com/dydpf7z8u/thumbnails/v1/image/upload/v1736512957/YWczLTEwMjR4NjgzX2R6b2VqMg==/preview', 'Blog2', 'Blog2', '2025-01-14 03:04:50.827', 'USR000001');
+END
+
+IF NOT EXISTS (SELECT * FROM [Book])
+BEGIN
+INSERT INTO [Book]
+([bookId], [title], [image], [createDate], [userId], [bookContent], [publisher], [author], [yearPublic])
+VALUES
+    ('BLO0000001', 'Book1', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736513302/4_egzkgd.jpg', '2025-01-12 07:42:59.267', 'USR0000001', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512588/BacHoBacTonvaCacAnh.pdf', 'NXB Chính Trị Quốc Gia', 'Nguyễn Văn A', '2024');
+END
+
+IF NOT EXISTS (SELECT * FROM Magazine)
+BEGIN
+INSERT INTO Magazine
+([magazineId], [title], [image], [createDate], [userId], [magazineContent])
+VALUES
+    ('MAG0000001', 'Magazine1', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512914/nhasan_5_s2yhyu.jpg', '2025-01-12 13:00:00', 'USR0000001', 'Content1'),
+    ('MAG0000002', 'Magazine2', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512868/gioi-thieu-kln_eokgdn.jpg', '2025-01-13 13:00:00', 'USR0000002', 'Content2');
+END
+
+IF NOT EXISTS (SELECT * FROM SolemnVisit)
+BEGIN
+INSERT INTO SolemnVisit
+([visitId], [name], [portraitImage], [letterImage], [createDate], [userId])
+VALUES
+    ('VIS0000001', 'Visit1', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514442/huynh-dam_i1e1tp.jpg', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514499/huynh-dam_uew0d6.jpg', '2025-01-12 10:00:00', 'USR0000001'),
+    ('VIS0000002', 'Visit2', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514443/truong-thi-mai_ayboln.jpg', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514498/truong-thi-mai_fs7kmz.jpg', '2025-01-13 11:00:00', 'USR0000002');
+END
+
+IF NOT EXISTS (SELECT * FROM SlideImage)
+BEGIN
+INSERT INTO SlideImage
+([slideImageId], [slideShowId], [imageLink], [capture])
+VALUES
+    (1, 'SSL0000001', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512950/nhatu2_jrrtfs.jpg', 'Capture1'),
+    (2, 'SSL0000002', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512868/cdvsn_conghoi_veyjno.jpg', 'Capture2');
+END
+
+IF NOT EXISTS (SELECT * FROM SlideShow)
+BEGIN
+INSERT INTO SlideShow
+([slideShowId], [title], [image], [createDate], [userId])
+VALUES
+    ('SSL0000001', 'SlideShow1', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512868/cdvsn_thomay_w9kejq.jpg', '2025-01-12 12:00:00', 'USR0000001'),
+    ('SSL0000002', 'SlideShow2', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512873/cdvsn_condao_vazrvu.jpg', '2025-01-13 12:00:00', 'USR0000002');
+END
+
+IF NOT EXISTS (SELECT * FROM Video)
+BEGIN
+INSERT INTO Video
+([videoId], [title], [createDate], [userId], [imageLink], [videoLink])
+VALUES
+    ('VID0000001', 'Video1', '2025-01-12 14:00:00', 'USR0000001', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512961/gettyimages-182880589-1493334765_y8yjmg.jpg', 'https://res.cloudinary.com/dydpf7z8u/video/upload/v1736513161/motnhancach_hk0gcp.mp4'),
+    ('VID0000002', 'Video2', '2025-01-13 14:00:00', 'USR0000002', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512961/gg_rabfx7.jpg', 'https://res.cloudinary.com/dydpf7z8u/video/upload/v1736513087/TDTU_klsyu9.mp4');
+END
+
+IF NOT EXISTS (SELECT * FROM Music)
+BEGIN
+INSERT INTO Music
+([musicId], [title], [author], [createDate], [userId], [imageLink], [audioLink])
+VALUES
+    ('MUS0000001', 'Music1', 'Author One', '2025-01-12 15:00:00', 'USR0000001', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512956/ag2-860x520_hz77hl.jpg', 'https://res.cloudinary.com/dydpf7z8u/video/upload/v1736072269/08_buaeek.mp3'),
+    ('MUS0000002', 'Music2', 'Author Two', '2025-01-13 15:00:00', 'USR0000002', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512980/nha-trung-bay1_y7i7mb.jpg', 'https://res.cloudinary.com/dydpf7z8u/video/upload/v1736072246/06_c6ylkq.mp3');
 END

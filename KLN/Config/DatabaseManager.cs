@@ -10,6 +10,9 @@ namespace KLN.Config
         public DbSet<User> Users { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<Blog> Blogs { get; set; } = default!;
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<LogBook> LogBooks { get; set; }
+        public DbSet<LogBlog> LogBlogs { get; set; } = default!;
     }
 }

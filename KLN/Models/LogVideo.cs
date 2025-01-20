@@ -11,9 +11,6 @@ namespace KLN.Models
         [Column("logVideoId", TypeName ="varchar")]
         public required string? logVideoId { get; set; }
 
-        [Column("version", TypeName = "varchar")]
-        public string? version { get; set; } = string.Empty;
-
         [Column("updateDate", TypeName = "datetime")]
         public DateTime? updateDate { get; set; } = DateTime.Now;
 

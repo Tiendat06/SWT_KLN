@@ -23,9 +23,17 @@ builder.Services.AddDbContext<DatabaseManager>(options => options.UseSqlServer(b
 
 // Services
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<BlogService>();
+builder.Services.AddScoped<BookService>();
+builder.Services.AddScoped<LogBlogService>();
+builder.Services.AddScoped<LogBookService>();
 
 // Repository
 builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<BlogRepository>();
+builder.Services.AddScoped<BookRepository>();
+builder.Services.AddScoped<LogBlogRepository>();
+builder.Services.AddScoped<LogBookRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
