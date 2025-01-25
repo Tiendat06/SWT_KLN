@@ -1,0 +1,59 @@
+﻿using Infrastructure.Persistence;
+using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Domain.Interfaces;
+using System.Reflection.Metadata;
+
+namespace Infrastructure.Repositories
+{
+    public class BookRepository : IBookRepository
+    {
+        private readonly DatabaseManager _context;
+
+        public BookRepository(DatabaseManager context)
+        {
+            _context = context;
+        }
+
+        public async Task CreateBookAsync(Book book)
+        {
+            await _context.Books.AddAsync(book);
+        }
+
+        public async Task<IEnumerable<Book>> GetAllBooksAsync()
+        {
+            return await _context.Books
+                .AsNoTracking()
+                .Where(book => book.IsDeleted == false)
+                .Include(book => book.User)
+                .ThenInclude(user => user.Account)
+                .ThenInclude(account => account.Role)
+                .ToListAsync();
+        }
+
+        public async Task<Book?> GetBookByIdAsync(Guid id)
+        {
+            return await _context.Books
+                .AsNoTracking()
+                .Include(book => book.User)
+                .ThenInclude(user => user.Account)
+                .ThenInclude(account => account.Role)
+                .FirstOrDefaultAsync(book => book.BookId == id && book.IsDeleted == false);
+        }
+
+        public async Task HardDeleteBookAsync(Guid id)
+        {
+            _context.Books.Remove(new Book { BookId = id });
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SoftDeleteBookAsync(Book book)
+        {
+            book.IsDeleted = true;
+            await Task.CompletedTask;
+        }
+    }
+}
