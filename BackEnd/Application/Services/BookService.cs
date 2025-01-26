@@ -228,9 +228,9 @@ namespace Application.Services
                     await _logBookRepository.CreateLogBookAsync(newLogBook);
 
                     // delete image from cloudinary
-                    var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
-                    var publicId = $"{nameof(Book)}_{id}";
-                    var result = cloudinaryOperations.DeleteFileFromCloudinary(publicId);
+                    //var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
+                    //var publicId = $"{nameof(Book)}_{id}";
+                    //var result = cloudinaryOperations.DeleteFileFromCloudinary(publicId);
 
                     // delete book
                     var book = new Book { BookId = id };

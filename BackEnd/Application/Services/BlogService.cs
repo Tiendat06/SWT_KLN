@@ -49,7 +49,7 @@ namespace Application.Services
         public async Task<IEnumerable<GetBlogResponse>> GetAllBlogsAsync()
         {
             var blogs = await _blogRepository.GetAllBlogsAsync();
-            Console.WriteLine(JsonSerializer.Serialize(blogs));
+            //Console.WriteLine(JsonSerializer.Serialize(blogs));
 
             return GetBlogResponseMapper.GetBlogListMapEntityToDTO(blogs);
         }
@@ -129,9 +129,9 @@ namespace Application.Services
                     await _logBlogRepository.CreateLogBlogAsync(newLogBlog);
 
                     // delete image from cloudinary
-                    var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
-                    var publicId = $"{nameof(Blog)}_{id}";
-                    var result = cloudinaryOperations.DeleteFileFromCloudinary(publicId);
+                    //var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
+                    //var publicId = $"{nameof(Blog)}_{id}";
+                    //var result = cloudinaryOperations.DeleteFileFromCloudinary(publicId);
 
                     // delete blog
                     var blog = new Blog { BlogId = id };
