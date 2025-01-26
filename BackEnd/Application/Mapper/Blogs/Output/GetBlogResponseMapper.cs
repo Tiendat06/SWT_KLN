@@ -20,6 +20,7 @@ namespace Application.Mapper.Blogs.Output
                 BlogContent = blog.BlogContent,
                 BlogImage = blog.BlogImage,
                 CreateDate = blog.CreateDate,
+                UserId = blog.UserId,
                 Name = blog.User.Name,
                 Email = blog.User.Email,
                 UserName = blog.User.Account.UserName,

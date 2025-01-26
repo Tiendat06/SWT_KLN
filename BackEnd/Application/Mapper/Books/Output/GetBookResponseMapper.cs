@@ -47,6 +47,7 @@ namespace Application.Mapper.Books.Output
                     YearPublic = book.YearPublic,
                     Image = book.Image,
                     CreateDate = book.CreateDate,
+                    UserId = book.UserId,
                     Name = book.User.Name,
                     Email = book.User.Email,
                     UserName = book.User.Account.UserName,
