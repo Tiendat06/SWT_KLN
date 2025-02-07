@@ -392,8 +392,8 @@ BEGIN
 INSERT INTO SolemnVisit
 ([visitId], [name], [portraitImage], [letterImage], [createDate], [userId], [isDeleted])
 VALUES
-    (@visitId_1, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514442/huynh-dam_i1e1tp.jpg', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514499/huynh-dam_uew0d6.jpg', '2025-01-12 10:00:00', @userId_1, 0),
-    (@visitId_2, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514443/truong-thi-mai_ayboln.jpg', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514498/truong-thi-mai_fs7kmz.jpg', '2025-01-13 11:00:00', @userId_1, 0);
+    (@visitId_1, 'Test01', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514442/huynh-dam_i1e1tp.jpg', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514499/huynh-dam_uew0d6.jpg', '2025-01-12 10:00:00', @userId_1, 0),
+    (@visitId_2, 'Test02', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514443/truong-thi-mai_ayboln.jpg', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514498/truong-thi-mai_fs7kmz.jpg', '2025-01-13 11:00:00', @userId_1, 0);
 END
 
 IF NOT EXISTS (SELECT * FROM SlideImage)
@@ -401,8 +401,8 @@ BEGIN
 INSERT INTO SlideImage
 ([slideImageId], [slideShowId], [imageLink], [capture], [isDeleted])
 VALUES
-    (@slideImageId_1, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512950/nhatu2_jrrtfs.jpg', 'Capture1', 0),
-    (@slideImageId_2, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512868/cdvsn_conghoi_veyjno.jpg', 'Capture2', 0);
+    (@slideImageId_1, @slideShowId_1, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512950/nhatu2_jrrtfs.jpg', 'Capture1', 0),
+    (@slideImageId_2, @slideShowId_2, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512868/cdvsn_conghoi_veyjno.jpg', 'Capture2', 0);
 END
 
 IF NOT EXISTS (SELECT * FROM SlideShow)
