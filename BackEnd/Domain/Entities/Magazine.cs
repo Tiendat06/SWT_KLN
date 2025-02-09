@@ -18,7 +18,7 @@ namespace Domain.Entities
         public string? Image { get; set; } = string.Empty;
 
         [Column("createDate", TypeName = "datetime")]
-        public DateTime? CreateDate { get; set; } = DateTime.Now;
+        public DateTime CreateDate { get; set; } = DateTime.Now;
 
         [Column("magazineContent", TypeName = "nvarchar")]
         public string? MagazineContent { get; set; } = string.Empty;

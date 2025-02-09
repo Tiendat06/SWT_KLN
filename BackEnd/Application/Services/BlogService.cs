@@ -6,15 +6,10 @@ using Application.Mapper.Blogs.Output;
 using Domain;
 using Domain.Entities;
 using Domain.Interfaces;
-using System.Reflection.Metadata;
 using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using static System.Net.Mime.MediaTypeNames;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Application.Utils;
 using System.Text.Json;
-using Application.DTOs.Book.Input;
 using Application.Extension;
 
 namespace Application.Services

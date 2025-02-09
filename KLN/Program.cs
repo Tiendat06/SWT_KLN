@@ -13,7 +13,6 @@ using System.Text;
 using Application.Validators;
 using DotNetEnv;
 using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
 
 var builder = WebApplication.CreateBuilder(args);
 Env.Load();
@@ -50,20 +49,25 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // Validator
 builder.Services.AddScoped<BlogValidator>();
 builder.Services.AddScoped<BookValidator>();
+builder.Services.AddScoped<MagazineValidator>();
 
 // Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBlogRepository, BlogRepository>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IMagazineRepository, MagazineRepository>();
 builder.Services.AddScoped<ILogBlogRepository, LogBlogRepository>();
 builder.Services.AddScoped<ILogBookRepository, LogBookRepository>();
+builder.Services.AddScoped<ILogMagazineRepository, LogMagazineRepository>();
 
 // Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IMagazineService, MagazineService>();
 builder.Services.AddScoped<ILogBlogService, LogBlogService>();
 builder.Services.AddScoped<ILogBookService, LogBookService>();
+builder.Services.AddScoped<ILogMagazineService, LogMagazineService>();
 
 builder.Services.AddControllers(options =>
 {

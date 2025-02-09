@@ -1,15 +1,7 @@
-﻿using Application.DTOs.Blog.Input;
-using Application.DTOs.Book.Input;
+﻿using Application.DTOs.Book.Input;
 using Application.DTOs.Book.Output;
 using Application.Interfaces;
-using Application.Services;
-using FluentValidation;
 using FluentValidation.Results;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Validators
 {

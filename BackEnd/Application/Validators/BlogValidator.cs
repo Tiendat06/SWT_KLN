@@ -2,12 +2,6 @@
 using Application.DTOs.Blog.Output;
 using Application.Interfaces;
 using FluentValidation.Results;
-using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Validators
 {

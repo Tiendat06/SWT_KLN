@@ -1,10 +1,7 @@
-﻿using Application.DTOs.Blog.Input;
-using Application.DTOs.Book.Input;
+﻿using Application.DTOs.Book.Input;
 using Application.DTOs.Book.Output;
 using Application.Extension;
 using Application.Interfaces;
-using Application.Mapper.Blogs.Input;
-using Application.Mapper.Blogs.Output;
 using Application.Mapper.Books.Input;
 using Application.Mapper.Books.Output;
 using Application.Utils;
@@ -12,8 +9,6 @@ using CloudinaryDotNet;
 using Domain;
 using Domain.Entities;
 using Domain.Interfaces;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Application.Services
 {

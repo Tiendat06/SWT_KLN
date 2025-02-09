@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces;
 using Application.DTOs.Blog.Output;
 using API.Controller.Base;
 using Application.DTOs.Blog.Input;
 using Application.Validators;
-using static System.Net.Mime.MediaTypeNames;
 using System.Net;
-using Application.DTOs.Book.Output;
 using Application.DTOs.Site.Output;
 
 namespace API.Controllers
