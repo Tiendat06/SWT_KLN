@@ -13,6 +13,8 @@ using System.Text;
 using Application.Validators;
 using DotNetEnv;
 using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 Env.Load();
@@ -50,6 +52,9 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<BlogValidator>();
 builder.Services.AddScoped<BookValidator>();
 builder.Services.AddScoped<MagazineValidator>();
+builder.Services.AddScoped<SlideShowValidator>();
+builder.Services.AddScoped<SlideImageValidator>();
+builder.Services.AddScoped<SolemnVisitValidator>();
 
 // Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -59,6 +64,15 @@ builder.Services.AddScoped<IMagazineRepository, MagazineRepository>();
 builder.Services.AddScoped<ILogBlogRepository, LogBlogRepository>();
 builder.Services.AddScoped<ILogBookRepository, LogBookRepository>();
 builder.Services.AddScoped<ILogMagazineRepository, LogMagazineRepository>();
+builder.Services.AddScoped<ISlideShowRepository, SlideShowRepository>();
+//builder.Services.AddScoped<ILogSlideShowRepository, LogSlideShowRepository>();
+builder.Services.AddScoped<ISlideImageRepository, SlideImageRepository>();
+//builder.Services.AddScoped<ILogSlideImageRepository, LogSlideImageRepository>();
+builder.Services.AddScoped<ISolemnVisitRepository, SolemnVisitRepository>();
+//builder.Services.AddScoped<ILogSolemnVisitRepository, LogSolemnVisitRepository>();
+builder.Services.AddScoped<IVideoRepository, VideoRepository>();
+builder.Services.AddScoped<IMusicRepository, MusicRepository>();
+
 
 // Services
 builder.Services.AddScoped<IUserService, UserService>();
@@ -68,8 +82,13 @@ builder.Services.AddScoped<IMagazineService, MagazineService>();
 builder.Services.AddScoped<ILogBlogService, LogBlogService>();
 builder.Services.AddScoped<ILogBookService, LogBookService>();
 builder.Services.AddScoped<ILogMagazineService, LogMagazineService>();
+builder.Services.AddScoped<ISlideShowService, SlideShowService>();
+builder.Services.AddScoped<ISlideImageService, SlideImageService>();
+builder.Services.AddScoped<ISolemnVisitService, SolemnVisitService>();
+builder.Services.AddScoped<IVideoService, VideoService>();
+builder.Services.AddScoped<IMusicService, MusicService>();
 
-builder.Services.AddControllers(options =>
+builder.Services.AddControllers(options => 
 {
     options.Filters.Add<ExceptionApiResult>();
 });
