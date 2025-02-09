@@ -16,9 +16,9 @@ namespace API.Controllers
     {
         private readonly IBlogService _blogService;
         private readonly ILogBlogService _logBlogService;
-        private readonly BlogValidator _blogValidator;
+        private readonly IBlogValidator _blogValidator;
 
-        public BlogController(IBlogService blogService, ILogBlogService logBlogService, BlogValidator blogValidator)
+        public BlogController(IBlogService blogService, ILogBlogService logBlogService, IBlogValidator blogValidator)
         {
             _blogService = blogService;
             _logBlogService = logBlogService;

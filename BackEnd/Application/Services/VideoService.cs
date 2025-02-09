@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Application.Utils;
 using System.Text.Json;
 using Application.Extension;
+using Microsoft.Extensions.Localization;
+using Domain.Localization;
 
 namespace Application.Services
 {
@@ -24,14 +26,17 @@ namespace Application.Services
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;
         private readonly Cloudinary _cloudinary;
+        IStringLocalizer<KLNSharedResources> _localizer;
         #endregion
+
         #region Constructor
         public VideoService(
             Domain.Interfaces.IVideoRepository videoRepository,
             IUnitOfWork unitOfWork,
             //ILogSlideShowRepository logSlideShowRepository,
             Cloudinary cloudinary,
-            IConfiguration configuration
+            IConfiguration configuration,
+            IStringLocalizer<KLNSharedResources> localizer
         )
         {
             _videoRepository = videoRepository;
@@ -39,6 +44,7 @@ namespace Application.Services
             //_logSlideShowRepository = logSlideShowRepository;
             _cloudinary = cloudinary;
             _configuration = configuration;
+            _localizer = localizer;
         }
         #endregion
         public async Task<IEnumerable<GetVideoResponse>> GetAllVideosAsync()
@@ -48,7 +54,7 @@ namespace Application.Services
         }
         public async Task<GetVideoResponse?> GetVideoByIdAsync(Guid id)
         {
-            var video = await _videoRepository.GetVideoByIdAsync(id) ?? throw new KeyNotFoundException("Video khong ton tai !");
+            var video = await _videoRepository.GetVideoByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Video"]));
             return GetVideoResponseMapper.GetVideoMapEntityToDTO(video);
         }
 

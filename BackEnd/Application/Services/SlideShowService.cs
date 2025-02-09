@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Application.Utils;
 using System.Text.Json;
 using Application.Extension;
+using Microsoft.Extensions.Localization;
+using Domain.Localization;
 
 namespace Application.Services
 {
@@ -24,6 +26,7 @@ namespace Application.Services
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;
         private readonly Cloudinary _cloudinary;
+        private readonly IStringLocalizer<KLNSharedResources> _localizer;
         #endregion
 
         #region Constructor
@@ -32,13 +35,15 @@ namespace Application.Services
             IUnitOfWork unitOfWork,
             //ILogSlideShowRepository logSlideShowRepository,
             Cloudinary cloudinary,
-            IConfiguration configuration
+            IConfiguration configuration,
+            IStringLocalizer<KLNSharedResources> localizer
         )
         {   _slideShowRepository = slideShowRepository;
             _unitOfWork = unitOfWork;
             //_logSlideShowRepository = logSlideShowRepository;
             _cloudinary = cloudinary;
             _configuration = configuration;
+            _localizer = localizer;
         }
         #endregion
         public async Task<IEnumerable<GetSlideShowResponse>> GetAllSlideShowsAsync()
@@ -50,7 +55,7 @@ namespace Application.Services
 
         public async Task<GetSlideShowResponse?> GetSlideShowByIdAsync(Guid id)
         {
-            var slideShow = await _slideShowRepository.GetSlideShowByIdAsync(id) ?? throw new KeyNotFoundException("SlideShow khong ton tai !");
+            var slideShow = await _slideShowRepository.GetSlideShowByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["SlideShow"]));
             
             return GetSlideShowResponseMapper.GetSlideShowMapEntityToDTO(slideShow);
         }

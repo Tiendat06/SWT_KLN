@@ -20,11 +20,11 @@ namespace API.Controller
     {
         private readonly ISlideImageService _slideImageService;
         //private readonly ILogSlideImageService logSlideImageService;
-        //private readonly SlideImageValidator _slideImageValidator;
-        public SlideImageController(ISlideImageService slideImageService)
+        private readonly ISlideImageValidator _slideImageValidator;
+        public SlideImageController(ISlideImageService slideImageService, ISlideImageValidator slideImageValidator)
         {
             _slideImageService = slideImageService;
-            //_slideImageValidator = slideImageValidator;
+            _slideImageValidator = slideImageValidator;
         }
         // GET: api/SlideImage
         [HttpGet]

@@ -1,8 +1,9 @@
-﻿using Application.DTOs.Magazine.Resources;
-using Application.DTOs.Site.Resources;
+﻿using Application.Extension;
 using Domain.Constracts;
+using Domain.Localization;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Localization;
 
 namespace Application.DTOs.Magazine.Input
 {
@@ -15,19 +16,23 @@ namespace Application.DTOs.Magazine.Input
     }
     public class UpdateMagazineRequestValidator : AbstractValidator<UpdateMagazineRequest>
     {
-        public UpdateMagazineRequestValidator()
+        public UpdateMagazineRequestValidator(IStringLocalizer<KLNSharedResources> localizer)
         {
             RuleFor(x => x.Title)
-                .NotNull().WithMessage(MagazineValidatorResources.TitleNotEmpty)
-                .NotEmpty().WithMessage(MagazineValidatorResources.TitleNotEmpty)
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MagazineTitle"]))
+                //.NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MagazineTitle"]))
                 .MaximumLength(MagazineConsts.MaxTitleLength).WithMessage(
-                SiteValidatorResources.GetValidateMessage(
-                    SiteValidatorResources.MaxLength, MagazineValidatorResources.MagazineTitle, MagazineConsts.MaxTitleLength
+                CommonExtensions.GetValidateMessage(
+                    localizer["MaxLength"], localizer["MagazineTitle"], MagazineConsts.MaxTitleLength
                 ));
 
+            RuleFor(x => x.MagazineContent)
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MagazineContent"]));
+                //.NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MagazineContent"]));
+
             RuleFor(x => x.UserId)
-                .NotNull().WithMessage(MagazineValidatorResources.UserIdNotEmpty)
-                .NotEmpty().WithMessage(MagazineValidatorResources.UserIdNotEmpty);
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]))
+                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]));
         }
     }
 }

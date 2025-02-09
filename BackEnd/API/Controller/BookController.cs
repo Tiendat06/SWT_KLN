@@ -16,9 +16,9 @@ namespace API.Controllers
     {
         private readonly IBookService _bookService;
         private readonly ILogBookService _logBookService;
-        private readonly BookValidator _bookValidator;
+        private readonly IBookValidator _bookValidator;
 
-        public BookController(IBookService bookService, ILogBookService logBookService, BookValidator bookValidator)
+        public BookController(IBookService bookService, ILogBookService logBookService, IBookValidator bookValidator)
         {
             _bookService = bookService;
             _logBookService = logBookService;

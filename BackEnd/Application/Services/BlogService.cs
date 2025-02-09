@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Application.Utils;
 using System.Text.Json;
 using Application.Extension;
+using Microsoft.Extensions.Localization;
+using Domain.Localization;
 
 namespace Application.Services
 {
@@ -22,6 +24,7 @@ namespace Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly Cloudinary _cloudinary;
         private readonly IConfiguration _configuration;
+        private readonly IStringLocalizer<KLNSharedResources> _localizer;
         #endregion
 
         #region Constructor
@@ -30,7 +33,8 @@ namespace Application.Services
             IUnitOfWork unitOfWork, 
             ILogBlogRepository logBlogRepository,
             Cloudinary cloudinary,
-            IConfiguration configuration
+            IConfiguration configuration,
+            IStringLocalizer<KLNSharedResources> localizer
         )
         {
             _blogRepository = blogRepository;
@@ -38,6 +42,7 @@ namespace Application.Services
             _logBlogRepository = logBlogRepository;
             _cloudinary = cloudinary;
             _configuration = configuration;
+            _localizer = localizer;
         }
         #endregion
 
@@ -51,7 +56,7 @@ namespace Application.Services
 
         public async Task<GetBlogResponse?> GetBlogByIdAsync(Guid id)
         {
-            var blog = await _blogRepository.GetBlogByIdAsync(id) ?? throw new KeyNotFoundException("Bài viết không tồn tại !");
+            var blog = await _blogRepository.GetBlogByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Blog"]));
 
             return GetBlogResponseMapper.GetBlogMapEntityToDTO(blog);
         }
@@ -68,7 +73,7 @@ namespace Application.Services
                     var allowedContentTypes = new[] { CommonFileType.JPEG, CommonFileType.PNG, };
 
                     // check file type
-                    var isAllowed = FileOperations.CheckFileType(allowedContentTypes, addBlogRequest.BlogImageFile) == false ? throw new ArgumentException("Vui lòng chọn các định dạng hợp lệ (jpeg, png)") : true;
+                    var isAllowed = FileOperations.CheckFileType(allowedContentTypes, addBlogRequest.BlogImageFile) == false ? throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}")) : true;
 
                     // add file to local
                     var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
@@ -76,8 +81,8 @@ namespace Application.Services
 
                     // upload to cloudinary
                     var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
-                    var result = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePath, assetFolder, publicId) ?? throw new InvalidOperationException("Tải ảnh lên Cloudinary không thành công !");
-                    var secure_url = result["secure_url"]?.ToString() ?? throw new KeyNotFoundException("Trường dữ liệu secure_url không tồn tại !");
+                    var result = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePath, assetFolder, publicId) ?? throw new InvalidOperationException(_localizer["UploadImageCloudinaryFailed"]);
+                    var secure_url = result["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
 
                     // delete file and folder from local
                     var isDeleted = FileOperations.DeleteFileFromLocal(filePath, folderPath);
@@ -90,13 +95,13 @@ namespace Application.Services
 
                     await uow.SaveChangesAsync();
                     await uow.CommitTransactionAsync();
-                    var addedBlog = await _blogRepository.GetBlogByIdAsync(addBlogMapperDTOToEntity.BlogId) ?? throw new InvalidOperationException("Thêm bài viết không thành công !");
+                    var addedBlog = await _blogRepository.GetBlogByIdAsync(addBlogMapperDTOToEntity.BlogId) ?? throw new InvalidOperationException(_localizer["AddBlogFailed"]);
                     return GetBlogResponseMapper.GetBlogMapEntityToDTO(addedBlog);
                 }
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException("Thêm bài viết không thành công !");
+                    throw new InvalidOperationException(_localizer["AddBlogFailed"]);
                 }
 
             }
@@ -108,7 +113,7 @@ namespace Application.Services
             {
                 try
                 {
-                    var blogEntity = await _blogRepository.GetBlogByIdAsync(id) ?? throw new KeyNotFoundException("Bài viết không tồn tại !");
+                    var blogEntity = await _blogRepository.GetBlogByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Blog"]));
                     // update log blog
                     var newLogBlog = new LogBlog
                     {
@@ -140,7 +145,7 @@ namespace Application.Services
                 } catch(Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException("Xóa bài viết không thành công !");
+                    throw new InvalidOperationException(_localizer["DeleteBlogFailed"]);
                 }
             }
         }
@@ -152,11 +157,12 @@ namespace Application.Services
                 try
                 {
                     // update blog
-                    var blogEntity = await _blogRepository.GetBlogByIdAsync(id) ?? throw new KeyNotFoundException("Cập nhật bài viết không thành công !");
+                    var blogEntity = await _blogRepository.GetBlogByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Blog"]));
                     await uow.TrackEntity(blogEntity);
 
                     blogEntity.BlogTitle = updateBlogRequest.BlogTitle;
                     blogEntity.BlogContent = updateBlogRequest.BlogContent;
+                    blogEntity.UserId = updateBlogRequest.UserId;
                     //blogEntity.BlogImage = updateBlogRequest.BlogImage;
                     if(updateBlogRequest.BlogImageFile != null)
                     {
@@ -164,7 +170,7 @@ namespace Application.Services
                         // upload new image to cloudinary
                         // check file type
                         var allowedContentTypes = new[] { CommonFileType.JPEG, CommonFileType.PNG, };
-                        var isAllowed = FileOperations.CheckFileType(allowedContentTypes, updateBlogRequest.BlogImageFile) == false ? throw new ArgumentException("Vui lòng chọn các định dạng hợp lệ (jpeg, png)") : true;
+                        var isAllowed = FileOperations.CheckFileType(allowedContentTypes, updateBlogRequest.BlogImageFile) == false ? throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}")) : true;
 
                         // add file to local
                         var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
@@ -174,8 +180,8 @@ namespace Application.Services
                         var assetFolder = CommonCloudinaryAttribute.assetFolderBlog;
                         var publicId = $"{nameof(Blog)}_{id}";
 
-                        var resultUpload = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePath, assetFolder, publicId) ?? throw new InvalidOperationException("Tải ảnh lên Cloudinary không thành công !");
-                        var secure_url = resultUpload["secure_url"]?.ToString() ?? throw new KeyNotFoundException("Trường dữ liệu secure_url không tồn tại !");
+                        var resultUpload = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePath, assetFolder, publicId) ?? throw new InvalidOperationException(_localizer["UploadImageCloudinaryFailed"]);
+                        var secure_url = resultUpload["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
 
                         // delete file and folder from local
                         var isDeleted = FileOperations.DeleteFileFromLocal(filePath, folderPath);
@@ -204,7 +210,7 @@ namespace Application.Services
                 } catch(Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException("Cập nhật bài viết không thành công !");
+                    throw new InvalidOperationException(_localizer["UpdateBlogFailed"]);
                 }
             }
         }

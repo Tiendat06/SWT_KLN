@@ -9,6 +9,8 @@ using CloudinaryDotNet;
 using Domain;
 using Domain.Entities;
 using Domain.Interfaces;
+using Domain.Localization;
+using Microsoft.Extensions.Localization;
 
 namespace Application.Services
 {
@@ -19,6 +21,7 @@ namespace Application.Services
         private readonly ILogMagazineRepository _logMagazineRepository;
         private readonly Cloudinary _cloudinary;
         private readonly IUnitOfWork _unitOfWork;
+        IStringLocalizer<KLNSharedResources> _localizer;
         #endregion
 
         #region Constructor
@@ -26,13 +29,15 @@ namespace Application.Services
             IMagazineRepository magazineRepository,
             IUnitOfWork unitOfWork,
             ILogMagazineRepository logMagazineRepository,
-            Cloudinary cloudinary
+            Cloudinary cloudinary,
+            IStringLocalizer<KLNSharedResources> localizer
         )
         {
             _magazineRepository = magazineRepository;
             _unitOfWork = unitOfWork;
             _logMagazineRepository = logMagazineRepository;
             _cloudinary = cloudinary;
+            _localizer = localizer;
         }
         #endregion
 
@@ -44,7 +49,7 @@ namespace Application.Services
 
         public async Task<GetMagazineResponse> GetMagazineByIdAsync(Guid id)
         {
-            var magazine = await _magazineRepository.GetMagazineByIdAsync(id) ?? throw new KeyNotFoundException("Sách không tồn tại !");
+            var magazine = await _magazineRepository.GetMagazineByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Magazine"]));
             return GetMagazineResponseMapper.GetMagazineMapEntityToDTO(magazine);
         }
 
@@ -54,7 +59,7 @@ namespace Application.Services
             {
                 try
                 {
-                    var magazineEntity = await _magazineRepository.GetMagazineByIdAsync(id) ?? throw new KeyNotFoundException("Cập nhật tạp chí không thành công !");
+                    var magazineEntity = await _magazineRepository.GetMagazineByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Magazine"]));
                     await uow.TrackEntity(magazineEntity);
 
                     // update Magazine
@@ -68,7 +73,7 @@ namespace Application.Services
                         // check file type
                         var allowedContentTypes = new[] { CommonFileType.JPEG, CommonFileType.PNG, };
                         var isAllowed = FileOperations.CheckFileType(allowedContentTypes, updateMagazineRequest.Image) == false
-                            ? throw new ArgumentException("Vui lòng chọn các định dạng hợp lệ (jpeg, png)") : true;
+                            ? throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}")) : true;
 
                         // add file to local
                         var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
@@ -78,8 +83,8 @@ namespace Application.Services
                         var assetFolder = CommonCloudinaryAttribute.assetFolderMagazineImage;
                         var publicId = $"{nameof(Magazine)}_{id}";
 
-                        var resultUpload = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePath, assetFolder, publicId) ?? throw new InvalidOperationException("Tải ảnh lên Cloudinary không thành công !");
-                        var secure_url = resultUpload["secure_url"]?.ToString() ?? throw new KeyNotFoundException("Trường dữ liệu secure_url không tồn tại !");
+                        var resultUpload = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePath, assetFolder, publicId) ?? throw new InvalidOperationException(_localizer["UploadImageCloudinaryFailed"]);
+                        var secure_url = resultUpload["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
 
                         // delete file and folder from local
                         var isDeleted = FileOperations.DeleteFileFromLocal(filePath, folderPath);
@@ -109,7 +114,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException("Chỉnh sửa tạp chí không thành công !");
+                    throw new InvalidOperationException(_localizer["UpdateMagazineFailed"]);
                 }
             }
         }
@@ -127,7 +132,7 @@ namespace Application.Services
 
                     // upload Image
                     // check file type
-                    var isAllowedImage = FileOperations.CheckFileType(allowedContentTypesImage, addMagazineRequest.Image) == false ? throw new ArgumentException("Vui lòng chọn các định dạng hợp lệ (jpeg, png)") : true;
+                    var isAllowedImage = FileOperations.CheckFileType(allowedContentTypesImage, addMagazineRequest.Image) == false ? throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}")) : true;
 
                     // add file to local
                     var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
@@ -135,8 +140,8 @@ namespace Application.Services
 
                     // upload to cloudinary
                     var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
-                    var resultImage = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePathImage, assetFolderImage, publicId) ?? throw new InvalidOperationException("Tải ảnh lên Cloudinary không thành công !");
-                    var magazineImage = resultImage["secure_url"]?.ToString() ?? throw new KeyNotFoundException("Trường dữ liệu secure_url không tồn tại !");
+                    var resultImage = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePathImage, assetFolderImage, publicId) ?? throw new InvalidOperationException(_localizer["UploadImageCloudinaryFailed"]);
+                    var magazineImage = resultImage["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
 
                     // delete file and folder from local
                     var isDeletedImage = FileOperations.DeleteFileFromLocal(filePathImage, folderPath);
@@ -148,13 +153,13 @@ namespace Application.Services
 
                     await uow.SaveChangesAsync();
                     await uow.CommitTransactionAsync();
-                    var addedMagazine = await _magazineRepository.GetMagazineByIdAsync(newGuid) ?? throw new InvalidOperationException("Thêm tạp chí không thành công !");
+                    var addedMagazine = await _magazineRepository.GetMagazineByIdAsync(newGuid) ?? throw new InvalidOperationException(_localizer["AddMagazineFailed"]);
                     return GetMagazineResponseMapper.GetMagazineMapEntityToDTO(addedMagazine);
                 }
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException("Thêm tạp chí không thành công !");
+                    throw new InvalidOperationException(_localizer["AddMagazineFailed"]);
                 }
             }
         }
@@ -165,7 +170,7 @@ namespace Application.Services
             {
                 try
                 {
-                    var magazineEntity = await _magazineRepository.GetMagazineByIdAsync(id) ?? throw new KeyNotFoundException("Sách không tồn tại !");
+                    var magazineEntity = await _magazineRepository.GetMagazineByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Magazine"]));
                     // update log Magazine
                     var newLogMagazine = new LogMagazine
                     {
@@ -198,7 +203,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException("Xóa tạp chí không thành công !");
+                    throw new InvalidOperationException(_localizer["DeleteMagazineFailed"]);
                 }
             }
         }

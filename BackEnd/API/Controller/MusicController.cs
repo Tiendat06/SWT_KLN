@@ -20,11 +20,11 @@ namespace API.Controller
     {
         private readonly IMusicService _musicService;
         //private readonly ILogMusicService logMusicService;
-        //private readonly MusicValidator _musicValidator;
-        public MusicController(IMusicService musicService)
+        private readonly IMusicValidator _musicValidator;
+        public MusicController(IMusicService musicService, IMusicValidator musicValidator)
         {
             _musicService = musicService;
-            //_musicValidator = musicValidator;
+            _musicValidator = musicValidator;
         }
         // GET: api/Music
         [HttpGet]

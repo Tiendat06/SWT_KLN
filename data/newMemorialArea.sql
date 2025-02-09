@@ -165,18 +165,21 @@ CREATE TABLE Topic (
     topicId UNIQUEIDENTIFIER PRIMARY KEY,
     capture VARCHAR(max),
     createDate DATETIME,
-    isDeleted BIT
+    isDeleted BIT,
+    
+    userId UNIQUEIDENTIFIER
 );
 END
 
 -- Create LogTopic table
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'LogTopic')
 BEGIN
-CREATE TABLE Topic (
-    topicId UNIQUEIDENTIFIER PRIMARY KEY,
+CREATE TABLE LogTopic (
+    topicId UNIQUEIDENTIFIER,
     capture VARCHAR(max),
     createDate DATETIME,
     userId UNIQUEIDENTIFIER,
+
     logTopicId INT PRIMARY KEY IDENTITY(1,1),
     updateDate DATETIME,
     process VARCHAR(max),
@@ -187,11 +190,11 @@ END
 -- Create LogTopicMedia table
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'LogTopicMedia')
 BEGIN
-CREATE TABLE TopicMedia (
+CREATE TABLE LogTopicMedia (
     logTopicMediaId INT PRIMARY KEY IDENTITY(1,1),
     logTopicId INT,
-    videoLink VARCHAR(max) NULL,
-    imageLink VARCHAR(max) NULL,
+    videoLink VARCHAR(512) NULL,
+    imageLink VARCHAR(512) NULL,
     title NVARCHAR(255)
 );
 END
@@ -201,11 +204,12 @@ IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'TopicMedia')
 BEGIN
 CREATE TABLE TopicMedia (
     topicMediaId UNIQUEIDENTIFIER PRIMARY KEY,
-    topicId UNIQUEIDENTIFIER,
-    videoLink VARCHAR(max) NULL,
-    imageLink VARCHAR(max) NULL,
     title NVARCHAR(255),
-    isDeleted BIT
+    videoLink VARCHAR(512) NULL,
+    imageLink VARCHAR(512) NULL,
+    createDate DATETIME,
+    isDeleted BIT,
+    topicId UNIQUEIDENTIFIER
 );
 END
 
@@ -384,8 +388,9 @@ DECLARE @musicId_1 UNIQUEIDENTIFIER = NEWID();
 DECLARE @musicId_2 UNIQUEIDENTIFIER = NEWID();
 
 -- Thêm index cho TopicMedia
-CREATE INDEX IDX_TopicMedia_ImageLink ON TopicMedia(ImageLink) WHERE ImageLink IS NOT NULL;
-CREATE INDEX IDX_TopicMedia_VideoLink ON TopicMedia(VideoLink) WHERE VideoLink IS NOT NULL;
+SET QUOTED_IDENTIFIER ON;
+CREATE INDEX IDX_TopicMedia_ImageLink ON TopicMedia(imageLink) WHERE imageLink IS NOT NULL;
+CREATE INDEX IDX_TopicMedia_VideoLink ON TopicMedia(videoLink) WHERE videoLink IS NOT NULL;
 
 -- Insert sample data only if the tables are empty
 IF NOT EXISTS (SELECT * FROM [User])

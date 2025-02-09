@@ -1,8 +1,9 @@
-﻿using Application.DTOs.Book.Resources;
-using Application.DTOs.Site.Resources;
+﻿using Application.Extension;
 using Domain.Constracts;
+using Domain.Localization;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Localization;
 
 
 namespace Application.DTOs.Book.Input
@@ -20,47 +21,48 @@ namespace Application.DTOs.Book.Input
 
     public class AddBookRequestValidator : AbstractValidator<AddBookRequest>
     {
-        public AddBookRequestValidator()
+        public AddBookRequestValidator(IStringLocalizer<KLNSharedResources> localizer)
         {
             RuleFor(x => x.Title)
-                .NotNull().WithMessage(BookValidatorResources.TitleNotEmpty)
-                .NotEmpty().WithMessage(BookValidatorResources.TitleNotEmpty)
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["BookTitle"]))
+                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["BookTitle"]))
                 .MaximumLength(BookConsts.MaxTitleLength).WithMessage(
-                SiteValidatorResources.GetValidateMessage(
-                    SiteValidatorResources.MaxLength, BookValidatorResources.BookTitle, BookConsts.MaxTitleLength
+                CommonExtensions.GetValidateMessage(
+                    localizer["MaxLength"],
+                    localizer["BookTitle"], BookConsts.MaxTitleLength
                 ));
 
             RuleFor(x => x.BookContent)
-                .NotNull().WithMessage(BookValidatorResources.BookContentNotEmpty)
-                .NotEmpty().WithMessage(BookValidatorResources.BookContentNotEmpty);
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["BookContent"]))
+                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["BookContent"]));
 
             RuleFor(x => x.Publisher)
-                .NotNull().WithMessage(BookValidatorResources.PublisherNotEmpty)
-                .NotEmpty().WithMessage(BookValidatorResources.PublisherNotEmpty)
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["BookPublisher"]))
+                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["BookPublisher"]))
                 .MaximumLength(BookConsts.MaxPublisherLength).WithMessage(
-                SiteValidatorResources.GetValidateMessage(
-                    SiteValidatorResources.MaxLength, BookValidatorResources.Publisher, BookConsts.MaxPublisherLength    
+                CommonExtensions.GetValidateMessage(
+                    localizer["MaxLength"], localizer["BookPublisher"], BookConsts.MaxPublisherLength    
                 ));
 
             RuleFor(x => x.Author)
-                .NotEmpty().WithMessage(BookValidatorResources.AuthorNotEmpty)
-                .NotNull().WithMessage(BookValidatorResources.AuthorNotEmpty)
+                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["BookAuthor"]))
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["BookAuthor"]))
                 .MaximumLength(BookConsts.MaxAuthorLength).WithMessage(
-                SiteValidatorResources.GetValidateMessage(
-                    SiteValidatorResources.MaxLength, BookValidatorResources.Author, BookConsts.MaxAuthorLength
+                CommonExtensions.GetValidateMessage(
+                    localizer["MaxLength"], localizer["BookAuthor"], BookConsts.MaxAuthorLength
                 ));
 
             RuleFor(x => x.YearPublic)
-                .NotEmpty().WithMessage(BookValidatorResources.YearPublicNotEmpty)
-                .NotNull().WithMessage(BookValidatorResources.YearPublicNotEmpty);
+                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["BookYearPublic"]))
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["BookYearPublic"]));
 
             RuleFor(x => x.Image)
-                .NotNull().WithMessage(BookValidatorResources.ImageNotEmpty)
-                .NotEmpty().WithMessage(BookValidatorResources.ImageNotEmpty);
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["BookImage"]))
+                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["BookImage"]));
 
             RuleFor(x => x.UserId)
-                .NotNull().WithMessage(BookValidatorResources.UserIdNotEmpty)
-                .NotEmpty().WithMessage(BookValidatorResources.UserIdNotEmpty);
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]))
+                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]));
         }
     }
 }

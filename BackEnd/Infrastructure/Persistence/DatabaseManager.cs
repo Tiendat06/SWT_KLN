@@ -26,5 +26,9 @@ namespace Infrastructure.Persistence
         public DbSet<SlideShow> SlideShows { get; set; }
         public DbSet<SolemnVisit> SolemnVisits { get; set; }
         public DbSet<Video> Videos { get; set; }
+        public DbSet<Topic> Topics { get; set; }
+        public DbSet<TopicMedia> TopicMedias { get; set; }
+        public DbSet<LogTopic> LogTopics { get; set; }
+        public DbSet<LogTopicMedia> LogTopicMedias { get; set; }
     }
 }

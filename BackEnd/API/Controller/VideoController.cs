@@ -20,11 +20,11 @@ namespace API.Controller
     {
         private readonly IVideoService _videoService;
         //private readonly ILogVideoService logVideoService;
-        //private readonly VideoValidator _videoValidator;
-        public VideoController(IVideoService videoService)
+        private readonly IVideoValidator _videoValidator;
+        public VideoController(IVideoService videoService, IVideoValidator videoValidator)
         {
             _videoService = videoService;
-            //_videoValidator = videoValidator;
+            _videoValidator = videoValidator;
         }
         // GET: api/Video
         [HttpGet]

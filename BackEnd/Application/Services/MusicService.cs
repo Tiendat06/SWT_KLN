@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Application.Utils;
 using System.Text.Json;
 using Application.Extension;
+using Microsoft.Extensions.Localization;
+using Domain.Localization;
 
 namespace Application.Services
 {
@@ -24,14 +26,17 @@ namespace Application.Services
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;
         private readonly Cloudinary _cloudinary;
+        IStringLocalizer<KLNSharedResources> _localizer;
         #endregion
+
         #region Constructor
         public MusicService(
             IMusicRepository musicRepository,
             IUnitOfWork unitOfWork,
             //ILogMusicRepository logMusicRepository,
             Cloudinary cloudinary,
-            IConfiguration configuration
+            IConfiguration configuration,
+            IStringLocalizer<KLNSharedResources> localizer
         )
         {
             _musicRepository = musicRepository;
@@ -39,6 +44,7 @@ namespace Application.Services
             //_logMusicRepository = logMusicRepository;
             _cloudinary = cloudinary;
             _configuration = configuration;
+            _localizer = localizer;
         }
         #endregion
         public async Task<IEnumerable<GetMusicResponse>> GetAllMusicAsync()
@@ -48,7 +54,7 @@ namespace Application.Services
         }
         public async Task<GetMusicResponse?> GetMusicByIdAsync(Guid id)
         {
-            var music = await _musicRepository.GetMusicByIdAsync(id) ?? throw new KeyNotFoundException("Music khong ton tai !");
+            var music = await _musicRepository.GetMusicByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Music"]));
             return GetMusicResponseMapper.GetMusicMapEntityToDTO(music);
         }
     }

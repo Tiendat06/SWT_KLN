@@ -13,8 +13,9 @@ using System.Text;
 using Application.Validators;
 using DotNetEnv;
 using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using Domain.Entities;
+using Microsoft.Extensions.Localization;
+using Domain.Localization;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 Env.Load();
@@ -26,6 +27,7 @@ builder.Configuration
 
 var FE_URL = builder.Configuration["FE_URL"] ?? "http://localhost:5000";
 
+// add cors
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin", builder =>
@@ -36,6 +38,14 @@ builder.Services.AddCors(options =>
         .AllowAnyMethod();
     });
 });
+
+// add localization
+builder.Services.AddSingleton<IStringLocalizerFactory>(provider =>
+new KLNResourcesLocalizerFactory(Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "BackEnd", "Domain", "Localization", "Resources"))));
+
+builder.Services.AddLocalization(options => 
+options.ResourcesPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "BackEnd", "Domain", "Localization", "Resources")));
+
 // Dependency Injection
 // Add services to the container.
 // Cloudinary
@@ -49,12 +59,15 @@ builder.Services.AddDbContext<DatabaseManager>(options => options.UseSqlServer(b
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Validator
-builder.Services.AddScoped<BlogValidator>();
-builder.Services.AddScoped<BookValidator>();
-builder.Services.AddScoped<MagazineValidator>();
-builder.Services.AddScoped<SlideShowValidator>();
-builder.Services.AddScoped<SlideImageValidator>();
-builder.Services.AddScoped<SolemnVisitValidator>();
+builder.Services.AddScoped<IBlogValidator, BlogValidator>();
+builder.Services.AddScoped<IBookValidator, BookValidator>();
+builder.Services.AddScoped<IMagazineValidator, MagazineValidator>();
+builder.Services.AddScoped<ISlideShowValidator, SlideShowValidator>();
+builder.Services.AddScoped<ISlideImageValidator, SlideImageValidator>();
+builder.Services.AddScoped<ISolemnVisitValidator, SolemnVisitValidator>();
+builder.Services.AddScoped<IMusicValidator, MusicValidator>();
+builder.Services.AddScoped<IVideoValidator, VideoValidator>();
+
 
 // Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -92,6 +105,12 @@ builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ExceptionApiResult>();
 });
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    //options.SuppressModelStateInvalidFilter = true; // turn off auto validation
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
@@ -99,6 +118,7 @@ builder.Services.AddSwaggerGen();
 // add http context 
 builder.Services.AddHttpContextAccessor();
 
+// add jwt in cookie
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -127,6 +147,15 @@ builder.Services.AddAuthentication(x =>
     };
 });
 
+// localization options
+var supportedCultures = new[] { "vi", "en" };
+var localizationOptions = new RequestLocalizationOptions()
+{
+    DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("vi"),
+    SupportedCultures = supportedCultures.Select(c => new System.Globalization.CultureInfo(c)).ToList(),
+    SupportedUICultures = supportedCultures.Select(c => new System.Globalization.CultureInfo(c)).ToList(),   
+};
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -141,6 +170,8 @@ app.UseHttpsRedirection();
 app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthorization();
+
+app.UseRequestLocalization(localizationOptions);
 
 app.MapControllers();
 

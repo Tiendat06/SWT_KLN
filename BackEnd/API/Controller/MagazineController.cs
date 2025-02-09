@@ -16,9 +16,9 @@ namespace API.Controllers
     {
         private readonly IMagazineService _magazineService;
         private readonly ILogMagazineService _logMagazineService;
-        private readonly MagazineValidator _magazineValidator;
+        private readonly IMagazineValidator _magazineValidator;
 
-        public MagazineController(IMagazineService magazineService, ILogMagazineService logMagazineService, MagazineValidator magazineValidator)
+        public MagazineController(IMagazineService magazineService, ILogMagazineService logMagazineService, IMagazineValidator magazineValidator)
         {
             _magazineService = magazineService;
             _logMagazineService = logMagazineService;
