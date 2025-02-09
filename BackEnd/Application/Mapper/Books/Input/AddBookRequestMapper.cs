@@ -1,11 +1,5 @@
-﻿using Application.DTOs.Blog.Input;
-using Application.DTOs.Book.Input;
+﻿using Application.DTOs.Book.Input;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Mapper.Books.Input
 {

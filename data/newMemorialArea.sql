@@ -158,6 +158,57 @@ CREATE TABLE SlideShow (
 );
 END
 
+-- Create Topic table
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Topic')
+BEGIN
+CREATE TABLE Topic (
+    topicId UNIQUEIDENTIFIER PRIMARY KEY,
+    capture VARCHAR(max),
+    createDate DATETIME,
+    isDeleted BIT
+);
+END
+
+-- Create LogTopic table
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'LogTopic')
+BEGIN
+CREATE TABLE Topic (
+    topicId UNIQUEIDENTIFIER PRIMARY KEY,
+    capture VARCHAR(max),
+    createDate DATETIME,
+    userId UNIQUEIDENTIFIER,
+    logTopicId INT PRIMARY KEY IDENTITY(1,1),
+    updateDate DATETIME,
+    process VARCHAR(max),
+    flag VARCHAR(1)
+);
+END
+
+-- Create LogTopicMedia table
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'LogTopicMedia')
+BEGIN
+CREATE TABLE TopicMedia (
+    logTopicMediaId INT PRIMARY KEY IDENTITY(1,1),
+    logTopicId INT,
+    videoLink VARCHAR(max) NULL,
+    imageLink VARCHAR(max) NULL,
+    title NVARCHAR(255)
+);
+END
+
+-- Create TopicMedia table
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'TopicMedia')
+BEGIN
+CREATE TABLE TopicMedia (
+    topicMediaId UNIQUEIDENTIFIER PRIMARY KEY,
+    topicId UNIQUEIDENTIFIER,
+    videoLink VARCHAR(max) NULL,
+    imageLink VARCHAR(max) NULL,
+    title NVARCHAR(255),
+    isDeleted BIT
+);
+END
+
 -- Create Book table
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Book')
 BEGIN
@@ -332,6 +383,10 @@ DECLARE @videoId_2 UNIQUEIDENTIFIER = NEWID();
 DECLARE @musicId_1 UNIQUEIDENTIFIER = NEWID();
 DECLARE @musicId_2 UNIQUEIDENTIFIER = NEWID();
 
+-- Thêm index cho TopicMedia
+CREATE INDEX IDX_TopicMedia_ImageLink ON TopicMedia(ImageLink) WHERE ImageLink IS NOT NULL;
+CREATE INDEX IDX_TopicMedia_VideoLink ON TopicMedia(VideoLink) WHERE VideoLink IS NOT NULL;
+
 -- Insert sample data only if the tables are empty
 IF NOT EXISTS (SELECT * FROM [User])
 BEGIN
@@ -392,8 +447,8 @@ BEGIN
 INSERT INTO SolemnVisit
 ([visitId], [name], [portraitImage], [letterImage], [createDate], [userId], [isDeleted])
 VALUES
-    (@visitId_1, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514442/huynh-dam_i1e1tp.jpg', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514499/huynh-dam_uew0d6.jpg', '2025-01-12 10:00:00', @userId_1, 0),
-    (@visitId_2, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514443/truong-thi-mai_ayboln.jpg', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514498/truong-thi-mai_fs7kmz.jpg', '2025-01-13 11:00:00', @userId_1, 0);
+    (@visitId_1, 'Test01', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514442/huynh-dam_i1e1tp.jpg', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514499/huynh-dam_uew0d6.jpg', '2025-01-12 10:00:00', @userId_1, 0),
+    (@visitId_2, 'Test02', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514443/truong-thi-mai_ayboln.jpg', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514498/truong-thi-mai_fs7kmz.jpg', '2025-01-13 11:00:00', @userId_1, 0);
 END
 
 IF NOT EXISTS (SELECT * FROM SlideImage)
@@ -401,8 +456,8 @@ BEGIN
 INSERT INTO SlideImage
 ([slideImageId], [slideShowId], [imageLink], [capture], [isDeleted])
 VALUES
-    (@slideImageId_1, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512950/nhatu2_jrrtfs.jpg', 'Capture1', 0),
-    (@slideImageId_2, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512868/cdvsn_conghoi_veyjno.jpg', 'Capture2', 0);
+    (@slideImageId_1, @slideShowId_1, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512950/nhatu2_jrrtfs.jpg', 'Capture1', 0),
+    (@slideImageId_2, @slideShowId_2, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512868/cdvsn_conghoi_veyjno.jpg', 'Capture2', 0);
 END
 
 IF NOT EXISTS (SELECT * FROM SlideShow)

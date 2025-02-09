@@ -2,8 +2,6 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Domain.Interfaces;
-using System.Security.Principal;
-using System.Reflection.Metadata;
 
 namespace Infrastructure.Repositories
 {
