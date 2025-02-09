@@ -108,7 +108,7 @@ builder.Services.AddControllers(options =>
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
-    //options.SuppressModelStateInvalidFilter = true; // turn off auto validation
+    options.SuppressModelStateInvalidFilter = true; // turn off auto validation
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
