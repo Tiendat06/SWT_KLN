@@ -7,6 +7,7 @@ using Application.DTOs.Site.Output;
 using Application.DTOs.Book.Input;
 using Application.Validators;
 using System.Net;
+using Application.DTOs;
 
 namespace API.Controllers
 {
@@ -28,7 +29,7 @@ namespace API.Controllers
         // GET: api/Book
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetBookResponse>>))]
-        public async Task<IActionResult> GetAllBooks()
+        public async Task<IActionResult> GetAllBooks([FromQuery] GetAllBookRequest input)
         {
             var books = await _bookService.GetAllBooksAsync();
             return ApiSuccess(books);
