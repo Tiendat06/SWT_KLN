@@ -31,7 +31,7 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetBookResponse>>))]
         public async Task<IActionResult> GetAllBooks([FromQuery] GetAllBookRequest input)
         {
-            var books = await _bookService.GetAllBooksAsync();
+            var books = await _bookService.GetAllBooksAsync(input);
             return ApiSuccess(books);
         }
 

@@ -1,4 +1,5 @@
-﻿using Application.DTOs.Book.Input;
+﻿using Application.DTOs;
+using Application.DTOs.Book.Input;
 using Application.DTOs.Book.Output;
 using Application.Extension;
 using Application.Interfaces;
@@ -41,9 +42,11 @@ namespace Application.Services
         }
         #endregion
 
-        public async Task<IEnumerable<GetBookResponse>> GetAllBooksAsync()
+        public async Task<IEnumerable<GetBookResponse>> GetAllBooksAsync(GetAllBookRequest input)
         {
-            var books = await _bookRepository.GetAllBooksAsync();
+            var page = input.Page;
+            var fetch = input.Fetch;
+            var books = await _bookRepository.GetAllBooksAsync(page, fetch);
             return GetBookResponseMapper.GetBookListMapEntityToDTO(books);
         }
 
