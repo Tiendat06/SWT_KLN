@@ -19,11 +19,22 @@ namespace Infrastructure.Repositories
             await _context.Magazines.AddAsync(magazine);
         }
 
-        public async Task<IEnumerable<Magazine>> GetAllMagazinesAsync()
+        public async Task<IEnumerable<Magazine>> GetAllMagazinesAsync(int page, int fetch)
         {
-            return await _context.Magazines
+            var query = _context.Magazines
                 .AsNoTracking()
-                .Where(magazine => magazine.IsDeleted == false)
+                .Where(magazine => magazine.IsDeleted == false);
+
+            // Sắp xếp trước khi phân trang
+            query = query.OrderByDescending(magazine => magazine.CreateDate);
+
+            // Phân trang nếu fetch > 0, ngược lại lấy tất cả
+            if (fetch > 0)
+            {
+                int skip = (page - 1) * fetch;
+                query = query.Skip(skip).Take(fetch);
+            }
+            return await query
                 .Include(magazine => magazine.User)
                 .ThenInclude(user => user.Account)
                 .ThenInclude(account => account.Role)
