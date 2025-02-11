@@ -46,19 +46,27 @@ namespace Application.Services
         }
         #endregion
 
-        public async Task<IEnumerable<GetBlogResponse>> GetAllBlogsAsync()
-        {
-            var blogs = await _blogRepository.GetAllBlogsAsync();
-            //Console.WriteLine(JsonSerializer.Serialize(blogs));
+        //public async Task<IEnumerable<GetBlogResponse>> GetAllBlogsAsync()
+        //{
+        //    var blogs = await _blogRepository.GetAllBlogsAsync();
+        //    //Console.WriteLine(JsonSerializer.Serialize(blogs));
 
-            return GetBlogResponseMapper.GetBlogListMapEntityToDTO(blogs);
-        }
+        //    return GetBlogResponseMapper.GetBlogListMapEntityToDTO(blogs);
+        //}
 
         public async Task<GetBlogResponse?> GetBlogByIdAsync(Guid id)
         {
             var blog = await _blogRepository.GetBlogByIdAsync(id) ?? throw new KeyNotFoundException("Bài viết không tồn tại !");
 
             return GetBlogResponseMapper.GetBlogMapEntityToDTO(blog);
+        }
+
+        public async Task<IEnumerable<GetBlogResponse>> GetAllBlogsAsync(GetAllBlogRequest input)
+        {
+            var page = input.Page;
+            var fetch = input.Fetch;
+            var blogs = await _blogRepository.GetAllBlogsAsync(page, fetch);
+            return GetBlogResponseMapper.GetBlogListMapEntityToDTO(blogs);
         }
 
         public async Task<GetBlogResponse> CreateBlogAsync(AddBlogRequest addBlogRequest)
