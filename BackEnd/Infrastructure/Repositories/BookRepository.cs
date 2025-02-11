@@ -22,8 +22,6 @@ namespace Infrastructure.Repositories
 
         public async Task<IEnumerable<Book>> GetAllBooksAsync(int page, int fetch)
         {
-
-
             var query = _context.Books
                 .AsNoTracking()
                 .Where(book => book.IsDeleted == false);
