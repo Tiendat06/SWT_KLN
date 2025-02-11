@@ -7,6 +7,8 @@ using Application.DTOs.Blog.Input;
 using Application.Validators;
 using System.Net;
 using Application.DTOs.Site.Output;
+using Application.DTOs.Site.Base;
+using Application.DTOs;
 
 namespace API.Controllers
 {
@@ -47,7 +49,7 @@ namespace API.Controllers
         // GET: api/Blog/input
         [HttpGet("input")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetBlogResponse>>))]
-        public async Task<IActionResult> GetAllBlogs([FromQuery] GetAllBlogRequest input)
+        public async Task<IActionResult> GetAllBlogs([FromQuery] PaginationRequest input)
         {
             var blogs = await _blogService.GetAllBlogsAsync(input);
             return ApiSuccess(blogs);

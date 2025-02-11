@@ -1,6 +1,4 @@
-﻿using Application.DTOs.Blog.Resources;
-using Application.DTOs.Site.Resources;
-using Domain.Constracts;
+﻿using Domain.Constracts;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -15,9 +13,5 @@ namespace Application.DTOs.Blog.Input
 {
     public class GetAllBlogRequest
     {
-        public Guid UserId { get; set; }
-        public int Page { get; set; }
-        public int Fetch { get; set; }
-
     }
 }

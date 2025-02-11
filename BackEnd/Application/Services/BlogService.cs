@@ -13,6 +13,7 @@ using System.Text.Json;
 using Application.Extension;
 using Microsoft.Extensions.Localization;
 using Domain.Localization;
+using Application.DTOs;
 
 namespace Application.Services
 {
@@ -61,7 +62,7 @@ namespace Application.Services
             return GetBlogResponseMapper.GetBlogMapEntityToDTO(blog);
         }
 
-        public async Task<IEnumerable<GetBlogResponse>> GetAllBlogsAsync(GetAllBlogRequest input)
+        public async Task<IEnumerable<GetBlogResponse>> GetAllBlogsAsync(PaginationRequest input)
         {
             var page = input.Page;
             var fetch = input.Fetch;
