@@ -362,6 +362,7 @@ DECLARE @blogId_2 UNIQUEIDENTIFIER = NEWID();
 
 -- Tạo GUID cho Book
 DECLARE @bookId_1 UNIQUEIDENTIFIER = NEWID();
+DECLARE @bookId_2 UNIQUEIDENTIFIER = NEWID();
 
 -- Tạo GUID cho Magazine
 DECLARE @magazineId_1 UNIQUEIDENTIFIER = NEWID();
@@ -435,7 +436,8 @@ BEGIN
 INSERT INTO [Book]
 ([bookId], [title], [image], [createDate], [userId], [bookContent], [publisher], [author], [yearPublic], [isDeleted])
 VALUES
-    (@bookId_1, 'Book1', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736513302/4_egzkgd.jpg', '2025-01-12 07:42:59.267', @userId_1, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512588/BacHoBacTonvaCacAnh.pdf', N'NXB Chính Trị Quốc Gia', N'Nguyễn Văn A', '2024', 0);
+    (@bookId_1, 'Book1', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736513302/4_egzkgd.jpg', '2025-01-12 07:42:59.267', @userId_1, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512588/BacHoBacTonvaCacAnh.pdf', N'NXB Chính Trị Quốc Gia', N'Nguyễn Văn A', '2024', 0),
+    (@bookId_2, 'Book2', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736513302/4_egzkgd.jpg', '2025-01-12 07:42:59.267', @userId_1, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512585/BacToncuocdoivasunghiep.pdf', N'NXB Sự Thật', N'Nguyễn Văn A', '2024', 0);
 END
 
 IF NOT EXISTS (SELECT * FROM Magazine)
