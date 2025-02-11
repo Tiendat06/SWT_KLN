@@ -15,7 +15,7 @@ namespace Application.DTOs.Blog.Input
 {
     public class GetAllBlogRequest
     {
-        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
         public int Page { get; set; }
         public int Fetch { get; set; }
 
