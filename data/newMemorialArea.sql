@@ -158,6 +158,61 @@ CREATE TABLE SlideShow (
 );
 END
 
+-- Create Topic table
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Topic')
+BEGIN
+CREATE TABLE Topic (
+    topicId UNIQUEIDENTIFIER PRIMARY KEY,
+    capture VARCHAR(max),
+    createDate DATETIME,
+    isDeleted BIT,
+    
+    userId UNIQUEIDENTIFIER
+);
+END
+
+-- Create LogTopic table
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'LogTopic')
+BEGIN
+CREATE TABLE LogTopic (
+    topicId UNIQUEIDENTIFIER,
+    capture VARCHAR(max),
+    createDate DATETIME,
+    userId UNIQUEIDENTIFIER,
+
+    logTopicId INT PRIMARY KEY IDENTITY(1,1),
+    updateDate DATETIME,
+    process VARCHAR(max),
+    flag VARCHAR(1)
+);
+END
+
+-- Create LogTopicMedia table
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'LogTopicMedia')
+BEGIN
+CREATE TABLE LogTopicMedia (
+    logTopicMediaId INT PRIMARY KEY IDENTITY(1,1),
+    logTopicId INT,
+    videoLink VARCHAR(512) NULL,
+    imageLink VARCHAR(512) NULL,
+    title NVARCHAR(255)
+);
+END
+
+-- Create TopicMedia table
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'TopicMedia')
+BEGIN
+CREATE TABLE TopicMedia (
+    topicMediaId UNIQUEIDENTIFIER PRIMARY KEY,
+    title NVARCHAR(255),
+    videoLink VARCHAR(512) NULL,
+    imageLink VARCHAR(512) NULL,
+    createDate DATETIME,
+    isDeleted BIT,
+    topicId UNIQUEIDENTIFIER
+);
+END
+
 -- Create Book table
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Book')
 BEGIN
@@ -307,6 +362,7 @@ DECLARE @blogId_2 UNIQUEIDENTIFIER = NEWID();
 
 -- Tạo GUID cho Book
 DECLARE @bookId_1 UNIQUEIDENTIFIER = NEWID();
+DECLARE @bookId_2 UNIQUEIDENTIFIER = NEWID();
 
 -- Tạo GUID cho Magazine
 DECLARE @magazineId_1 UNIQUEIDENTIFIER = NEWID();
@@ -331,6 +387,11 @@ DECLARE @videoId_2 UNIQUEIDENTIFIER = NEWID();
 -- Tạo GUID cho Music
 DECLARE @musicId_1 UNIQUEIDENTIFIER = NEWID();
 DECLARE @musicId_2 UNIQUEIDENTIFIER = NEWID();
+
+-- Thêm index cho TopicMedia
+SET QUOTED_IDENTIFIER ON;
+CREATE INDEX IDX_TopicMedia_ImageLink ON TopicMedia(imageLink) WHERE imageLink IS NOT NULL;
+CREATE INDEX IDX_TopicMedia_VideoLink ON TopicMedia(videoLink) WHERE videoLink IS NOT NULL;
 
 -- Insert sample data only if the tables are empty
 IF NOT EXISTS (SELECT * FROM [User])
@@ -375,7 +436,8 @@ BEGIN
 INSERT INTO [Book]
 ([bookId], [title], [image], [createDate], [userId], [bookContent], [publisher], [author], [yearPublic], [isDeleted])
 VALUES
-    (@bookId_1, 'Book1', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736513302/4_egzkgd.jpg', '2025-01-12 07:42:59.267', @userId_1, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512588/BacHoBacTonvaCacAnh.pdf', N'NXB Chính Trị Quốc Gia', N'Nguyễn Văn A', '2024', 0);
+    (@bookId_1, 'Book1', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736513302/4_egzkgd.jpg', '2025-01-12 07:42:59.267', @userId_1, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512588/BacHoBacTonvaCacAnh.pdf', N'NXB Chính Trị Quốc Gia', N'Nguyễn Văn A', '2024', 0),
+    (@bookId_2, 'Book2', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736513302/4_egzkgd.jpg', '2025-01-12 07:42:59.267', @userId_1, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512585/BacToncuocdoivasunghiep.pdf', N'NXB Sự Thật', N'Nguyễn Văn A', '2024', 0);
 END
 
 IF NOT EXISTS (SELECT * FROM Magazine)

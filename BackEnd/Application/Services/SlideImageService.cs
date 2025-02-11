@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Application.Utils;
 using System.Text.Json;
 using Application.Extension;
+using Microsoft.Extensions.Localization;
+using Domain.Localization;
 
 namespace Application.Services
 {
@@ -24,6 +26,7 @@ namespace Application.Services
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;
         private readonly Cloudinary _cloudinary;
+        IStringLocalizer<KLNSharedResources> _localizer;
         #endregion
 
         #region Constructor
@@ -32,7 +35,8 @@ namespace Application.Services
             IUnitOfWork unitOfWork,
             //ILogSlideShowRepository logSlideShowRepository,
             Cloudinary cloudinary,
-            IConfiguration configuration
+            IConfiguration configuration,
+            IStringLocalizer<KLNSharedResources> localizer
         )
         {
             _slideImageRepository = slideImageRepository;
@@ -40,6 +44,7 @@ namespace Application.Services
             //_logSlideShowRepository = logSlideShowRepository;
             _cloudinary = cloudinary;
             _configuration = configuration;
+            _localizer = localizer;
         }
         #endregion
         public async Task<IEnumerable<GetSlideImageResponse>> GetAllSlideImagesAsync()
@@ -50,7 +55,7 @@ namespace Application.Services
         }
         public async Task<GetSlideImageResponse?> GetSlideImageByIdAsync(Guid id)
         {
-            var slideImage = await _slideImageRepository.GetSlideImageByIdAsync(id) ?? throw new KeyNotFoundException("SlideImage khong ton tai !");
+            var slideImage = await _slideImageRepository.GetSlideImageByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["SlideImage"]));
 
             return GetSlideImageResponseMapper.GetSlideImageMapEntityToDTO(slideImage);
         }

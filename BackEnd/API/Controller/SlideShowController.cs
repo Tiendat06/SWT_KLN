@@ -20,11 +20,11 @@ namespace API.Controller
     {
         private readonly ISlideShowService _slideShowService;
         //private readonly ILogSlideShowService logSlideShowService;
-        //private readonly SlideShowValidator _slideShowValidator;
-        public SlideShowController(ISlideShowService slideShowService)
+        private readonly ISlideShowValidator _slideShowValidator;
+        public SlideShowController(ISlideShowService slideShowService, ISlideShowValidator slideShowValidator)
         {
             _slideShowService = slideShowService;
-            //_slideShowValidator = slideShowValidator;
+            _slideShowValidator = slideShowValidator;
         }
 
         // GET: api/SlideShow

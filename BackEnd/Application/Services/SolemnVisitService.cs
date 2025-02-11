@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Application.Utils;
 using System.Text.Json;
 using Application.Extension;
+using Microsoft.Extensions.Localization;
+using Domain.Localization;
 
 namespace Application.Services
 {
@@ -24,6 +26,7 @@ namespace Application.Services
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;
         private readonly Cloudinary _cloudinary;
+        private readonly IStringLocalizer<KLNSharedResources> _localizer;
         #endregion
 
         #region Constructor
@@ -32,7 +35,8 @@ namespace Application.Services
             IUnitOfWork unitOfWork,
             //ILogSolemnVisitRepository logSolemnVisitRepository,
             Cloudinary cloudinary,
-            IConfiguration configuration
+            IConfiguration configuration,
+            IStringLocalizer<KLNSharedResources> localizer
         )
         {
             _solemnVisitRepository = solemnVisitRepository;
@@ -40,6 +44,7 @@ namespace Application.Services
             //_logSlideShowRepository = logSlideShowRepository;
             _cloudinary = cloudinary;
             _configuration = configuration;
+            _localizer = localizer;
         }
         #endregion
         public async Task<IEnumerable<GetSolemnVisitResponse>> GetAllSolemnVisitsAsync()
@@ -50,7 +55,7 @@ namespace Application.Services
         }
         public async Task<GetSolemnVisitResponse?> GetSolemnVisitByIdAsync(Guid id)
         {
-            var solemnVisit = await _solemnVisitRepository.GetSolemnVisitByIdAsync(id) ?? throw new KeyNotFoundException("SolemnVisit khong ton tai !");
+            var solemnVisit = await _solemnVisitRepository.GetSolemnVisitByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["SolemnVisit"]));
 
             return GetSolemnVisitResponseMapper.GetSolemnVisitMapEntityToDTO(solemnVisit);
 

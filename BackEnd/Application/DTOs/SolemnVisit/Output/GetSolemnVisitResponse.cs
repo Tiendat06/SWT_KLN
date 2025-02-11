@@ -1,13 +1,4 @@
-﻿using Domain.Entities;
-using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.DTOs.SolemnVisit.Output
+﻿namespace Application.DTOs.SolemnVisit.Output
 {
     public class GetSolemnVisitResponse
     {

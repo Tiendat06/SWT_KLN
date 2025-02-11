@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces;
 using API.Controller.Base;
@@ -11,6 +7,7 @@ using Application.DTOs.Site.Output;
 using Application.DTOs.Book.Input;
 using Application.Validators;
 using System.Net;
+using Application.DTOs;
 
 namespace API.Controllers
 {
@@ -20,9 +17,9 @@ namespace API.Controllers
     {
         private readonly IBookService _bookService;
         private readonly ILogBookService _logBookService;
-        private readonly BookValidator _bookValidator;
+        private readonly IBookValidator _bookValidator;
 
-        public BookController(IBookService bookService, ILogBookService logBookService, BookValidator bookValidator)
+        public BookController(IBookService bookService, ILogBookService logBookService, IBookValidator bookValidator)
         {
             _bookService = bookService;
             _logBookService = logBookService;
@@ -32,9 +29,9 @@ namespace API.Controllers
         // GET: api/Book
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetBookResponse>>))]
-        public async Task<IActionResult> GetAllBooks()
+        public async Task<IActionResult> GetAllBooks([FromQuery] GetAllBookRequest input)
         {
-            var books = await _bookService.GetAllBooksAsync();
+            var books = await _bookService.GetAllBooksAsync(input);
             return ApiSuccess(books);
         }
 

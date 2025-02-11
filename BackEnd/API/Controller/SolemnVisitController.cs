@@ -20,11 +20,11 @@ namespace API.Controller
     {
         private readonly ISolemnVisitService _solemnVisitService;
         //private readonly ILogSolemnVisitService logSolemnVisitService;
-        //private readonly SolemnVisitValidator _solemnVisitValidator;
-        public SolemnVisitController(ISolemnVisitService solemnVisitService)
+        private readonly ISolemnVisitValidator _solemnVisitValidator;
+        public SolemnVisitController(ISolemnVisitService solemnVisitService, ISolemnVisitValidator solemnVisitValidator)
         {
             _solemnVisitService = solemnVisitService;
-            //_solemnVisitValidator = solemnVisitValidator;
+            _solemnVisitValidator = solemnVisitValidator;
         }
         // GET: api/SolemnVisit
         [HttpGet]

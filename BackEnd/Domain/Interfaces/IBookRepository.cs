@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Entities;
+﻿using Domain.Entities;
 
 namespace Domain.Interfaces
 {
     public interface IBookRepository
     {
-        Task<IEnumerable<Book>> GetAllBooksAsync();
+        Task<IEnumerable<Book>> GetAllBooksAsync(int page, int fetch);
         Task<Book?> GetBookByIdAsync(Guid id);
         Task CreateBookAsync(Book book);
         Task HardDeleteBookAsync(Guid id);
