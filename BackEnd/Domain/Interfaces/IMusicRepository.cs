@@ -9,7 +9,7 @@ namespace Domain.Interfaces
 {
     public interface IMusicRepository
     {
-        Task<IEnumerable<Music>> GetAllMusicAsync();
+        Task<IEnumerable<Music>> GetAllMusicAsync(int fetch, int page);
         Task<Music?> GetMusicByIdAsync(Guid id);
     }
 }

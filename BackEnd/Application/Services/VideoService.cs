@@ -15,6 +15,7 @@ using System.Text.Json;
 using Application.Extension;
 using Microsoft.Extensions.Localization;
 using Domain.Localization;
+using Application.DTOs.Video.Input;
 
 namespace Application.Services
 {
@@ -47,9 +48,11 @@ namespace Application.Services
             _localizer = localizer;
         }
         #endregion
-        public async Task<IEnumerable<GetVideoResponse>> GetAllVideosAsync()
+        public async Task<IEnumerable<GetVideoResponse>> GetAllVideosAsync(GetVideoRequest input)
         {
-            var videos = await _videoRepository.GetAllVideosAsync();
+            var page = input.Page;
+            var fetch = input.Fetch;
+            var videos = await _videoRepository.GetAllVideosAsync(page, fetch);
             return GetVideoResponseMapper.GetVideoListMapEntityToDTO(videos);
         }
         public async Task<GetVideoResponse?> GetVideoByIdAsync(Guid id)

@@ -9,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs.Blog.Input
+namespace Application.DTOs.Music.Input
 {
-    public class GetAllBlogRequest : PaginationRequest
+    public class GetMusicRequest : PaginationRequest
     {
     }
 }

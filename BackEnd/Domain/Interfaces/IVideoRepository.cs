@@ -9,7 +9,7 @@ namespace Domain.Interfaces
 {
     public interface IVideoRepository
     {
-        Task<IEnumerable<Video>> GetAllVideosAsync();
+        Task<IEnumerable<Video>> GetAllVideosAsync(int page, int fetch);
         Task<Video?> GetVideoByIdAsync(Guid id);
     }
 }

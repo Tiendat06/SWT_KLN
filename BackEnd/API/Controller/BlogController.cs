@@ -49,7 +49,7 @@ namespace API.Controllers
         // GET: api/Blog/input
         [HttpGet("input")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetBlogResponse>>))]
-        public async Task<IActionResult> GetAllBlogs([FromQuery] PaginationRequest input)
+        public async Task<IActionResult> GetAllBlogs([FromQuery] GetAllBlogRequest input)
         {
             var blogs = await _blogService.GetAllBlogsAsync(input);
             return ApiSuccess(blogs);
