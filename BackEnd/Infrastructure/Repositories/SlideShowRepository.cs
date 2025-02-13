@@ -14,15 +14,40 @@ namespace Infrastructure.Repositories
         {
             _context = context;
         }
-        public async Task<IEnumerable<SlideShow>> GetAllSlideShowsAsync()
+        public async Task<IEnumerable<SlideShow>> GetAllSlideShowsAsync(int page, int fetch)
         {
-            return await _context.SlideShows
+            var query = _context.SlideShows
                 .AsNoTracking()
-                .Where(slideShow => slideShow.IsDeleted == false)
-                .Include(slideShow => slideShow.User)
-                .ThenInclude(user => user.Account)
-                .ThenInclude(account => account.Role)
-                .ToListAsync();
+                .Where(SlideShow => SlideShow.IsDeleted == false);
+
+            // Sắp xếp trước khi phân trang
+            query = query.OrderByDescending(SlideShows => SlideShows.CreateDate);
+
+            // Phân trang nếu fetch > 0, ngược lại lấy tất cả
+            if (fetch > 0)
+            {
+                int skip = (page - 1) * fetch;
+                query = query.Skip(skip).Take(fetch);
+            }
+
+            //Include User và các quan hệ của User
+            query = query.Include(SlideShow => SlideShow.User)
+                         .ThenInclude(user => user.Account)
+                         .ThenInclude(account => account.Role);
+
+            // Lấy danh sách Topic
+            var slideShows = await query.ToListAsync();
+
+            // Với mỗi Topic, load danh sách TopicMedias
+            foreach (var slideShow in slideShows)
+            {
+                slideShow.SlideImages = await _context.SlideImages
+                    .AsNoTracking()
+                    .Where(tm => tm.SlideShowId == slideShow.SlideShowId && tm.IsDeleted == false)
+                    .ToListAsync();
+            }
+
+            return slideShows;
         }
         public async Task<SlideShow?> GetSlideShowByIdAsync(Guid id)
         {

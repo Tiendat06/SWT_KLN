@@ -11,6 +11,7 @@ using Application.Validators;
 using static System.Net.Mime.MediaTypeNames;
 using System.Net;
 using Application.DTOs.Site.Output;
+using Application.DTOs.SolemnVisit.Input;
 
 namespace API.Controller
 {
@@ -26,12 +27,12 @@ namespace API.Controller
             _solemnVisitService = solemnVisitService;
             _solemnVisitValidator = solemnVisitValidator;
         }
-        // GET: api/SolemnVisit
-        [HttpGet]
+        // GET: api/SolemnVisit/input
+        [HttpGet("input")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetSolemnVisitResponse>>))]
-        public async Task<IActionResult> GetAllSolemnVisits()
+        public async Task<IActionResult> GetAllSolemnVisits([FromQuery] GetSolemnVisitRequest input)
         {
-            var solemnVisits = await _solemnVisitService.GetAllSolemnVisitsAsync();
+            var solemnVisits = await _solemnVisitService.GetAllSolemnVisitsAsync(input);
 
             return ApiSuccess(solemnVisits);
         }

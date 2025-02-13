@@ -15,6 +15,7 @@ using System.Text.Json;
 using Application.Extension;
 using Microsoft.Extensions.Localization;
 using Domain.Localization;
+using Application.DTOs.SlideShow.Input;
 
 namespace Application.Services
 {
@@ -46,9 +47,11 @@ namespace Application.Services
             _localizer = localizer;
         }
         #endregion
-        public async Task<IEnumerable<GetSlideShowResponse>> GetAllSlideShowsAsync()
+        public async Task<IEnumerable<GetSlideShowResponse>> GetAllSlideShowsAsync(GetSlideShowRequest input)
         {
-            var slideShows = await _slideShowRepository.GetAllSlideShowsAsync();
+            var page = input.Page;
+            var fetch = input.Fetch;
+            var slideShows = await _slideShowRepository.GetAllSlideShowsAsync(page, fetch);
 
             return GetSlideShowResponseMapper.GetSlideShowListMapEntityToDTO(slideShows);
         }
