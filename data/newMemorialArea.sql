@@ -388,6 +388,16 @@ DECLARE @videoId_2 UNIQUEIDENTIFIER = NEWID();
 DECLARE @musicId_1 UNIQUEIDENTIFIER = NEWID();
 DECLARE @musicId_2 UNIQUEIDENTIFIER = NEWID();
 
+--Tạo  GUID cho Topic
+DECLARE @topicId_1 UNIQUEIDENTIFIER = NEWID();
+DECLARE @topicId_2 UNIQUEIDENTIFIER = NEWID();
+
+--Tạo  GUID cho TopicMedia
+DECLARE @topicMediaId_1 UNIQUEIDENTIFIER = NEWID();
+DECLARE @topicMediaId_2 UNIQUEIDENTIFIER = NEWID();
+DECLARE @topicMediaId_3 UNIQUEIDENTIFIER = NEWID();
+DECLARE @topicMediaId_4 UNIQUEIDENTIFIER = NEWID();
+
 -- Thêm index cho TopicMedia
 SET QUOTED_IDENTIFIER ON;
 CREATE INDEX IDX_TopicMedia_ImageLink ON TopicMedia(imageLink) WHERE imageLink IS NOT NULL;
@@ -492,4 +502,24 @@ INSERT INTO Music
 VALUES
     (@musicId_1, N'Music1', N'Author One', '2025-01-12 15:00:00', @userId_1, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512956/ag2-860x520_hz77hl.jpg', 'https://res.cloudinary.com/dydpf7z8u/video/upload/v1736072269/08_buaeek.mp3', 0),
     (@musicId_2, N'Music2', N'Author Two', '2025-01-13 15:00:00', @userId_3, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512980/nha-trung-bay1_y7i7mb.jpg', 'https://res.cloudinary.com/dydpf7z8u/video/upload/v1736072246/06_c6ylkq.mp3', 0);
+END
+
+IF NOT EXISTS (SELECT * FROM Topic)
+BEGIN
+    INSERT INTO Topic
+    ([topicId], [capture], [createDate], [isDeleted], [userId])
+    VALUES
+    (@topicId_1, 'Topic1', '2025-01-12 10:00:00', 0, @userId_1),
+    (@topicId_2, 'Topic2', '2025-01-13 11:00:00', 0, @userId_1);
+END
+
+IF NOT EXISTS (SELECT * FROM TopicMedia)
+BEGIN
+    INSERT INTO TopicMedia
+    ([topicMediaId], [title], [videoLink], [imageLink], [createDate], [isDeleted], [topicId])
+    VALUES
+    (@topicMediaId_1, 'Media1', NULL, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512982/tuong-dai-tdt-ag_kbhaka.jpg', '2025-01-12 10:05:00', 0, @topicId_1),
+    (@topicMediaId_2, 'Media2', 'https://www.youtube.com/watch?v=VAp31dcKLLw&pp=ygUbY2h1ecOqbiDEkeG7gSB2w6ogYsOhYyB0w7Ru', NULL, '2025-01-12 10:10:00', 0, @topicId_1),
+    (@topicMediaId_3, 'Media3', NULL, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512988/chuyendecondao_cr7hmo.jpg', '2025-01-13 11:05:00', 0, @topicId_2),
+    (@topicMediaId_4, 'Media4', 'https://www.youtube.com/watch?v=VAp31dcKLLw&pp=ygUbY2h1ecOqbiDEkeG7gSB2w6ogYsOhYyB0w7Ru', NULL, '2025-01-13 11:10:00', 0, @topicId_2);
 END
