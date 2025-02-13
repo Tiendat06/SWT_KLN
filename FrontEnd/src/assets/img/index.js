@@ -34,7 +34,7 @@ import tau from '~/assets/img/ctich_tdt/ship.png';
 import bacTon from '~/assets/img/ctich_tdt/BacTon.png';
 import bacva_cacemnho from '~/assets/img/ctich_tdt/Bac_va _cacemnho.png';
 
-import ammailoica from '~/assets/img/booksandmagazines/AmMaiLoiCa.png';
+import ammailoica from '~/assets/img/camelCase/AmMaiLoiCa.png';
 
 import BacHo_vaBac from '~/assets/img/topicaboutBac/BacHovaBac.png';
 import image1 from '~/assets/img/topicaboutBac/image1.png';

@@ -17,7 +17,7 @@ const topicList = [
         id: 2,
         title: " Chuyên đề demo 1",
         fullTitle: "Ấm mãi lời ca: tập ca cổ, nhiều tác giả",
-        description: "Nhân kỷ niệm 30 năm ngày giải phóng miền Nam, thống nhất Tổ quốc (30.4.1975 - 30.4.2005), Hội Văn học nghệ thuật An Giang xin giới thiệu tập ca cổ Ấm mãi lời ca, gồm những tác phẩm viết về đề tài truyền thống của tác giả An Giang. Hầu hết tác phẩm trong tập này được hoàn thành trong Trại sáng tác kịch bản sân khấu và bài ca cổ do Hội Văn học nghệ thuật và Sở Văn hóa thông tin An Giang kết hợp tổ chức tại Soài So (Tri Tôn) năm 2004.",
+        description: "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo",
         image: BacHo_vaBac,
     },
     {
