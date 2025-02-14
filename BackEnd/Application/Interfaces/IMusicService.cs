@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Application.DTOs.Music.Input;
+using Application.DTOs;
 using Application.DTOs.Music.Output;
 using Domain.Entities;
 using Microsoft.AspNetCore.Http;

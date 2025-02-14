@@ -11,7 +11,7 @@ using Application.Validators;
 using static System.Net.Mime.MediaTypeNames;
 using System.Net;
 using Application.DTOs.Site.Output;
-using Application.DTOs.Video.Input;
+using Application.DTOs;
 
 namespace API.Controller
 {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.DTOs.SlideImage.Output;
 using Application.DTOs.SolemnVisit.Output;
-using Application.DTOs.SolemnVisit.Input;
+using Application.DTOs;
 using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 

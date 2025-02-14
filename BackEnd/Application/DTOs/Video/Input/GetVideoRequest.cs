@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs.Video.Input
+namespace Application.DTOs 
 {
     public class GetVideoRequest : PaginationRequest
     {
