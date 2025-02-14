@@ -46,8 +46,8 @@ namespace API.Controllers
             return ApiSuccess(blog);
         }
 
-        // GET: api/Blog/input
-        [HttpGet("input")]
+        // GET: api/Blog
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetBlogResponse>>))]
         public async Task<IActionResult> GetAllBlogs([FromQuery] GetAllBlogRequest input)
         {

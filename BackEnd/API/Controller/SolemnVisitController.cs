@@ -27,8 +27,8 @@ namespace API.Controller
             _solemnVisitService = solemnVisitService;
             _solemnVisitValidator = solemnVisitValidator;
         }
-        // GET: api/SolemnVisit/input
-        [HttpGet("input")]
+        // GET: api/SolemnVisit
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetSolemnVisitResponse>>))]
         public async Task<IActionResult> GetAllSolemnVisits([FromQuery] GetSolemnVisitRequest input)
         {

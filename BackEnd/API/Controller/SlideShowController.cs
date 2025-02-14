@@ -28,8 +28,8 @@ namespace API.Controller
             _slideShowValidator = slideShowValidator;
         }
 
-        // GET: api/SlideShow/input
-        [HttpGet("input")]
+        // GET: api/SlideShow
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetSlideShowResponse>>))]
         public async Task<IActionResult> GetAllSlideShows([FromQuery] GetSlideShowRequest input)
         {

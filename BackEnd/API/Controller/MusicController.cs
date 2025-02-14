@@ -44,8 +44,8 @@ namespace API.Controller
             return ApiSuccess(music);
         }
 
-        // GET: api/Music/input
-        [HttpGet("input")]
+        // GET: api/Music
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetMusicResponse>>))]
         public async Task<IActionResult> GetAllMusicAsync([FromQuery] GetMusicRequest input)
         {

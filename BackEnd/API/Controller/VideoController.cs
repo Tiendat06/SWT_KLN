@@ -27,8 +27,8 @@ namespace API.Controller
             _videoService = videoService;
             _videoValidator = videoValidator;
         }
-        // GET: api/Video/input
-        [HttpGet("input")]
+        // GET: api/Video
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetVideoResponse>>))]
         public async Task<IActionResult> GetAllVideos([FromQuery] GetVideoRequest input)
         {
