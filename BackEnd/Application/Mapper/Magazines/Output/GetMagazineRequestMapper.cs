@@ -1,5 +1,4 @@
-﻿using Application;
-using Domain.Entities;
+﻿using Domain.Entities;
 
 namespace Application.Mapper.Magazines.Output
 {

@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Site.Output;
+﻿using Application;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;

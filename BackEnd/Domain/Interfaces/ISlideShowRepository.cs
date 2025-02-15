@@ -9,7 +9,7 @@ namespace Domain.Interfaces
 {
     public interface ISlideShowRepository
     {
-        Task<IEnumerable<SlideShow>> GetAllSlideShowsAsync();
+        Task<IEnumerable<SlideShow>> GetAllSlideShowsAsync(int page, int fetch);
         Task<SlideShow?> GetSlideShowByIdAsync(Guid id);
     }
 }

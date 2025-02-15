@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces;
-using Application.DTOs.SolemnVisit.Output;
 using API.Controller.Base;
 using Application.Validators;
-using static System.Net.Mime.MediaTypeNames;
-using System.Net;
-using Application.DTOs.Site.Output;
+using Application;
 
 namespace API.Controller
 {
@@ -29,9 +22,9 @@ namespace API.Controller
         // GET: api/SolemnVisit
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetSolemnVisitResponse>>))]
-        public async Task<IActionResult> GetAllSolemnVisits()
+        public async Task<IActionResult> GetAllSolemnVisits([FromQuery] GetSolemnVisitRequest input)
         {
-            var solemnVisits = await _solemnVisitService.GetAllSolemnVisitsAsync();
+            var solemnVisits = await _solemnVisitService.GetAllSolemnVisitsAsync(input);
 
             return ApiSuccess(solemnVisits);
         }

@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces;
-using Application;
 using API.Controller.Base;
 using Application.Validators;
 using System.Net;
-using Application.DTOs.Site.Output;
-using Application.DTOs;
+using Application;
 
 namespace API.Controllers
 {

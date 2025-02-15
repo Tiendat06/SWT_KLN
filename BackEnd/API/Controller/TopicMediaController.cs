@@ -3,10 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces;
 using API.Controller.Base;
 using Application;
-using Application.DTOs.Site.Output;
-using Application.Validators;
-using System.Net;
-using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace API.Controllers
 {

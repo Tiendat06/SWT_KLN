@@ -1,17 +1,8 @@
-﻿using Application.DTOs.Video.Output;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Application.Mapper.Videos.Output;
 using Domain;
-using Domain.Entities;
-using Domain.Interfaces;
-using System.Reflection.Metadata;
 using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using static System.Net.Mime.MediaTypeNames;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using Application.Utils;
-using System.Text.Json;
 using Application.Extension;
 using Microsoft.Extensions.Localization;
 using Domain.Localization;
@@ -47,9 +38,11 @@ namespace Application.Services
             _localizer = localizer;
         }
         #endregion
-        public async Task<IEnumerable<GetVideoResponse>> GetAllVideosAsync()
+        public async Task<IEnumerable<GetVideoResponse>> GetAllVideosAsync(GetVideoRequest input)
         {
-            var videos = await _videoRepository.GetAllVideosAsync();
+            var page = input.Page;
+            var fetch = input.Fetch;
+            var videos = await _videoRepository.GetAllVideosAsync(page, fetch);
             return GetVideoResponseMapper.GetVideoListMapEntityToDTO(videos);
         }
         public async Task<GetVideoResponse?> GetVideoByIdAsync(Guid id)

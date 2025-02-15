@@ -1,5 +1,4 @@
-﻿using Application;
-
+﻿
 namespace Application
 {
     public class GetTopicResponse

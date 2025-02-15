@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces;
-using Application.DTOs.Music.Output;
 using API.Controller.Base;
 using Application.Validators;
-using static System.Net.Mime.MediaTypeNames;
-using System.Net;
-using Application.DTOs.Site.Output;
+using Application;
 
 namespace API.Controller
 {
@@ -27,13 +20,13 @@ namespace API.Controller
             _musicValidator = musicValidator;
         }
         // GET: api/Music
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetMusicResponse>>))]
-        public async Task<IActionResult> GetAllMusic()
-        {
-            var music = await _musicService.GetAllMusicAsync();
-            return ApiSuccess(music);
-        }
+        //[HttpGet]
+        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetMusicResponse>>))]
+        //public async Task<IActionResult> GetAllMusic()
+        //{
+        //    var music = await _musicService.GetAllMusicAsync();
+        //    return ApiSuccess(music);
+        //}
         // GET: api/Music/5
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetMusicResponse>))]
@@ -43,5 +36,13 @@ namespace API.Controller
             return ApiSuccess(music);
         }
 
+        // GET: api/Music
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetMusicResponse>>))]
+        public async Task<IActionResult> GetAllMusicAsync([FromQuery] GetMusicRequest input)
+        {
+            var music = await _musicService.GetAllMusicAsync(input);
+            return ApiSuccess(music);
+        }
     }
 }

@@ -1,7 +1,4 @@
-﻿using Application.DTOs.Blog.Input;
-using Application.DTOs.Blog.Output;
-
-namespace Application.Validators
+﻿namespace Application.Validators
 {
     public interface IBlogValidator
     {

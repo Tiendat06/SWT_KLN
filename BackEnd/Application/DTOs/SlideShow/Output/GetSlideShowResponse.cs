@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Application.DTOs.SlideShow.Output
+namespace Application
 {
     public class GetSlideShowResponse
     {
@@ -13,6 +13,7 @@ namespace Application.DTOs.SlideShow.Output
         public string? Email { get; set; }
         public string? UserName { get; set; }
         public string? RoleName { get; set; }
+        public ICollection<GetSlideImageResponse>? SlideImages { get; set; }
 
     }
 

@@ -1,4 +1,4 @@
-﻿namespace Application.DTOs.Video.Output
+﻿namespace Application
 {
     public class GetVideoResponse
     {

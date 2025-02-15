@@ -1,4 +1,5 @@
-﻿namespace Application.Validators
+﻿
+namespace Application.Validators
 {
     public interface IBookValidator
     {

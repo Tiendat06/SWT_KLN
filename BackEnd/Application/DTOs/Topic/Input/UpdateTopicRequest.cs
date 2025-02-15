@@ -2,7 +2,6 @@
 using Domain.Constracts;
 using Domain.Localization;
 using FluentValidation;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 
 namespace Application

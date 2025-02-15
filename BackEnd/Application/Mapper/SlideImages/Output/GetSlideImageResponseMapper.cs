@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using Application.DTOs.SlideImage.Output;
-using Domain.Entities;
+﻿using Domain.Entities;
 
 namespace Application.Mapper.SlideImages.Output
 {
@@ -18,14 +11,7 @@ namespace Application.Mapper.SlideImages.Output
                 SlideImageId = slideImage.SlideImageId,
                 ImageLink = slideImage.ImageLink,
                 Capture = slideImage.Capture,
-                SlideShowId = slideImage.SlideShowId,
-                Title = slideImage.SlideShow.Title,
-                CreateDate = slideImage.SlideShow.CreateDate,
-                UserId = slideImage.SlideShow.UserId,
-                Name = slideImage.SlideShow.User.Name,
-                Email = slideImage.SlideShow.User.Email,
-                UserName = slideImage.SlideShow.User.Account.UserName,
-                RoleName = slideImage.SlideShow.User.Account.Role.RoleName
+                SlideShowId = slideImage.SlideShowId
             };
         }
         public static IEnumerable<GetSlideImageResponse> GetSlideImageListMapEntityToDTO(IEnumerable<SlideImage> slideImages)
@@ -38,14 +24,7 @@ namespace Application.Mapper.SlideImages.Output
                     SlideImageId = slideImage.SlideImageId,
                     ImageLink = slideImage.ImageLink,
                     Capture = slideImage.Capture,
-                    SlideShowId = slideImage.SlideShowId,
-                    Title = slideImage.SlideShow.Title,
-                    CreateDate = slideImage.SlideShow.CreateDate,
-                    UserId = slideImage.SlideShow.UserId,
-                    Name = slideImage.SlideShow.User.Name,
-                    Email = slideImage.SlideShow.User.Email,
-                    UserName = slideImage.SlideShow.User.Account.UserName,
-                    RoleName = slideImage.SlideShow.User.Account.Role.RoleName
+                    SlideShowId = slideImage.SlideShowId
                 });
             }
             return slideImageListDTO;

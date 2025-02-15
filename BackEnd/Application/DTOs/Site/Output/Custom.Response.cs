@@ -1,4 +1,4 @@
-﻿namespace Application.DTOs.Site.Output
+﻿namespace Application
 {
     public class CustomResponse<T>
     {
