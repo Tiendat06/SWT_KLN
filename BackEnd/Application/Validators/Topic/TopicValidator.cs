@@ -1,9 +1,5 @@
-﻿using Application.DTOs.Topic.Input;
-using Application.DTOs.Topic.Output;
-using Application.Extension;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Domain.Localization;
-using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
 
 namespace Application.Validators

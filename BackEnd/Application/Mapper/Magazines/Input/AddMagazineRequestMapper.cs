@@ -1,5 +1,4 @@
-﻿using Application.DTOs.Magazine.Input;
-using Domain.Entities;
+﻿using Domain.Entities;
 
 namespace Application.Mapper.Magazines.Input
 {

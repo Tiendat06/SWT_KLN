@@ -1,5 +1,4 @@
-﻿using Application.DTOs.Blog.Input;
-using Domain.Entities;
+﻿using Domain.Entities;
 
 namespace Application.Mapper.Blogs.Input
 {

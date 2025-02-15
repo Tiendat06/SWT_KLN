@@ -5,7 +5,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 
-namespace Application.DTOs.Blog.Input
+namespace Application
 {
     public class UpdateBlogRequest
     {

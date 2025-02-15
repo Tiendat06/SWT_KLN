@@ -1,16 +1,11 @@
-﻿using Application.DTOs.Topic.Output;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Application.Mapper.Topics.Output;
 using Domain;
-using Domain.Entities;
-using Domain.Interfaces;
-using System.Reflection.Metadata;
 using CloudinaryDotNet;
 using Microsoft.Extensions.Configuration;
 using Application.Extension;
 using Microsoft.Extensions.Localization;
 using Domain.Localization;
-using Application.DTOs;
 
 namespace Application.Services
 {

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Application.DTOs.Blog.Output
+namespace Application
 {
     public class GetBlogResponse
     {

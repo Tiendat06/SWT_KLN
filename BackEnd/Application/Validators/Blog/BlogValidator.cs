@@ -1,6 +1,4 @@
-﻿using Application.DTOs.Blog.Input;
-using Application.DTOs.Blog.Output;
-using Application.Extension;
+﻿using Application.Extension;
 using Application.Interfaces;
 using Domain.Localization;
 using FluentValidation.Results;

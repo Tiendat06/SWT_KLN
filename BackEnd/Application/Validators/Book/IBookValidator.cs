@@ -1,6 +1,4 @@
-﻿using Application.DTOs.Book.Input;
-using Application.DTOs.Book.Output;
-
+﻿
 namespace Application.Validators
 {
     public interface IBookValidator

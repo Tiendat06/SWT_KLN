@@ -1,5 +1,4 @@
-﻿using Application.DTOs.SlideShow.Output;
-
+﻿
 namespace Application.Interfaces
 {
     public interface ILogSlideShowService

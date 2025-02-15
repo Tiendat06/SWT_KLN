@@ -1,4 +1,4 @@
-﻿namespace Application.DTOs
+﻿namespace Application
 {
     public class GetAllMagazineRequest : PaginationRequest
     {

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Application.DTOs.SlideImage.Output
+namespace Application
 {
     public class GetSlideImageResponse
     {

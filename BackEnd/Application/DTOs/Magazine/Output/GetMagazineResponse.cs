@@ -1,4 +1,4 @@
-﻿namespace Application.DTOs.Magazine.Output
+﻿namespace Application
 {
     public class GetMagazineResponse
     {

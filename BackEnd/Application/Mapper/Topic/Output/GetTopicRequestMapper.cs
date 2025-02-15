@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using Application.DTOs.Topic.Output;
-using Application.DTOs.TopicMedia.Output;
-using Domain.Entities;
+﻿using Domain.Entities;
 
 namespace Application.Mapper.Topics.Output
 {

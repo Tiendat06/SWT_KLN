@@ -1,6 +1,4 @@
-﻿using Application.DTOs.Book.Input;
-using Application.DTOs.Book.Output;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Domain.Localization;
 using FluentValidation.Results;
 using Microsoft.Extensions.Localization;

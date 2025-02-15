@@ -1,7 +1,4 @@
-﻿using Application.DTOs;
-using Application.DTOs.Book.Input;
-using Application.DTOs.Book.Output;
-
+﻿
 namespace Application.Interfaces
 {
     public interface IBookService

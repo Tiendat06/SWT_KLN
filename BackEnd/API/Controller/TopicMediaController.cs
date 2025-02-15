@@ -2,12 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces;
 using API.Controller.Base;
-using Application.DTOs.TopicMedia.Output;
-using Application.DTOs.Site.Output;
-using Application.Validators;
-using System.Net;
-using Application.DTOs;
-using Microsoft.AspNetCore.Mvc.Formatters;
+using Application;
 
 namespace API.Controllers
 {

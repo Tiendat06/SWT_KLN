@@ -1,21 +1,11 @@
-﻿using Application.DTOs.SlideShow.Output;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Application.Mapper.SlideShows.Output;
 using Domain;
-using Domain.Entities;
-using Domain.Interfaces;
-using System.Reflection.Metadata;
 using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using static System.Net.Mime.MediaTypeNames;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using Application.Utils;
-using System.Text.Json;
 using Application.Extension;
 using Microsoft.Extensions.Localization;
 using Domain.Localization;
-using Application.DTOs.SlideShow.Input;
 
 namespace Application.Services
 {
