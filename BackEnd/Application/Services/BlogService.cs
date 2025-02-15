@@ -13,6 +13,7 @@ using System.Text.Json;
 using Application.Extension;
 using Microsoft.Extensions.Localization;
 using Domain.Localization;
+using Application.DTOs;
 
 namespace Application.Services
 {
@@ -46,19 +47,27 @@ namespace Application.Services
         }
         #endregion
 
-        public async Task<IEnumerable<GetBlogResponse>> GetAllBlogsAsync()
-        {
-            var blogs = await _blogRepository.GetAllBlogsAsync();
-            //Console.WriteLine(JsonSerializer.Serialize(blogs));
+        //public async Task<IEnumerable<GetBlogResponse>> GetAllBlogsAsync()
+        //{
+        //    var blogs = await _blogRepository.GetAllBlogsAsync();
+        //    //Console.WriteLine(JsonSerializer.Serialize(blogs));
 
-            return GetBlogResponseMapper.GetBlogListMapEntityToDTO(blogs);
-        }
+        //    return GetBlogResponseMapper.GetBlogListMapEntityToDTO(blogs);
+        //}
 
         public async Task<GetBlogResponse?> GetBlogByIdAsync(Guid id)
         {
             var blog = await _blogRepository.GetBlogByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Blog"]));
 
             return GetBlogResponseMapper.GetBlogMapEntityToDTO(blog);
+        }
+
+        public async Task<IEnumerable<GetBlogResponse>> GetAllBlogsAsync(GetAllBlogRequest input)
+        {
+            var page = input.Page;
+            var fetch = input.Fetch;
+            var blogs = await _blogRepository.GetAllBlogsAsync(page, fetch);
+            return GetBlogResponseMapper.GetBlogListMapEntityToDTO(blogs);
         }
 
         public async Task<GetBlogResponse> CreateBlogAsync(AddBlogRequest addBlogRequest)

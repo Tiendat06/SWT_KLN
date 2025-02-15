@@ -9,7 +9,7 @@ namespace Domain.Interfaces
 {
     public interface ISolemnVisitRepository
     {
-        Task<IEnumerable<SolemnVisit>> GetAllSolemnVisitsAsync();
+        Task<IEnumerable<SolemnVisit>> GetAllSolemnVisitsAsync(int page, int fetch);
         Task<SolemnVisit?> GetSolemnVisitByIdAsync(Guid id);
     }
 }

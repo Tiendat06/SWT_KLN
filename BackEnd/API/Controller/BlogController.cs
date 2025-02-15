@@ -7,6 +7,8 @@ using Application.DTOs.Blog.Input;
 using Application.Validators;
 using System.Net;
 using Application.DTOs.Site.Output;
+using Application.DTOs.Site.Base;
+using Application.DTOs;
 
 namespace API.Controllers
 {
@@ -26,13 +28,13 @@ namespace API.Controllers
         }
 
         // GET: api/Blog
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetBlogResponse>>))]
-        public async Task<IActionResult> GetAllBlogs()
-        {
-            var blogs = await _blogService.GetAllBlogsAsync();
-            return ApiSuccess(blogs);
-        }
+        //[HttpGet]
+        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetBlogResponse>>))]
+        //public async Task<IActionResult> GetAllBlogs()
+        //{
+        //    var blogs = await _blogService.GetAllBlogsAsync();
+        //    return ApiSuccess(blogs);
+        //}
 
         // GET: api/Blog/5
         [HttpGet("{id}")]
@@ -42,6 +44,15 @@ namespace API.Controllers
             var blog = await _blogService.GetBlogByIdAsync(id);
 
             return ApiSuccess(blog);
+        }
+
+        // GET: api/Blog
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetBlogResponse>>))]
+        public async Task<IActionResult> GetAllBlogs([FromQuery] GetAllBlogRequest input)
+        {
+            var blogs = await _blogService.GetAllBlogsAsync(input);
+            return ApiSuccess(blogs);
         }
 
         // POST: api/Blog

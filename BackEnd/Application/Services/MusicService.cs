@@ -15,6 +15,7 @@ using System.Text.Json;
 using Application.Extension;
 using Microsoft.Extensions.Localization;
 using Domain.Localization;
+using Application.DTOs.Music.Input;
 
 namespace Application.Services
 {
@@ -47,9 +48,11 @@ namespace Application.Services
             _localizer = localizer;
         }
         #endregion
-        public async Task<IEnumerable<GetMusicResponse>> GetAllMusicAsync()
+        public async Task<IEnumerable<GetMusicResponse>> GetAllMusicAsync(GetMusicRequest input)
         {
-            var musics = await _musicRepository.GetAllMusicAsync();
+            var page = input.Page;
+            var fetch = input.Fetch;
+            var musics = await _musicRepository.GetAllMusicAsync(fetch, page);
             return GetMusicResponseMapper.GetMusicListMapEntityToDTO(musics);
         }
         public async Task<GetMusicResponse?> GetMusicByIdAsync(Guid id)

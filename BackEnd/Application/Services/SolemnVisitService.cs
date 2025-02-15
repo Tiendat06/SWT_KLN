@@ -15,6 +15,7 @@ using System.Text.Json;
 using Application.Extension;
 using Microsoft.Extensions.Localization;
 using Domain.Localization;
+using Application.DTOs.SolemnVisit.Input;
 
 namespace Application.Services
 {
@@ -47,9 +48,11 @@ namespace Application.Services
             _localizer = localizer;
         }
         #endregion
-        public async Task<IEnumerable<GetSolemnVisitResponse>> GetAllSolemnVisitsAsync()
+        public async Task<IEnumerable<GetSolemnVisitResponse>> GetAllSolemnVisitsAsync(GetSolemnVisitRequest input)
         {
-            var solemnVisits = await _solemnVisitRepository.GetAllSolemnVisitsAsync();
+            var page = input.Page;
+            var fetch = input.Fetch;
+            var solemnVisits = await _solemnVisitRepository.GetAllSolemnVisitsAsync(page, fetch);
 
             return GetSolemnVisitResponseMapper.GetSolemnVisitListMapEntityToDTO(solemnVisits);
         }

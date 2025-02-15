@@ -11,6 +11,7 @@ using Application.Validators;
 using static System.Net.Mime.MediaTypeNames;
 using System.Net;
 using Application.DTOs.Site.Output;
+using Application.DTOs;
 
 namespace API.Controller
 {
@@ -30,9 +31,9 @@ namespace API.Controller
         // GET: api/SlideShow
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetSlideShowResponse>>))]
-        public async Task<IActionResult> GetAllSlideShows()
+        public async Task<IActionResult> GetAllSlideShows([FromQuery] GetSlideShowRequest input)
         {
-            var slideShows = await _slideShowService.GetAllSlideShowsAsync();
+            var slideShows = await _slideShowService.GetAllSlideShowsAsync(input);
             return ApiSuccess(slideShows);
         }
 

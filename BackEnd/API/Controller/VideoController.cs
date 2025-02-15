@@ -11,6 +11,7 @@ using Application.Validators;
 using static System.Net.Mime.MediaTypeNames;
 using System.Net;
 using Application.DTOs.Site.Output;
+using Application.DTOs;
 
 namespace API.Controller
 {
@@ -29,9 +30,9 @@ namespace API.Controller
         // GET: api/Video
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetVideoResponse>>))]
-        public async Task<IActionResult> GetAllVideos()
+        public async Task<IActionResult> GetAllVideos([FromQuery] GetVideoRequest input)
         {
-            var videos = await _videoService.GetAllVideosAsync();
+            var videos = await _videoService.GetAllVideosAsync(input);
             return ApiSuccess(videos);
         }
         // GET: api/Video/5

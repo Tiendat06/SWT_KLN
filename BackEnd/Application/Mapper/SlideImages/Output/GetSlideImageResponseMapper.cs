@@ -18,14 +18,7 @@ namespace Application.Mapper.SlideImages.Output
                 SlideImageId = slideImage.SlideImageId,
                 ImageLink = slideImage.ImageLink,
                 Capture = slideImage.Capture,
-                SlideShowId = slideImage.SlideShowId,
-                Title = slideImage.SlideShow.Title,
-                CreateDate = slideImage.SlideShow.CreateDate,
-                UserId = slideImage.SlideShow.UserId,
-                Name = slideImage.SlideShow.User.Name,
-                Email = slideImage.SlideShow.User.Email,
-                UserName = slideImage.SlideShow.User.Account.UserName,
-                RoleName = slideImage.SlideShow.User.Account.Role.RoleName
+                SlideShowId = slideImage.SlideShowId
             };
         }
         public static IEnumerable<GetSlideImageResponse> GetSlideImageListMapEntityToDTO(IEnumerable<SlideImage> slideImages)
@@ -38,14 +31,7 @@ namespace Application.Mapper.SlideImages.Output
                     SlideImageId = slideImage.SlideImageId,
                     ImageLink = slideImage.ImageLink,
                     Capture = slideImage.Capture,
-                    SlideShowId = slideImage.SlideShowId,
-                    Title = slideImage.SlideShow.Title,
-                    CreateDate = slideImage.SlideShow.CreateDate,
-                    UserId = slideImage.SlideShow.UserId,
-                    Name = slideImage.SlideShow.User.Name,
-                    Email = slideImage.SlideShow.User.Email,
-                    UserName = slideImage.SlideShow.User.Account.UserName,
-                    RoleName = slideImage.SlideShow.User.Account.Role.RoleName
+                    SlideShowId = slideImage.SlideShowId
                 });
             }
             return slideImageListDTO;
