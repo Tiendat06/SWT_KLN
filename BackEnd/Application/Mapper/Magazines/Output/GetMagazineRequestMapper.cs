@@ -33,6 +33,7 @@ namespace Application.Mapper.Magazines.Output
                     MagazineContent = magazine.MagazineContent,
                     Image = magazine.Image,
                     CreateDate = magazine.CreateDate,
+                    UserId = magazine.UserId,
                     Name = magazine.User.Name,
                     Email = magazine.User.Email,
                     UserName = magazine.User.Account.UserName,

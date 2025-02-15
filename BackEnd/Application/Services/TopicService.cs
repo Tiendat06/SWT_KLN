@@ -6,13 +6,14 @@ using Microsoft.Extensions.Configuration;
 using Application.Extension;
 using Microsoft.Extensions.Localization;
 using Domain.Localization;
+using Domain.Interfaces;
 
 namespace Application.Services
 {
     public class TopicService : ITopicService
     {
         #region Fields
-        private readonly Domain.Interfaces.ITopicRepository _topicRepository;
+        private readonly ITopicRepository _topicRepository;
         //private readonly ILogTopicRepository _logTopicRepository;
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;

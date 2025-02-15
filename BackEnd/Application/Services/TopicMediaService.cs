@@ -5,13 +5,14 @@ using CloudinaryDotNet;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using Domain.Localization;
+using Domain.Interfaces;
 
 namespace Application.Services
 {
     public class TopicMediaService : ITopicMediaService
     {
         #region Fields
-        private readonly Domain.Interfaces.ITopicMediaRepository _topicMediaRepository;
+        private readonly ITopicMediaRepository _topicMediaRepository;
         //private readonly ILogTopicMediaRepository _logTopicMediaRepository;
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;
