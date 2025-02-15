@@ -5,6 +5,7 @@ using CloudinaryDotNet;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using Domain.Localization;
+using Domain.Interfaces;
 
 namespace Application.Services
 {

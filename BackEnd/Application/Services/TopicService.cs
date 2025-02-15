@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Application.Extension;
 using Microsoft.Extensions.Localization;
 using Domain.Localization;
+using Domain.Interfaces;
 
 namespace Application.Services
 {
