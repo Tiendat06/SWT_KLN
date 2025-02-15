@@ -2,7 +2,6 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Domain.Interfaces;
-using Azure.Core;
 
 namespace Infrastructure.Repositories
 {
