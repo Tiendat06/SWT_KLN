@@ -8,6 +8,6 @@ namespace Domain.Constracts
 {
     public class TopicConsts
     {
-
+        public static int MaxCaptureLength = 255;
     }
 }
