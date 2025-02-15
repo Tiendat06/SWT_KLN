@@ -1,5 +1,4 @@
 ﻿using Application.DTOs;
-using Application.DTOs.Topic.Output;
 
 namespace Application.Interfaces
 {

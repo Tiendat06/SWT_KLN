@@ -1,6 +1,4 @@
 ﻿using Application.DTOs;
-using Application.DTOs.Magazine.Input;
-using Application.DTOs.Magazine.Output;
 using Application.Extension;
 using Application.Interfaces;
 using Application.Mapper.Magazines.Input;

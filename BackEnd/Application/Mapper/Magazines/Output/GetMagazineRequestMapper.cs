@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Magazine.Output;
+﻿using Application;
 using Domain.Entities;
 
 namespace Application.Mapper.Magazines.Output

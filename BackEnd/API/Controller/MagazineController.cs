@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces;
-using Application.DTOs.Magazine.Output;
+using Application;
 using API.Controller.Base;
-using Application.DTOs.Magazine.Input;
 using Application.Validators;
 using System.Net;
 using Application.DTOs.Site.Output;

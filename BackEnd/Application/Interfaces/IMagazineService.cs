@@ -1,6 +1,4 @@
 ﻿using Application.DTOs;
-using Application.DTOs.Magazine.Input;
-using Application.DTOs.Magazine.Output;
 
 namespace Application.Interfaces
 {

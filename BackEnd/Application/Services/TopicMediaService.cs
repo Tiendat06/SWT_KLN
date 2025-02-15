@@ -1,4 +1,4 @@
-﻿using Application.DTOs.TopicMedia.Output;
+﻿using Application;
 using Application.Interfaces;
 using Application.Mapper.TopicMedias.Output;
 using Domain;
@@ -17,7 +17,7 @@ namespace Application.Services
     public class TopicMediaService : ITopicMediaService
     {
         #region Fields
-        private readonly Domain.Interfaces.ITopicMediaRepository _topicMediaRepository;
+        private readonly ITopicMediaRepository _topicMediaRepository;
         //private readonly ILogTopicMediaRepository _logTopicMediaRepository;
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;

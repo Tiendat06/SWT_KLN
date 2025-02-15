@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
-using Application.DTOs.TopicMedia.Output;
+using Application;
 using Domain.Entities;
 
 namespace Application.Mapper.TopicMedias.Output

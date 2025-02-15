@@ -1,6 +1,6 @@
-﻿using Application.DTOs.TopicMedia.Output;
+﻿using Application;
 
-namespace Application.DTOs.Topic.Output
+namespace Application
 {
     public class GetTopicResponse
     {

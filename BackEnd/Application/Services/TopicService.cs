@@ -1,10 +1,7 @@
-﻿using Application.DTOs.Topic.Output;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Application.Mapper.Topics.Output;
 using Domain;
-using Domain.Entities;
 using Domain.Interfaces;
-using System.Reflection.Metadata;
 using CloudinaryDotNet;
 using Microsoft.Extensions.Configuration;
 using Application.Extension;
@@ -17,7 +14,7 @@ namespace Application.Services
     public class TopicService : ITopicService
     {
         #region Fields
-        private readonly Domain.Interfaces.ITopicRepository _topicRepository;
+        private readonly ITopicRepository _topicRepository;
         //private readonly ILogTopicRepository _logTopicRepository;
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;

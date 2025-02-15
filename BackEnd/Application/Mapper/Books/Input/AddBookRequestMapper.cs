@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Book.Input;
+﻿using Application;
 using Domain.Entities;
 
 namespace Application.Mapper.Books.Input

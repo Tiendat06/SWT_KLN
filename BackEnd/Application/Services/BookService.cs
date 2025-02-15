@@ -1,6 +1,4 @@
 ﻿using Application.DTOs;
-using Application.DTOs.Book.Input;
-using Application.DTOs.Book.Output;
 using Application.Extension;
 using Application.Interfaces;
 using Application.Mapper.Books.Input;

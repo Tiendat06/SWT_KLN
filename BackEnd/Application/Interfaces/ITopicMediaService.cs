@@ -1,6 +1,4 @@
 ﻿using Application.DTOs;
-using Application.DTOs.Topic.Output;
-using Application.DTOs.TopicMedia.Output;
 
 namespace Application.Interfaces
 {
