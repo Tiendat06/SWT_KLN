@@ -3,10 +3,20 @@ import styles from "~/styles/Pages/Site/site.module.scss";
 import {plus_icon_1, /*book_home_1,*/ book_home_2} from "~/assets/img";
 import {siteJRoutes} from '~/routes/appRoutes';
 import {Link} from "react-router-dom";
-import {getBookListDataTop3} from "~/services/SiteService";
+import {getMagazineListData} from "~/services/SiteService";
+import {useEffect, useState} from "react";
+import {DateTimeFormat} from "~/utils/DateTimeFormat";
 
 function BooksList() {
-    const bookList = getBookListDataTop3();
+
+    const [bookList, setBookList] = useState([]);
+    useEffect(() => {
+        const GetMagazineList = async () => {
+            const data = await getMagazineListData(3, 1);
+            setBookList(data.data);
+        }
+        GetMagazineList();
+    }, []);
 
     return (
         <>
@@ -15,17 +25,17 @@ function BooksList() {
                     <p className={clsx(styles['home-book__title-text'])}>TÁC PHẨM NỔI BẬT</p>
                     <img className={clsx(styles['home-book__title-img'])} src={`${plus_icon_1}`} alt=""/>
                 </div>
-                {bookList?.map((book, index) => (
-                    <Link key={book.bookId} to={siteJRoutes[0].path} className={clsx(styles["home-book__item"])}>
+                {bookList?.map((magazine, index) => (
+                    <Link key={`magazine-home-${magazine.magazineId}`} to={siteJRoutes[0].path} className={clsx(styles["home-book__item"])}>
                         <div className={clsx(styles["home-book__img"])}>
-                            <img className={clsx(styles['home-book__img-item'])} src={book.image} alt=""/>
+                            <img className={clsx(styles['home-book__img-item'])} src={magazine.image} alt=""/>
                             <div className={clsx(styles['home-book__img-sub'])}>
-                                <img className={clsx(styles['home-book__img-sub-item'])} src={`${book_home_2}`} alt=""/>
-                                <p className={clsx(styles['home-book__img-sub-para'])}>Hình ảnh nghệ thuật về Bác Tôn</p>
+                                <img className={clsx(styles['home-book__img-sub-item'])} src={magazine.image} alt=""/>
+                                <p className={clsx(styles['home-book__img-sub-para'])}>{magazine.title}</p>
                             </div>
                         </div>
                         <div className={clsx(styles['home-book__text'])}>
-                            <p className={clsx(styles['home-book__text-para'])}>{book.title}</p>
+                            <p className={clsx(styles['home-book__text-para'])}>{magazine.title}</p>
                         </div>
                     </Link>
                 ))}

@@ -10,9 +10,18 @@ import {Carousel} from "primereact/carousel";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import {useEffect, useState} from "react";
 
 function TDTHandiwork() {
-    const handiworkList = getHandiworkList();
+    const [handiworkList, setHandiworkList] = useState([]);
+
+    useEffect(() => {
+        const GetHandiworkList = async () => {
+            const data = await getHandiworkList(0, 1);
+            setHandiworkList(data.data);
+        }
+        GetHandiworkList();
+    }, []);
 
     const responsiveOptions = [
         { breakpoint: '1024px', numVisible: 4, numScroll: 1 },

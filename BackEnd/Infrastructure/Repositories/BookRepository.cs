@@ -62,5 +62,10 @@ namespace Infrastructure.Repositories
             book.IsDeleted = true;
             await Task.CompletedTask;
         }
+
+        public async Task<int> CountBooksAsync()
+        {
+            return (int)await _context.Books.LongCountAsync();
+        }
     }
 }

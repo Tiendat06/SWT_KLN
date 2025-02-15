@@ -249,5 +249,10 @@ namespace Application.Services
                 }
             }
         }
+
+        public async Task<int> CountBooksAsync()
+        {
+            return await _bookRepository.CountBooksAsync();
+        }
     }
 }

@@ -99,6 +99,8 @@
     }
     &-img{
       width: 100%;
+      height: 364px;
+      object-fit: cover;
     }
     &-para{
       position: absolute;
@@ -181,6 +183,7 @@
         margin-bottom: 0;
         font-weight: bold;
         letter-spacing: 1px;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
       }
     }
   }

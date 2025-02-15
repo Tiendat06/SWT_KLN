@@ -1,30 +1,37 @@
 import clsx from "clsx";
 import styles from '~/styles/Pages/About/aboutCreature.module.scss';
-import {getCreatureList} from "~/services/AboutService";
+import {getBookList, getBooksQuantity, getCreatureList} from "~/services/AboutService";
 import {Button, CustomReactPaginate} from "~/components";
 import {play_icon_1} from "~/assets/img";
-import {useCallback, useState} from "react";
+import {useCallback, useLayoutEffect, useState} from "react";
+import {DateTimeFormat} from "~/utils/DateTimeFormat";
 
 function CreatureList() {
-    const creatureList = getCreatureList();
     const itemsPerPage = 3;
-    const [itemOffset, setItemOffset] = useState(0);
+    const [bookList, setBookList] = useState([]);
+    const [pageCount, setPageCount] = useState(0);
 
-    const endOffset = itemOffset + itemsPerPage;
-    const currentItems = creatureList.slice(itemOffset, endOffset);
-    const pageCount = Math.ceil(creatureList.length / itemsPerPage);
+    useLayoutEffect(() => {
+        const GetBookList = async () => {
+            const quantityData = await getBooksQuantity();
+            const bookData = await getBookList(itemsPerPage, 1);
+            setBookList(bookData.data);
+            setPageCount(Math.ceil(quantityData.data / itemsPerPage));
+        }
+        GetBookList();
+    }, [pageCount]);
 
-    const handlePageClick = useCallback((event) => {
-        const newOffset = (event.selected * itemsPerPage) % creatureList.length;
-        setItemOffset(newOffset);
-    }, [creatureList.length]);
+    const handlePageClick = useCallback(async (event) => {
+        const bookData = await getBookList(itemsPerPage, event.selected + 1);
+        setBookList(bookData.data);
+    }, []);
 
     return (
         <>
             <div className={clsx(styles["about-creature__outstanding"])}>
                 <h1 className={clsx(styles['about-creature__outstanding-title'])}>TÁC PHẨM NỔI BẬT</h1>
                 <ul className={clsx(styles["about-creature__outstanding-list"])}>
-                    {currentItems?.map((creature, index) => (
+                    {bookList?.map((creature, index) => (
                         <li key={`creature-list-${index}`} className={clsx(styles["about-creature__outstanding-item"])}>
                             <div className={clsx(styles["about-creature__outstanding-item--inner"])}>
                                 <div
@@ -36,7 +43,7 @@ function CreatureList() {
                                     <h3 className={clsx('col-lg-12 col-md-12 col-sm-12')}>{creature?.title}</h3>
                                     <p className={clsx('col-lg-12 col-md-12 col-sm-12 mb-1')}>Author: {creature?.author}</p>
                                     <p className={clsx('col-lg-12 col-md-12 col-sm-12 mb-1')}>Publisher: {creature?.publisher}</p>
-                                    <p className={clsx('col-lg-12 col-md-12 col-sm-12 mb-1')}>Year Public: {creature?.yearPublic}</p>
+                                    <p className={clsx('col-lg-12 col-md-12 col-sm-12 mb-1')}>Year Public: {DateTimeFormat(creature?.yearPublic)}</p>
                                     <div className={clsx(styles["about-creature__outstanding-btn"])}>
                                         <Button options={3}
                                                 btnClassName={clsx(styles['about-creature__outstanding-btn-item'])}>

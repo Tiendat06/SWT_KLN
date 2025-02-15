@@ -11,7 +11,7 @@ function TDTMasterpiece() {
     const [masterPieceList, setMasterPieceList] = useState([]);
     useEffect(() => {
         const GetMasterPieceList = async () =>  {
-            let data = await getMasterPieceList();
+            let data = await getMasterPieceList(0, 1);
             setMasterPieceList(data.data);
         }
         GetMasterPieceList();

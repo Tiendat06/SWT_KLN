@@ -437,8 +437,8 @@ BEGIN
 INSERT INTO [Blog]
 ([blogId], [blogImage], [blogTitle], [blogContent], [createDate], [userId], [isDeleted])
 VALUES
-    (@blogId_1, 'https://res-console.cloudinary.com/dydpf7z8u/thumbnails/v1/image/upload/v1736512957/YWcxLTEzNTh4ODQ0X2lycmFucQ==/preview', 'Blog1', 'Blog1', '2025-01-14 03:04:50.827', @userId_1, 0),
-    (@blogId_2, 'https://res-console.cloudinary.com/dydpf7z8u/thumbnails/v1/image/upload/v1736512957/YWczLTEwMjR4NjgzX2R6b2VqMg==/preview', 'Blog2', 'Blog2', '2025-01-14 03:04:50.827', @userId_2, 0);
+    (@blogId_1, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1737914574/Blog_e098054d-bbe1-4c68-8576-58a5255abf01.jpg', 'Blog1', 'Blog1', '2025-01-14 03:04:50.827', @userId_1, 0),
+    (@blogId_2, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1737914574/Blog_e098054d-bbe1-4c68-8576-58a5255abf01.jpg', 'Blog2', 'Blog2', '2025-01-14 03:04:50.827', @userId_2, 0);
 END
 
 IF NOT EXISTS (SELECT * FROM [Book])
