@@ -389,9 +389,9 @@ DECLARE @musicId_1 UNIQUEIDENTIFIER = NEWID();
 DECLARE @musicId_2 UNIQUEIDENTIFIER = NEWID();
 
 -- Thêm index cho TopicMedia
-SET QUOTED_IDENTIFIER ON;
-CREATE INDEX IDX_TopicMedia_ImageLink ON TopicMedia(imageLink) WHERE imageLink IS NOT NULL;
-CREATE INDEX IDX_TopicMedia_VideoLink ON TopicMedia(videoLink) WHERE videoLink IS NOT NULL;
+-- SET QUOTED_IDENTIFIER ON;
+-- CREATE INDEX IDX_TopicMedia_ImageLink ON TopicMedia(imageLink) WHERE imageLink IS NOT NULL;
+-- CREATE INDEX IDX_TopicMedia_VideoLink ON TopicMedia(videoLink) WHERE videoLink IS NOT NULL;
 
 -- Insert sample data only if the tables are empty
 IF NOT EXISTS (SELECT * FROM [User])

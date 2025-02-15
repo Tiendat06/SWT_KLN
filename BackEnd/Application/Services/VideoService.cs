@@ -15,7 +15,7 @@ using System.Text.Json;
 using Application.Extension;
 using Microsoft.Extensions.Localization;
 using Domain.Localization;
-using Application.DTOs.Video.Input;
+using Application.DTOs;
 
 namespace Application.Services
 {
