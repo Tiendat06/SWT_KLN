@@ -1,0 +1,19 @@
+@use "../../GlobalStyles/index" as *;
+@use "../../Utils/mixins" as *;
+@use "../../Utils/variables" as *;
+
+.klnTitle{
+  //margin-top: $app-page-title-margin-top;
+  &-title{
+    height: $app-page-title-height;
+    background-color: $app-color-3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &__text{
+      font-weight: bold;
+      color: $app-color-8;
+      margin-bottom: 0;
+    }
+  }
+}

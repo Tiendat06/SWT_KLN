@@ -34,6 +34,10 @@ import tau from '~/assets/img/ctich_tdt/ship.png';
 import bacTon from '~/assets/img/ctich_tdt/BacTon.png';
 import bacva_cacemnho from '~/assets/img/ctich_tdt/Bac_va _cacemnho.png';
 
+import handiwork_dsct from '~/assets/img/handiwork/handiwork-dsct.png';
+
+//handiwork
+export {handiwork_dsct}
 
 // icon
 export { search_icon, user_icon, plus_icon_1, next_icon_1, previous_icon_1, play_icon_1 };
