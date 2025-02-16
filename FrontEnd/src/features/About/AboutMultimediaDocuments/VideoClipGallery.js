@@ -1,17 +1,17 @@
 import clsx from "clsx";
 import { FaPlayCircle } from "react-icons/fa"; // Import icon Play từ React Icons
 import styles from "~/styles/Pages/About/aboutMultimediaDocuments.module.scss";
-import { video1, video2, video3, video4, video5, video6, video7, video8 } from "~/assets/img";
+import { gallery_video_1, gallery_video_2, gallery_video_3, gallery_video_4, gallery_video_5, gallery_video_6, gallery_video_7, gallery_video_8 } from "~/assets/img";
 
 const videos = [
-  { src: video1, title: "Video về Bác" },
-  { src: video2, title: "Video về Bác" },
-  { src: video3, title: "Video về Bác" },
-  { src: video4, title: "Video về Bác" },
-  { src: video5, title: "Video về Bác" },
-  { src: video6, title: "Video về Bác" },
-  { src: video7, title: "Video về Bác" },
-  { src: video8, title: "Video về Bác" },
+  { src: gallery_video_1, title: "Video về Bác" },
+  { src: gallery_video_2, title: "Video về Bác" },
+  { src: gallery_video_3, title: "Video về Bác" },
+  { src: gallery_video_4, title: "Video về Bác" },
+  { src: gallery_video_5, title: "Video về Bác" },
+  { src: gallery_video_6, title: "Video về Bác" },
+  { src: gallery_video_7, title: "Video về Bác" },
+  { src: gallery_video_8, title: "Video về Bác" },
 ];
 
 function AboutVideoClipGallery() {

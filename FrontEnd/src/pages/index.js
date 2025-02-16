@@ -5,14 +5,14 @@ import AboutBiography from "./About/AboutBiography";
 import AboutCreature from './About/AboutCreature';
 import MemorialArea from "./MemorialArea/MemorialArea"
 import Handiwork from "./Handiwork/Handiwork"
-import AboutBooksAndMagazines from "./About/AboutBooksAndMagazines";
+import AboutBooks_Magazines from "./About/AboutBooks_Magazines";
 import AboutTopic from "./About/AboutTopic";
-import AboutMultimediaDocuments from "./About/AboutMultimediaDocuments";
+import AboutMultimedia_Documents from "./About/AboutMultimedia_Documents";
 
 export {Home};
 
 export {MemorialArea};
 
-export {About, AboutGenealogy, AboutBiography, AboutCreature, AboutBooksAndMagazines, AboutTopic, AboutMultimediaDocuments};
+export {About, AboutGenealogy, AboutBiography, AboutCreature, AboutBooks_Magazines, AboutTopic, AboutMultimedia_Documents};
 
 export {Handiwork};

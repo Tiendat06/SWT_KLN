@@ -34,28 +34,28 @@ import tau from '~/assets/img/ctich_tdt/ship.png';
 import bacTon from '~/assets/img/ctich_tdt/BacTon.png';
 import bacva_cacemnho from '~/assets/img/ctich_tdt/Bac_va _cacemnho.png';
 
-import ammailoica from '~/assets/img/camelCase/AmMaiLoiCa.png';
+import book_img from '~/assets/img/books/Book_img.png';
 
-import BacHo_vaBac from '~/assets/img/topicaboutBac/BacHovaBac.png';
-import image1 from '~/assets/img/topicaboutBac/image1.png';
-import image2 from '~/assets/img/topicaboutBac/image2.png';
-import image3 from '~/assets/img/topicaboutBac/image3.png';
-import image4 from '~/assets/img/topicaboutBac/image4.png';
+import BacHo_Bac from '~/assets/img/cde_tdt/BacHo_Bac.png';
+import carousel_image_1 from '~/assets/img/cde_tdt/carousel_image-1.png';
+import carousel_image_2 from '~/assets/img/cde_tdt/carousel_image-2.png';
+import carousel_image_3 from '~/assets/img/cde_tdt/carousel_image-3.png';
+import carousel_image_4 from '~/assets/img/cde_tdt/carousel_image-4.png';
 
 
-import anh from '~/assets/img/multimediadocuments/Anh.png';
-import nhac from '~/assets/img/multimediadocuments/Nhac.png';
-import videoclip from '~/assets/img/multimediadocuments/VideoClip.png';
-import phim from '~/assets/img/multimediadocuments/Phim.png';
-import video1 from '~/assets/img/multimediadocuments/video1.png';
-import video2 from '~/assets/img/multimediadocuments/video2.png';
-import video3 from '~/assets/img/multimediadocuments/video3.png';
-import video4 from '~/assets/img/multimediadocuments/video4.png';
-import video5 from '~/assets/img/multimediadocuments/video5.png';
-import video6 from '~/assets/img/multimediadocuments/video6.png';
-import video7 from '~/assets/img/multimediadocuments/video7.png';
-import video8 from '~/assets/img/multimediadocuments/video8.png';
-import songThumbnail from '~/assets/img/multimediadocuments/song.png';
+import anh from '~/assets/img/multimedia_documents/Anh.png';
+import nhac from '~/assets/img/multimedia_documents/Nhac.png';
+import videoclip from '~/assets/img/multimedia_documents/VideoClip.png';
+import phim from '~/assets/img/multimedia_documents/Phim.png';
+import gallery_video_1 from '~/assets/img/multimedia_documents/gallery_video_1.png';
+import gallery_video_2 from '~/assets/img/multimedia_documents/gallery_video_2.png';
+import gallery_video_3 from '~/assets/img/multimedia_documents/gallery_video_3.png';
+import gallery_video_4 from '~/assets/img/multimedia_documents/gallery_video_4.png';
+import gallery_video_5 from '~/assets/img/multimedia_documents/gallery_video_5.png';
+import gallery_video_6 from '~/assets/img/multimedia_documents/gallery_video_6.png';
+import gallery_video_7 from '~/assets/img/multimedia_documents/gallery_video_7.png';
+import gallery_video_8 from '~/assets/img/multimedia_documents/gallery_video_8.png';
+import songThumbnail from '~/assets/img/multimedia_documents/song.png';
 
 
 // icon
@@ -73,13 +73,13 @@ export {gia_pha_1, tieu_su_1, tac_pham_1, tac_pham_2, tac_pham_3, tac_pham_4, ta
 export {gia_pha,tuong_BacTon,tau,bacTon,bacva_cacemnho};
 
 //booksandmagazines
-export {ammailoica};
+export {book_img};
 
 //topicaboutBac
-export { BacHo_vaBac, image1, image2,image3,image4 }; 
+export { BacHo_Bac, carousel_image_1, carousel_image_2,carousel_image_3,carousel_image_4 }; 
 
 
 //multimediadocuments
 export {anh, nhac,videoclip,phim};
-export {video1, video2, video3,video4, video5, video6,video7,video8}
+export {gallery_video_1, gallery_video_2, gallery_video_3,gallery_video_4, gallery_video_5, gallery_video_6,gallery_video_7,gallery_video_8}
 export {songThumbnail};

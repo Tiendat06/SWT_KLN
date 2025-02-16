@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import styles from "~/styles/Pages/About/aboutTopic.module.scss";
 import { useState } from "react";
-import BacHo_vaBac from '~/assets/img/topicaboutBac/BacHovaBac.png';
-import { image1, image2, image3, image4 } from "~/assets/img";
+import BacHo_Bac from '~/assets/img/cde_tdt/BacHo_Bac.png';
+import { carousel_image_1, carousel_image_2, carousel_image_3, carousel_image_4 } from "~/assets/img";
 import { FaRegArrowAltCircleRight, FaRegArrowAltCircleLeft } from "react-icons/fa";
 
 const topicList = [
@@ -11,68 +11,68 @@ const topicList = [
         title: "Ấm mãi lời ca",
         fullTitle: "Ấm mãi lời ca: tập ca cổ, nhiều tác giả",
         description: "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo",
-        image: BacHo_vaBac,
+        image: BacHo_Bac,
     },
     {
         id: 2,
         title: " Chuyên đề demo 1",
         fullTitle: "Ấm mãi lời ca: tập ca cổ, nhiều tác giả",
         description: "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo",
-        image: BacHo_vaBac,
+        image: BacHo_Bac,
     },
     {
         id: 3,
         title: "Ấm mãi lời ca",
         fullTitle: "Ấm mãi lời ca: tập ca cổ, nhiều tác giả",
         description: "Nhân kỷ niệm 30 năm ngày giải phóng miền Nam, thống nhất Tổ quốc (30.4.1975 - 30.4.2005), Hội Văn học nghệ thuật An Giang xin giới thiệu tập ca cổ Ấm mãi lời ca, gồm những tác phẩm viết về đề tài truyền thống của tác giả An Giang. Hầu hết tác phẩm trong tập này được hoàn thành trong Trại sáng tác kịch bản sân khấu và bài ca cổ do Hội Văn học nghệ thuật và Sở Văn hóa thông tin An Giang kết hợp tổ chức tại Soài So (Tri Tôn) năm 2004.",
-        // image: ammailoica,
+        image: BacHo_Bac,
     },
     {
         id: 4,
         title: "Ấm mãi lời ca",
         fullTitle: "Ấm mãi lời ca: tập ca cổ, nhiều tác giả",
         description: "Nhân kỷ niệm 30 năm ngày giải phóng miền Nam, thống nhất Tổ quốc (30.4.1975 - 30.4.2005), Hội Văn học nghệ thuật An Giang xin giới thiệu tập ca cổ Ấm mãi lời ca, gồm những tác phẩm viết về đề tài truyền thống của tác giả An Giang. Hầu hết tác phẩm trong tập này được hoàn thành trong Trại sáng tác kịch bản sân khấu và bài ca cổ do Hội Văn học nghệ thuật và Sở Văn hóa thông tin An Giang kết hợp tổ chức tại Soài So (Tri Tôn) năm 2004.",
-        // image: ammailoica,
+        image: BacHo_Bac,
     },
     {
         id: 5,
         title: "Ấm mãi lời ca",
         fullTitle: "Ấm mãi lời ca: tập ca cổ, nhiều tác giả",
         description: "Nhân kỷ niệm 30 năm ngày giải phóng miền Nam, thống nhất Tổ quốc (30.4.1975 - 30.4.2005), Hội Văn học nghệ thuật An Giang xin giới thiệu tập ca cổ Ấm mãi lời ca, gồm những tác phẩm viết về đề tài truyền thống của tác giả An Giang. Hầu hết tác phẩm trong tập này được hoàn thành trong Trại sáng tác kịch bản sân khấu và bài ca cổ do Hội Văn học nghệ thuật và Sở Văn hóa thông tin An Giang kết hợp tổ chức tại Soài So (Tri Tôn) năm 2004.",
-        // image: ammailoica,
+        image: BacHo_Bac,
     },
     {
         id: 6,
         title: "Ấm mãi lời ca",
         fullTitle: "Ấm mãi lời ca: tập ca cổ, nhiều tác giả",
         description: "Nhân kỷ niệm 30 năm ngày giải phóng miền Nam, thống nhất Tổ quốc (30.4.1975 - 30.4.2005), Hội Văn học nghệ thuật An Giang xin giới thiệu tập ca cổ Ấm mãi lời ca, gồm những tác phẩm viết về đề tài truyền thống của tác giả An Giang. Hầu hết tác phẩm trong tập này được hoàn thành trong Trại sáng tác kịch bản sân khấu và bài ca cổ do Hội Văn học nghệ thuật và Sở Văn hóa thông tin An Giang kết hợp tổ chức tại Soài So (Tri Tôn) năm 2004.",
-        // image: ammailoica,
+        image: BacHo_Bac,
     },
     {
         id: 7,
         title: "Ấm mãi lời ca",
         fullTitle: "Ấm mãi lời ca: tập ca cổ, nhiều tác giả",
         description: "Nhân kỷ niệm 30 năm ngày giải phóng miền Nam, thống nhất Tổ quốc (30.4.1975 - 30.4.2005), Hội Văn học nghệ thuật An Giang xin giới thiệu tập ca cổ Ấm mãi lời ca, gồm những tác phẩm viết về đề tài truyền thống của tác giả An Giang. Hầu hết tác phẩm trong tập này được hoàn thành trong Trại sáng tác kịch bản sân khấu và bài ca cổ do Hội Văn học nghệ thuật và Sở Văn hóa thông tin An Giang kết hợp tổ chức tại Soài So (Tri Tôn) năm 2004.",
-        // image: ammailoica,
+        image: BacHo_Bac,
     },
     {
         id: 8,
         title: "Ấm mãi lời ca",
         fullTitle: "Ấm mãi lời ca: tập ca cổ, nhiều tác giả",
         description: "Nhân kỷ niệm 30 năm ngày giải phóng miền Nam, thống nhất Tổ quốc (30.4.1975 - 30.4.2005), Hội Văn học nghệ thuật An Giang xin giới thiệu tập ca cổ Ấm mãi lời ca, gồm những tác phẩm viết về đề tài truyền thống của tác giả An Giang. Hầu hết tác phẩm trong tập này được hoàn thành trong Trại sáng tác kịch bản sân khấu và bài ca cổ do Hội Văn học nghệ thuật và Sở Văn hóa thông tin An Giang kết hợp tổ chức tại Soài So (Tri Tôn) năm 2004.",
-        // image: ammailoica,
+        image: BacHo_Bac,
     },
     {
         id: 9,
         title: "Ấm mãi lời ca",
         fullTitle: "Ấm mãi lời ca: tập ca cổ, nhiều tác giả",
         description: "Nhân kỷ niệm 30 năm ngày giải phóng miền Nam, thống nhất Tổ quốc (30.4.1975 - 30.4.2005), Hội Văn học nghệ thuật An Giang xin giới thiệu tập ca cổ Ấm mãi lời ca, gồm những tác phẩm viết về đề tài truyền thống của tác giả An Giang. Hầu hết tác phẩm trong tập này được hoàn thành trong Trại sáng tác kịch bản sân khấu và bài ca cổ do Hội Văn học nghệ thuật và Sở Văn hóa thông tin An Giang kết hợp tổ chức tại Soài So (Tri Tôn) năm 2004.",
-        // image: ammailoica,
+        image: BacHo_Bac,
     }
 ];
 
 
-const extraImages = [image1, image2, image3, image4];
+const extraImages = [carousel_image_1, carousel_image_2, carousel_image_3, carousel_image_4];
 const ITEMS_PER_PAGE = 7;
 
 function TopicAboutBac() {

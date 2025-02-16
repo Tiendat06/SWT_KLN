@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import styles from "~/styles/Pages/About/aboutSidebarBooks.module.scss";
 import { useState } from "react";
-import {ammailoica} from '~/assets/img';
+import {book_img} from '~/assets/img';
 
 const bookList = [
   {
@@ -9,7 +9,7 @@ const bookList = [
     title: "Ấm mãi lời ca",
     fullTitle: "Ấm mãi lời ca: tập ca cổ, nhiều tác giả",
     description: "Nhân kỷ niệm 30 năm ngày giải phóng miền Nam, thống nhất Tổ quốc (30.4.1975 - 30.4.2005), Hội Văn học nghệ thuật An Giang xin giới thiệu tập ca cổ Ấm mãi lời ca, gồm những tác phẩm viết về đề tài truyền thống của tác giả An Giang. Hầu hết tác phẩm trong tập này được hoàn thành trong Trại sáng tác kịch bản sân khấu và bài ca cổ do Hội Văn học nghệ thuật và Sở Văn hóa thông tin An Giang kết hợp tổ chức tại Soài So (Tri Tôn) năm 2004.",
-    image: ammailoica,
+    image: book_img,
     pdfUrl:"https://docs.google.com/document/d/19xKKbQSIoTJYUIXdTAgGG6uGS-j8eUwS0g61T0j9cI0/edit?tab=t.0",
   },
   {
@@ -17,7 +17,7 @@ const bookList = [
     title: "Ấm mãi lời ca",
     fullTitle: "Ấm mãi lời ca: tập ca cổ, nhiều tác giả",
     description: "Nhân kỷ niệm 30 năm ngày giải phóng miền Nam, thống nhất Tổ quốc (30.4.1975 - 30.4.2005), Hội Văn học nghệ thuật An Giang xin giới thiệu tập ca cổ Ấm mãi lời ca, gồm những tác phẩm viết về đề tài truyền thống của tác giả An Giang. Hầu hết tác phẩm trong tập này được hoàn thành trong Trại sáng tác kịch bản sân khấu và bài ca cổ do Hội Văn học nghệ thuật và Sở Văn hóa thông tin An Giang kết hợp tổ chức tại Soài So (Tri Tôn) năm 2004.",
-    image: ammailoica,
+    image: book_img,
     pdfUrl:"https://docs.google.com/document/d/19xKKbQSIoTJYUIXdTAgGG6uGS-j8eUwS0g61T0j9cI0/edit?tab=t.0",
   },
   {
@@ -25,7 +25,7 @@ const bookList = [
     title: "Ấm mãi lời ca",
     fullTitle: "Ấm mãi lời ca: tập ca cổ, nhiều tác giả",
     description: "Nhân kỷ niệm 30 năm ngày giải phóng miền Nam, thống nhất Tổ quốc (30.4.1975 - 30.4.2005), Hội Văn học nghệ thuật An Giang xin giới thiệu tập ca cổ Ấm mãi lời ca, gồm những tác phẩm viết về đề tài truyền thống của tác giả An Giang. Hầu hết tác phẩm trong tập này được hoàn thành trong Trại sáng tác kịch bản sân khấu và bài ca cổ do Hội Văn học nghệ thuật và Sở Văn hóa thông tin An Giang kết hợp tổ chức tại Soài So (Tri Tôn) năm 2004.",
-    image: ammailoica,
+    image: book_img,
     pdfUrl:"https://docs.google.com/document/d/19xKKbQSIoTJYUIXdTAgGG6uGS-j8eUwS0g61T0j9cI0/edit?tab=t.0",
   },
   {
@@ -33,7 +33,7 @@ const bookList = [
     title: "Ấm mãi lời ca",
     fullTitle: "Ấm mãi lời ca: tập ca cổ, nhiều tác giả",
     description: "Nhân kỷ niệm 30 năm ngày giải phóng miền Nam, thống nhất Tổ quốc (30.4.1975 - 30.4.2005), Hội Văn học nghệ thuật An Giang xin giới thiệu tập ca cổ Ấm mãi lời ca, gồm những tác phẩm viết về đề tài truyền thống của tác giả An Giang. Hầu hết tác phẩm trong tập này được hoàn thành trong Trại sáng tác kịch bản sân khấu và bài ca cổ do Hội Văn học nghệ thuật và Sở Văn hóa thông tin An Giang kết hợp tổ chức tại Soài So (Tri Tôn) năm 2004.",
-    image: ammailoica,
+    image: book_img,
     pdfUrl:"https://docs.google.com/document/d/19xKKbQSIoTJYUIXdTAgGG6uGS-j8eUwS0g61T0j9cI0/edit?tab=t.0",
   },
   {
@@ -41,7 +41,7 @@ const bookList = [
     title: "Ấm mãi lời ca",
     fullTitle: "Ấm mãi lời ca: tập ca cổ, nhiều tác giả",
     description: "Nhân kỷ niệm 30 năm ngày giải phóng miền Nam, thống nhất Tổ quốc (30.4.1975 - 30.4.2005), Hội Văn học nghệ thuật An Giang xin giới thiệu tập ca cổ Ấm mãi lời ca, gồm những tác phẩm viết về đề tài truyền thống của tác giả An Giang. Hầu hết tác phẩm trong tập này được hoàn thành trong Trại sáng tác kịch bản sân khấu và bài ca cổ do Hội Văn học nghệ thuật và Sở Văn hóa thông tin An Giang kết hợp tổ chức tại Soài So (Tri Tôn) năm 2004.",
-    image: ammailoica,
+    image: book_img,
     pdfUrl:"https://docs.google.com/document/d/19xKKbQSIoTJYUIXdTAgGG6uGS-j8eUwS0g61T0j9cI0/edit?tab=t.0",
   },
   {
@@ -49,7 +49,7 @@ const bookList = [
     title: "Ấm mãi lời ca",
     fullTitle: "Ấm mãi lời ca: tập ca cổ, nhiều tác giả",
     description: "Nhân kỷ niệm 30 năm ngày giải phóng miền Nam, thống nhất Tổ quốc (30.4.1975 - 30.4.2005), Hội Văn học nghệ thuật An Giang xin giới thiệu tập ca cổ Ấm mãi lời ca, gồm những tác phẩm viết về đề tài truyền thống của tác giả An Giang. Hầu hết tác phẩm trong tập này được hoàn thành trong Trại sáng tác kịch bản sân khấu và bài ca cổ do Hội Văn học nghệ thuật và Sở Văn hóa thông tin An Giang kết hợp tổ chức tại Soài So (Tri Tôn) năm 2004.",
-    image: ammailoica,
+    image: book_img,
     pdfUrl:"https://docs.google.com/document/d/19xKKbQSIoTJYUIXdTAgGG6uGS-j8eUwS0g61T0j9cI0/edit?tab=t.0",
   },
   {
@@ -57,7 +57,7 @@ const bookList = [
     title: "Ấm mãi lời ca",
     fullTitle: "Ấm mãi lời ca: tập ca cổ, nhiều tác giả",
     description: "Nhân kỷ niệm 30 năm ngày giải phóng miền Nam, thống nhất Tổ quốc (30.4.1975 - 30.4.2005), Hội Văn học nghệ thuật An Giang xin giới thiệu tập ca cổ Ấm mãi lời ca, gồm những tác phẩm viết về đề tài truyền thống của tác giả An Giang. Hầu hết tác phẩm trong tập này được hoàn thành trong Trại sáng tác kịch bản sân khấu và bài ca cổ do Hội Văn học nghệ thuật và Sở Văn hóa thông tin An Giang kết hợp tổ chức tại Soài So (Tri Tôn) năm 2004.",
-    image: ammailoica,
+    image: book_img,
     pdfUrl:"https://docs.google.com/document/d/19xKKbQSIoTJYUIXdTAgGG6uGS-j8eUwS0g61T0j9cI0/edit?tab=t.0",
   },
   {
@@ -65,7 +65,7 @@ const bookList = [
     title: "Ấm mãi lời ca",
     fullTitle: "Ấm mãi lời ca: tập ca cổ, nhiều tác giả",
     description: "Nhân kỷ niệm 30 năm ngày giải phóng miền Nam, thống nhất Tổ quốc (30.4.1975 - 30.4.2005), Hội Văn học nghệ thuật An Giang xin giới thiệu tập ca cổ Ấm mãi lời ca, gồm những tác phẩm viết về đề tài truyền thống của tác giả An Giang. Hầu hết tác phẩm trong tập này được hoàn thành trong Trại sáng tác kịch bản sân khấu và bài ca cổ do Hội Văn học nghệ thuật và Sở Văn hóa thông tin An Giang kết hợp tổ chức tại Soài So (Tri Tôn) năm 2004.",
-    image: ammailoica,
+    image: book_img,
     pdfUrl:"https://docs.google.com/document/d/19xKKbQSIoTJYUIXdTAgGG6uGS-j8eUwS0g61T0j9cI0/edit?tab=t.0",
   },
   {
@@ -73,7 +73,7 @@ const bookList = [
     title: "Ấm mãi lời ca",
     fullTitle: "Ấm mãi lời ca: tập ca cổ, nhiều tác giả",
     description: "Nhân kỷ niệm 30 năm ngày giải phóng miền Nam, thống nhất Tổ quốc (30.4.1975 - 30.4.2005), Hội Văn học nghệ thuật An Giang xin giới thiệu tập ca cổ Ấm mãi lời ca, gồm những tác phẩm viết về đề tài truyền thống của tác giả An Giang. Hầu hết tác phẩm trong tập này được hoàn thành trong Trại sáng tác kịch bản sân khấu và bài ca cổ do Hội Văn học nghệ thuật và Sở Văn hóa thông tin An Giang kết hợp tổ chức tại Soài So (Tri Tôn) năm 2004.",
-    image: ammailoica,
+    image: book_img,
     pdfUrl:"https://docs.google.com/document/d/19xKKbQSIoTJYUIXdTAgGG6uGS-j8eUwS0g61T0j9cI0/edit?tab=t.0",
   }
 ];

@@ -1,12 +1,12 @@
 import clsx from "clsx";
 import styles from "~/styles/Pages/About/aboutMultimediaDocuments.module.scss";
-import {image1, image2, image3, image4} from '~/assets/img';
+import {carousel_image_1, carousel_image_2, carousel_image_3, carousel_image_4} from '~/assets/img';
 
 const images = [
-  { src: image1, title: "Ảnh về Bác" },
-  { src: image2, title: "Ảnh về Bác" },
-  { src: image3, title: "Ảnh về Bác" },
-  { src: image4, title: "Ảnh về Bác" },
+  { src: carousel_image_1, title: "Ảnh về Bác" },
+  { src: carousel_image_2, title: "Ảnh về Bác" },
+  { src: carousel_image_3, title: "Ảnh về Bác" },
+  { src: carousel_image_4, title: "Ảnh về Bác" },
 ];
 
 function AboutPictureGallery() {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TDTHandiwork, TopicAboutBac } from '~/features/About';
+import { Cde_Bac } from '~/features/About';
 import styles from '~/styles/Pages/About/aboutTopic.module.scss';
 import clsx from 'clsx';
 
@@ -36,7 +36,7 @@ function AboutTopic() {
                     </button>
                 </div>
 
-               <TopicAboutBac/>
+               <Cde_Bac/>
             </div>
         </div>
     );
