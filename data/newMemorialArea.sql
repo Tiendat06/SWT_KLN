@@ -400,8 +400,33 @@ DECLARE @topicMediaId_4 UNIQUEIDENTIFIER = NEWID();
 
 -- Thêm index cho TopicMedia
 SET QUOTED_IDENTIFIER ON;
-CREATE INDEX IDX_TopicMedia_ImageLink ON TopicMedia(imageLink) WHERE imageLink IS NOT NULL;
-CREATE INDEX IDX_TopicMedia_VideoLink ON TopicMedia(videoLink) WHERE videoLink IS NOT NULL;
+
+-- Tạo index cho imageLink nếu chưa tồn tại
+IF NOT EXISTS (
+    SELECT 1 
+    FROM sys.indexes 
+    WHERE name = 'IDX_TopicMedia_ImageLink' 
+    AND object_id = OBJECT_ID('TopicMedia')
+)
+BEGIN
+    CREATE INDEX IDX_TopicMedia_ImageLink 
+    ON TopicMedia(imageLink) 
+    WHERE imageLink IS NOT NULL;
+END
+
+-- Tạo index cho videoLink nếu chưa tồn tại
+IF NOT EXISTS (
+    SELECT 1 
+    FROM sys.indexes 
+    WHERE name = 'IDX_TopicMedia_VideoLink' 
+    AND object_id = OBJECT_ID('TopicMedia')
+)
+BEGIN
+    CREATE INDEX IDX_TopicMedia_VideoLink 
+    ON TopicMedia(videoLink) 
+    WHERE videoLink IS NOT NULL;
+END
+
 
 -- Insert sample data only if the tables are empty
 IF NOT EXISTS (SELECT * FROM [User])
