@@ -67,7 +67,7 @@ builder.Services.AddScoped<ISlideImageValidator, SlideImageValidator>();
 builder.Services.AddScoped<ISolemnVisitValidator, SolemnVisitValidator>();
 builder.Services.AddScoped<IMusicValidator, MusicValidator>();
 builder.Services.AddScoped<IVideoValidator, VideoValidator>();
-
+builder.Services.AddScoped<ITopicValidator, TopicValidator>();
 
 // Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -85,7 +85,8 @@ builder.Services.AddScoped<ISolemnVisitRepository, SolemnVisitRepository>();
 //builder.Services.AddScoped<ILogSolemnVisitRepository, LogSolemnVisitRepository>();
 builder.Services.AddScoped<IVideoRepository, VideoRepository>();
 builder.Services.AddScoped<IMusicRepository, MusicRepository>();
-
+builder.Services.AddScoped<ITopicRepository, TopicRepository>();
+builder.Services.AddScoped<ITopicMediaRepository, TopicMediaRepository>();
 
 // Services
 builder.Services.AddScoped<IUserService, UserService>();
@@ -100,6 +101,8 @@ builder.Services.AddScoped<ISlideImageService, SlideImageService>();
 builder.Services.AddScoped<ISolemnVisitService, SolemnVisitService>();
 builder.Services.AddScoped<IVideoService, VideoService>();
 builder.Services.AddScoped<IMusicService, MusicService>();
+builder.Services.AddScoped<ITopicService, TopicService>();
+builder.Services.AddScoped<ITopicMediaService, TopicMediaService>();
 
 builder.Services.AddControllers(options => 
 {

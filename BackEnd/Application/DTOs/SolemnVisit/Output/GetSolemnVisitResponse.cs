@@ -1,4 +1,4 @@
-﻿namespace Application.DTOs.SolemnVisit.Output
+﻿namespace Application
 {
     public class GetSolemnVisitResponse
     {

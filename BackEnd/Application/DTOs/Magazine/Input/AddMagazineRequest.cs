@@ -5,7 +5,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 
-namespace Application.DTOs.Magazine.Input
+namespace Application
 {
     public class AddMagazineRequest
     {

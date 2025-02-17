@@ -7,10 +7,14 @@ export const getTestData = async (count) => {
     });
 }
 
-export const getBookListDataTop3 = () => {
-    return [
-        {bookId: '1', title: 'Chân dung Bác Tôn của Công ty Thảm len xuất khẩu Sài Gòn.', image: book_home_1, createDate: '', userId: '', bookContent: '', publisher: '', author: '', yearPublic: ''},
-        {bookId: '2', title: 'Chân dung Bác Tôn của Công ty Thảm len xuất khẩu Sài Gòn.', image: book_home_1, createDate: '', userId: '', bookContent: '', publisher: '', author: '', yearPublic: ''},
-        {bookId: '3', title: 'Chân dung Bác Tôn của Công ty Thảm len xuất khẩu Sài Gòn.', image: book_home_1, createDate: '', userId: '', bookContent: '', publisher: '', author: '', yearPublic: ''},
-    ]
+export const getBlogListData = async (fetch, page) => {
+    return await UseFetchAPI({
+        api: `api/Blog?Fetch=${fetch}&Page=${page}`,
+    });
+}
+
+export const getMagazineListData = async (fetch, page) => {
+    return await UseFetchAPI({
+        api: `api/Magazine?Fetch=${fetch}&Page=${page}`,
+    });
 }

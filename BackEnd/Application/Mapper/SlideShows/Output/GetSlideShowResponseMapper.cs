@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using Application.DTOs.SlideImage.Output;
-using Application.DTOs.SlideShow.Output;
-using Domain.Entities;
+﻿using Domain.Entities;
 
 namespace Application.Mapper.SlideShows.Output
 {

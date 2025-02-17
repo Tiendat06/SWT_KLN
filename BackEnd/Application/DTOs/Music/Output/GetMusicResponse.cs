@@ -1,4 +1,4 @@
-﻿namespace Application.DTOs.Music.Output
+﻿namespace Application
 {
     public class GetMusicResponse
     {

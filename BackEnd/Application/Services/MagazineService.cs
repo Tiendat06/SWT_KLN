@@ -1,6 +1,4 @@
-﻿using Application.DTOs.Magazine.Input;
-using Application.DTOs.Magazine.Output;
-using Application.Extension;
+﻿using Application.Extension;
 using Application.Interfaces;
 using Application.Mapper.Magazines.Input;
 using Application.Mapper.Magazines.Output;
@@ -41,9 +39,11 @@ namespace Application.Services
         }
         #endregion
 
-        public async Task<IEnumerable<GetMagazineResponse>> GetAllMagazinesAsync()
+        public async Task<IEnumerable<GetMagazineResponse>> GetAllMagazinesAsync(GetAllMagazineRequest input)
         {
-            var magazines = await _magazineRepository.GetAllMagazinesAsync();
+            var page = input.Page;
+            var fetch = input.Fetch;
+            var magazines = await _magazineRepository.GetAllMagazinesAsync(page, fetch);
             return GetMagazineResponseMapper.GetMagazineListMapEntityToDTO(magazines);
         }
 

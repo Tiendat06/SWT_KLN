@@ -9,5 +9,6 @@ namespace Domain.Interfaces
         Task CreateBookAsync(Book book);
         Task HardDeleteBookAsync(Guid id);
         Task SoftDeleteBookAsync(Book book);
+        Task<int> CountBooksAsync();
     }
 }

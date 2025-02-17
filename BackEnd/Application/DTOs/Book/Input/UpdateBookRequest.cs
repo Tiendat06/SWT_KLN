@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 
 
-namespace Application.DTOs.Book.Input
+namespace Application
 {
     public class UpdateBookRequest
     {

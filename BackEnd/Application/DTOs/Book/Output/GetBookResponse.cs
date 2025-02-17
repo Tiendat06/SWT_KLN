@@ -1,4 +1,4 @@
-﻿namespace Application.DTOs.Book.Output
+﻿namespace Application
 {
     public class GetBookResponse
     {

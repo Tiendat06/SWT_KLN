@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces;
-using Application.DTOs.Magazine.Output;
 using API.Controller.Base;
-using Application.DTOs.Magazine.Input;
 using Application.Validators;
 using System.Net;
-using Application.DTOs.Site.Output;
+using Application;
 
 namespace API.Controllers
 {
@@ -28,9 +26,9 @@ namespace API.Controllers
         // GET: api/Magazine
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetMagazineResponse>>))]
-        public async Task<IActionResult> GetAllMagazines()
+        public async Task<IActionResult> GetAllMagazines([FromQuery] GetAllMagazineRequest input)
         {
-            var magazines = await _magazineService.GetAllMagazinesAsync();
+            var magazines = await _magazineService.GetAllMagazinesAsync(input);
             return ApiSuccess(magazines);
         }
 

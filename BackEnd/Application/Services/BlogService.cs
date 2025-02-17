@@ -1,6 +1,4 @@
-﻿using Application.DTOs.Blog.Input;
-using Application.DTOs.Blog.Output;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Application.Mapper.Blogs.Input;
 using Application.Mapper.Blogs.Output;
 using Domain;
@@ -9,11 +7,9 @@ using Domain.Interfaces;
 using CloudinaryDotNet;
 using Microsoft.Extensions.Configuration;
 using Application.Utils;
-using System.Text.Json;
 using Application.Extension;
 using Microsoft.Extensions.Localization;
 using Domain.Localization;
-using Application.DTOs;
 
 namespace Application.Services
 {

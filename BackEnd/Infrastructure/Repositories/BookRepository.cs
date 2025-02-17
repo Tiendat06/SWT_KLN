@@ -2,7 +2,6 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Domain.Interfaces;
-using Azure.Core;
 
 namespace Infrastructure.Repositories
 {
@@ -22,8 +21,6 @@ namespace Infrastructure.Repositories
 
         public async Task<IEnumerable<Book>> GetAllBooksAsync(int page, int fetch)
         {
-
-
             var query = _context.Books
                 .AsNoTracking()
                 .Where(book => book.IsDeleted == false);
@@ -64,6 +61,11 @@ namespace Infrastructure.Repositories
         {
             book.IsDeleted = true;
             await Task.CompletedTask;
+        }
+
+        public async Task<int> CountBooksAsync()
+        {
+            return (int)await _context.Books.LongCountAsync();
         }
     }
 }
