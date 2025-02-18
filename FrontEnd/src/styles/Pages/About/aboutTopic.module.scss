@@ -1,0 +1,234 @@
+@use "../../GlobalStyles/index" as *;
+@use "../../Utils/mixins" as *;
+@use "../../Utils/variables" as *;
+
+.aboutTopic {
+    margin-top: $app-page-title-margin-top;
+
+    &-title {
+        height: $app-page-title-height;
+        background-color: $app-color-3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &__text {
+            font-weight: bold;
+            color: $app-color-8;
+            margin-bottom: 0;
+        }
+    }
+
+    &-tabs {
+        width: 10%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 0px;
+        margin: 20px 0 -20px 0;
+        position: relative;
+        left: 22.5%;
+    }
+
+    &-tabimage {
+        padding: 12px 20px;
+        background-color: $app-color-9;
+        border: 1px solid $app-color-3;
+        font-size: 16px;
+        font-weight: bold;
+        color: $app-color-3;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+
+
+        &:first-child {
+            border-right: none;
+        }
+
+        &:hover {
+            background-color: darken($app-color-9, 10%);
+        }
+
+        &.active {
+            background-color: $app-color-3;
+            color: white;
+        }
+    }
+
+    &-tabvideo {
+        padding: 12px 20px;
+        background-color: $app-color-9;
+        border: 1px solid $app-color-3;
+        font-size: 16px;
+        font-weight: bold;
+        color: $app-color-5;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        border-top-right-radius: 5px;
+
+
+        &:first-child {
+            border-right: none;
+        }
+
+        &:hover {
+            background-color: darken($app-color-9, 10%);
+        }
+
+        &.active {
+            background-color: $app-color-3;
+            color: white;
+        }
+    }
+}
+
+.TopicAboutBac {
+    font-weight: bold;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+    margin: 20px 10px 0px 10px;
+
+    &__sidebar {
+        width: 300px;
+        background-color: #fdf1de;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    &__title {
+        background-color: $app-color-3;
+        color: white;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        padding: 20px 0;
+    }
+
+    &__list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    &__listItem {
+        color: $app-color-3;
+        padding: 12px 0;
+        text-align: center;
+        font-size: 16px;
+        border-bottom: 1px solid $app-color-3;
+        background-color: $app-color-9;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+
+        &--active {
+            background-color: $app-color-3;
+            color: white;
+        }
+    }
+
+    &__content {
+        background-color: white;
+        padding: 40px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 80%;
+        margin: 0 0 20px 0;
+        position: relative;
+    }
+
+    &__imageContainer {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+
+    &__img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    &__overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        // display: flex;
+        // align-items: center;
+        // justify-content: center;
+        // text-align: center;
+        // opacity: 0;
+        // visibility: hidden;
+        // transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+
+        p {
+            position: relative;
+            top: 50%;
+            left:13%;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            width: 75%;
+        }
+    }
+
+    // Hover vào imageContainer thì overlay hiện ra
+    &__imageContainer:hover &__overlay {
+        opacity: 1 ;
+        visibility: visible;
+    }
+
+
+    &__extraImages {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+        position: relative;
+
+        .extraImageBorder {
+            border: 3px solid $app-color-3;
+            transition: border 0.3s ease-in-out;
+        }
+
+        .arrowIcon {
+            font-size: 40px;
+            color: $app-color-3;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, color 0.2s;
+        }
+
+        .extraImage {
+            width: 160px;
+            height: auto;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+    }
+
+    &__pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            margin: 10px 5px;
+            border-radius: 50%;
+            background-color: $app-color-5;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+
+            &.dotActive {
+                background-color: $app-color-3;
+            }
+        }
+    }
+}
