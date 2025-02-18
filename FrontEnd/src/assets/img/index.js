@@ -57,6 +57,20 @@ import gallery_video_7 from '~/assets/img/multimedia_documents/gallery_video_7.p
 import gallery_video_8 from '~/assets/img/multimedia_documents/gallery_video_8.png';
 import songThumbnail from '~/assets/img/multimedia_documents/song.png';
 
+import stilt_house_img_1 from '~/assets/img/memorial_stilthouse/Stilt_House_image-1.png';
+import stilt_house_img_2 from '~/assets/img/memorial_stilthouse/Stilt_House_image-2.png';
+import stilt_house_img_3 from '~/assets/img/memorial_stilthouse/Stilt_House_image-3.png';
+import stilt_house_img_4 from '~/assets/img/memorial_stilthouse/Stilt_House_image-4.png';
+import stilt_house_img_5 from '~/assets/img/memorial_stilthouse/Stilt_House_image-5.png';
+
+import tomb from '~/assets/img/memorial_tomb/Tomb.png';
+
+import temple_img_1 from '~/assets/img/memorial_temple/Temple_img-1.png';
+import temple_img_2 from '~/assets/img/memorial_temple/Temple_img-2.png';
+
+import prison_img_1 from '~/assets/img/memorial_prison/prison_img-1.png';
+import prison_img_2 from '~/assets/img/memorial_prison/prison_img-2.png';
+
 
 // icon
 export { search_icon, user_icon, plus_icon_1, next_icon_1, previous_icon_1, play_icon_1 };
@@ -83,3 +97,16 @@ export { BacHo_Bac, carousel_image_1, carousel_image_2,carousel_image_3,carousel
 export {anh, nhac,videoclip,phim};
 export {gallery_video_1, gallery_video_2, gallery_video_3,gallery_video_4, gallery_video_5, gallery_video_6,gallery_video_7,gallery_video_8}
 export {songThumbnail};
+
+
+//memorialStiilHouse
+export {stilt_house_img_1,stilt_house_img_2,stilt_house_img_3,stilt_house_img_4,stilt_house_img_5};
+
+//memorialTomb
+export {tomb};
+
+//memorialTemple
+export {temple_img_1,temple_img_2};
+
+//memorialprison
+export {prison_img_1,prison_img_2};

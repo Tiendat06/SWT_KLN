@@ -9,6 +9,7 @@ const images = [
   { src: carousel_image_4, title: "Ảnh về Bác" },
 ];
 
+
 function AboutPictureGallery() {
   return (
     <div className={clsx(styles["gallery"])}>
