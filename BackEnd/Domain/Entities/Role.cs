@@ -15,7 +15,7 @@ namespace Domain.Entities
         public string? RoleName { get; set; } = string.Empty;
 
         //[NotMapped]
-        [ForeignKey("RoleId")]
+        //[ForeignKey("RoleId")]
         public virtual Account? Account { get; set; }
     }
 }
