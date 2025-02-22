@@ -1,0 +1,206 @@
+@use "../../GlobalStyles/index" as *;
+@use "../../Utils/mixins" as *;
+@use "../../Utils/variables" as *;
+
+.aboutbooksandmagazines {
+  margin-top: $app-page-title-margin-top;
+
+  &-title {
+    height: $app-page-title-height;
+    background-color: $app-color-3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__text {
+      font-weight: bold;
+      color: $app-color-8;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.ListOfBooks {
+  font-weight: bold;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+  margin: 20px 10px 0px 10px;
+
+  &__sidebar {
+    width: 300px;
+    background-color: #fdf1de;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  &__title {
+    background-color: $app-color-3;
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 20px 0;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__listItem {
+    color: $app-color-3;
+    padding: 12px 0;
+    text-align: center;
+    font-size: 16px;
+    border-bottom: 1px solid $app-color-3;
+    background-color: $app-color-9;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    // Khi được chọn, mục sẽ có màu nền đỏ
+    &--active {
+      background-color:$app-color-3;
+      color: white;
+    }
+  }
+
+  /* Pagination */
+  &__pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      margin: 10px 5px;
+      border-radius: 50%;
+      background-color: $app-color-5;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+
+      &.dotActive {
+        background-color: $app-color-3;
+      }
+    }
+  }
+}
+
+/* Nội dung sách được chọn */
+.BookContent {
+  flex: 1;
+  padding: 20px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px $app-color-12;
+
+  &__title {
+    font-size: 20px;
+    color: $app-color-3;
+    font-weight: bold;
+    text-align: center;
+    background-color: white;
+    box-shadow: 0 4px 6px $app-color-12; 
+    padding: 15px 0; 
+    margin-bottom: 20px;
+}
+
+  &__info {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  &__image {
+    width: 200px;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px $app-color-12;
+  }
+
+  &__desc {
+    font-size: 20px;
+    color: $app-color-11;
+    flex: 1;
+    font-weight: bold;
+  }
+
+  /* PDF Viewer */
+  &__pdfViewer {
+    width: 100%;
+    height: 500px;
+    border: none;
+    margin-top: 20px;
+  }
+}
+.ListOfMagazines {
+  font-weight: bold;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+  margin: -20% 10px 10% 10px; 
+
+  &__sidebar {
+    width: 300px;
+    background-color: #fdf1de;
+    box-shadow: 0px 2px 5px $app-color-12;
+  }
+
+  &__title {
+    background-color: $app-color-3;
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 20px 0;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__listItem {
+    color: $app-color-3 ;
+    padding: 12px 0;
+    text-align: center;
+    font-size: 16px;
+    border-bottom: 1px solid $app-color-3;
+    background-color: $app-color-9;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    // Khi được chọn, mục sẽ có màu nền đỏ
+    &--active {
+      background-color:$app-color-3;
+      color: white;
+    }
+  }
+
+  /* Pagination */
+  &__pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      margin: 10px 5px;
+      border-radius: 50%;
+      background-color: $app-color-5;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+
+      &.dotActive {
+        background-color: $app-color-3;
+      }
+    }
+  }
+  
+}

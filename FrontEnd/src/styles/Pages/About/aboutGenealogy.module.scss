@@ -36,6 +36,7 @@
                 padding-top: 50px;
                 font-weight: bold;
                 color: $app-color-5;
+                font-size: 35px;
             }
 
             &-text {
@@ -46,7 +47,7 @@
                 border-bottom: 1px solid $app-color-5;
                 left: 10%;
                 font-weight: bold;
-                font-size: 16px;
+                font-size: 21px;
             }
 
             &-paracontent {
@@ -81,7 +82,7 @@
                         object-fit: cover;
                         object-position: right;
                         position:absolute;
-                        left: 57%;
+                        left: 54%;
                         padding-bottom: 3%;
                         width: auto;
                     }
@@ -109,7 +110,7 @@
                 text-align: right;
                 right: -13%;
                 font-weight: bold;
-                font-size: 16px;
+                font-size: 21px;
             }
 
             &-paracontent {
@@ -147,7 +148,7 @@
                         /* Đảm bảo ảnh không bị biến dạng */
                         object-position: left;
                         position: relative;
-                        left: 30%;
+                        left: 27%;
                         width: auto;
                     }
                 }

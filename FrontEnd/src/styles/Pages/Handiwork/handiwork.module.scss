@@ -24,17 +24,17 @@
     &__item {
       padding: 15px 0;
       background-color: $app-color-9;
-      border-bottom: 1px solid $app-color-11;
+      border-bottom: 1px solid $app-color-14;
       cursor: pointer;
       p {
         margin-bottom: 0;
-        color: $app-color-11;
+        color: $app-color-14;
         text-align: center;
       }
     }
 
     &__item--choose {
-      background-color: $app-color-11;
+      background-color: $app-color-14;
       transition: ease-in-out 0.3s;
       p{
         color: $app-color-6;

@@ -34,6 +34,43 @@ import tau from '~/assets/img/ctich_tdt/ship.png';
 import bacTon from '~/assets/img/ctich_tdt/BacTon.png';
 import bacva_cacemnho from '~/assets/img/ctich_tdt/Bac_va _cacemnho.png';
 
+import book_img from '~/assets/img/books/Book_img.png';
+
+import BacHo_Bac from '~/assets/img/cde_tdt/BacHo_Bac.png';
+import carousel_image_1 from '~/assets/img/cde_tdt/carousel_image-1.png';
+import carousel_image_2 from '~/assets/img/cde_tdt/carousel_image-2.png';
+import carousel_image_3 from '~/assets/img/cde_tdt/carousel_image-3.png';
+import carousel_image_4 from '~/assets/img/cde_tdt/carousel_image-4.png';
+
+
+import anh from '~/assets/img/multimedia_documents/Anh.png';
+import nhac from '~/assets/img/multimedia_documents/Nhac.png';
+import videoclip from '~/assets/img/multimedia_documents/VideoClip.png';
+import phim from '~/assets/img/multimedia_documents/Phim.png';
+import gallery_video_1 from '~/assets/img/multimedia_documents/gallery_video_1.png';
+import gallery_video_2 from '~/assets/img/multimedia_documents/gallery_video_2.png';
+import gallery_video_3 from '~/assets/img/multimedia_documents/gallery_video_3.png';
+import gallery_video_4 from '~/assets/img/multimedia_documents/gallery_video_4.png';
+import gallery_video_5 from '~/assets/img/multimedia_documents/gallery_video_5.png';
+import gallery_video_6 from '~/assets/img/multimedia_documents/gallery_video_6.png';
+import gallery_video_7 from '~/assets/img/multimedia_documents/gallery_video_7.png';
+import gallery_video_8 from '~/assets/img/multimedia_documents/gallery_video_8.png';
+import songThumbnail from '~/assets/img/multimedia_documents/song.png';
+
+import stilt_house_img_1 from '~/assets/img/memorial_stilthouse/Stilt_House_image-1.png';
+import stilt_house_img_2 from '~/assets/img/memorial_stilthouse/Stilt_House_image-2.png';
+import stilt_house_img_3 from '~/assets/img/memorial_stilthouse/Stilt_House_image-3.png';
+import stilt_house_img_4 from '~/assets/img/memorial_stilthouse/Stilt_House_image-4.png';
+import stilt_house_img_5 from '~/assets/img/memorial_stilthouse/Stilt_House_image-5.png';
+
+import tomb from '~/assets/img/memorial_tomb/Tomb.png';
+
+import temple_img_1 from '~/assets/img/memorial_temple/Temple_img-1.png';
+import temple_img_2 from '~/assets/img/memorial_temple/Temple_img-2.png';
+
+import prison_img_1 from '~/assets/img/memorial_prison/prison_img-1.png';
+import prison_img_2 from '~/assets/img/memorial_prison/prison_img-2.png';
+
 import handiwork_dsct from '~/assets/img/handiwork/handiwork-dsct.png';
 
 //handiwork
@@ -52,3 +89,28 @@ export {home_img_1, home_img_2, home_img_3, blog_home_1, book_home_1, book_home_
 export {gia_pha_1, tieu_su_1, tac_pham_1, tac_pham_2, tac_pham_3, tac_pham_4, tac_pham_5};
 
 export {gia_pha,tuong_BacTon,tau,bacTon,bacva_cacemnho};
+
+//booksandmagazines
+export {book_img};
+
+//topicaboutBac
+export { BacHo_Bac, carousel_image_1, carousel_image_2,carousel_image_3,carousel_image_4 }; 
+
+
+//multimediadocuments
+export {anh, nhac,videoclip,phim};
+export {gallery_video_1, gallery_video_2, gallery_video_3,gallery_video_4, gallery_video_5, gallery_video_6,gallery_video_7,gallery_video_8}
+export {songThumbnail};
+
+
+//memorialStiilHouse
+export {stilt_house_img_1,stilt_house_img_2,stilt_house_img_3,stilt_house_img_4,stilt_house_img_5};
+
+//memorialTomb
+export {tomb};
+
+//memorialTemple
+export {temple_img_1,temple_img_2};
+
+//memorialprison
+export {prison_img_1,prison_img_2};
