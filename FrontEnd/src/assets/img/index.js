@@ -71,6 +71,10 @@ import temple_img_2 from '~/assets/img/memorial_temple/Temple_img-2.png';
 import prison_img_1 from '~/assets/img/memorial_prison/prison_img-1.png';
 import prison_img_2 from '~/assets/img/memorial_prison/prison_img-2.png';
 
+import handiwork_dsct from '~/assets/img/handiwork/handiwork-dsct.png';
+
+//handiwork
+export {handiwork_dsct}
 
 // icon
 export { search_icon, user_icon, plus_icon_1, next_icon_1, previous_icon_1, play_icon_1 };

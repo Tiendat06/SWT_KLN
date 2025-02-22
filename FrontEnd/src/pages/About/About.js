@@ -4,16 +4,15 @@ import {gia_pha_1, tieu_su_1} from '~/assets/img';
 import {Button} from '~/components';
 import {aboutJRoutes} from '~/routes/appRoutes';
 import {TDTMasterpiece, TDTHandiwork} from '~/features/About';
+import KLNTitle from "~/components/KLNTitle/KLNTitle";
 
 function About() {
     return (
         <>
             <div className={clsx(styles["about"])}>
-                <div className={clsx(styles["about-title"])}>
-                    <h3 className={clsx(styles['about-title__text'])}>
-                        CHỦ TỊCH TÔN ĐỨC THẮNG
-                    </h3>
-                </div>
+                <KLNTitle>
+                    CHỦ TỊCH TÔN ĐỨC THẮNG
+                </KLNTitle>
                 <div className={clsx(styles["about-genealogy"])}>
                     <div className={clsx(styles["about-genealogy__img"], 'col-lg-3 col-md-3 col-sm-12')}>
                         <img src={`${gia_pha_1}`} alt=""/>
