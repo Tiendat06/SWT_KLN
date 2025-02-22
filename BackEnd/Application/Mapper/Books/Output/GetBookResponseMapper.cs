@@ -1,12 +1,4 @@
-﻿using Application.DTOs.Blog.Output;
-using Application.DTOs.Book.Output;
-using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Entities;
 
 namespace Application.Mapper.Books.Output
 {

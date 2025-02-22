@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence
@@ -31,5 +26,9 @@ namespace Infrastructure.Persistence
         public DbSet<SlideShow> SlideShows { get; set; }
         public DbSet<SolemnVisit> SolemnVisits { get; set; }
         public DbSet<Video> Videos { get; set; }
+        public DbSet<Topic> Topics { get; set; }
+        public DbSet<TopicMedia> TopicMedias { get; set; }
+        public DbSet<LogTopic> LogTopics { get; set; }
+        public DbSet<LogTopicMedia> LogTopicMedias { get; set; }
     }
 }

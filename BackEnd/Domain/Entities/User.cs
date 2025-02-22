@@ -72,10 +72,18 @@ namespace Domain.Entities
         public virtual ICollection<LogSolemVisit>? LogSolemVisits { get; set; }
 
         // slide show 1 - n
+        [NotMapped]
         public virtual ICollection<SlideShow>? SlideShows { get; set; }
 
         // log slide show 1 - n
+        [NotMapped]
         public virtual ICollection<LogSlideShow>? LogSlideShows {  get; set; }
+
+        [NotMapped]
+        public virtual ICollection<Topic>? Topics { get; set; }
+
+        [NotMapped]
+        public virtual ICollection<LogTopic>? LogTopics { get; set; }
 
     }
 }

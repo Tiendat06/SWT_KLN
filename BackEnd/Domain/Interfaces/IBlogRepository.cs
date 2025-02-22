@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Entities;
+﻿using Domain.Entities;
 
 namespace Domain.Interfaces
 {
     public interface IBlogRepository
     {
-        Task<IEnumerable<Blog>> GetAllBlogsAsync();
+        //Task<IEnumerable<Blog>> GetAllBlogsAsync();
         Task<Blog?> GetBlogByIdAsync(Guid id);
+        Task<IEnumerable<Blog>> GetAllBlogsAsync(int page, int fetch);
         Task CreateBlogAsync(Blog blog);
         Task HardDeleteBlogAsync(Guid id);
         Task SoftDeleteBlogAsync(Blog blog);

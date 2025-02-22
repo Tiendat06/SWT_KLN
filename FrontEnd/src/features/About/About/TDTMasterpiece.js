@@ -5,9 +5,17 @@ import {aboutJRoutes} from '~/routes/appRoutes';
 import {Carousel} from "primereact/carousel";
 import {next_icon_1, previous_icon_1} from '~/assets/img';
 import {getMasterPieceList} from "~/services/AboutService";
+import {useEffect, useState} from "react";
 
 function TDTMasterpiece() {
-    const masterPieceList = getMasterPieceList();
+    const [masterPieceList, setMasterPieceList] = useState([]);
+    useEffect(() => {
+        const GetMasterPieceList = async () =>  {
+            let data = await getMasterPieceList(0, 1);
+            setMasterPieceList(data.data);
+        }
+        GetMasterPieceList();
+    }, []);
 
     const responsiveOptions = [
         { breakpoint: '1024px', numVisible: 4, numScroll: 1 },

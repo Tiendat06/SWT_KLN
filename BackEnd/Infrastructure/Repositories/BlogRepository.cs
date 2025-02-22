@@ -1,9 +1,7 @@
-﻿using Infrastructure.Persistence;
+using Infrastructure.Persistence;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Domain.Interfaces;
-using System.Security.Principal;
-using System.Reflection.Metadata;
 
 namespace Infrastructure.Repositories
 {
@@ -21,16 +19,16 @@ namespace Infrastructure.Repositories
             await _context.Blogs.AddAsync(blog);
         }
 
-        public async Task<IEnumerable<Blog>> GetAllBlogsAsync()
-        {
-            return await _context.Blogs
-                .AsNoTracking()
-                .Where(blog => blog.IsDeleted == false)
-                .Include(blog => blog.User)
-                .ThenInclude(user => user.Account)
-                .ThenInclude(account => account.Role)
-                .ToListAsync();
-        }
+        //public async Task<IEnumerable<Blog>> GetAllBlogsAsync()
+        //{
+        //    return await _context.Blogs
+        //        .AsNoTracking()
+        //        .Where(blog => blog.IsDeleted == false)
+        //        .Include(blog => blog.User)
+        //        .ThenInclude(user => user.Account)
+        //        .ThenInclude(account => account.Role)
+        //        .ToListAsync();
+        //}
 
         public async Task<Blog?> GetBlogByIdAsync(Guid id)
         {
@@ -40,6 +38,27 @@ namespace Infrastructure.Repositories
                 .ThenInclude(user => user.Account)
                 .ThenInclude(account => account.Role)
                 .FirstOrDefaultAsync(blog => blog.BlogId == id && blog.IsDeleted == false);
+        }
+
+        public async Task<IEnumerable<Blog>> GetAllBlogsAsync(int page, int fetch)
+        {
+            var query = _context.Blogs
+                .AsNoTracking()
+                .Where(blog => blog.IsDeleted == false);
+            // Sắp xếp trước khi phân trang
+            query = query.OrderByDescending(blog => blog.CreateDate);
+
+            // Phân trang nếu fetch > 0, ngược lại lấy tất cả
+            if (fetch > 0)
+            {
+                int skip = (page - 1) * fetch;
+                query = query.Skip(skip).Take(fetch);
+            }
+            return await query
+                .Include(blog => blog.User)
+                .ThenInclude(user => user.Account)
+                .ThenInclude(account => account.Role)
+                .ToListAsync();
         }
 
         public async Task HardDeleteBlogAsync(Guid id)
