@@ -18,8 +18,8 @@ namespace Application.Mapper.Topics.Output
                 Email = topic.User.Email,
                 UserName = topic.User.Account.UserName,
                 RoleName = topic.User.Account.Role.RoleName,
-                Images = JsonSerializer.Deserialize<List<GetTopicImagesResponse>>(topic.Images),
-                Videos = JsonSerializer.Deserialize<List<GetTopicVideoLinkResponse>>(topic.Videos)
+                Images = topic.Images != null ? JsonSerializer.Deserialize<List<GetTopicImagesResponse>>(topic.Images) : new List<GetTopicImagesResponse>(),
+                Videos = topic.Videos != null ? JsonSerializer.Deserialize<List<GetTopicVideoLinkResponse>>(topic.Videos) : new List<GetTopicVideoLinkResponse>()
             };
         }
         public static IEnumerable<GetTopicResponse> GetTopicListMapEntityToDTO(IEnumerable<Topic> topics)
@@ -37,8 +37,8 @@ namespace Application.Mapper.Topics.Output
                     Email = topic.User.Email,
                     UserName = topic.User.Account.UserName,
                     RoleName = topic.User.Account.Role.RoleName,
-                    Images = JsonSerializer.Deserialize<List<GetTopicImagesResponse>>(topic.Images),
-                    Videos = JsonSerializer.Deserialize<List<GetTopicVideoLinkResponse>>(topic.Videos)
+                    Images = topic.Images != null ? JsonSerializer.Deserialize<List<GetTopicImagesResponse>>(topic.Images) : new List<GetTopicImagesResponse>(),
+                    Videos = topic.Videos != null ? JsonSerializer.Deserialize<List<GetTopicVideoLinkResponse>>(topic.Videos) : new List<GetTopicVideoLinkResponse>()
                 });
             }
             return topicListDTO;
