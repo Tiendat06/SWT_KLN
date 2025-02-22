@@ -86,7 +86,7 @@ builder.Services.AddScoped<ISolemnVisitRepository, SolemnVisitRepository>();
 builder.Services.AddScoped<IVideoRepository, VideoRepository>();
 builder.Services.AddScoped<IMusicRepository, MusicRepository>();
 builder.Services.AddScoped<ITopicRepository, TopicRepository>();
-builder.Services.AddScoped<ITopicMediaRepository, TopicMediaRepository>();
+//builder.Services.AddScoped<ITopicMediaRepository, TopicMediaRepository>();
 
 // Services
 builder.Services.AddScoped<IUserService, UserService>();
@@ -102,7 +102,7 @@ builder.Services.AddScoped<ISolemnVisitService, SolemnVisitService>();
 builder.Services.AddScoped<IVideoService, VideoService>();
 builder.Services.AddScoped<IMusicService, MusicService>();
 builder.Services.AddScoped<ITopicService, TopicService>();
-builder.Services.AddScoped<ITopicMediaService, TopicMediaService>();
+//builder.Services.AddScoped<ITopicMediaService, TopicMediaService>();
 
 builder.Services.AddControllers(options => 
 {

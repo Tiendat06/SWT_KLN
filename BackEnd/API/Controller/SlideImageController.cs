@@ -20,23 +20,23 @@ namespace API.Controller
             _slideImageValidator = slideImageValidator;
         }
         // GET: api/SlideImage
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetSlideImageResponse>>))]
-        public async Task<IActionResult> GetAllSlideImages()
-        {
-            var slideImages = await _slideImageService.GetAllSlideImagesAsync();
+        //[HttpGet]
+        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetSlideImageResponse>>))]
+        //public async Task<IActionResult> GetAllSlideImages()
+        //{
+        //    var slideImages = await _slideImageService.GetAllSlideImagesAsync();
 
-            return ApiSuccess(slideImages);
-        }
+        //    return ApiSuccess(slideImages);
+        //}
         // GET: api/SlideImage/5
-        [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetSlideImageResponse>))]
-        public async Task<IActionResult> GetSlideImageById(Guid id)
-        {
-            var slideImage = await _slideImageService.GetSlideImageByIdAsync(id);
+        //[HttpGet("{id}")]
+        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetSlideImageResponse>))]
+        //public async Task<IActionResult> GetSlideImageById(Guid id)
+        //{
+        //    var slideImage = await _slideImageService.GetSlideImageByIdAsync(id);
 
-            return ApiSuccess(slideImage);
-        }
+        //    return ApiSuccess(slideImage);
+        //}
 
     }
 }

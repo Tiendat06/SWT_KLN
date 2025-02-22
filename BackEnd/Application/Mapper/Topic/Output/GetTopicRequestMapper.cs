@@ -1,4 +1,6 @@
 ﻿using Domain.Entities;
+using System.Text.Json;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Application.Mapper.Topics.Output
 {
@@ -16,14 +18,8 @@ namespace Application.Mapper.Topics.Output
                 Email = topic.User.Email,
                 UserName = topic.User.Account.UserName,
                 RoleName = topic.User.Account.Role.RoleName,
-                TopicMedias = topic.TopicMedias?.Select(media => new GetTopicMediaResponse
-                {
-                    TopicMediaId = media.TopicMediaId,
-                    TopicId = media.TopicId,
-                    ImageLink = media.ImageLink,
-                    VideoLink = media.VideoLink,
-                    Title = media.Title
-                }).ToList() ?? new List<GetTopicMediaResponse>()
+                Images = JsonSerializer.Deserialize<List<GetTopicImagesResponse>>(topic.Images),
+                Videos = JsonSerializer.Deserialize<List<GetTopicVideoLinkResponse>>(topic.Videos)
             };
         }
         public static IEnumerable<GetTopicResponse> GetTopicListMapEntityToDTO(IEnumerable<Topic> topics)
@@ -41,14 +37,8 @@ namespace Application.Mapper.Topics.Output
                     Email = topic.User.Email,
                     UserName = topic.User.Account.UserName,
                     RoleName = topic.User.Account.Role.RoleName,
-                    TopicMedias = topic.TopicMedias?.Select(media => new GetTopicMediaResponse
-                    {
-                        TopicMediaId = media.TopicMediaId,
-                        TopicId = media.TopicId,
-                        ImageLink = media.ImageLink,
-                        VideoLink = media.VideoLink,
-                        Title = media.Title
-                    }).ToList() ?? new List<GetTopicMediaResponse>()
+                    Images = JsonSerializer.Deserialize<List<GetTopicImagesResponse>>(topic.Images),
+                    Videos = JsonSerializer.Deserialize<List<GetTopicVideoLinkResponse>>(topic.Videos)
                 });
             }
             return topicListDTO;

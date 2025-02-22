@@ -33,7 +33,7 @@ namespace Domain.Entities
         public virtual User? User { get; set; }
 
         // log blog 1 - 1
-        [NotMapped]
+        //[NotMapped]
         public virtual ICollection<LogBlog>? LogBlogs { get; set; }
     }
 }

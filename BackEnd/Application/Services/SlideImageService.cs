@@ -38,17 +38,17 @@ namespace Application.Services
             _localizer = localizer;
         }
         #endregion
-        public async Task<IEnumerable<GetSlideImageResponse>> GetAllSlideImagesAsync()
-        {
-            var slideImages = await _slideImageRepository.GetAllSlideImagesAsync();
+        //public async Task<IEnumerable<GetSlideImageResponse>> GetAllSlideImagesAsync()
+        //{
+        //    var slideImages = await _slideImageRepository.GetAllSlideImagesAsync();
 
-            return GetSlideImageResponseMapper.GetSlideImageListMapEntityToDTO(slideImages);
-        }
-        public async Task<GetSlideImageResponse?> GetSlideImageByIdAsync(Guid id)
-        {
-            var slideImage = await _slideImageRepository.GetSlideImageByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["SlideImage"]));
+        //    return GetSlideImageResponseMapper.GetSlideImageListMapEntityToDTO(slideImages);
+        //}
+        //public async Task<GetSlideImageResponse?> GetSlideImageByIdAsync(Guid id)
+        //{
+        //    var slideImage = await _slideImageRepository.GetSlideImageByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["SlideImage"]));
 
-            return GetSlideImageResponseMapper.GetSlideImageMapEntityToDTO(slideImage);
-        }
+        //    return GetSlideImageResponseMapper.GetSlideImageMapEntityToDTO(slideImage);
+        //}
     }
 }

@@ -6,6 +6,7 @@ namespace Domain.Entities
     [Table("LogVideo")]
     public class LogVideo
     {
+        // ok
         [Key]
         [Required]
         [Column("logVideoId", TypeName ="int")]

@@ -32,7 +32,7 @@ namespace Domain.Entities
         [ForeignKey("UserId")]
         public virtual User? User { get; set; }
 
-        [NotMapped]
+        //[NotMapped]
         // log solemVisit 1 - 1
         public virtual ICollection<LogSolemVisit>? LogSolemVisits { get; set; }
     }
