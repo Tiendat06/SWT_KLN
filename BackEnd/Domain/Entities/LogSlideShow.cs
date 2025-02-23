@@ -32,6 +32,9 @@ namespace Domain.Entities
         [Column("createDate", TypeName = "datetime")]
         public DateTime? CreateDate { get; set; } = DateTime.Now;
 
+        [Column("slideImage", TypeName = "nvarchar")]
+        public string? SlideImage { get; set; }
+
         [Column("userId", TypeName = "uniqueidentifier")]
         public Guid? UserId { get; set; }
 
@@ -44,7 +47,7 @@ namespace Domain.Entities
         [ForeignKey("SlideShowId")]
         public virtual SlideShow? SlideShow { get; set; }
 
-        [NotMapped]
-        public virtual ICollection<LogSlideImage>? LogSlideImages {  get; set; } 
+        //[NotMapped]
+        //public virtual ICollection<LogSlideImage>? LogSlideImages {  get; set; } 
     }
 }

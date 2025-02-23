@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import styles from '~/styles/Pages/About/aboutCreature.module.scss';
-import {getBookList, getBooksQuantity, getCreatureList} from "~/services/AboutService";
+import {getBookList, getBooksQuantity} from "~/services/AboutService";
 import {Button, CustomReactPaginate} from "~/components";
 import {play_icon_1} from "~/assets/img";
 import {useCallback, useLayoutEffect, useState} from "react";

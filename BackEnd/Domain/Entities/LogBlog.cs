@@ -10,6 +10,7 @@ namespace Domain.Entities
         [Required]
         [Column("logBlogId", TypeName ="int")]
         public required int LogBlogId { get; set; }
+
         [Column("blogImage", TypeName = "varchar")]
         public string? BlogImage { get; set; } = string.Empty;
 

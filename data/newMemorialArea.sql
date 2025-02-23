@@ -107,27 +107,27 @@ CREATE TABLE LogBlog (
 END
 
 -- Create SlideImage table
-IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'SlideImage')
-BEGIN
-CREATE TABLE SlideImage (
-    slideImageId UNIQUEIDENTIFIER PRIMARY KEY,
-    slideShowId UNIQUEIDENTIFIER,
-    imageLink VARCHAR(max),
-    capture VARCHAR(max),
-    isDeleted BIT
-);
-END
+-- IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'SlideImage')
+-- BEGIN
+-- CREATE TABLE SlideImage (
+--     slideImageId UNIQUEIDENTIFIER PRIMARY KEY,
+--     slideShowId UNIQUEIDENTIFIER,
+--     imageLink VARCHAR(max),
+--     capture VARCHAR(max),
+--     isDeleted BIT
+-- );
+-- END
 
 -- Create LogSlideImage table
-IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'LogSlideImage')
-BEGIN
-CREATE TABLE LogSlideImage (
-    logSlideImageId INT PRIMARY KEY IDENTITY(1,1),
-    logSlideShowId INT,
-    imageLink VARCHAR(max),
-    capture VARCHAR(max)
-);
-END
+-- IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'LogSlideImage')
+-- BEGIN
+-- CREATE TABLE LogSlideImage (
+--     logSlideImageId INT PRIMARY KEY IDENTITY(1,1),
+--     logSlideShowId INT,
+--     imageLink VARCHAR(max),
+--     capture VARCHAR(max)
+-- );
+-- END
 
 -- Create LogSlideShow table
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'LogSlideShow')
@@ -138,6 +138,7 @@ CREATE TABLE LogSlideShow (
     image VARCHAR(max),
     createDate DATETIME,
     userId UNIQUEIDENTIFIER,
+    slideImage NVARCHAR(max),
     logSlideShowId INT PRIMARY KEY IDENTITY(1,1),
     updateDate DATETIME,
     process VARCHAR(max),
@@ -154,6 +155,7 @@ CREATE TABLE SlideShow (
     image VARCHAR(max),
     createDate DATETIME,
     userId UNIQUEIDENTIFIER,
+    slideImage NVARCHAR(max),
     isDeleted BIT
 );
 END
@@ -166,7 +168,8 @@ CREATE TABLE Topic (
     capture VARCHAR(max),
     createDate DATETIME,
     isDeleted BIT,
-    
+    images NVARCHAR(max),
+    videos NVARCHAR(max),
     userId UNIQUEIDENTIFIER
 );
 END
@@ -179,7 +182,8 @@ CREATE TABLE LogTopic (
     capture VARCHAR(max),
     createDate DATETIME,
     userId UNIQUEIDENTIFIER,
-
+    images NVARCHAR(max),
+    videos NVARCHAR(max),
     logTopicId INT PRIMARY KEY IDENTITY(1,1),
     updateDate DATETIME,
     process VARCHAR(max),
@@ -188,30 +192,30 @@ CREATE TABLE LogTopic (
 END
 
 -- Create LogTopicMedia table
-IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'LogTopicMedia')
-BEGIN
-CREATE TABLE LogTopicMedia (
-    logTopicMediaId INT PRIMARY KEY IDENTITY(1,1),
-    logTopicId INT,
-    videoLink VARCHAR(512) NULL,
-    imageLink VARCHAR(512) NULL,
-    title NVARCHAR(255)
-);
-END
+-- IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'LogTopicMedia')
+-- BEGIN
+-- CREATE TABLE LogTopicMedia (
+--     logTopicMediaId INT PRIMARY KEY IDENTITY(1,1),
+--     logTopicId INT,
+--     videoLink VARCHAR(512) NULL,
+--     imageLink VARCHAR(512) NULL,
+--     title NVARCHAR(255)
+-- );
+-- END
 
 -- Create TopicMedia table
-IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'TopicMedia')
-BEGIN
-CREATE TABLE TopicMedia (
-    topicMediaId UNIQUEIDENTIFIER PRIMARY KEY,
-    title NVARCHAR(255),
-    videoLink VARCHAR(512) NULL,
-    imageLink VARCHAR(512) NULL,
-    createDate DATETIME,
-    isDeleted BIT,
-    topicId UNIQUEIDENTIFIER
-);
-END
+-- IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'TopicMedia')
+-- BEGIN
+-- CREATE TABLE TopicMedia (
+--     topicMediaId UNIQUEIDENTIFIER PRIMARY KEY,
+--     title NVARCHAR(255),
+--     videoLink VARCHAR(512) NULL,
+--     imageLink VARCHAR(512) NULL,
+--     createDate DATETIME,
+--     isDeleted BIT,
+--     topicId UNIQUEIDENTIFIER
+-- );
+-- END
 
 -- Create Book table
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Book')
@@ -373,8 +377,8 @@ DECLARE @visitId_1 UNIQUEIDENTIFIER = NEWID();
 DECLARE @visitId_2 UNIQUEIDENTIFIER = NEWID();
 
 -- Tạo GUID cho SlideImage
-DECLARE @slideImageId_1 UNIQUEIDENTIFIER = NEWID();
-DECLARE @slideImageId_2 UNIQUEIDENTIFIER = NEWID();
+-- DECLARE @slideImageId_1 UNIQUEIDENTIFIER = NEWID();
+-- DECLARE @slideImageId_2 UNIQUEIDENTIFIER = NEWID();
 
 -- Tạo GUID cho SlideShow
 DECLARE @slideShowId_1 UNIQUEIDENTIFIER = NEWID();
@@ -402,30 +406,30 @@ DECLARE @topicMediaId_4 UNIQUEIDENTIFIER = NEWID();
 SET QUOTED_IDENTIFIER ON;
 
 -- Tạo index cho imageLink nếu chưa tồn tại
-IF NOT EXISTS (
-    SELECT 1 
-    FROM sys.indexes 
-    WHERE name = 'IDX_TopicMedia_ImageLink' 
-    AND object_id = OBJECT_ID('TopicMedia')
-)
-BEGIN
-    CREATE INDEX IDX_TopicMedia_ImageLink 
-    ON TopicMedia(imageLink) 
-    WHERE imageLink IS NOT NULL;
-END
+-- IF NOT EXISTS (
+--     SELECT 1 
+--     FROM sys.indexes 
+--     WHERE name = 'IDX_TopicMedia_ImageLink' 
+--     AND object_id = OBJECT_ID('TopicMedia')
+-- )
+-- BEGIN
+--     CREATE INDEX IDX_TopicMedia_ImageLink 
+--     ON TopicMedia(imageLink) 
+--     WHERE imageLink IS NOT NULL;
+-- END
 
--- Tạo index cho videoLink nếu chưa tồn tại
-IF NOT EXISTS (
-    SELECT 1 
-    FROM sys.indexes 
-    WHERE name = 'IDX_TopicMedia_VideoLink' 
-    AND object_id = OBJECT_ID('TopicMedia')
-)
-BEGIN
-    CREATE INDEX IDX_TopicMedia_VideoLink 
-    ON TopicMedia(videoLink) 
-    WHERE videoLink IS NOT NULL;
-END
+-- -- Tạo index cho videoLink nếu chưa tồn tại
+-- IF NOT EXISTS (
+--     SELECT 1 
+--     FROM sys.indexes 
+--     WHERE name = 'IDX_TopicMedia_VideoLink' 
+--     AND object_id = OBJECT_ID('TopicMedia')
+-- )
+-- BEGIN
+--     CREATE INDEX IDX_TopicMedia_VideoLink 
+--     ON TopicMedia(videoLink) 
+--     WHERE videoLink IS NOT NULL;
+-- END
 
 
 -- Insert sample data only if the tables are empty
@@ -493,22 +497,44 @@ VALUES
     (@visitId_2, 'Test02', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514443/truong-thi-mai_ayboln.jpg', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736514498/truong-thi-mai_fs7kmz.jpg', '2025-01-13 11:00:00', @userId_1, 0);
 END
 
-IF NOT EXISTS (SELECT * FROM SlideImage)
-BEGIN
-INSERT INTO SlideImage
-([slideImageId], [slideShowId], [imageLink], [capture], [isDeleted])
-VALUES
-    (@slideImageId_1, @slideShowId_1, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512950/nhatu2_jrrtfs.jpg', 'Capture1', 0),
-    (@slideImageId_2, @slideShowId_2, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512868/cdvsn_conghoi_veyjno.jpg', 'Capture2', 0);
-END
+-- IF NOT EXISTS (SELECT * FROM SlideImage)
+-- BEGIN
+-- INSERT INTO SlideImage
+-- ([slideImageId], [slideShowId], [imageLink], [capture], [isDeleted])
+-- VALUES
+--     (@slideImageId_1, @slideShowId_1, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512950/nhatu2_jrrtfs.jpg', 'Capture1', 0),
+--     (@slideImageId_2, @slideShowId_2, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512868/cdvsn_conghoi_veyjno.jpg', 'Capture2', 0);
+-- END
 
 IF NOT EXISTS (SELECT * FROM SlideShow)
 BEGIN
 INSERT INTO SlideShow
-([slideShowId], [title], [image], [createDate], [userId], [isDeleted])
+([slideShowId], [title], [image], [createDate], [userId], [slideImage], [isDeleted])
 VALUES
-    (@slideShowId_1, N'SlideShow1', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512868/cdvsn_thomay_w9kejq.jpg', '2025-01-12 12:00:00', @userId_1, 0),
-    (@slideShowId_2, N'SlideShow2', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512873/cdvsn_condao_vazrvu.jpg', '2025-01-13 12:00:00', @userId_3, 0);
+    (@slideShowId_1, N'SlideShow1', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512868/cdvsn_thomay_w9kejq.jpg', '2025-01-12 12:00:00', @userId_1, '[
+    {
+        "Id": 1,
+        "Capture": "Capture1",
+        "ImageLink": "https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512950/nhatu2_jrrtfs.jpg"
+    },
+    {
+        "Id": 2,
+        "Capture": "Capture2",
+        "ImageLink": "https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512868/cdvsn_conghoi_veyjno.jpg"
+    }
+]' ,0),
+    (@slideShowId_2, N'SlideShow2', 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512873/cdvsn_condao_vazrvu.jpg', '2025-01-13 12:00:00', @userId_3, '[
+    {
+        "Id": 1,
+        "Capture": "Capture1",
+        "ImageLink": "https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512950/nhatu2_jrrtfs.jpg"
+    },
+    {
+        "Id": 2,
+        "Capture": "Capture2",
+        "ImageLink": "https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512868/cdvsn_conghoi_veyjno.jpg"
+    }
+]' ,0);
 END
 
 IF NOT EXISTS (SELECT * FROM Video)
@@ -532,19 +558,41 @@ END
 IF NOT EXISTS (SELECT * FROM Topic)
 BEGIN
     INSERT INTO Topic
-    ([topicId], [capture], [createDate], [isDeleted], [userId])
+    ([topicId], [capture], [createDate], [isDeleted], [images], [videos], [userId])
     VALUES
-    (@topicId_1, 'Topic1', '2025-01-12 10:00:00', 0, @userId_1),
-    (@topicId_2, 'Topic2', '2025-01-13 11:00:00', 0, @userId_1);
+    (@topicId_1, 'Topic1', '2025-01-12 10:00:00', 0, '[
+        {
+        "Id": 1,
+        "Capture": "Image 1",
+        "ImageLink": "https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512982/tuong-dai-tdt-ag_kbhaka.jpg"
+    },
+    {
+        "Id": 2,
+        "Capture": "Image 2",
+        "ImageLink": "https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512982/tuong-dai-tdt-ag_kbhaka.jpg"
+    }
+    ]', null, @userId_1),
+    (@topicId_2, 'Topic2', '2025-01-13 11:00:00', 0, null, '[
+        {
+        "Id": 1,
+        "Capture": "Video 1",
+        "VideoLink": "https://www.youtube.com/watch?v=VAp31dcKLLw&pp=ygUbY2h1ecOqbiDEkeG7gSB2w6ogYsOhYyB0w7Ru"
+    },
+    {
+        "Id": 2,
+        "Capture": "Video 2",
+        "VideoLink": "https://www.youtube.com/watch?v=VAp31dcKLLw&pp=ygUbY2h1ecOqbiDEkeG7gSB2w6ogYsOhYyB0w7Ru"
+    }
+    ]', @userId_1);
 END
 
-IF NOT EXISTS (SELECT * FROM TopicMedia)
-BEGIN
-    INSERT INTO TopicMedia
-    ([topicMediaId], [title], [videoLink], [imageLink], [createDate], [isDeleted], [topicId])
-    VALUES
-    (@topicMediaId_1, 'Media1', NULL, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512982/tuong-dai-tdt-ag_kbhaka.jpg', '2025-01-12 10:05:00', 0, @topicId_1),
-    (@topicMediaId_2, 'Media2', 'https://www.youtube.com/watch?v=VAp31dcKLLw&pp=ygUbY2h1ecOqbiDEkeG7gSB2w6ogYsOhYyB0w7Ru', NULL, '2025-01-12 10:10:00', 0, @topicId_1),
-    (@topicMediaId_3, 'Media3', NULL, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512988/chuyendecondao_cr7hmo.jpg', '2025-01-13 11:05:00', 0, @topicId_2),
-    (@topicMediaId_4, 'Media4', 'https://www.youtube.com/watch?v=VAp31dcKLLw&pp=ygUbY2h1ecOqbiDEkeG7gSB2w6ogYsOhYyB0w7Ru', NULL, '2025-01-13 11:10:00', 0, @topicId_2);
-END
+-- IF NOT EXISTS (SELECT * FROM TopicMedia)
+-- BEGIN
+--     INSERT INTO TopicMedia
+--     ([topicMediaId], [title], [videoLink], [imageLink], [createDate], [isDeleted], [topicId])
+--     VALUES
+--     (@topicMediaId_1, 'Media1', NULL, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512982/tuong-dai-tdt-ag_kbhaka.jpg', '2025-01-12 10:05:00', 0, @topicId_1),
+--     (@topicMediaId_2, 'Media2', 'https://www.youtube.com/watch?v=VAp31dcKLLw&pp=ygUbY2h1ecOqbiDEkeG7gSB2w6ogYsOhYyB0w7Ru', NULL, '2025-01-12 10:10:00', 0, @topicId_1),
+--     (@topicMediaId_3, 'Media3', NULL, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512982/tuong-dai-tdt-ag_kbhaka.jpg', '2025-01-13 11:05:00', 0, @topicId_2),
+--     (@topicMediaId_4, 'Media4', 'https://www.youtube.com/watch?v=VAp31dcKLLw&pp=ygUbY2h1ecOqbiDEkeG7gSB2w6ogYsOhYyB0w7Ru', NULL, '2025-01-13 11:10:00', 0, @topicId_2);
+-- END

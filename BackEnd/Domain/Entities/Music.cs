@@ -36,7 +36,7 @@ namespace Domain.Entities
         public virtual User? User { get; set; }
 
         // log music 1 - 1
-        [NotMapped]
+        //[NotMapped]
         public virtual ICollection<LogMusic>? LogMusics { get; set; }
     }
 }

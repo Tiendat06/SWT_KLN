@@ -13,8 +13,16 @@ namespace Application
         public string? Email { get; set; }
         public string? UserName { get; set; }
         public string? RoleName { get; set; }
-        public ICollection<GetSlideImageResponse>? SlideImages { get; set; }
+        //public ICollection<GetSlideImageResponse>? SlideImages { get; set; }
+        public List<GetSlideImageResponse>? SlideImage { get; set; }
 
+    }
+
+    public class GetSlideImageResponse
+    {
+        public int Id { get; set; }
+        public string? Capture { get; set; }
+        public string? ImageLink { get; set; }
     }
 
     public class GetSlideShowResponseValidator : AbstractValidator<GetSlideShowResponse>

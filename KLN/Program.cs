@@ -63,7 +63,7 @@ builder.Services.AddScoped<IBlogValidator, BlogValidator>();
 builder.Services.AddScoped<IBookValidator, BookValidator>();
 builder.Services.AddScoped<IMagazineValidator, MagazineValidator>();
 builder.Services.AddScoped<ISlideShowValidator, SlideShowValidator>();
-builder.Services.AddScoped<ISlideImageValidator, SlideImageValidator>();
+//builder.Services.AddScoped<ISlideImageValidator, SlideImageValidator>();
 builder.Services.AddScoped<ISolemnVisitValidator, SolemnVisitValidator>();
 builder.Services.AddScoped<IMusicValidator, MusicValidator>();
 builder.Services.AddScoped<IVideoValidator, VideoValidator>();
@@ -87,7 +87,7 @@ builder.Services.AddScoped<IVideoRepository, VideoRepository>();
 builder.Services.AddScoped<ILogVideoRepository, LogVideoRepository>();
 builder.Services.AddScoped<IMusicRepository, MusicRepository>();
 builder.Services.AddScoped<ITopicRepository, TopicRepository>();
-builder.Services.AddScoped<ITopicMediaRepository, TopicMediaRepository>();
+//builder.Services.AddScoped<ITopicMediaRepository, TopicMediaRepository>();
 
 // Services
 builder.Services.AddScoped<IUserService, UserService>();
@@ -98,13 +98,13 @@ builder.Services.AddScoped<ILogBlogService, LogBlogService>();
 builder.Services.AddScoped<ILogBookService, LogBookService>();
 builder.Services.AddScoped<ILogMagazineService, LogMagazineService>();
 builder.Services.AddScoped<ISlideShowService, SlideShowService>();
-builder.Services.AddScoped<ISlideImageService, SlideImageService>();
+//builder.Services.AddScoped<ISlideImageService, SlideImageService>();
 builder.Services.AddScoped<ISolemnVisitService, SolemnVisitService>();
 builder.Services.AddScoped<IVideoService, VideoService>();
 builder.Services.AddScoped<ILogVideoService, LogVideoService>();
 builder.Services.AddScoped<IMusicService, MusicService>();
 builder.Services.AddScoped<ITopicService, TopicService>();
-builder.Services.AddScoped<ITopicMediaService, TopicMediaService>();
+//builder.Services.AddScoped<ITopicMediaService, TopicMediaService>();
 
 builder.Services.AddControllers(options => 
 {

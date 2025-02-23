@@ -1,4 +1,4 @@
-import { element } from "prop-types";
+// import { element } from "prop-types";
 import {MemorialArea,MemorialStiltHouse, MemorialTomb, MemorialTemple, Memorial15YearsPrison} from "~/pages"
 
 const memorialAreaJRoutes = [

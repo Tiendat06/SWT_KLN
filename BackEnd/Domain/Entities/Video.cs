@@ -32,7 +32,7 @@ namespace Domain.Entities
         [ForeignKey("UserId")]
         public virtual User? User { get; set; }
 
-        [NotMapped]
+        //[NotMapped]
         // log video: 1 - 1
         public virtual ICollection<LogVideo>? LogVideos { get; set; }
     }

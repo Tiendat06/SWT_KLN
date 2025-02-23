@@ -33,7 +33,8 @@ namespace Domain.Entities
         public virtual Role? Role { get; set; }
 
         // User 1 - 1
-        [NotMapped]
+        //[NotMapped]
+        //[ForeignKey("AccountId")]
         public virtual User? User { get; set; }
     }
 }

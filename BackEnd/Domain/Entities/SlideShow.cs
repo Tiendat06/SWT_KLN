@@ -23,16 +23,19 @@ namespace Domain.Entities
         [Column("isDeleted", TypeName = "bit")]
         public bool? IsDeleted { get; set; } = false;
 
+        [Column("slideImage", TypeName = "nvarchar")]
+        public string? SlideImage { get; set; }
+
         [Column("userId", TypeName = "uniqueidentifier")]
         public Guid? UserId { get; set; }
 
         [ForeignKey("UserId")]
         public virtual User? User { get; set; }
 
-        [NotMapped]
+        //[NotMapped]
         public virtual ICollection<LogSlideShow>? LogSlideShows {  get; set; }
 
-        [NotMapped]
-        public virtual ICollection<SlideImage>? SlideImages { get; set; }
+        //[NotMapped]
+        //public virtual ICollection<SlideImage>? SlideImages { get; set; }
     }
 }
