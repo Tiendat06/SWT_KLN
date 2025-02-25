@@ -10,8 +10,8 @@ namespace Application
     public class AddVideoRequest
     {
         public string Title { get; set; }
-        public IFormFile ImageLink { get; set; }
-        public string VideoLink { get; set; }
+        public IFormFile ImageFile { get; set; }
+        public IFormFile VideoFile { get; set; }
         public Guid UserId { get; set; }
     }
 
@@ -27,11 +27,11 @@ namespace Application
                     localizer["MaxLength"], localizer["VideoTitle"], VideoConsts.MaxTitleLength
                 ));
 
-            RuleFor(x => x.VideoLink)
+            RuleFor(x => x.VideoFile)
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["VideoLink"]))
                 .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["VideoLink"]));
 
-            RuleFor(x => x.ImageLink)
+            RuleFor(x => x.ImageFile)
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["ImageLink"]))
                 .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["ImageLink"]));
 

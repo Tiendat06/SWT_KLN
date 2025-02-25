@@ -10,8 +10,8 @@ namespace Application
     public class UpdateVideoRequest
     {
         public string Title { get; set; }
-        public IFormFile ImageLink { get; set; }
-        public string VideoLink { get; set; }
+        public IFormFile ImageFile { get; set; }
+        public IFormFile VideoFile { get; set; }
         public Guid UserId { get; set; }
     }
 

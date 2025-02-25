@@ -4,13 +4,13 @@ namespace Application.Mapper.Videos.Input
 {
     public class AddVideoRequestMapper
     {
-        public static Video AddVideoMapDTOToEntity(AddVideoRequest addVideoRequest, string imageLink, Guid guid)
+        public static Video AddVideoMapDTOToEntity(AddVideoRequest addVideoRequest, string videoLink, string imageLink, Guid guid)
         {
             return new Video
             {
                 VideoId = guid,
                 Title = addVideoRequest.Title,
-                //VideoLink = videoLink,
+                VideoLink = videoLink,
                 ImageLink = imageLink,
                 UserId = addVideoRequest.UserId,
             };
