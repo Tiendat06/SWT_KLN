@@ -16,14 +16,14 @@ function CreatureList() {
             // const quantityData = await getBooksQuantity();
             const bookData = await getBookList(itemsPerPage, 1);
             setBookList(bookData.data.items);
-            setPageCount(Math.ceil(bookData.data.totalCount / itemsPerPage));
+            setPageCount(Math.ceil(bookData?.data?.totalCount / itemsPerPage));
         }
         GetBookList();
     }, [pageCount]);
 
     const handlePageClick = useCallback(async (event) => {
         const bookData = await getBookList(itemsPerPage, event.selected + 1);
-        setBookList(bookData.data.items);
+        setBookList(bookData?.data?.items);
     }, []);
 
     return (
