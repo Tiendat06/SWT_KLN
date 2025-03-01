@@ -40,7 +40,7 @@ namespace Domain.Entities
         //[NotMapped]
         //public virtual ICollection<TopicMedia>? TopicMedias { get; set; }
 
-        [NotMapped]
+        //[NotMapped]
         public virtual ICollection<LogTopic>? LogTopics { get; set; }
 
     }

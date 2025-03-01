@@ -12,6 +12,10 @@ namespace Infrastructure.Repositories
         {
             _context = context;
         }
+        public async Task CreateVideoAsync(Video video)
+        {
+            await _context.Videos.AddAsync(video);
+        }
         public async Task<IEnumerable<Video>> GetAllVideosAsync(int page, int fetch)
         {
             var query = _context.Videos
@@ -45,6 +49,17 @@ namespace Infrastructure.Repositories
         public async Task<int> CountVideoAsync()
         {
             return await _context.Videos.CountAsync(x => x.IsDeleted == false);
+        }
+        public async Task HardDeleteVideoAsync(Guid id)
+        {
+            _context.Videos.Remove(new Video { VideoId = id });
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SoftDeleteVideoAsync(Video video)
+        {
+            video.IsDeleted = true;
+            await Task.CompletedTask;
         }
     }
 }
