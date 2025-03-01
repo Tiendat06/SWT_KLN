@@ -1,0 +1,21 @@
+@use "../../GlobalStyles/index" as *;
+@use "../../Utils/mixins" as *;
+@use "../../Utils/variables" as *;
+
+.about-card--carousel{
+  display: flex;
+  justify-content: center;
+}
+
+.about-card__img{
+  cursor: pointer;
+  width: 90%;
+  height: 100px;
+  background-position: center;
+  object-fit: cover;
+}
+
+.selected{
+  border: 2px solid red;
+  transition: border 0.2s ease-in-out;
+}

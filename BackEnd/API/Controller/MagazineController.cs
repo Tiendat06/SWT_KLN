@@ -25,7 +25,7 @@ namespace API.Controllers
 
         // GET: api/Magazine
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetMagazineResponse>>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<PaginationResponseDto<GetMagazineResponse>>))]
         public async Task<IActionResult> GetAllMagazines([FromQuery] GetAllMagazineRequest input)
         {
             var magazines = await _magazineService.GetAllMagazinesAsync(input);

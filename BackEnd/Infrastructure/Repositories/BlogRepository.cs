@@ -72,5 +72,10 @@ namespace Infrastructure.Repositories
             blog.IsDeleted = true;
             await Task.CompletedTask;
         }
+
+        public async Task<int> CountAllBlogsAsync()
+        {
+            return (int) await _context.Blogs.CountAsync(x => x.IsDeleted == false);
+        }
     }
 }

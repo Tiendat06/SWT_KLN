@@ -67,5 +67,10 @@ namespace Infrastructure.Repositories
 
             return topic;
         }
+
+        public async Task<int> CountTopicAsync()
+        {
+            return await _context.Topics.CountAsync(x => x.IsDeleted == false);
+        }
     }
 }

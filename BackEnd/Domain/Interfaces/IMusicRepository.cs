@@ -11,5 +11,6 @@ namespace Domain.Interfaces
     {
         Task<IEnumerable<Music>> GetAllMusicAsync(int fetch, int page);
         Task<Music?> GetMusicByIdAsync(Guid id);
+        Task<int> CountMusicAsync();
     }
 }

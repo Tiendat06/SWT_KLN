@@ -6,5 +6,6 @@ namespace Domain.Interfaces
     {
         Task<IEnumerable<Topic>> GetAllTopicsAsync(int page, int fetch);
         Task<Topic?> GetTopicByIdAsync(Guid id);
+        Task<int> CountTopicAsync();
     }
 }

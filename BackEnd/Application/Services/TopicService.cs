@@ -39,13 +39,14 @@ namespace Application.Services
             _localizer = localizer;
         }
         #endregion
-        public async Task<IEnumerable<GetTopicResponse>> GetAllTopicsAsync(GetAllTopicRequest input)
+        public async Task<PaginationResponseDto<GetTopicResponse>> GetAllTopicsAsync(GetAllTopicRequest input)
         {
             var page = input.Page;
             var fetch = input.Fetch;
             var topics = await _topicRepository.GetAllTopicsAsync(page, fetch);
-
-            return GetTopicResponseMapper.GetTopicListMapEntityToDTO(topics);
+            var totalTopic = await _topicRepository.CountTopicAsync();
+            var topicMapper = GetTopicResponseMapper.GetTopicListMapEntityToDTO(topics);
+            return new PaginationResponseDto<GetTopicResponse>(totalTopic, topicMapper);
         }
 
         public async Task<GetTopicResponse?> GetTopicByIdAsync(Guid id)

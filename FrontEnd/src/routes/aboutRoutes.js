@@ -1,4 +1,5 @@
 // import { element } from "prop-types";
+import { element } from "prop-types";
 import {
     About,
     AboutGenealogy,
@@ -7,7 +8,8 @@ import {
     AboutBooks_Magazines,
     AboutTopic,
     AboutMultimedia_Documents,
-    AboutArt
+    AboutArt,
+    AboutVideo, AboutMusic
 } from "~/pages"
 
 
@@ -18,6 +20,8 @@ const aboutJRoutes = [
     {path: "/about-biography", element: <AboutBiography />},
     {path: "/about-creature", element: <AboutCreature />},
     {path: "/about-art", element: <AboutArt />},
+    {path: "/about-film", element: <AboutVideo />},
+    {path: "/about-audio", element: <AboutMusic />},
     {path: "/about-books-magazines", element: <AboutBooks_Magazines/>},
     {path: "/about-topic", element: <AboutTopic />},
     {path: "/about-multimedia-documents", element: <AboutMultimedia_Documents />},

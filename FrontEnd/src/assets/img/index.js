@@ -11,6 +11,11 @@ import plus_icon_1 from "~/assets/img/icon/plus-icon-1.png";
 import next_icon_1 from '~/assets/img/icon/next-icon-1.png';
 import previous_icon_1 from '~/assets/img/icon/previous-icon-1.png';
 import play_icon_1 from "~/assets/img/icon/play-icon-1.png";
+import play_icon_2 from "~/assets/img/icon/play-icon-2.png"
+import next_icon_2 from "~/assets/img/icon/next-icon-2.png";
+import previous_icon_2 from "~/assets/img/icon/previous-icon-2.png";
+import increase_volume_icon from "~/assets/img/icon/increase-volume-icon.png";
+import mute_volume_icon from "~/assets/img/icon/mute-volume-icon.png";
 
 import home_img_1 from '~/assets/img/home/home-img-1.png';
 import home_img_2 from '~/assets/img/home/home-img-2.png';
@@ -73,11 +78,13 @@ import prison_img_2 from '~/assets/img/memorial_prison/prison_img-2.png';
 
 import handiwork_dsct from '~/assets/img/handiwork/handiwork-dsct.png';
 
+import about_art_main from '~/assets/img/about_art/about-art-main.png';
+
 //handiwork
 export {handiwork_dsct}
 
 // icon
-export { search_icon, user_icon, plus_icon_1, next_icon_1, previous_icon_1, play_icon_1 };
+export { search_icon, user_icon, plus_icon_1, next_icon_1, previous_icon_1, play_icon_1, play_icon_2, next_icon_2, previous_icon_2, increase_volume_icon, mute_volume_icon };
 
 // general
 export {vn_icon, tdtu_logo, banner_1, banner_2, banner_3, banner_4};
@@ -114,3 +121,6 @@ export {temple_img_1,temple_img_2};
 
 //memorialprison
 export {prison_img_1,prison_img_2};
+
+// about art main
+export {about_art_main};

@@ -10,5 +10,6 @@ namespace Domain.Interfaces
         Task CreateBlogAsync(Blog blog);
         Task HardDeleteBlogAsync(Guid id);
         Task SoftDeleteBlogAsync(Blog blog);
+        Task<int> CountAllBlogsAsync();
     }
 }

@@ -1,0 +1,43 @@
+@use "../../GlobalStyles/index" as *;
+@use "../../Utils/mixins" as *;
+@use "../../Utils/variables" as *;
+
+.about-video{
+    margin-top: 30px;
+
+    &__content{
+        margin-top: 60px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        &--inner{
+            width: 90%;
+            padding: 20px;
+            background-color: $app-color-13;
+            box-shadow: 1px 1px 10px rgba($color: $app-color-12, $alpha: 0.3);
+            p{
+                margin-bottom: 0;
+                font-weight: bolder;
+                font-size: 21px;
+            }
+        }
+    }
+
+    &__list {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        &-title{
+            width: 90%;
+            color: $app-color-3;
+            font-weight: bold;
+        }
+
+        &--inner{
+            width: 90%;
+            padding: 20px;
+        }
+    }
+}

@@ -39,12 +39,14 @@ namespace Application.Services
         }
         #endregion
 
-        public async Task<IEnumerable<GetMagazineResponse>> GetAllMagazinesAsync(GetAllMagazineRequest input)
+        public async Task<PaginationResponseDto<GetMagazineResponse>> GetAllMagazinesAsync(GetAllMagazineRequest input)
         {
             var page = input.Page;
             var fetch = input.Fetch;
             var magazines = await _magazineRepository.GetAllMagazinesAsync(page, fetch);
-            return GetMagazineResponseMapper.GetMagazineListMapEntityToDTO(magazines);
+            var totalMagazine = await _magazineRepository.CountMagazineAsync();
+            var magazineMapper = GetMagazineResponseMapper.GetMagazineListMapEntityToDTO(magazines);
+            return new PaginationResponseDto<GetMagazineResponse>(totalMagazine, magazineMapper);
         }
 
         public async Task<GetMagazineResponse> GetMagazineByIdAsync(Guid id)

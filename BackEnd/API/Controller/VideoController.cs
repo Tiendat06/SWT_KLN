@@ -22,7 +22,7 @@ namespace API.Controller
         }
         // GET: api/Video
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetVideoResponse>>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<PaginationResponseDto<GetVideoResponse>>))]
         public async Task<IActionResult> GetAllVideos([FromQuery] GetVideoRequest input)
         {
             var videos = await _videoService.GetAllVideosAsync(input);

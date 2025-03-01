@@ -9,5 +9,6 @@ namespace Domain.Interfaces
         Task CreateMagazineAsync(Magazine magazine);
         Task HardDeleteMagazineAsync(Guid id);
         Task SoftDeleteMagazineAsync(Magazine magazine);
+        Task<int> CountMagazineAsync();
     }
 }

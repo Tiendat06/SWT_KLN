@@ -46,6 +46,10 @@ namespace Infrastructure.Repositories
                 .FirstOrDefaultAsync(video => video.VideoId == id && video.IsDeleted == false);
         }
 
+        public async Task<int> CountVideoAsync()
+        {
+            return await _context.Videos.CountAsync(x => x.IsDeleted == false);
+        }
         public async Task HardDeleteVideoAsync(Guid id)
         {
             _context.Videos.Remove(new Video { VideoId = id });

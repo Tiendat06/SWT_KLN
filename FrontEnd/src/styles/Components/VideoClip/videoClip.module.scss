@@ -1,0 +1,30 @@
+@use "../../GlobalStyles/index" as *;
+@use "../../Utils/mixins" as *;
+@use "../../Utils/variables" as *;
+
+.video-clip{
+  width: 90%;
+  position: relative;
+
+  &:hover &__overlay{
+    opacity: 1;
+  }
+
+  &__overlay{
+    position: absolute;
+    bottom: 0;
+    height: 40%;
+    background-color: rgba($app-color-12, 0.3);
+    opacity: 0;
+    transition: linear 0.3s;
+    p{
+      color: $app-color-13;
+      padding: 5px;
+      font-size: 12px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
+  }
+}
