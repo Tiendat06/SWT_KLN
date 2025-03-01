@@ -13,5 +13,9 @@
         // magazine
         public static readonly string assetFolderMagazine = "KLN/magazine";
         public static readonly string assetFolderMagazineImage = "KLN/magazine/image";
+
+        // video
+        public static readonly string assetFolderVideo = "KLN/video";
+        public static readonly string assetFolderVideoImage = "KLN/video/image";
     }
 }
