@@ -2,7 +2,7 @@
 {
     public interface ISlideShowService
     {
-        Task<IEnumerable<GetSlideShowResponse>> GetAllSlideShowsAsync(GetSlideShowRequest input);
+        Task<PaginationResponseDto<GetSlideShowResponse>> GetAllSlideShowsAsync(GetSlideShowRequest input);
         Task<GetSlideShowResponse?> GetSlideShowByIdAsync(Guid id);
     }
 }

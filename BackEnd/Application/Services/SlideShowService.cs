@@ -37,13 +37,14 @@ namespace Application.Services
             _localizer = localizer;
         }
         #endregion
-        public async Task<IEnumerable<GetSlideShowResponse>> GetAllSlideShowsAsync(GetSlideShowRequest input)
+        public async Task<PaginationResponseDto<GetSlideShowResponse>> GetAllSlideShowsAsync(GetSlideShowRequest input)
         {
             var page = input.Page;
             var fetch = input.Fetch;
             var slideShows = await _slideShowRepository.GetAllSlideShowsAsync(page, fetch);
-
-            return GetSlideShowResponseMapper.GetSlideShowListMapEntityToDTO(slideShows);
+            var totalSlideShow = await _slideShowRepository.CountSlideShowAsync();
+            var slideShowsMapper = GetSlideShowResponseMapper.GetSlideShowListMapEntityToDTO(slideShows);
+            return new PaginationResponseDto<GetSlideShowResponse>(totalSlideShow, slideShowsMapper);
         }
 
         public async Task<GetSlideShowResponse?> GetSlideShowByIdAsync(Guid id)

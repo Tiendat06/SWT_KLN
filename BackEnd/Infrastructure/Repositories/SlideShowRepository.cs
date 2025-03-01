@@ -56,5 +56,10 @@ namespace Infrastructure.Repositories
                 .ThenInclude(account => account.Role)
                 .FirstOrDefaultAsync(slideShow => slideShow.SlideShowId == id && slideShow.IsDeleted == false);
         }
+
+        public async Task<int> CountSlideShowAsync()
+        {
+            return await _context.SlideShows.CountAsync(x => x.IsDeleted == false);
+        }
     }
 }

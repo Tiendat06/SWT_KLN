@@ -39,12 +39,14 @@ namespace Application.Services
         }
         #endregion
 
-        public async Task<IEnumerable<GetBookResponse>> GetAllBooksAsync(GetAllBookRequest input)
+        public async Task<PaginationResponseDto<GetBookResponse>> GetAllBooksAsync(GetAllBookRequest input)
         {
             var page = input.Page;
             var fetch = input.Fetch;
             var books = await _bookRepository.GetAllBooksAsync(page, fetch);
-            return GetBookResponseMapper.GetBookListMapEntityToDTO(books);
+            var totalBooks = await _bookRepository.CountBooksAsync();
+            var bookMapper = GetBookResponseMapper.GetBookListMapEntityToDTO(books);
+            return new PaginationResponseDto<GetBookResponse>(totalBooks, bookMapper);
         }
 
         public async Task<GetBookResponse> GetBookByIdAsync(Guid id)

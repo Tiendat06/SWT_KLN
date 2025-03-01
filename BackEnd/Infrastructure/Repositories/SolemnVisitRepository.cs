@@ -41,5 +41,10 @@ namespace Infrastructure.Repositories
                 .ThenInclude(account => account.Role)
                 .FirstOrDefaultAsync(solemnVisit => solemnVisit.VisitId == id && solemnVisit.IsDeleted == false);
         }
+
+        public async Task<int> CountSolemnVisitAsync()
+        {
+            return await _context.SolemnVisits.CountAsync(x => x.IsDeleted == false);
+        }
     }
 }

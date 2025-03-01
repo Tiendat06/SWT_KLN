@@ -62,5 +62,10 @@ namespace Infrastructure.Repositories
             magazine.IsDeleted = true;
             await Task.CompletedTask;
         }
+
+        public async Task<int> CountMagazineAsync()
+        {
+            return (int)await _context.Magazines.CountAsync(x => x.IsDeleted == false);
+        }
     }
 }

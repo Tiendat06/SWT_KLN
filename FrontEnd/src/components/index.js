@@ -5,5 +5,10 @@ import Button from "./Button/Button";
 import SlideBanner from "~/components/SlideBanner/SlideBanner";
 import PDFViewer from "~/components/PDFViewer/PDFViewer";
 import CustomReactPaginate from "~/components/CustomReactPaginate/CustomReactPaginate";
+import SlideImage from './SlideImage/SlideImage';
+import VideoClip from './VideoClip/VideoClip';
+import KLNTitle from "~/components/KLNTitle/KLNTitle";
+import CustomAudio from "~/components/CustomAudio/CustomAudio";
 
-export {Header, Footer, Body, Button, SlideBanner, PDFViewer, CustomReactPaginate}
+export {Header, Footer, Body, Button, SlideBanner, PDFViewer,
+    CustomReactPaginate, SlideImage, VideoClip, KLNTitle, CustomAudio}

@@ -11,5 +11,6 @@ namespace Domain.Interfaces
     {
         Task<IEnumerable<SolemnVisit>> GetAllSolemnVisitsAsync(int page, int fetch);
         Task<SolemnVisit?> GetSolemnVisitByIdAsync(Guid id);
+        Task<int> CountSolemnVisitAsync();
     }
 }

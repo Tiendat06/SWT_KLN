@@ -38,12 +38,14 @@ namespace Application.Services
             _localizer = localizer;
         }
         #endregion
-        public async Task<IEnumerable<GetVideoResponse>> GetAllVideosAsync(GetVideoRequest input)
+        public async Task<PaginationResponseDto<GetVideoResponse>> GetAllVideosAsync(GetVideoRequest input)
         {
             var page = input.Page;
             var fetch = input.Fetch;
             var videos = await _videoRepository.GetAllVideosAsync(page, fetch);
-            return GetVideoResponseMapper.GetVideoListMapEntityToDTO(videos);
+            var totalVideo = await _videoRepository.CountVideoAsync();
+            var videoMapper = GetVideoResponseMapper.GetVideoListMapEntityToDTO(videos);
+            return new PaginationResponseDto<GetVideoResponse>(totalVideo, videoMapper);
         }
         public async Task<GetVideoResponse?> GetVideoByIdAsync(Guid id)
         {

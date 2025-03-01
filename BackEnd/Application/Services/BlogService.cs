@@ -58,12 +58,14 @@ namespace Application.Services
             return GetBlogResponseMapper.GetBlogMapEntityToDTO(blog);
         }
 
-        public async Task<IEnumerable<GetBlogResponse>> GetAllBlogsAsync(GetAllBlogRequest input)
+        public async Task<PaginationResponseDto<GetBlogResponse>> GetAllBlogsAsync(GetAllBlogRequest input)
         {
             var page = input.Page;
             var fetch = input.Fetch;
             var blogs = await _blogRepository.GetAllBlogsAsync(page, fetch);
-            return GetBlogResponseMapper.GetBlogListMapEntityToDTO(blogs);
+            var totalBlogs = await _blogRepository.CountAllBlogsAsync();
+            var blogMapper = GetBlogResponseMapper.GetBlogListMapEntityToDTO(blogs);
+            return new PaginationResponseDto<GetBlogResponse>(totalBlogs, blogMapper);
         }
 
         public async Task<GetBlogResponse> CreateBlogAsync(AddBlogRequest addBlogRequest)

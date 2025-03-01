@@ -39,13 +39,16 @@ namespace Application.Services
             _localizer = localizer;
         }
         #endregion
-        public async Task<IEnumerable<GetMusicResponse>> GetAllMusicAsync(GetMusicRequest input)
+        public async Task<PaginationResponseDto<GetMusicResponse>> GetAllMusicAsync(GetMusicRequest input)
         {
             var page = input.Page;
             var fetch = input.Fetch;
             var musics = await _musicRepository.GetAllMusicAsync(fetch, page);
-            return GetMusicResponseMapper.GetMusicListMapEntityToDTO(musics);
+            var totalMusic = await _musicRepository.CountMusicAsync();
+            var musicMapper = GetMusicResponseMapper.GetMusicListMapEntityToDTO(musics);
+            return new PaginationResponseDto<GetMusicResponse>(totalMusic, musicMapper);
         }
+
         public async Task<GetMusicResponse?> GetMusicByIdAsync(Guid id)
         {
             var music = await _musicRepository.GetMusicByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Music"]));

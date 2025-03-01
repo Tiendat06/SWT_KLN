@@ -1,0 +1,96 @@
+@use "../../GlobalStyles/index" as *;
+@use "../../Utils/mixins" as *;
+@use "../../Utils/variables" as *;
+
+.about-music{
+  margin-top: 30px;
+
+  &__content{
+    padding: 50px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__main {
+    background-color: $app-color-13;
+    box-shadow: 1px 1px 10px rgba($app-color-12, 0.1);
+  }
+
+  &__list{
+    padding-left: 20px;
+    overflow: hidden;
+  }
+
+  &__title{
+    padding: 20px;
+    background-color: $app-color-3;
+    h3{
+      margin-bottom: 0;
+      text-align: center;
+      color: $app-color-13;
+      font-weight: bold;
+    }
+  }
+
+  &__sub-title{
+    p{
+      font-weight: bold;
+      border-bottom: 2px solid $app-color-3;
+      width: fit-content;
+      margin-bottom: 0;
+    }
+  }
+
+  &__category {
+    padding: 20px;
+    height: 100%;
+    background-color: $app-color-TD-15;
+  }
+
+  &__song{
+    &-list{
+      //margin-top: 20px;
+    }
+
+    &-item{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 2px solid $app-color-3;
+      cursor: pointer;
+      background-color: $app-color-TD-15;
+      &:hover {
+        filter: brightness(98%);
+      }
+
+      &--img {
+        img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      &--text{
+        padding: 0 10px;
+        p{
+          line-height: 18px;
+          margin-bottom: 0;
+          font-weight: bold;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+      }
+
+      &--time {
+        p{
+          margin-bottom: 0;
+          font-weight: bold;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

@@ -12,7 +12,7 @@ function NewsList() {
     useEffect(() => {
         const GetBlogListData = async () => {
             const data = await getBlogListData();
-            setBlogListData(data.data);
+            setBlogListData(data.data.items);
         }
         GetBlogListData();
     }, []);
@@ -25,7 +25,7 @@ function NewsList() {
                     <img className={clsx(styles['home-news__img'])} src={`${plus_icon_1}`} alt=""/>
                 </div>
                 <div className={clsx(styles["home-news__blog"])}>
-                    {blogListData.map((blog, index) => (
+                    {blogListData?.map((blog, index) => (
                         <Fragment key={`blog-home-${index}`}>
                             {index === 0 ?
                                 (<Link to={siteJRoutes[0].path} className={clsx(styles["home-news__blog-content"])}>

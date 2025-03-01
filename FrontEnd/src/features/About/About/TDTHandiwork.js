@@ -18,7 +18,7 @@ function TDTHandiwork() {
     useEffect(() => {
         const GetHandiworkList = async () => {
             const data = await getHandiworkList(0, 1);
-            setHandiworkList(data.data);
+            setHandiworkList(data.data.items);
         }
         GetHandiworkList();
     }, []);

@@ -22,7 +22,7 @@ namespace API.Controller
 
         // GET: api/SlideShow
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetSlideShowResponse>>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<PaginationResponseDto<GetSlideShowResponse>>))]
         public async Task<IActionResult> GetAllSlideShows([FromQuery] GetSlideShowRequest input)
         {
             var slideShows = await _slideShowService.GetAllSlideShowsAsync(input);

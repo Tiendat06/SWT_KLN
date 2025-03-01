@@ -25,6 +25,12 @@ export const getBookList = async (fetch, page) => {
     })
 }
 
+export const getMusicList = async (fetch, page) => {
+    return await UseFetchAPI({
+        api: `api/Music?Fetch=${fetch}&Page=${page}`,
+    })
+}
+
 export const getCreatureList = () => {
     return [
         {handiworkId: '1', title: 'Chân dung Bác Tôn của Công ty Thảm len xuất khẩu Sài Gòn.', image: tac_pham_5, createDate: '', userId: '', bookContent: '', publisher: '', author: '', yearPublic: ''},

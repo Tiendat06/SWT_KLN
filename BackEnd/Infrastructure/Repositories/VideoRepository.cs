@@ -41,5 +41,10 @@ namespace Infrastructure.Repositories
                 .ThenInclude(account => account.Role)
                 .FirstOrDefaultAsync(video => video.VideoId == id && video.IsDeleted == false);
         }
+
+        public async Task<int> CountVideoAsync()
+        {
+            return await _context.Videos.CountAsync(x => x.IsDeleted == false);
+        }
     }
 }
