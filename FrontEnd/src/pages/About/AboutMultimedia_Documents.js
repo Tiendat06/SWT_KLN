@@ -1,25 +1,26 @@
 import { useState } from 'react';
-import { PictureGallery,VideoClipGallery,MusicGallery} from '~/features/About';
+import { PictureGallery, VideoClipGallery, MusicGallery } from '~/features/About';
 import { anh, nhac, videoclip, phim } from '~/assets/img';
 import styles from '~/styles/Pages/About/aboutMultimediaDocuments.module.scss';
 import clsx from 'clsx';
 
 const multimediaData = [
-    { title: "Ảnh", imgSrc: anh },
-    { title: "Nhạc", imgSrc: nhac },
-    { title: "Video Clip", imgSrc: videoclip },
-    { title: "Phim", imgSrc: phim },
-  ];
-  
-  function AboutMultimediaDocuments() {
-    return (
-      <div className={clsx(styles["aboutMultimedia"])}>
-        <div className={clsx(styles["aboutMultimedia-title"])}>
-          <h3 className={clsx(styles["aboutMultimedia-title__text"])}>
-            TÀI LIỆU ĐA PHƯƠNG TIỆN
-          </h3>
-        </div>
-  
+  { title: "Ảnh", imgSrc: anh },
+  { title: "Nhạc", imgSrc: nhac },
+  { title: "Video Clip", imgSrc: videoclip },
+  { title: "Phim", imgSrc: phim },
+];
+
+function AboutMultimediaDocuments() {
+  return (
+    <div className={clsx(styles["aboutMultimedia"])}>
+      <div className={clsx(styles["aboutMultimedia-title"])}>
+        <h3 className={clsx(styles["aboutMultimedia-title__text"])}>
+          TÀI LIỆU ĐA PHƯƠNG TIỆN
+        </h3>
+      </div>
+      <div className={clsx(styles["aboutMultimediaposition"])}>
+
         <div className={clsx(styles["multimedia-grid"])}>
           {multimediaData.map((item, index) => (
             <div key={index} className={clsx(styles["multimedia-card"])}>
@@ -32,11 +33,12 @@ const multimediaData = [
             </div>
           ))}
         </div>
-        <PictureGallery/>
-        <VideoClipGallery/>
-        <MusicGallery/>
+        <PictureGallery />
+        <VideoClipGallery />
+        <MusicGallery />
       </div>
-    );
-  }
-  
-  export default AboutMultimediaDocuments;
+    </div>
+  );
+}
+
+export default AboutMultimediaDocuments;

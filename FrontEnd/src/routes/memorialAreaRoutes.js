@@ -3,6 +3,10 @@ import {MemorialArea,MemorialStiltHouse, MemorialTomb, MemorialTemple, Memorial1
 
 const memorialAreaJRoutes = [
     {path: "/memorial-area", element: <MemorialArea />},
+
+]
+
+const memorialAreaTRoutes = [
     {path: "/memorial-area-stilt_house",element:<MemorialStiltHouse/>},
     {path: "/memorial-area-tomb",element:<MemorialTomb/>},
     {path: "/memorial-area-temple",element:<MemorialTemple/>},
@@ -13,8 +17,9 @@ const memorialAreaJRoutes = [
 
 const memorialAreaRoutes = [
     ...memorialAreaJRoutes,
+    ...memorialAreaTRoutes,
 ];
 
-export { memorialAreaJRoutes };
+export { memorialAreaJRoutes,memorialAreaTRoutes };
 
 export default memorialAreaRoutes;
