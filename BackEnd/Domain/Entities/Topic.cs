@@ -25,16 +25,22 @@ namespace Domain.Entities
         [Column("isDeleted", TypeName = "bit")]
         public bool? IsDeleted { get; set; } = false;
 
+        [Column("images", TypeName = "nvarchar")]
+        public string? Images { get; set; }
+
+        [Column("videos", TypeName = "nvarchar")]
+        public string? Videos { get; set; }
+
         [Column("UserId", TypeName = "uniqueidentifier")]
         public Guid? UserId { get; set; }
 
         [ForeignKey("UserId")]
         public virtual User? User { get; set; }
 
-        [NotMapped]
-        public virtual ICollection<TopicMedia>? TopicMedias { get; set; }
+        //[NotMapped]
+        //public virtual ICollection<TopicMedia>? TopicMedias { get; set; }
 
-        [NotMapped]
+        //[NotMapped]
         public virtual ICollection<LogTopic>? LogTopics { get; set; }
 
     }

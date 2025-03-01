@@ -74,7 +74,7 @@ function Handiwork() {
                             Như vậy, trong 20 năm qua, theo nhu cầu phát triển của đất nước và sự tăng trưởng nhanh chóng của Nhà trường, mục tiêu thành lập Trường đã được điều chỉnh 2 lần; và Đại học Tôn Đức Thắng trong 20 năm kế tiếp có nhiệm vụ trở thành một đại học nghiên cứu thuộc TOP 60 trường đại học tốt nhất Châu Á cũng như trở thành một đại học hàng đầu trong TOP 500 trường đại học tốt nhất thế giới. Martin Luther từng nói: “Khi trường học phát triển, mọi thứ đều phát triển theo”. Đại học Tôn Đức Thắng sẽ trở thành đại học số 1 Việt Nam để phụng sự tốt nhất cho đất nước, nhân dân Việt Nam; cũng như sự phát triển ổn định, bền vững và hòa bình của thế giới
                         </p>
                         <p>
-                            Xem thêm chi tiết tại Website: <a target="_blank" href="http://www.tdtu.edu.vn/">http://www.tdtu.edu.vn/</a>
+                            Xem thêm chi tiết tại Website: <a target="_blank" rel="noreferrer" href="http://www.tdtu.edu.vn/">http://www.tdtu.edu.vn/</a>
                         </p>
                     </div>
                 </div>

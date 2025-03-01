@@ -26,9 +26,13 @@
   "SolemnVisitId": "Mã lãnh đạo viếng thăm",
   "SolemnVisitName": "Tên lãnh đạo viếng thăm",
   "PortraitImage": "Hình ảnh chân dung của lãnh đạo",
+  "ImageLink": "Liên kết hình ảnh",
   "LetterImage": "Hình ảnh thư viếng thăm",
   "Music": "Âm nhạc",
   "Video": "Video",
+  "VideoId": "Mã video",
+  "VideoTitle": "Tiêu đề video",
+  "VideoLink": "Liên kết video",
   "TopicCapture": "Tiêu đề chuyên đề",
 
   "InvalidValue": "{0} không hợp lệ.",

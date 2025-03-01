@@ -186,9 +186,9 @@ namespace Application.Services
                     await _logMagazineRepository.CreateLogMagazineAsync(newLogMagazine);
 
                     // delete image from cloudinary
-                    var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
-                    var publicId = $"{nameof(Magazine)}_{id}";
-                    var result = cloudinaryOperations.DeleteFileFromCloudinary(publicId);
+                    //var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
+                    //var publicId = $"{nameof(Magazine)}_{id}";
+                    //var result = cloudinaryOperations.DeleteFileFromCloudinary(publicId);
 
                     // delete Magazine
                     var magazine = new Magazine { MagazineId = id };

@@ -41,7 +41,7 @@ namespace Domain.Entities
         [ForeignKey("UserId")]
         public virtual User? User { get; set; }
 
-        [NotMapped]
+        //[NotMapped]
         public virtual ICollection<LogBook>? LogBooks { get; set; }
     }
 }

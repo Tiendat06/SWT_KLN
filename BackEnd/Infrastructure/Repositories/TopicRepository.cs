@@ -37,13 +37,13 @@ namespace Infrastructure.Repositories
             var topics = await query.ToListAsync();
 
             // Với mỗi Topic, load danh sách TopicMedias
-            foreach (var topic in topics)
-            {
-                topic.TopicMedias = await _context.TopicMedias
-                    .AsNoTracking()
-                    .Where(tm => tm.TopicId == topic.TopicId && tm.IsDeleted == false)
-                    .ToListAsync();
-            }
+            //foreach (var topic in topics)
+            //{
+            //    topic.TopicMedias = await _context.TopicMedias
+            //        .AsNoTracking()
+            //        .Where(tm => tm.TopicId == topic.TopicId && tm.IsDeleted == false)
+            //        .ToListAsync();
+            //}
 
             return topics;
         }
@@ -56,14 +56,14 @@ namespace Infrastructure.Repositories
                 .ThenInclude(account => account.Role)
                 .FirstOrDefaultAsync(topic => topic.TopicId == id && topic.IsDeleted == false);
 
-            if (topic != null)
-            {
-                // Load danh sách TopicMedias cho topic
-                topic.TopicMedias = await _context.TopicMedias
-                    .AsNoTracking()
-                    .Where(tm => tm.TopicId == topic.TopicId && (tm.IsDeleted == false || tm.IsDeleted == null))
-                    .ToListAsync();
-            }
+            //if (topic != null)
+            //{
+            //    // Load danh sách TopicMedias cho topic
+            //    topic.TopicMedias = await _context.TopicMedias
+            //        .AsNoTracking()
+            //        .Where(tm => tm.TopicId == topic.TopicId && (tm.IsDeleted == false || tm.IsDeleted == null))
+            //        .ToListAsync();
+            //}
 
             return topic;
         }

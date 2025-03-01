@@ -6,6 +6,7 @@ namespace Domain.Entities
     [Table("LogBook")]
     public class LogBook
     {
+        // ok
         [Key]
         [Required]
         [Column("logBookId", TypeName ="int")]

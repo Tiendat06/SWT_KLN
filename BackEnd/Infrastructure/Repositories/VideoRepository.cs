@@ -12,6 +12,10 @@ namespace Infrastructure.Repositories
         {
             _context = context;
         }
+        public async Task CreateVideoAsync(Video video)
+        {
+            await _context.Videos.AddAsync(video);
+        }
         public async Task<IEnumerable<Video>> GetAllVideosAsync(int page, int fetch)
         {
             var query = _context.Videos
@@ -40,6 +44,18 @@ namespace Infrastructure.Repositories
                 .ThenInclude(user => user.Account)
                 .ThenInclude(account => account.Role)
                 .FirstOrDefaultAsync(video => video.VideoId == id && video.IsDeleted == false);
+        }
+
+        public async Task HardDeleteVideoAsync(Guid id)
+        {
+            _context.Videos.Remove(new Video { VideoId = id });
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SoftDeleteVideoAsync(Video video)
+        {
+            video.IsDeleted = true;
+            await Task.CompletedTask;
         }
     }
 }

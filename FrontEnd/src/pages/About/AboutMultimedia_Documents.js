@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { PictureGallery, VideoClipGallery, MusicGallery } from '~/features/About';
+// import { useState } from 'react';
+import { PictureGallery,VideoClipGallery,MusicGallery} from '~/features/About';
 import { anh, nhac, videoclip, phim } from '~/assets/img';
 import styles from '~/styles/Pages/About/aboutMultimediaDocuments.module.scss';
 import clsx from 'clsx';

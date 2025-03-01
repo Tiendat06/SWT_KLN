@@ -26,9 +26,13 @@
   "SolemnVisitId": "Leader Visit ID",
   "SolemnVisitName": "Leader Name",
   "PortraitImage": "Leader Portrait Image",
+  "ImageLink": "Image Link",
   "LetterImage": "Visit Letter Image",
   "Music": "Music",
   "Video": "Video",
+  "VideoId": "Video ID",
+  "VideoTitle": "Video Title",
+  "VideoLink": "Video Link",
   "TopicCapture": "Topic Capture",
 
   "InvalidValue": "{0} is invalid.",

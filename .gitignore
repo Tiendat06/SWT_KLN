@@ -362,3 +362,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+#client_secret.json - Upload Youtube
+/KLN/Secret/client_secret.json

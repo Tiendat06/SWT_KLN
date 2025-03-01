@@ -3,6 +3,8 @@ import About from "./About/About"
 import AboutGenealogy from "./About/AboutGenealogy"
 import AboutBiography from "./About/AboutBiography";
 import AboutCreature from './About/AboutCreature';
+import AboutArt from "~/pages/About/AboutArt";
+
 import MemorialArea from "./MemorialArea/MemorialArea"
 import Handiwork from "./Handiwork/Handiwork"
 import AboutBooks_Magazines from "./About/AboutBooks_Magazines";
@@ -17,7 +19,7 @@ export {Home};
 
 export {MemorialArea, MemorialStiltHouse, MemorialTomb, MemorialTemple, Memorial15YearsPrison};
 
-export {About, AboutGenealogy, AboutBiography, AboutCreature, AboutBooks_Magazines, AboutTopic, AboutMultimedia_Documents};
+export {About, AboutGenealogy, AboutBiography, AboutCreature, AboutBooks_Magazines, AboutTopic, AboutMultimedia_Documents, AboutArt};
 
 export {Handiwork};
 

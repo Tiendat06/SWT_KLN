@@ -6,10 +6,11 @@ namespace Domain.Entities
     [Table("LogVideo")]
     public class LogVideo
     {
+        // ok
         [Key]
         [Required]
         [Column("logVideoId", TypeName ="int")]
-        public required int? LogVideoId { get; set; }
+        public required int LogVideoId { get; set; }
 
         //[Column("version", TypeName = "varchar")]
         //public string? Version { get; set; } = string.Empty;

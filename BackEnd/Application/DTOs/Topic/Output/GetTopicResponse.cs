@@ -11,6 +11,21 @@ namespace Application
         public string? Email { get; set; }
         public string? UserName { get; set; }
         public string? RoleName { get; set; }
-        public ICollection<GetTopicMediaResponse> TopicMedias { get; set; } = new List<GetTopicMediaResponse>();
+        public List<GetTopicImagesResponse>? Images { get; set; }
+        public List<GetTopicVideoLinkResponse>? Videos { get; set; }
+    }
+
+    public class GetTopicImagesResponse
+    {
+        public int Id { get; set; }
+        public string? Capture { get; set; }
+        public string? ImageLink { get; set; }
+    }
+
+    public class GetTopicVideoLinkResponse
+    {
+        public int Id { get; set; }
+        public string? Capture { get; set; }
+        public string? VideoLink { get; set; }
     }
 }

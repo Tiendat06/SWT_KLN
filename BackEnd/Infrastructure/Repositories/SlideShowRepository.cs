@@ -37,13 +37,13 @@ namespace Infrastructure.Repositories
             var slideShows = await query.ToListAsync();
 
             // Với mỗi Topic, load danh sách TopicMedias
-            foreach (var slideShow in slideShows)
-            {
-                slideShow.SlideImages = await _context.SlideImages
-                    .AsNoTracking()
-                    .Where(tm => tm.SlideShowId == slideShow.SlideShowId && tm.IsDeleted == false)
-                    .ToListAsync();
-            }
+            //foreach (var slideShow in slideShows)
+            //{
+            //    slideShow.SlideImages = await _context.SlideImages
+            //        .AsNoTracking()
+            //        .Where(tm => tm.SlideShowId == slideShow.SlideShowId && tm.IsDeleted == false)
+            //        .ToListAsync();
+            //}
 
             return slideShows;
         }
