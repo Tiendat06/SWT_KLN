@@ -4,6 +4,7 @@
 
 .aboutbooksandmagazines {
   margin-top: $app-page-title-margin-top;
+  
 
   &-title {
     height: $app-page-title-height;
@@ -21,6 +22,8 @@
 }
 
 .ListOfBooks {
+  padding: 0 60px;
+
   font-weight: bold;
   display: flex;
   align-items: flex-start;
@@ -94,6 +97,7 @@
   padding: 20px;
   background-color: white;
   border-radius: 5px;
+  min-height: 500px; 
   box-shadow: 0 2px 5px $app-color-12;
 
   &__title {
@@ -112,6 +116,7 @@
     gap: 15px;
     align-items: center;
     margin-top: 10px;
+    margin-bottom: 50px;
   }
 
   &__image {
@@ -137,6 +142,7 @@
   }
 }
 .ListOfMagazines {
+  padding: 0 60px;
   font-weight: bold;
   display: flex;
   align-items: flex-start;
@@ -148,6 +154,8 @@
     width: 300px;
     background-color: #fdf1de;
     box-shadow: 0px 2px 5px $app-color-12;
+    position: relative;
+    top:-160px;
   }
 
   &__title {

@@ -27,10 +27,11 @@
         left:5%;
         width:90%;
         margin: 10px 0 20px 0;
+        padding: 0 50px;
       }
     
       .multimedia-card {
-        width: 150px;
+        width: 238px;
         background: #fff;
         border-radius: 10px;
         box-shadow: 0 4px 6px $app-color-12;
@@ -69,17 +70,19 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 15px;
+        margin-bottom: 55px;
+        padding: 0 60px;
+
     }
 
     &__title {
-        font-size: 18px;
+        font-size: 25px;
         font-weight: bold;
         color: $app-color-1;
     }
 
     &__view-more {
-        font-size: 14px;
+        font-size: 18px;
         color: $app-color-1;
         text-decoration: none;
         &:hover {
@@ -94,7 +97,7 @@
     }
 
     &__item {
-        width: 150px;
+        width: 237px;
         text-align: center;
     }
 
@@ -106,7 +109,7 @@
 
     &__caption {
         margin-top: 10px;
-        font-size: 14px;
+        font-size: 18px;
         font-weight: bold;
         color: $app-color-5;
     }
@@ -121,17 +124,18 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 30px;
+        margin-bottom: 55px;
+        padding: 0 60px;
     }
 
     &__title {
-        font-size: 18px;
+        font-size: 25px;
         font-weight: bold;
         color: $app-color-1;
     }
 
     &__viewMore {
-        font-size: 14px;
+        font-size: 18px;
         color: $app-color-1;
         text-decoration: none;
 
@@ -148,7 +152,7 @@
     }
 
     &__item {
-        width: 200px;
+        width: 239px;
         text-align: center;
         position: relative;
     }
@@ -184,7 +188,7 @@
 
     &__caption {
         margin-top: 10px;
-        font-size: 14px;
+        font-size: 18px;
         font-weight: bold;
         color: $app-color-5;
     }
@@ -193,24 +197,25 @@
 .music-library {
     position: relative;
     width: 100%;
-    padding: 50px;
     text-align: center;
 
     &__header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
+        margin-bottom: 50px;
+        padding: 0 98px;
+
     }
 
     &__title {
-        font-size: 18px;
+        font-size: 25px;
         font-weight: bold;
         color: $app-color-1;
     }
 
     &__view-more {
-        font-size: 14px;
+        font-size: 18px;
         color: $app-color-1;
         text-decoration: none;
 
@@ -222,19 +227,20 @@
     &__list {
         display: flex;
         flex-direction: column;
-        // align-items: center;
-        position: relative;
-        left: 10%;
+        width: 86%; 
+        margin: 0 auto 50px; // Giữ căn giữa ngang (auto ở giữa)
+        border-radius: 10px;
+        overflow: hidden; 
+        background: $app-color-13; 
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);  
     }
+    
 
     &__item {
         display: flex;
         align-items: center;
-        max-width: 80%;
-        padding: 10px;
-        background:$app-color-13;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px $app-color-12;
+        width: 100%; // Đảm bảo phủ hết list
+        padding: 15px;
         transition: transform 0.2s ease-in-out;
 
         &:hover {

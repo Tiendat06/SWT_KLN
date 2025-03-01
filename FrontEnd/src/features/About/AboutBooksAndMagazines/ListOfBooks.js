@@ -2,6 +2,7 @@ import clsx from "clsx";
 import styles from "~/styles/Pages/About/aboutSidebarBooks.module.scss";
 import { useState } from "react";
 import {book_img} from '~/assets/img';
+import { PDFViewer } from "~/components";
 
 const bookList = [
   {
@@ -140,12 +141,8 @@ function ListOfBooks() {
                 {selectedBook.description}
               </p>
             </div>
-            <iframe
-              src={selectedBook.pdfUrl}
-              className={clsx(styles.BookContent__pdfViewer)}
-              title="PDF Viewer"
-            ></iframe>
-          </>
+            <PDFViewer url="https://static3.luatvietnam.vn/uploaded/LawJudgs/2021/12/21/ban-an-123-2021-ds-pt-103010.pdf" />
+            </>
         )}
       </div>
     </div>
