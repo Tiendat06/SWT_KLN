@@ -12,7 +12,7 @@ function TDTMasterpiece() {
     useEffect(() => {
         const GetMasterPieceList = async () =>  {
             let data = await getMasterPieceList(0, 1);
-            setMasterPieceList(data.data.items);
+            setMasterPieceList(data?.data?.items);
         }
         GetMasterPieceList();
     }, []);

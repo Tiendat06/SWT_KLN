@@ -13,7 +13,7 @@ function BooksList() {
     useEffect(() => {
         const GetMagazineList = async () => {
             const data = await getMagazineListData(3, 1);
-            setBookList(data.data.items);
+            setBookList(data?.data?.items);
         }
         GetMagazineList();
     }, []);

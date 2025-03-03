@@ -12,7 +12,7 @@ function NewsList() {
     useEffect(() => {
         const GetBlogListData = async () => {
             const data = await getBlogListData();
-            setBlogListData(data.data.items);
+            setBlogListData(data?.data?.items);
         }
         GetBlogListData();
     }, []);
