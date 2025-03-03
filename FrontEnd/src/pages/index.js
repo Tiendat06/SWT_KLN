@@ -16,10 +16,12 @@ import MemorialStiltHouse from "./MemorialArea/MemorialStiltHouse";
 import MemorialTomb from "./MemorialArea/MemorialTomb";
 import MemorialTemple from "./MemorialArea/MemorialTemple";
 import Memorial15YearsPrison from "./MemorialArea/Memorial15YearsPrison";
+import MemorialArtifacts from "./MemorialArea/MemorialArtifacts";
+import MemorialExhibition from "~/pages/MemorialArea/MemorialExhibition";
 
 export {Home};
 
-export {MemorialArea, MemorialStiltHouse, MemorialTomb, MemorialTemple, Memorial15YearsPrison};
+export {MemorialArea, MemorialStiltHouse, MemorialTomb, MemorialTemple, Memorial15YearsPrison, MemorialArtifacts, MemorialExhibition};
 
 export {About, AboutGenealogy, AboutBiography, AboutCreature, 
     AboutBooks_Magazines, AboutTopic, AboutMultimedia_Documents, AboutArt, AboutVideo, AboutMusic};

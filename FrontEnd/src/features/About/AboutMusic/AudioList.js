@@ -7,12 +7,13 @@ import {FormatTime} from "~/utils";
 
 function AudioList() {
     const audioRef = useRef(null);
-    const [duration, setDuration] = useState(null);
+    const [duration, setDuration] = useState(0);
     const {audioSrc, setAudioSrc} = useAboutAudioContext();
 
     useEffect(() => {
+        const audio = audioRef.current;
         setAudioSrc('https://res.cloudinary.com/dydpf7z8u/video/upload/v1736072269/08_buaeek.mp3');
-        setDuration(() => audioRef.current.duration);
+        audio.addEventListener("loadedmetadata", () => setDuration(audio.duration));
     }, []);
 
     return (

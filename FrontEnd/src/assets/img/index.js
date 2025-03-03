@@ -80,6 +80,8 @@ import handiwork_dsct from '~/assets/img/handiwork/handiwork-dsct.png';
 
 import about_art_main from '~/assets/img/about_art/about-art-main.png';
 
+import artifact_1 from '~/assets/img/memorial_artifact/artifact-1.png';
+
 //handiwork
 export {handiwork_dsct}
 
@@ -124,3 +126,6 @@ export {prison_img_1,prison_img_2};
 
 // about art main
 export {about_art_main};
+
+// artifact
+export {artifact_1};

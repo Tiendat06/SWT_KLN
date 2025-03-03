@@ -9,6 +9,7 @@ import SlideImage from './SlideImage/SlideImage';
 import VideoClip from './VideoClip/VideoClip';
 import KLNTitle from "~/components/KLNTitle/KLNTitle";
 import CustomAudio from "~/components/CustomAudio/CustomAudio";
+import CustomCategory from "~/components/CustomCategory/CustomCategory";
 
 export {Header, Footer, Body, Button, SlideBanner, PDFViewer,
-    CustomReactPaginate, SlideImage, VideoClip, KLNTitle, CustomAudio}
+    CustomReactPaginate, SlideImage, VideoClip, KLNTitle, CustomAudio, CustomCategory}
