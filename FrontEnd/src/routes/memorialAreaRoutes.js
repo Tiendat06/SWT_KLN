@@ -1,9 +1,17 @@
 // import { element } from "prop-types";
-import {MemorialArea,MemorialStiltHouse, MemorialTomb, MemorialTemple, Memorial15YearsPrison} from "~/pages"
+import {
+    MemorialArea,
+    MemorialStiltHouse,
+    MemorialTomb,
+    MemorialTemple,
+    Memorial15YearsPrison,
+    MemorialArtifacts, MemorialExhibition
+} from "~/pages"
 
 const memorialAreaJRoutes = [
     {path: "/memorial-area", element: <MemorialArea />},
-
+    {path: "/memorial-artifact", element: <MemorialArtifacts />},
+    {path: "/memorial-exhibition", element: <MemorialExhibition />}
 ]
 
 const memorialAreaTRoutes = [

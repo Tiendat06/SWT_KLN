@@ -9,8 +9,10 @@ import SlideImage from './SlideImage/SlideImage';
 import VideoClip from './VideoClip/VideoClip';
 import KLNTitle from "~/components/KLNTitle/KLNTitle";
 import CustomAudio from "~/components/CustomAudio/CustomAudio";
+import CustomCategory from "~/components/CustomCategory/CustomCategory";
 import SlidebarBook from './SlidebarBook/SlidebarBook';
 import SlidebarMagazines from './SlidebarBook/SlideMagazines';
 
 export {Header, Footer, Body, Button, SlideBanner, PDFViewer,
-    CustomReactPaginate, SlideImage, VideoClip, KLNTitle, CustomAudio, SlidebarBook,SlidebarMagazines}
+    CustomReactPaginate, SlideImage, VideoClip, KLNTitle, CustomAudio, CustomCategory, SlidebarBook,SlidebarMagazines}
+
