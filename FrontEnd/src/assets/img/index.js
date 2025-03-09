@@ -82,6 +82,20 @@ import about_art_main from '~/assets/img/about_art/about-art-main.png';
 
 import artifact_1 from '~/assets/img/memorial_artifact/artifact-1.png';
 
+import memorial_1 from '~/assets/img/memorialarea/memorial_1.png';
+import memorial_2 from '~/assets/img/memorialarea/memorial_2.png';
+import memorial_3 from '~/assets/img/memorialarea/memorial_3.png';
+import memorial_4 from '~/assets/img/memorialarea/memorial_4.png';
+import memorial_history_1 from '~/assets/img/memorialarea/memorial_history_1.png';
+import memorial_history_2 from '~/assets/img/memorialarea/memorial_history_2.png';
+import memorial_history_3 from '~/assets/img/memorialarea/memorial_history_3.png';
+import memorial_history_4 from '~/assets/img/memorialarea/memorial_history_4.png';
+import memorial_exhibitselection_1 from '~/assets/img/memorialarea/memorial_exhibitselection_1.png';
+import memorial_exhibitselection_2 from '~/assets/img/memorialarea/memorial_exhibitselection_2.png';
+
+
+
+
 //handiwork
 export {handiwork_dsct}
 
@@ -129,3 +143,6 @@ export {about_art_main};
 
 // artifact
 export {artifact_1};
+
+//memorial
+export {memorial_1,memorial_2,memorial_3,memorial_4,memorial_history_1,memorial_history_2,memorial_history_3,memorial_history_4,memorial_exhibitselection_1,memorial_exhibitselection_2};
