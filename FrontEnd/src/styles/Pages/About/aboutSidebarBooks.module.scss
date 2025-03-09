@@ -4,7 +4,6 @@
 
 .aboutbooksandmagazines {
   margin-top: $app-page-title-margin-top;
-  
 
   &-title {
     height: $app-page-title-height;
@@ -21,21 +20,42 @@
   }
 }
 
-.ListOfBooks {
-  padding: 0 60px;
-
-  font-weight: bold;
+.aboutbooks-container {
   display: flex;
+  flex-direction: row;
   align-items: flex-start;
-  gap: 20px;
   width: 100%;
-  margin: 20px 10px 0px 10px;
+  padding: 0 60px;
+  margin: 50px auto;
+  gap: 20px;
 
-  &__sidebar {
+  .sidebars {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     width: 300px;
+  }
+
+  .sidebar {
     background-color: #fdf1de;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   }
+
+  .book-content {
+    flex: 1;
+    background-color: white;
+    border-radius: 5px;
+    min-height: 500px;
+    box-shadow: 0 2px 5px $app-color-12;
+    padding: 20px;
+    max-width: 1030px;
+    text-align: left;
+  }
+}
+
+.ListOfBooks {
+  display: flex;
+  flex-direction: column;
 
   &__title {
     background-color: $app-color-3;
@@ -44,32 +64,33 @@
     font-size: 18px;
     font-weight: bold;
     padding: 20px 0;
+    margin: 0;
   }
 
   &__list {
     list-style: none;
     padding: 0;
     margin: 0;
-  }
 
-  &__listItem {
-    color: $app-color-3;
-    padding: 12px 0;
-    text-align: center;
-    font-size: 16px;
-    border-bottom: 1px solid $app-color-3;
-    background-color: $app-color-9;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
+    &Item {
+      color: $app-color-3;
+      padding: 12px 0;
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      border-bottom: 1px solid $app-color-3;
+      background-color: $app-color-9;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
 
-    // Khi được chọn, mục sẽ có màu nền đỏ
-    &--active {
-      background-color:$app-color-3;
-      color: white;
+      &--active {
+        background-color: $app-color-3;
+        color: white;
+        font-weight: bold;
+      }
     }
   }
 
-  /* Pagination */
   &__pagination {
     display: flex;
     justify-content: center;
@@ -91,25 +112,25 @@
   }
 }
 
-/* Nội dung sách được chọn */
 .BookContent {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 20px;
   background-color: white;
   border-radius: 5px;
-  min-height: 500px; 
   box-shadow: 0 2px 5px $app-color-12;
+  width: 100%;
+  max-width: 1030px;
 
   &__title {
     font-size: 20px;
     color: $app-color-3;
     font-weight: bold;
     text-align: center;
-    background-color: white;
-    box-shadow: 0 4px 6px $app-color-12; 
-    padding: 15px 0; 
+    padding: 15px 0;
     margin-bottom: 20px;
-}
+    box-shadow: 2px 2px 2px 2px $app-color-12;
+  }
 
   &__info {
     display: flex;
@@ -140,75 +161,4 @@
     border: none;
     margin-top: 20px;
   }
-}
-.ListOfMagazines {
-  padding: 0 60px;
-  font-weight: bold;
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  width: 100%;
-  margin: -20% 10px 10% 10px; 
-
-  &__sidebar {
-    width: 300px;
-    background-color: #fdf1de;
-    box-shadow: 0px 2px 5px $app-color-12;
-    position: relative;
-    top:-160px;
-  }
-
-  &__title {
-    background-color: $app-color-3;
-    color: white;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    padding: 20px 0;
-  }
-
-  &__list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  &__listItem {
-    color: $app-color-3 ;
-    padding: 12px 0;
-    text-align: center;
-    font-size: 16px;
-    border-bottom: 1px solid $app-color-3;
-    background-color: $app-color-9;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-
-    // Khi được chọn, mục sẽ có màu nền đỏ
-    &--active {
-      background-color:$app-color-3;
-      color: white;
-    }
-  }
-
-  /* Pagination */
-  &__pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      margin: 10px 5px;
-      border-radius: 50%;
-      background-color: $app-color-5;
-      cursor: pointer;
-      transition: background-color 0.3s ease-in-out;
-
-      &.dotActive {
-        background-color: $app-color-3;
-      }
-    }
-  }
-  
 }
