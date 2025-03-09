@@ -1,0 +1,74 @@
+@use "../../GlobalStyles/index" as *;
+@use "../../Utils/mixins" as *;
+@use "../../Utils/variables" as *;
+.historyList {
+    display: grid;
+    gap: 24px;
+}
+
+.historyCard {
+    box-shadow: 0 2px 8px $app-color-12;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: $app-color-13;
+}
+
+.contentWrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px; 
+    width: 100%;// Khoảng cách giữa ảnh và nội dung
+}
+
+.historyImage {
+    width: 257px;
+    height: 181px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.textContent {
+    flex: 1;
+}
+
+.historyTitle {
+    font-weight: bold;
+    font-size: 18px;
+    color: #d32f2f; 
+    text-transform: uppercase;
+    border-bottom: 2px dashed #ccc;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.historyDescription {
+    font-size: 14px;
+    color: #4a4a4a;
+    line-height: 1.6;
+}
+
+.historyLink {
+    text-align: right; 
+    margin-top: 8px; 
+    .historyLink {
+        display: inline-block; 
+        color: #ff9800; 
+        font-weight: bold;
+        text-decoration: none; 
+        font-size: 14px;
+        padding: 6px 12px;
+        border-radius: 4px;
+        transition: color 0.3s ease, text-decoration 0.3s ease;
+
+        &:hover {
+            color: #d97706; 
+            text-decoration: underline;
+        }
+
+        &:active {
+            color: #b45309; 
+        }
+    }
+}
+
