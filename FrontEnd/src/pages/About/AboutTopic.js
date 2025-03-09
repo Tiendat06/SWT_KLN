@@ -1,44 +1,36 @@
-import { useState } from 'react';
-import { Cde_Bac } from '~/features/About';
-import styles from '~/styles/Pages/About/aboutTopic.module.scss';
-import clsx from 'clsx';
+import clsx from "clsx";
+import KLNTitle from "~/components/KLNTitle/KLNTitle";
+import { SlidebarBook } from '~/components';
+import { SlideShow, SlideShowTopic } from "~/features/About";
+import styles from "~/styles/Pages/About/aboutTopic.module.scss";
+import { Button } from 'primereact/button';
+import {AboutTopicProvider} from "~/context/About/AboutTopicContext";
+
+
 
 function AboutTopic() {
-    const [activeTab, setActiveTab] = useState('image'); // Quản lý tab đang chọn
 
     return (
-        <div className={clsx(styles["aboutTopic"])}>
-            {/* Tiêu đề */}
-            <div className={clsx(styles["aboutTopic-title"])}>
-                <h3 className={clsx(styles['aboutTopic-title__text'])}>
-                    CHUYÊN ĐỀ HAY VỀ BÁC
-                </h3>
+        <AboutTopicProvider>
+            <KLNTitle>
+                CHUYÊN ĐỀ HAY VỀ CHỦ TỊCH TÔN ĐỨC THẮNG
+            </KLNTitle>
+            <div className={clsx(styles["buttons"])}>
+                <Button className={clsx(styles["buttons-custom-button"], styles["active"])}>Ảnh</Button>
+                <Button className={clsx(styles["buttons-custom-button"])}>Video</Button>
             </div>
 
-            <div className={clsx(styles["aboutTopic-contentWrapper"])}>
-                {/* Tabs */}
-                <div className={clsx(styles["aboutTopic-tabs"])}>
-                    <button 
-                        className={clsx(styles["aboutTopic-tabimage"], {
-                            [styles["active"]]: activeTab === 'image'
-                        })} 
-                        onClick={() => setActiveTab('image')}
-                    >
-                        Ảnh
-                    </button>
-                    <button 
-                        className={clsx(styles["aboutTopic-tabvideo"], {
-                            [styles["active"]]: activeTab === 'video'
-                        })} 
-                        onClick={() => setActiveTab('video')}
-                    >
-                        Video
-                    </button>
+            <div className={clsx(styles["aboutTopic"])}>
+
+                <div className={clsx(styles["aboutTopic-sidebar"])}>
+                    <SlidebarBook />
                 </div>
 
-               <Cde_Bac/>
+                <div className={clsx(styles["aboutTopic-slideshow"])}>
+                    <SlideShowTopic />
+                </div>
             </div>
-        </div>
+        </AboutTopicProvider>
     );
 }
 

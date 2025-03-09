@@ -12,7 +12,9 @@ import CustomAudio from "~/components/CustomAudio/CustomAudio";
 import CustomCategory from "~/components/CustomCategory/CustomCategory";
 import SlidebarBook from './SlidebarBook/SlidebarBook';
 import SlidebarMagazines from './SlidebarBook/SlideMagazines';
-
+import ImageCarousel from './MemorialArea/MemorialArea';
+import HistoryList from './MemorialArea/HistoryList';
+import ExhibitSection from './MemorialArea/ExihibitSection';
 export {Header, Footer, Body, Button, SlideBanner, PDFViewer,
-    CustomReactPaginate, SlideImage, VideoClip, KLNTitle, CustomAudio, CustomCategory, SlidebarBook,SlidebarMagazines}
+    CustomReactPaginate, SlideImage, VideoClip, KLNTitle, CustomAudio, CustomCategory, SlidebarBook,SlidebarMagazines,ImageCarousel,HistoryList,ExhibitSection}
 

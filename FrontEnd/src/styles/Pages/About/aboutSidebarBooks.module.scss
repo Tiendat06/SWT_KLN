@@ -20,6 +20,7 @@
   }
 }
 
+
 .aboutbooks-container {
   display: flex;
   flex-direction: row;
@@ -94,7 +95,11 @@
   &__pagination {
     display: flex;
     justify-content: center;
-    margin-top: 10px;
+    background-color: $app-color-9;
+    height: 50px;
+
+    
+
 
     .dot {
       width: 10px;
@@ -161,4 +166,12 @@
     border: none;
     margin-top: 20px;
   }
+}
+.padding {
+  position: relative;
+  top: -78%;
+  width: 100%;
+}
+.noPadding {
+  padding: 0 !important;
 }
