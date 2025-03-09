@@ -1,3 +1,3 @@
 import SlideShow from "./MemorialArtifact/SlideShow";
-
-export {SlideShow};
+import SlideContents from "~/features/MemorialArea/MemorialAreas/SlideContents";
+export {SlideShow, SlideContents};
