@@ -9,9 +9,10 @@ import VideoClipGallery from './AboutMultimediaDocuments/VideoClipGallery';
 import MusicGallery from './AboutMultimediaDocuments/MusicGallery';
 import SlideShow from "~/features/About/AboutArt/SlideShow";
 import VideoClipList from "~/features/About/AboutVideo/VideoClipList";
+import VideoMain from "~/features/About/AboutVideo/VideoMain";
 import MainAudio from "~/features/About/AboutMusic/MainAudio";
 import AudioList from "~/features/About/AboutMusic/AudioList";
 
 export {TDTMasterpiece, TDTHandiwork, CreatureList, ListOfBooks,ListOfMagazines,
     Cde_Bac, PictureGallery, VideoClipGallery,MusicGallery, SlideShow,
-    VideoClipList, MainAudio, AudioList};
+    VideoClipList, MainAudio, AudioList, VideoMain};

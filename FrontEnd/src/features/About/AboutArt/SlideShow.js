@@ -1,16 +1,35 @@
 import clsx from "clsx";
 import styles from "~/styles/Pages/About/aboutArt.module.scss";
-import {banner_1} from "~/assets/img";
 import SlideImage from "~/components/SlideImage/SlideImage";
 import {useAboutArtContext} from "~/context/About/AboutArtContext";
-import { useEffect } from "react";
+import {useLayoutEffect} from "react";
+import {getSlideShowByIdService} from "~/services/AboutService";
 
 function SlideShow(){
-    const {slideImageList, setSlideImageList, slideImageMain, setSlideImageMain} = useAboutArtContext();
+    const {
+        slideShowId,
+        slideImageList,
+        setSlideImageList,
+        slideImageMain,
+        setSlideImageMain,
+        setSlideShow
+    } = useAboutArtContext();
 
-    useEffect(() => {
-        setSlideImageMain(banner_1);
-    }, []);
+    useLayoutEffect(() => {
+        const getSlideShowById = async () => {
+            try {
+                const data = await getSlideShowByIdService(slideShowId);
+                const slideShowData = data?.data;
+                const slideImageData = data?.data?.slideImage;
+                setSlideShow(slideShowData);
+                setSlideImageList(slideImageData);
+                setSlideImageMain(slideImageData[0]);
+            } catch (e){
+                console.error(e.message);
+            }
+        }
+        getSlideShowById();
+    }, [slideShowId]);
 
     return (
         <>
@@ -18,10 +37,10 @@ function SlideShow(){
                 <div className={clsx(styles["about-art__content--inner"])}>
                     <div className={clsx(styles["about-art__main"])}>
                         <div className={clsx(styles["about-art__img"])}>
-                            <img style={{width: "100%", height: "100%"}} src={slideImageMain} alt="Ảnh nghệ thuật"/>
+                            <img style={{width: "100%", height: "100%"}} src={slideImageMain?.imageLink} alt="Ảnh nghệ thuật"/>
                             <div className={clsx(styles["about-art__overlay"])}>
                                 <p>
-                                    Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo
+                                    {slideImageMain?.capture}
                                 </p>
                             </div>
                         </div>
@@ -30,7 +49,7 @@ function SlideShow(){
                         <SlideImage
                             slideImageList={slideImageList}
                             setChoosingImage={setSlideImageMain}
-                            choosingImage={slideImageMain}
+                            choosingImage={slideImageMain?.imageLink}
                         />
                     </div>
                 </div>                

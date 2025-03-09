@@ -1,16 +1,28 @@
-import {book_home_1, tac_pham_5} from "~/assets/img";
+import {tac_pham_5} from "~/assets/img";
 import UseFetchAPI from "~/hooks/UseFetchAPI";
 
-export const getMasterPieceList = async (fetch, page) => {
+export const getBookListService = async (fetch, page) => {
     return await UseFetchAPI({
         api: `api/Book?Fetch=${fetch}&Page=${page}`,
     });
 }
 
-export const getHandiworkList = async (fetch, page) => {
+export const getMagazineListService = async (fetch, page) => {
     return await UseFetchAPI({
         api: `api/Magazine?Fetch=${fetch}&Page=${page}`,
     });
+}
+
+export const getSlideShowByIdService = async (id) => {
+    return await UseFetchAPI({
+        api: `api/SlideShow/${id}`,
+    })
+}
+
+export const getVideoListService = async (fetch, page) => {
+    return await UseFetchAPI({
+        api: `api/Video?Fetch=${fetch}&Page=${page}`,
+    })
 }
 
 export const getBooksQuantity = async () => {
@@ -19,13 +31,7 @@ export const getBooksQuantity = async () => {
     })
 }
 
-export const getBookList = async (fetch, page) => {
-    return await UseFetchAPI({
-        api: `api/Book?Fetch=${fetch}&Page=${page}`,
-    })
-}
-
-export const getMusicList = async (fetch, page) => {
+export const getMusicListService = async (fetch, page) => {
     return await UseFetchAPI({
         api: `api/Music?Fetch=${fetch}&Page=${page}`,
     })

@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 import {aboutJRoutes} from '~/routes/appRoutes';
 import {next_icon_1, previous_icon_1} from '~/assets/img';
-import {getHandiworkList} from "~/services/AboutService";
+import {getMagazineListService} from "~/services/AboutService";
 
 import {Carousel} from "primereact/carousel";
 import "primereact/resources/themes/saga-blue/theme.css";
@@ -17,7 +17,7 @@ function TDTHandiwork() {
 
     useEffect(() => {
         const GetHandiworkList = async () => {
-            const data = await getHandiworkList(0, 1);
+            const data = await getMagazineListService(0, 1);
             setHandiworkList(data?.data?.items);
         }
         GetHandiworkList();

@@ -1,12 +1,20 @@
 import clsx from 'clsx';
 import styles from '~/styles/Pages/About/aboutVideoFilm.module.scss';
 import VideoClip from "~/components/VideoClip/VideoClip";
-import {useState} from "react";
+import {useLayoutEffect} from "react";
+import {getVideoListService} from "~/services/AboutService";
+import {useAboutVideoContext} from "~/context/About/AboutVideoContext";
 
 function VideoClipList(){
-    const [videoList, setVideoList] = useState([
-        {}, {}, {}, {}, {}, {}, {}
-    ]);
+    const {videoList, setVideoList} = useAboutVideoContext();
+
+    useLayoutEffect(() => {
+        const getVideoList = async () => {
+            const data = await getVideoListService();
+            setVideoList(data?.data?.items);
+        }
+        getVideoList();
+    }, []);
 
     return (
         <>

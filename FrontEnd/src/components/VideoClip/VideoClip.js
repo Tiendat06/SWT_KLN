@@ -16,11 +16,11 @@ function VideoClip({videoClipList}) {
     const videoListTemplate = videoClip => {
         return (
             <>
-                <Link to="/" style={{width:'100%'}} className='d-flex justify-content-center'>
+                <Link to="/" style={{width:'100%', height: 100}} className='d-flex justify-content-center'>
                     <div className={clsx(styles["video-clip"])}>
-                        <img style={{width: "100%"}} src={about_art_main} className={clsx(styles["video-clip__img"])} alt="Ảnh nghệ thuật" />
+                        <img style={{width: "100%"}} src={videoClip?.videoImageLink} className={clsx(styles["video-clip__img"])} alt="Ảnh nghệ thuật" />
                         <div className={clsx(styles["video-clip__overlay"])}>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi ex exercitationem fugit id in ipsum magnam maxime modi neque obcaecati perspiciatis quae quaerat, quidem reiciendis rerum velit, voluptatem! Nulla, reiciendis.</p>
+                            <p>{videoClip?.videoTitle}</p>
                         </div>
                     </div>
                 </Link>

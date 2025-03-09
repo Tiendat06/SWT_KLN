@@ -542,8 +542,8 @@ BEGIN
 INSERT INTO Video
 ([videoId], [title], [createDate], [userId], [imageLink], [videoLink], [isDeleted])
 VALUES
-    (@videoId_1, N'Video1', '2025-01-12 14:00:00', @userId_1, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512961/gettyimages-182880589-1493334765_y8yjmg.jpg', 'https://res.cloudinary.com/dydpf7z8u/video/upload/v1736513161/motnhancach_hk0gcp.mp4', 0),
-    (@videoId_2, N'Video2', '2025-01-13 14:00:00', @userId_2, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512961/gg_rabfx7.jpg', 'https://res.cloudinary.com/dydpf7z8u/video/upload/v1736513087/TDTU_klsyu9.mp4', 0);
+    (@videoId_1, N'Video1', '2025-01-12 14:00:00', @userId_1, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512961/gettyimages-182880589-1493334765_y8yjmg.jpg', 'https://www.youtube.com/embed/ieno0teXxyI?si=HprDQ0erwLfjZWBj', 0),
+    (@videoId_2, N'Video2', '2025-01-13 14:00:00', @userId_2, 'https://res.cloudinary.com/dydpf7z8u/image/upload/v1736512961/gg_rabfx7.jpg', 'https://www.youtube.com/embed/ieno0teXxyI?si=HprDQ0erwLfjZWBj', 0);
 END
 
 IF NOT EXISTS (SELECT * FROM Music)
@@ -576,12 +576,12 @@ BEGIN
         {
         "Id": 1,
         "Capture": "Video 1",
-        "VideoLink": "https://www.youtube.com/watch?v=VAp31dcKLLw&pp=ygUbY2h1ecOqbiDEkeG7gSB2w6ogYsOhYyB0w7Ru"
+        "VideoLink": "https://www.youtube.com/embed/ieno0teXxyI?si=HprDQ0erwLfjZWBj"
     },
     {
         "Id": 2,
         "Capture": "Video 2",
-        "VideoLink": "https://www.youtube.com/watch?v=VAp31dcKLLw&pp=ygUbY2h1ecOqbiDEkeG7gSB2w6ogYsOhYyB0w7Ru"
+        "VideoLink": "https://www.youtube.com/embed/ieno0teXxyI?si=HprDQ0erwLfjZWBj"
     }
     ]', @userId_1);
 END

@@ -1,9 +1,9 @@
 import {createContext, useContext, useState} from "react";
 import {useParams} from "react-router-dom";
 
-const AboutArtContext = createContext();
+const MemorialExhibitionContext = createContext();
 
-export const AboutArtProvider = ({ children }) => {
+export const MemorialExhibitionProvider = ({ children }) => {
     const [slideImageList, setSlideImageList] = useState([]);
     const [slideShow, setSlideShow] = useState({});
     const {slideShowId} = useParams();
@@ -11,17 +11,18 @@ export const AboutArtProvider = ({ children }) => {
     const [slideImageMain, setSlideImageMain] = useState();
 
     return (
-        <AboutArtContext.Provider value={{
+        <MemorialExhibitionContext.Provider value={{
             slideShowId,
             slideImageList,
             setSlideImageList,
             slideImageMain,
             setSlideImageMain,
             slideShow,
-            setSlideShow}} >
+            setSlideShow
+        }} >
             {children}
-        </AboutArtContext.Provider>
+        </MemorialExhibitionContext.Provider>
     )
 }
 
-export const useAboutArtContext = () => useContext(AboutArtContext);
+export const useMemorialExhibitionContext = () => useContext(MemorialExhibitionContext);

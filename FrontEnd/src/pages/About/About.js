@@ -41,7 +41,7 @@ function About() {
                             miền Nam, ông còn được gọi là Hai Thắng.
                         </p>
                         <Button
-                            urlLink={aboutJRoutes[2].path}
+                            urlLink={'/about-art/308960ec-5c3b-4d2c-bf5f-9b60294d84b1'}
                             btnClassName={clsx(styles['about-biography__info-btn'])}
                         >
                             Xem chi tiết
