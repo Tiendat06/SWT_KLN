@@ -2,11 +2,12 @@ import clsx from "clsx";
 import {KLNTitle} from "~/components";
 import styles from '~/styles/Pages/Memorial/memorialExhibition.module.scss';
 import ExhibitionCategory from "~/features/MemorialArea/MemorialExhibition/ExhibitionCategory";
+import {MemorialExhibitionProvider} from "~/context/MemorialArea/MemorialExhibitionContext";
 
 const MemorialExhibition = () => {
 
     return (
-        <>
+        <MemorialExhibitionProvider>
             <div className={clsx(styles["memorial-exhibition"])}>
                 <KLNTitle>
                     NHÀ TRƯNG BÀY THÂN THẾ VÀ SỰ NGHIỆP CÁCH MẠNG
@@ -15,7 +16,7 @@ const MemorialExhibition = () => {
                     <ExhibitionCategory />
                 </div>
             </div>
-        </>
+        </MemorialExhibitionProvider>
     )
 }
 

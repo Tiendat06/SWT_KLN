@@ -17,13 +17,10 @@ const aboutJRoutes = [
     // TDat Route
     {path: "/about", element: <About />},
     {path: "/about-creature", element: <AboutCreature />},
-    {path: "/about-art", element: <AboutArt />},
+    {path: "/about-art/:slideShowId", element: <AboutArt />},
     {path: "/about-film", element: <AboutVideo />},
     {path: "/about-audio", element: <AboutMusic />},
 ]
-
-
-
 
 const aboutTRoutes = [
     {path: "/about-genealogy", element: <AboutGenealogy />},
