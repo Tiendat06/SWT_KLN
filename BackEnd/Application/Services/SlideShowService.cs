@@ -6,13 +6,14 @@ using Microsoft.Extensions.Configuration;
 using Application.Extension;
 using Microsoft.Extensions.Localization;
 using Domain.Localization;
+using Domain.Interfaces;
 
 namespace Application.Services
 {
     public class SlideShowService : ISlideShowService
     {
         #region Fields
-        private readonly Domain.Interfaces.ISlideShowRepository _slideShowRepository;
+        private readonly ISlideShowRepository _slideShowRepository;
         //private readonly ILogSlideShowRepository _logSlideShowRepository;
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;
@@ -41,7 +42,8 @@ namespace Application.Services
         {
             var page = input.Page;
             var fetch = input.Fetch;
-            var slideShows = await _slideShowRepository.GetAllSlideShowsAsync(page, fetch);
+            var type = input.Type;
+            var slideShows = await _slideShowRepository.GetAllSlideShowsAsync(page, fetch, type);
             var totalSlideShow = await _slideShowRepository.CountSlideShowAsync();
             var slideShowsMapper = GetSlideShowResponseMapper.GetSlideShowListMapEntityToDTO(slideShows);
             return new PaginationResponseDto<GetSlideShowResponse>(totalSlideShow, slideShowsMapper);

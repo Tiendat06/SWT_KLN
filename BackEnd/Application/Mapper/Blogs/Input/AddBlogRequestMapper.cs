@@ -13,6 +13,8 @@ namespace Application.Mapper.Blogs.Input
                 BlogContent = addBlogRequest.BlogContent,
                 BlogImage = blogImage,
                 UserId = addBlogRequest.UserId,
+                MediaTypeId = addBlogRequest.MediaTypeId,
+                Description = addBlogRequest.Description,
             };
         }
     }

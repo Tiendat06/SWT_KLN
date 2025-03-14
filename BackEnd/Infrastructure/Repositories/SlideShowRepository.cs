@@ -12,11 +12,15 @@ namespace Infrastructure.Repositories
         {
             _context = context;
         }
-        public async Task<IEnumerable<SlideShow>> GetAllSlideShowsAsync(int page, int fetch)
+        public async Task<IEnumerable<SlideShow>> GetAllSlideShowsAsync(int page, int fetch, int type)
         {
             var query = _context.SlideShows
                 .AsNoTracking()
                 .Where(SlideShow => SlideShow.IsDeleted == false);
+
+            // check if type is exists
+            if (type > 0)
+                query = query.Where(x => x.MediaTypeId == type);
 
             // Sắp xếp trước khi phân trang
             query = query.OrderByDescending(SlideShows => SlideShows.CreateDate);

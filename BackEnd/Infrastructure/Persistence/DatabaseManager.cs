@@ -29,6 +29,7 @@ namespace Infrastructure.Persistence
         public DbSet<Topic> Topics { get; set; }
         //public DbSet<TopicMedia> TopicMedias { get; set; }
         public DbSet<LogTopic> LogTopics { get; set; }
+        public DbSet<MediaType> MediaTypes { get; set; }
         //public DbSet<LogTopicMedia> LogTopicMedias { get; set; }
     }
 }

@@ -40,13 +40,17 @@ namespace Infrastructure.Repositories
                 .FirstOrDefaultAsync(blog => blog.BlogId == id && blog.IsDeleted == false);
         }
 
-        public async Task<IEnumerable<Blog>> GetAllBlogsAsync(int page, int fetch)
+        public async Task<IEnumerable<Blog>> GetAllBlogsAsync(int page, int fetch, int type)
         {
             var query = _context.Blogs
                 .AsNoTracking()
                 .Where(blog => blog.IsDeleted == false);
             // Sắp xếp trước khi phân trang
             query = query.OrderByDescending(blog => blog.CreateDate);
+
+            // check if type is exists
+            if (type > 0)
+                query = query.Where(x => x.MediaTypeId == type);
 
             // Phân trang nếu fetch > 0, ngược lại lấy tất cả
             if (fetch > 0)

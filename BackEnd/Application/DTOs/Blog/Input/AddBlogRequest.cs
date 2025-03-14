@@ -13,7 +13,8 @@ namespace Application
         public string BlogTitle { get; set; }
         public string BlogContent { get; set; }
         public Guid UserId { get; set; }
-
+        public int MediaTypeId { get; set; }
+        public string? Description { get; set; } = string.Empty;
     }
 
     public class AddBlogRequestValidator : AbstractValidator<AddBlogRequest>
@@ -39,6 +40,9 @@ namespace Application
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]))
                 .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]));
 
+            RuleFor(x => x.MediaTypeId)
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MediaTypeId"]))
+                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MediaTypeId"]));
         }
     }
 }

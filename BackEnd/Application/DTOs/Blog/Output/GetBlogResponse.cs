@@ -8,6 +8,8 @@ namespace Application
         public string? BlogTitle { get; set; }
         public string? BlogContent { get; set; }
         public string? BlogImage { get; set; }
+        public int? MediaTypeId { get; set; }
+        public string? Description { get; set; }
         public DateTime? CreateDate { get; set; }
         public Guid? UserId { get; set; }
         public string? Name { get; set; }

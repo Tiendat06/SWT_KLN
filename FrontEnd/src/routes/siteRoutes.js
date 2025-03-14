@@ -1,8 +1,8 @@
-import {Home} from "~/pages"
+import {BlogContent, Home} from "~/pages"
 
 const siteJRoutes = [
     {path: "/", element: <Home />},
-
+    {path: "/blog/:blogId", element: <BlogContent />},
 ]
 
 const siteRoutes = [

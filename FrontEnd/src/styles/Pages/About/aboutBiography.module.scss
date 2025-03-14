@@ -25,14 +25,10 @@
         padding-top: 70px;
         display: flex;
         flex-direction: column;
-        /* Xếp phần tử theo chiều dọc (img trên content) */
         align-items: center;
-        /* Căn giữa theo chiều ngang */
         justify-content: center;
-        /* Căn giữa theo chiều dọc */
         gap: 10px;
         right: 5%;
-        /* Khoảng cách giữa hình ảnh và nội dung */
 
 
         &__img {
@@ -44,12 +40,8 @@
 
             img {
                 position: relative;
-
-                /* Đảm bảo ảnh đáp ứng đầy đủ kích thước nếu cần */
                 width: 20%;
-                /* Điều chỉnh kích thước tối đa cho ảnh nếu muốn */
                 left: 10%;
-                /* Hoặc tinh chỉnh vị trí nếu cần */
             }
         }
 
@@ -58,12 +50,10 @@
             right: 5%;
             flex: 1;
             width: 40%;
-            /* Điều chỉnh độ rộng nếu cần */
             padding: 8% 5% 8% 12%;
-            /* Căn chỉnh nội dung bên trong */
-        p{
-            font-size: 20px;
-        }
+            p{
+                font-size: 20px;
+            }
         }
 
         &-text {
@@ -106,9 +96,9 @@
 
         }
         &-imgBacandCacem {
-            display: flex; /* Sử dụng flexbox để căn giữa */
-            justify-content: center; /* Căn giữa theo chiều ngang */
-            align-items: center; /* Căn giữa theo chiều dọc */
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding-bottom: 50px;
             img {
                 object-fit: contain;
