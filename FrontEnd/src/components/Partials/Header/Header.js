@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import styles from "~/styles/Layouts/header.module.scss";
 import {tdtu_logo, search_icon, user_icon, vn_icon} from "~/assets/img";
 import {siteJRoutes, aboutJRoutes, memorialAreaJRoutes, handiworkJRoutes} from "~/routes/appRoutes";
+import {memorialAreaTRoutes} from "~/routes/memorialAreaRoutes";
 
 function Header() {
     return (
@@ -34,7 +35,7 @@ function Header() {
                     <Link to={aboutJRoutes[0].path} className={clsx(styles['header-bottom__navigate-item'])}>
                         <p className={clsx(styles['header-bottom__navigate-item__para'], 'link-underline')}>CHỦ TỊCH TÔN ĐỨC THẮNG</p>
                     </Link>
-                    <Link to={memorialAreaJRoutes[0].path} className={clsx(styles['header-bottom__navigate-item'])}>
+                    <Link to={memorialAreaTRoutes[0].path} className={clsx(styles['header-bottom__navigate-item'])}>
                         <p className={clsx(styles['header-bottom__navigate-item__para'], 'link-underline')}>KHU LƯU NIỆM BÁC TÔN</p>
                     </Link>
                     <Link to={handiworkJRoutes[0].path} className={clsx(styles['header-bottom__navigate-item'])}>

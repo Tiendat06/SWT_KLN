@@ -1,19 +1,18 @@
 import clsx from "clsx";
 import styles from '~/styles/Pages/About/aboutGenealogy.module.scss';
 import { gia_pha, tuong_BacTon, tau } from '~/assets/img';
+import {KLNTitle} from "~/components";
 
 function AboutGenealogy() {
     return (
         <>
             <div className={clsx(styles["aboutgenealogy"])}>
-                <div className={clsx(styles["aboutgenealogy-title"])}>
-                    <h3 className={clsx(styles['aboutgenealogy-title__text'])}>
-                        GIA PHẢ BÁC TÔN
-                    </h3>
-                </div>
+                <KLNTitle>
+                    GIA PHẢ BÁC TÔN
+                </KLNTitle>
                 <div className={clsx(styles["aboutgenealogy-genealogy"])}>
                     <div className={clsx(styles["aboutgenealogy-genealogy__img"])}>
-                        <img src={`${gia_pha}`} alt="" />
+                        <img src="https://res.cloudinary.com/dydpf7z8u/image/upload/v1741877420/KLN/blog/ydzzhsrfikcxk7ggcz2n.png" alt="" />
                     </div>
                     <div className={clsx(styles["aboutgenealogy-genealogy__info"])}>
                         <p className={clsx(styles["aboutgenealogy-genealogy__info-title"])}>Gia phả chủ tịch Tôn Đức Thắng</p>
@@ -23,7 +22,7 @@ function AboutGenealogy() {
                                 làng Mỹ Hoà Hưng, tổng Định Thành, hạt Long Xuyên (nay thuộc xã Mỹ Hòa Hưng, thành phố Long Xuyên, tỉnh An Giang).
                                 Là con đầu của ông Tôn Văn Đề (1864-1938), và bà Nguyễn Thị Dị (1867-1947). Gia đình đông con, theo thông lệ miền Nam, ông còn được gọi là Hai Thắng.</p>
                             <div className={clsx(styles["aboutgenealogy-genealogy__info__paraimg-imgtuongBacTon"], '')}>
-                                <img src={`${tuong_BacTon}`} alt="" />
+                                <img src="https://res.cloudinary.com/dydpf7z8u/image/upload/v1741877465/KLN/blog/wmvpokeaswc2pjby3vvi.png" alt="" />
                             </div>
                         </div>
                         <p className={clsx(styles['aboutgenealogy-genealogy__info-paracontent'])}>Gia đình ông thuộc hạng nông dân khá giả nên từ nhỏ ông đã được học hành đàng hoàng.
@@ -43,7 +42,7 @@ function AboutGenealogy() {
                                 treo cờ đỏ trên một thiết giáp hạm của Pháp tại đây để ủng hộ Cách mạng Nga.[1]
                             </p>
                             <div className={clsx(styles["aboutgenealogy-politicalactivity__info__paraimg-imgtau"], '')}>
-                                <img src={`${tau}`} alt="" />
+                                <img src="https://res.cloudinary.com/dydpf7z8u/image/upload/v1741877502/KLN/blog/ndn7x1aogrxkc4ckq7cs.png" alt="" />
                             </div>
                         </div>
                         <p className={clsx(styles['aboutgenealogy-politicalactivity__info-paracontent'])}>

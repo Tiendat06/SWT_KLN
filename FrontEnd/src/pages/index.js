@@ -20,7 +20,9 @@ import Memorial15YearsPrison from "./MemorialArea/Memorial15YearsPrison";
 import MemorialArtifacts from "./MemorialArea/MemorialArtifacts";
 import MemorialExhibition from "~/pages/MemorialArea/MemorialExhibition";
 
-export {Home};
+import BlogContent from "~/pages/Reusable/BlogContent";
+
+export {Home, BlogContent};
 
 export {MemorialArea, MemorialAreas, MemorialStiltHouse, MemorialTomb, MemorialTemple, Memorial15YearsPrison, MemorialArtifacts, MemorialExhibition};
 

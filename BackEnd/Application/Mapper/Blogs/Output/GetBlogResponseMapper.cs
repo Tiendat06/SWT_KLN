@@ -12,12 +12,14 @@ namespace Application.Mapper.Blogs.Output
                 BlogTitle = blog.BlogTitle,
                 BlogContent = blog.BlogContent,
                 BlogImage = blog.BlogImage,
+                MediaTypeId = blog.MediaTypeId,
+                Description = blog.Description,
                 CreateDate = blog.CreateDate,
                 UserId = blog.UserId,
-                Name = blog.User.Name,
-                Email = blog.User.Email,
-                UserName = blog.User.Account.UserName,
-                RoleName = blog.User.Account.Role.RoleName
+                Name = blog?.User?.Name,
+                Email = blog?.User?.Email,
+                UserName = blog?.User?.Account?.UserName,
+                RoleName = blog?.User?.Account?.Role?.RoleName
             };
         }
 
@@ -32,12 +34,14 @@ namespace Application.Mapper.Blogs.Output
                     BlogTitle = blog.BlogTitle,
                     BlogContent = blog.BlogContent,
                     BlogImage = blog.BlogImage,
+                    MediaTypeId = blog.MediaTypeId,
+                    Description = blog.Description,
                     CreateDate = blog.CreateDate,
                     UserId = blog.UserId,
-                    Name = blog.User.Name,
-                    Email = blog.User.Email,
-                    UserName = blog.User.Account.UserName,
-                    RoleName = blog.User.Account.Role.RoleName
+                    Name = blog?.User?.Name,
+                    Email = blog?.User?.Email,
+                    UserName = blog?.User?.Account?.UserName,
+                    RoleName = blog?.User?.Account?.Role?.RoleName
                 });
             }
             return blogListDTO;

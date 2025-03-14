@@ -26,12 +26,14 @@ namespace Application.Mapper.SlideShows.Output
                 Title = slideShow.Title,
                 CreateDate = slideShow.CreateDate,
                 Image = slideShow.Image,
+                Description = slideShow.Description,
+                MediaTypeId = slideShow.MediaTypeId,
                 UserId = slideShow.UserId,
-                Name = slideShow.User.Name,
-                Email = slideShow.User.Email,
-                UserName = slideShow.User.Account.UserName,
-                RoleName = slideShow.User.Account.Role.RoleName,
-                SlideImage = slideShow.SlideImage != null ? JsonSerializer.Deserialize<List<GetSlideImageResponse>>(slideShow.SlideImage) : new List<GetSlideImageResponse>()
+                Name = slideShow?.User?.Name,
+                Email = slideShow?.User?.Email,
+                UserName = slideShow?.User?.Account?.UserName,
+                RoleName = slideShow?.User?.Account?.Role?.RoleName,
+                SlideImage = slideShow?.SlideImage != null ? JsonSerializer.Deserialize<List<GetSlideImageResponse>>(slideShow.SlideImage) : new List<GetSlideImageResponse>()
             };
         }
         public static IEnumerable<GetSlideShowResponse> GetSlideShowListMapEntityToDTO(IEnumerable<SlideShow> slideShows)
@@ -54,6 +56,8 @@ namespace Application.Mapper.SlideShows.Output
                     SlideShowId = slideShow.SlideShowId,
                     Title = slideShow.Title,
                     Image = slideShow.Image,
+                    Description = slideShow.Description,
+                    MediaTypeId = slideShow.MediaTypeId,
                     CreateDate = slideShow.CreateDate,
                     UserId = slideShow.UserId,
                     Name = slideShow.User.Name,

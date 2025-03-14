@@ -20,6 +20,9 @@ namespace Domain.Entities
         [Column("blogContent", TypeName ="nvarchar")]
         public string? BlogContent { get; set; } = string.Empty;
 
+        [Column("Description", TypeName = "nvarchar")]
+        public string? Description { get; set; } = string.Empty;
+
         [Column("createDate", TypeName ="datetime")]
         public DateTime? CreateDate { get; set; } = DateTime.Now;
 
@@ -29,9 +32,16 @@ namespace Domain.Entities
         [Column("userId", TypeName = "uniqueidentifier")]
         public Guid? UserId { get; set; }
 
+        [Column("mediaTypeId", TypeName = "int")]
+        public int? MediaTypeId { get; set; } = null;
+
+        [ForeignKey("MediaTypeId")]
+        public virtual MediaType? MediaType { get; set; }
+
         [ForeignKey("UserId")]
         public virtual User? User { get; set; }
 
+        
         // log blog 1 - 1
         //[NotMapped]
         public virtual ICollection<LogBlog>? LogBlogs { get; set; }

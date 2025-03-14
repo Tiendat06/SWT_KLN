@@ -32,8 +32,17 @@ namespace Domain.Entities
         [Column("createDate", TypeName = "datetime")]
         public DateTime? CreateDate { get; set; } = DateTime.Now;
 
+        [Column("Description", TypeName = "nvarchar")]
+        public string? Description { get; set; } = string.Empty;
+
         [Column("slideImage", TypeName = "nvarchar")]
         public string? SlideImage { get; set; }
+
+        [Column("mediaTypeId", TypeName = "int")]
+        public int? MediaTypeId { get; set; } = null;
+
+        [ForeignKey("MediaTypeId")]
+        public virtual MediaType? MediaType { get; set; }
 
         [Column("userId", TypeName = "uniqueidentifier")]
         public Guid? UserId { get; set; }

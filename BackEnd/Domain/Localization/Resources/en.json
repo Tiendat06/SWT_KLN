@@ -34,6 +34,7 @@
   "VideoTitle": "Video Title",
   "VideoLink": "Video Link",
   "TopicCapture": "Topic Capture",
+  "MediaTypeId": "Media Type",
 
   "InvalidValue": "{0} is invalid.",
   "NotEmpty": "{0} cannot be empty.",

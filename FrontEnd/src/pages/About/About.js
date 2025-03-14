@@ -22,7 +22,7 @@ function About() {
                         <h4 className={clsx(styles['about-genealogy__info-text'])}>GIA PHẢ CHỦ TỊCH TÔN ĐỨC THẮNG</h4>
                         <p className={clsx(styles['about-genealogy__info-para'])}>Tôn Đức Thắng, bí danh Thoại Sơn, sinh ngày 20 tháng 8 năm 1888 tại Cù lao Ông Hổ, làng Mỹ Hoà Hưng, tổng Định Thành, hạt Long Xuyên (nay thuộc xã Mỹ Hòa Hưng, thành phố Long Xuyên, tỉnh An Giang). Là con đầu của ông Tôn Văn Đề (1864–1938), và bà Nguyễn Thị Dị (1867–1947). Gia đình đông con, theo thông lệ miền Nam, ông còn được gọi là Hai Thắng.</p>
                         <Button
-                            urlLink={aboutJRoutes[1].path}
+                            urlLink={'/blog/fd1ac605-2eed-465d-a969-ee0b9f28429f'}
                             btnClassName={clsx(styles['about-genealogy__info-btn'])}
                         >
                             Xem chi tiết
@@ -41,7 +41,7 @@ function About() {
                             miền Nam, ông còn được gọi là Hai Thắng.
                         </p>
                         <Button
-                            urlLink={'/about-art/308960ec-5c3b-4d2c-bf5f-9b60294d84b1'}
+                            urlLink={'/blog/1d538767-7df7-40fe-9e1e-3983b2e8fdd9'}
                             btnClassName={clsx(styles['about-biography__info-btn'])}
                         >
                             Xem chi tiết

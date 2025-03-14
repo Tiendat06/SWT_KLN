@@ -34,6 +34,7 @@
   "VideoTitle": "Tiêu đề video",
   "VideoLink": "Liên kết video",
   "TopicCapture": "Tiêu đề chuyên đề",
+  "MediaTypeId": "Loại đề mục",
 
   "InvalidValue": "{0} không hợp lệ.",
   "NotEmpty": "{0} không được để trống.",
