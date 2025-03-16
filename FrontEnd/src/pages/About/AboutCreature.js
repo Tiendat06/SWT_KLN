@@ -1,8 +1,9 @@
 import clsx from "clsx";
 import styles from '~/styles/Pages/About/aboutCreature.module.scss';
-import {CreatureList} from '~/features/About';
+import {ButtonLink, CreatureList} from '~/features/About';
 import {tac_pham_2, tac_pham_3, tac_pham_4} from "~/assets/img";
 import {Button} from "~/components";
+import {AboutBooksMagazinesProvider} from "~/context/About/AboutBooksMagazinesContext";
 
 function AboutCreature() {
     return (
@@ -22,7 +23,7 @@ function AboutCreature() {
                             Sách
                         </h5>
                         <div className={clsx(styles["about-creature__item-btn"])}>
-                            <Button options={2}>Xem chi tiết</Button>
+                            <ButtonLink isBookNavigation={true} />
                         </div>
                     </div>
                 </li>
@@ -35,7 +36,7 @@ function AboutCreature() {
                             Báo - Tạp Chí
                         </h5>
                         <div className={clsx(styles["about-creature__item-btn"])}>
-                            <Button options={2}>Xem chi tiết</Button>
+                            <ButtonLink isBookNavigation={false} />
                         </div>
                     </div>
                 </li>
@@ -48,7 +49,7 @@ function AboutCreature() {
                             Tài liệu đa phương tiện
                         </h5>
                         <div className={clsx(styles["about-creature__item-btn"])}>
-                            <Button options={2}>Xem chi tiết</Button>
+                            <Button urlLink={`/about-multimedia-documents`} options={2}>Xem chi tiết</Button>
                         </div>
                     </div>
                 </li>

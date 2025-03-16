@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import styles from '~/styles/Pages/About/aboutVideoFilm.module.scss';
 import VideoClip from "~/components/VideoClip/VideoClip";
 import {useLayoutEffect} from "react";
-import {getVideoListService} from "~/services/AboutService";
+import {getVideoListService} from "~/services/VideoService";
 import {useAboutVideoContext} from "~/context/About/AboutVideoContext";
 
 function VideoClipList(){

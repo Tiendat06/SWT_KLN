@@ -4,6 +4,7 @@
     {
         public required Guid? VideoId { get; set; }
         public string? VideoTitle { get; set; }
+        public int? MediaTypeId { get; set; }
         public DateTime? VideoCreateDate { get; set; }
         public string? VideoImageLink { get; set; }
         public string? VideoLink { get; set; }

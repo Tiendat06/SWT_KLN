@@ -3,7 +3,7 @@
 @use "../../Utils/variables" as *;
 
 .memorial-exhibition{
-
+  margin-top: $app-page-title-margin-top;
   &__content{
     &--inner{
       padding: 30px;

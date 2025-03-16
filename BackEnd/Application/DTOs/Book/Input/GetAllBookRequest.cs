@@ -1,6 +1,6 @@
 ﻿namespace Application
 {
-    public class GetAllBookRequest : PaginationRequest
+    public class GetAllBookRequest : PaginationWithSearchAndMediaTypeDto
     {
     }
 }

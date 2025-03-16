@@ -43,8 +43,9 @@ namespace Application.Services
         {
             var page = input.Page;
             var fetch = input.Fetch;
-            var musics = await _musicRepository.GetAllMusicAsync(fetch, page);
-            var totalMusic = await _musicRepository.CountMusicAsync();
+            var type = input.Type;
+            var musics = await _musicRepository.GetAllMusicAsync(fetch, page, type);
+            var totalMusic = await _musicRepository.CountMusicAsync(type);
             var musicMapper = GetMusicResponseMapper.GetMusicListMapEntityToDTO(musics);
             return new PaginationResponseDto<GetMusicResponse>(totalMusic, musicMapper);
         }

@@ -1,17 +1,16 @@
 import clsx from "clsx";
 import styles from '~/styles/Pages/Site/site.module.scss';
-import {plus_icon_1, blog_home_1, sentence_home_1} from "~/assets/img";
-import {siteJRoutes} from '~/routes/appRoutes';
+import {plus_icon_1, sentence_home_1} from "~/assets/img";
 import {Link} from "react-router-dom";
 import {Fragment, useEffect, useState} from "react";
-import {getBlogListData} from "~/services/SiteService";
+import {getBlogListService} from "~/services/BlogService";
+import MediaType from "~/enum/MediaType/MediaType";
 
 function NewsList() {
-
     const [blogListData, setBlogListData] = useState([]);
     useEffect(() => {
         const GetBlogListData = async () => {
-            const data = await getBlogListData();
+            const data = await getBlogListService(4, 1);
             setBlogListData(data?.data?.items);
         }
         GetBlogListData();
@@ -26,17 +25,17 @@ function NewsList() {
                 </div>
                 <div className={clsx(styles["home-news__blog"])}>
                     {blogListData?.map((blog, index) => (
-                        <Fragment key={`blog-home-${index}`}>
+                        <Fragment key={`blog-home-${blog?.blogId}`}>
                             {index === 0 ?
-                                (<Link to={siteJRoutes[0].path} className={clsx(styles["home-news__blog-content"])}>
-                                    <img src={`${blog.blogImage}`} className={clsx(styles['home-news__blog-img'])} alt=""/>
-                                    <p className={clsx(styles['home-news__blog-para'])}>
-                                        {blog.blogTitle}
+                                (<Link to={(blog?.mediaTypeId !== MediaType.TDTHandiwork ? `/blog/${blog?.blogId}` : `/handiwork/${blog?.blogId}`)} className={clsx(styles["home-news__blog-content"])}>
+                                    <img src={`${blog?.blogImage}`} className={clsx(styles['home-news__blog-img'])} alt=""/>
+                                    <p className={clsx(styles['home-news__blog-para'], 'text-center')}>
+                                        {blog?.blogTitle}
                                     </p>
                                 </Link>) :
                                 (
-                                    <Link to={siteJRoutes[0].path} className={clsx(styles['home-news__blog-item'])}>
-                                        {blog.blogTitle}
+                                    <Link to={(blog?.mediaTypeId !== MediaType.TDTHandiwork ? `/blog/${blog?.blogId}` : `/handiwork/${blog?.blogId}`)} className={clsx(styles['home-news__blog-item'])}>
+                                        {blog?.blogTitle}
                                     </Link>
                                 )
                             }

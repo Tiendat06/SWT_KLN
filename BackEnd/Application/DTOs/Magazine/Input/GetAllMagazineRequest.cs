@@ -1,6 +1,6 @@
 ﻿namespace Application
 {
-    public class GetAllMagazineRequest : PaginationRequest
+    public class GetAllMagazineRequest : PaginationWithSearchAndMediaTypeDto
     {
     }
 }

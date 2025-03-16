@@ -3,7 +3,7 @@ import styles from '~/styles/Pages/About/aboutMusic.module.scss';
 import {Fragment, useLayoutEffect, useRef, useState} from "react";
 import {useAboutAudioContext} from "~/context/About/AboutAudioContext";
 import {FormatTime} from "~/utils";
-import {getMusicListService} from "~/services/AboutService";
+import {getMusicListService} from "~/services/MusicService";
 
 function AudioList() {
     const audioRefs = useRef([]);

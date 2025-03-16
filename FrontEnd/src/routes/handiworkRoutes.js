@@ -1,7 +1,7 @@
 import {Handiwork} from "~/pages"
 
 const handiworkJRoutes = [
-    {path: "/handiwork", element: <Handiwork />},
+    {path: "/handiwork/:blogId", element: <Handiwork />},
 
 ]
 

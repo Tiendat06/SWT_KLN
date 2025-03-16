@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import styles from '~/styles/Pages/About/aboutCreature.module.scss';
-import {getBookListService} from "~/services/AboutService";
+import {getBookListService} from "~/services/BookService";
 import {Button, CustomReactPaginate} from "~/components";
 import {play_icon_1} from "~/assets/img";
 import {useCallback, useLayoutEffect, useState} from "react";
@@ -10,20 +10,19 @@ function CreatureList() {
     const itemsPerPage = 3;
     const [bookList, setBookList] = useState([]);
     const [pageCount, setPageCount] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useLayoutEffect(() => {
         const GetBookList = async () => {
-            // const quantityData = await getBooksQuantity();
-            const bookData = await getBookListService(itemsPerPage, 1);
-            setBookList(bookData.data.items);
+            const bookData = await getBookListService(itemsPerPage, currentPage);
+            setBookList(bookData?.data?.items);
             setPageCount(Math.ceil(bookData?.data?.totalCount / itemsPerPage));
         }
         GetBookList();
-    }, [pageCount]);
+    }, [currentPage]);
 
     const handlePageClick = useCallback(async (event) => {
-        const bookData = await getBookListService(itemsPerPage, event.selected + 1);
-        setBookList(bookData?.data?.items);
+        setCurrentPage(event.selected + 1)
     }, []);
 
     return (

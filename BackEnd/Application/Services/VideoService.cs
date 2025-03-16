@@ -46,8 +46,9 @@ namespace Application.Services
         {
             var page = input.Page;
             var fetch = input.Fetch;
-            var videos = await _videoRepository.GetAllVideosAsync(page, fetch);
-            var totalVideo = await _videoRepository.CountVideoAsync();
+            var type = input.Type;
+            var videos = await _videoRepository.GetAllVideosAsync(page, fetch, type);
+            var totalVideo = await _videoRepository.CountVideoAsync(type);
             var videoMapper = GetVideoResponseMapper.GetVideoListMapEntityToDTO(videos);
             return new PaginationResponseDto<GetVideoResponse>(totalVideo, videoMapper);
         }

@@ -3,10 +3,23 @@ import {Link} from "react-router-dom";
 
 import styles from "~/styles/Layouts/header.module.scss";
 import {tdtu_logo, search_icon, user_icon, vn_icon} from "~/assets/img";
-import {siteJRoutes, aboutJRoutes, memorialAreaJRoutes, handiworkJRoutes} from "~/routes/appRoutes";
+import {siteJRoutes, aboutJRoutes,} from "~/routes/appRoutes";
 import {memorialAreaTRoutes} from "~/routes/memorialAreaRoutes";
+import {useEffect, useState} from "react";
+import {getBlogListService} from "~/services/BlogService";
+import MediaType from "~/enum/MediaType/MediaType";
 
 function Header() {
+    const [blogId, setBlogId] = useState(null);
+    useEffect(() => {
+        const getBlogById = async () => {
+            const data = await getBlogListService(1, 1, MediaType.TDTHandiwork);
+            // console.log(data);
+            setBlogId(data?.data?.items[0]?.blogId);
+        }
+        getBlogById();
+    }, []);
+
     return (
         <>
             <header className={clsx(styles["header-top"])}>
@@ -38,7 +51,7 @@ function Header() {
                     <Link to={memorialAreaTRoutes[0].path} className={clsx(styles['header-bottom__navigate-item'])}>
                         <p className={clsx(styles['header-bottom__navigate-item__para'], 'link-underline')}>KHU LƯU NIỆM BÁC TÔN</p>
                     </Link>
-                    <Link to={handiworkJRoutes[0].path} className={clsx(styles['header-bottom__navigate-item'])}>
+                    <Link to={`/handiwork/${blogId}`} className={clsx(styles['header-bottom__navigate-item'])}>
                         <p className={clsx(styles['header-bottom__navigate-item__para'], 'link-underline')}>CÔNG TRÌNH MANG TÊN BÁC TÔN</p>
                     </Link>
                 </ul>

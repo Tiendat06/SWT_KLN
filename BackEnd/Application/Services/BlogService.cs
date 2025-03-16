@@ -64,7 +64,7 @@ namespace Application.Services
             var fetch = input.Fetch;
             var type = input.Type;
             var blogs = await _blogRepository.GetAllBlogsAsync(page, fetch, type);
-            var totalBlogs = await _blogRepository.CountAllBlogsAsync();
+            var totalBlogs = await _blogRepository.CountAllBlogsAsync(type);
             var blogMapper = GetBlogResponseMapper.GetBlogListMapEntityToDTO(blogs);
             return new PaginationResponseDto<GetBlogResponse>(totalBlogs, blogMapper);
         }

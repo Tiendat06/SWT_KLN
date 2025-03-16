@@ -77,9 +77,12 @@ namespace Infrastructure.Repositories
             await Task.CompletedTask;
         }
 
-        public async Task<int> CountAllBlogsAsync()
+        public async Task<int> CountAllBlogsAsync(int type)
         {
-            return (int) await _context.Blogs.CountAsync(x => x.IsDeleted == false);
+            var query = _context.Blogs.AsNoTracking();
+            if (type > 0)
+                query = query.Where(x => x.MediaTypeId == type);
+            return await query.CountAsync(x => x.IsDeleted == false);
         }
     }
 }

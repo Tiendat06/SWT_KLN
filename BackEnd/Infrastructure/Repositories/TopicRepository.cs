@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Domain.Interfaces;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Infrastructure.Repositories
 {
@@ -12,11 +13,20 @@ namespace Infrastructure.Repositories
         {
             _context = context;
         }
-        public async Task<IEnumerable<Topic>> GetAllTopicsAsync(int page, int fetch)
+        public async Task<IEnumerable<Topic>> GetAllTopicsAsync(int page, int fetch, int type, int topicType)
         {
             var query = _context.Topics
                 .AsNoTracking()
                 .Where(topic => topic.IsDeleted == false);
+
+            if (type > 0)
+                query = query.Where(x => x.MediaTypeId == type);
+
+            // check get images or videos
+            if (topicType == 1)
+                query = query.Where(x => x.Images != null);
+            else if (topicType == 2)
+                query = query.Where(x => x.Videos != null);
 
             // Sắp xếp trước khi phân trang
             query = query.OrderByDescending(topic => topic.CreateDate);
@@ -68,9 +78,20 @@ namespace Infrastructure.Repositories
             return topic;
         }
 
-        public async Task<int> CountTopicAsync()
+        public async Task<int> CountTopicAsync(int type, int topicType)
         {
-            return await _context.Topics.CountAsync(x => x.IsDeleted == false);
+            var query = _context.Topics
+                .AsNoTracking();
+            if (type > 0)
+                query = query.Where(x => x.MediaTypeId == type);
+
+            // check get images or videos
+            if (topicType == 1)
+                query = query.Where(x => x.Images != null);
+            else if (topicType == 2)
+                query = query.Where(x => x.Videos != null);
+
+            return await query.CountAsync(x => x.IsDeleted == false);
         }
     }
 }

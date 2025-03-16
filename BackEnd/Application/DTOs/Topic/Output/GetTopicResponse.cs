@@ -5,6 +5,7 @@ namespace Application
     {
         public required Guid TopicId { get; set; }
         public string? Capture { get; set; }
+        public int? MediaTypeId { get; set; }
         public DateTime? CreateDate { get; set; }
         public Guid? UserId { get; set; }
         public string? Name { get; set; }

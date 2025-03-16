@@ -69,13 +69,13 @@ namespace API.Controllers
         }
 
         // GET: api/Book/book-quan
-        [HttpGet("book-quan")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
-        public async Task<IActionResult> CountBookAsync()
-        {
-            var result = await _bookService.CountBooksAsync();
-            return ApiSuccess(result);
-        }
+        //[HttpGet("book-quan")]
+        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        //public async Task<IActionResult> CountBookAsync()
+        //{
+        //    var result = await _bookService.CountBooksAsync();
+        //    return ApiSuccess(result);
+        //}
     }
 }
 

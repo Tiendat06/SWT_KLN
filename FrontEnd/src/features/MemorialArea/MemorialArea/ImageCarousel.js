@@ -6,7 +6,7 @@ import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import styles from '~/styles/Pages/Memorial/memorialArea.module.scss';
-import {getBlogListService} from "~/services/MemorialService";
+import {getBlogListService} from "~/services/BlogService";
 import {clsx} from "clsx";
 import MediaType from "~/enum/MediaType/MediaType";
 import {Link} from "react-router-dom";
@@ -15,7 +15,7 @@ const ImageCarousel = () => {
     const [blogList, setBlogList] = useState([]);
     useEffect(() => {
         const getBlogList = async () => {
-            const data = await getBlogListService(0, 1, MediaType.KLNTDT);
+            const data = await getBlogListService(0, 1, MediaType.TDTMemorial);
             setBlogList(data?.data?.items);
         }
         getBlogList();

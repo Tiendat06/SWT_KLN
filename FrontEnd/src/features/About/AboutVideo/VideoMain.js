@@ -2,7 +2,7 @@ import {clsx} from "clsx";
 import styles from "~/styles/Pages/About/aboutVideoFilm.module.scss";
 import {useAboutVideoContext} from "~/context/About/AboutVideoContext";
 import {useLayoutEffect} from "react";
-import {getVideoListService} from "~/services/AboutService";
+import {getVideoListService} from "~/services/VideoService";
 
 const VideoMain = () => {
     const {

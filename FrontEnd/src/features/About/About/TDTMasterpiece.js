@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import {aboutJRoutes} from '~/routes/appRoutes';
 import {Carousel} from "primereact/carousel";
 import {next_icon_1, previous_icon_1} from '~/assets/img';
-import {getBookListService} from "~/services/AboutService";
+import {getBookListService} from "~/services/BookService";
 import {useEffect, useState} from "react";
 
 function TDTMasterpiece() {
@@ -42,7 +42,7 @@ function TDTMasterpiece() {
             <div className={clsx(styles["about-masterpiece"])}>
                 <div className={clsx(styles["about-masterpiece__title"])}>
                     <p className={clsx(styles['about-masterpiece__title-text'])}>TÁC PHẨM MANG TÊN BÁC TÔN</p>
-                    <Link to={aboutJRoutes[3].path} className={clsx(styles['about-masterpiece__title-more'])}>Xem thêm</Link>
+                    <Link to={'/about-creature'} className={clsx(styles['about-masterpiece__title-more'])}>Xem thêm</Link>
                 </div>
                 <div className={clsx(styles["about-masterpiece__list"])}>
                     <Carousel value={masterPieceList}

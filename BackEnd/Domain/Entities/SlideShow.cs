@@ -29,8 +29,14 @@ namespace Domain.Entities
         [Column("slideImage", TypeName = "nvarchar")]
         public string? SlideImage { get; set; }
 
+        [Column("slideShowTypeId", TypeName = "int")]
+        public int? SlideShowTypeId { get; set; } = null;
+
         [Column("mediaTypeId", TypeName = "int")]
         public int? MediaTypeId { get; set; } = null;
+
+        [ForeignKey("SlideShowTypeId")]
+        public virtual SlideShowType? SlideShowType { get; set; }
 
         [ForeignKey("MediaTypeId")]
         public virtual MediaType? MediaType { get; set; }

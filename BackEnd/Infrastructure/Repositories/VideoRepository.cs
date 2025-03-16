@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Domain.Interfaces;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Infrastructure.Repositories
 {
@@ -16,11 +17,15 @@ namespace Infrastructure.Repositories
         {
             await _context.Videos.AddAsync(video);
         }
-        public async Task<IEnumerable<Video>> GetAllVideosAsync(int page, int fetch)
+        public async Task<IEnumerable<Video>> GetAllVideosAsync(int page, int fetch, int type)
         {
             var query = _context.Videos
                 .AsNoTracking()
                 .Where(video => video.IsDeleted == false);
+
+            if (type > 0)
+                query = query.Where(x => x.MediaTypeId == type);
+
             // Sắp xếp trước khi phân trang
             query = query.OrderByDescending(videos => videos.CreateDate);
 
@@ -46,9 +51,13 @@ namespace Infrastructure.Repositories
                 .FirstOrDefaultAsync(video => video.VideoId == id && video.IsDeleted == false);
         }
 
-        public async Task<int> CountVideoAsync()
+        public async Task<int> CountVideoAsync(int type)
         {
-            return await _context.Videos.CountAsync(x => x.IsDeleted == false);
+            var query = _context.Videos
+                .AsNoTracking();
+            if (type > 0)
+                query = query.Where(x => x.MediaTypeId == type);
+            return await query.CountAsync(x => x.IsDeleted == false);
         }
         public async Task HardDeleteVideoAsync(Guid id)
         {

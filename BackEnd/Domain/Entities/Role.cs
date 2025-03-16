@@ -16,6 +16,6 @@ namespace Domain.Entities
 
         //[NotMapped]
         //[ForeignKey("RoleId")]
-        public virtual Account? Account { get; set; }
+        //public virtual Account? Account { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace Application.Mapper.Videos.Input
             {
                 VideoId = guid,
                 Title = addVideoRequest.Title,
+                MediaTypeId = addVideoRequest.MediaTypeId,
                 VideoLink = videoLink,
                 ImageLink = imageLink,
                 UserId = addVideoRequest.UserId,

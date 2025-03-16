@@ -15,4 +15,15 @@ namespace Application
     {
         public virtual string Keyword { get; set; }
     }
+
+    public class PaginationWithSearchDto : PaginationRequest, ISearchRequestDto
+    {
+        public virtual string Keyword { get; set; }
+    }
+
+    public class PaginationWithSearchAndMediaTypeDto : PaginationRequest, ISearchRequestDto, IMediaTypeRequest
+    {
+        public virtual string Keyword { get; set; }
+        public virtual int Type { get; set; } = 0;
+    }
 }

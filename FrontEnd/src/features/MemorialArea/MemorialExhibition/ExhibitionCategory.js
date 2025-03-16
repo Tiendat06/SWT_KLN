@@ -1,10 +1,11 @@
 import {CustomCategory, SlideImage} from "~/components";
 import clsx from "clsx";
 import styles from "~/styles/Pages/Memorial/memorialExhibition.module.scss";
-import {useAboutArtContext} from "~/context/About/AboutArtContext";
-import {useEffect} from "react";
-import {banner_1} from "~/assets/img";
-import {getSlideShowByIdService} from "~/services/AboutService";
+import {useEffect, useState} from "react";
+import {getSlideShowByIdService, getSlideShowListService} from "~/services/SlideShowService";
+import {useMemorialExhibitionContext} from "~/context/MemorialArea/MemorialExhibitionContext";
+import MediaType from "~/enum/MediaType/MediaType";
+import SlideShowType from "~/enum/SlideShowType/SlideShowType";
 
 const ExhibitionCategory = () => {
     const {slideShowId,
@@ -12,9 +13,10 @@ const ExhibitionCategory = () => {
         setSlideImageList,
         slideImageMain,
         setSlideImageMain,
-        slideShow,
         setSlideShow
-    } = useAboutArtContext();
+    } = useMemorialExhibitionContext();
+
+    const [slideShowList, setSlideShowList] = useState([]);
 
     useEffect(() => {
         const getSlideShowById = async () => {
@@ -23,23 +25,34 @@ const ExhibitionCategory = () => {
             const slideImageData = data?.data?.slideImage;
             setSlideShow(slideShowData);
             setSlideImageList(slideImageData);
-            setSlideImageMain(slideImageData[0].imageLink);
+            setSlideImageMain(slideImageData[0]);
         }
         getSlideShowById();
+    }, []);
+
+    useEffect(() => {
+        const getSlideShowList = async () => {
+            const data = await getSlideShowListService(0, 1, MediaType.TDTMemorial, SlideShowType.ExhibitionHouse);
+            const slideShowListData = data?.data?.items;
+            setSlideShowList(slideShowListData);
+        }
+        getSlideShowList();
     }, []);
     return (
         <>
             <CustomCategory
                 title="Danh sách mục trưng bày"
+                categoryList={slideShowList}
+                choosingItemId={slideShowId}
             >
                 <div className={clsx(styles["memorial-exhibition__content"])}>
                     <div className={clsx(styles["memorial-exhibition__content--inner"])}>
                         <div className={clsx(styles["memorial-exhibition__main"])}>
                             <div className={clsx(styles["memorial-exhibition__img"])}>
-                                <img style={{width: "100%", height: "100%"}} src={slideImageMain} alt="Ảnh nghệ thuật"/>
+                                <img style={{width: "100%", height: "100%"}} src={slideImageMain?.imageLink} alt="Ảnh nghệ thuật"/>
                                 <div className={clsx(styles["memorial-exhibition__overlay"])}>
                                     <p>
-                                        Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo
+                                        {slideImageMain?.capture}
                                     </p>
                                 </div>
                             </div>

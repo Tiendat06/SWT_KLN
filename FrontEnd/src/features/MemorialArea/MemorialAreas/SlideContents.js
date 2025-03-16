@@ -4,7 +4,7 @@ import {Carousel} from "primereact/carousel";
 import {next_icon_1, previous_icon_1} from "~/assets/img";
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getMagazineListService} from "~/services/AboutService";
+import {getMagazineListService} from "~/services/MagazineService";
 
 const SlideContents = () => {
     const [handiworkList, setHandiworkList] = useState([]);

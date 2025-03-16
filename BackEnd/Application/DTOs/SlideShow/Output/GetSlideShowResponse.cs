@@ -9,6 +9,7 @@ namespace Application
         public string? Image { get; set; }
         public string? Description { get; set; }
         public int? MediaTypeId { get; set; }
+        public int? SlideShowTypeId { get; set; }
         public DateTime? CreateDate { get; set; }
         public Guid? UserId { get; set; }
         public string? Name { get; set; }

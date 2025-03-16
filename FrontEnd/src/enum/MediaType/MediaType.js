@@ -1,16 +1,20 @@
 class MediaType {
     /**
+     * Không phân loại
+     * */
+    None = 0;
+    /**
      * Khu lưu niệm bác Tôn
      * */
-    KLNTDT = 1;
+    TDTMemorial = 1;
     /**
      * Chủ tịch Tôn Đức Thắng
      * */
-    CTTDT = 2;
+    PresidentTDT = 2;
     /**
      * Công trình mang tên bác Tôn
      * */
-    CTMTBT = 3;
+    TDTHandiwork = 3;
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export

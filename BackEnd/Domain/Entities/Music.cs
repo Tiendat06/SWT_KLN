@@ -32,6 +32,12 @@ namespace Domain.Entities
         [Column("userId", TypeName = "uniqueidentifier")]
         public Guid? UserId { get; set; }
 
+        [Column("mediaTypeId", TypeName = "int")]
+        public int? MediaTypeId { get; set; } = null;
+
+        [ForeignKey("MediaTypeId")]
+        public virtual MediaType? MediaType { get; set; }
+
         [ForeignKey("UserId")]
         public virtual User? User { get; set; }
 

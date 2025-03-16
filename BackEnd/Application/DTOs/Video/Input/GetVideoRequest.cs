@@ -1,6 +1,6 @@
 ﻿namespace Application 
 {
-    public class GetVideoRequest : PaginationRequest
+    public class GetVideoRequest : PaginationWithSearchAndMediaTypeDto
     {
     }
 }

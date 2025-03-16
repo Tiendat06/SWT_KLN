@@ -26,6 +26,15 @@ namespace Domain.Entities
         [Column("isDeleted", TypeName = "bit")]
         public bool? IsDeleted { get; set; } = false;
 
+        [Column("Description", TypeName = "nvarchar")]
+        public string? Description { get; set; } = string.Empty;
+
+        [Column("mediaTypeId", TypeName = "int")]
+        public int? MediaTypeId { get; set; } = null;
+
+        [ForeignKey("MediaTypeId")]
+        public virtual MediaType? MediaType { get; set; }
+
         [Column("userId", TypeName = "uniqueidentifier")]
         public Guid? UserId { get; set; }
 

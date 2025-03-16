@@ -2,8 +2,8 @@ import {CustomAudio} from "~/components";
 import {clsx} from "clsx";
 import styles from '~/styles/Pages/About/aboutMusic.module.scss';
 import {useAboutAudioContext} from "~/context/About/AboutAudioContext";
-import {useLayoutEffect, useRef} from "react";
-import {getMusicListService} from "~/services/AboutService";
+import {useLayoutEffect,} from "react";
+import {getMusicListService} from "~/services/MusicService";
 
 function MainAudio() {
     const {

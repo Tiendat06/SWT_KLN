@@ -1,7 +1,7 @@
 import KLNTitle from "~/components/KLNTitle/KLNTitle";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getBlogByIdService} from "~/services/MemorialService";
+import {getBlogByIdService} from "~/services/BlogService";
 
 const BlogContent = () => {
     const {blogId} = useParams();
@@ -13,7 +13,7 @@ const BlogContent = () => {
             setBlog(data?.data);
         }
         getBlogById();
-    }, []);
+    }, [blogId]);
 
     return (
         <>

@@ -1,4 +1,4 @@
-import {SlideBanner, SlideImage} from "~/components";
+import {SlideBanner,} from "~/components";
 import {MemorialAreasProvider} from "~/context/MemorialArea/MemorialAreasContext";
 import {SlideContents} from "~/features/MemorialArea";
 import clsx from "clsx";

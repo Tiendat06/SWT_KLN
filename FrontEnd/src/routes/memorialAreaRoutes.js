@@ -12,8 +12,8 @@ import {
 
 const memorialAreaJRoutes = [
     {path: "/memorial-areas", element: <MemorialAreas />},
-    {path: "/memorial-artifact", element: <MemorialArtifacts />},
-    {path: "/memorial-exhibition", element: <MemorialExhibition />},
+    {path: "/memorial-artifact/:slideShowId", element: <MemorialArtifacts />},
+    {path: "/memorial-exhibition/:slideShowId", element: <MemorialExhibition />},
 ]
 
 const memorialAreaTRoutes = [

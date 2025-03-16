@@ -8,6 +8,8 @@
         public string Publisher { get; set; }
         public string Author { get; set; }
         public DateTime YearPublic { get; set; }
+        public int? MediaTypeId { get; set; }
+        public string? Description { get; set; }
         public string Image { get; set; }
         public DateTime CreateDate { get; set; }
         public Guid? UserId { get; set; }

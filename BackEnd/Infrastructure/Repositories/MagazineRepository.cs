@@ -19,11 +19,14 @@ namespace Infrastructure.Repositories
             await _context.Magazines.AddAsync(magazine);
         }
 
-        public async Task<IEnumerable<Magazine>> GetAllMagazinesAsync(int page, int fetch)
+        public async Task<IEnumerable<Magazine>> GetAllMagazinesAsync(int page, int fetch, int type)
         {
             var query = _context.Magazines
                 .AsNoTracking()
                 .Where(magazine => magazine.IsDeleted == false);
+
+            if (type > 0)
+                query = query.Where(x => x.MediaTypeId == type);
 
             // Sắp xếp trước khi phân trang
             query = query.OrderByDescending(magazine => magazine.CreateDate);
@@ -63,9 +66,13 @@ namespace Infrastructure.Repositories
             await Task.CompletedTask;
         }
 
-        public async Task<int> CountMagazineAsync()
+        public async Task<int> CountMagazineAsync(int type)
         {
-            return (int)await _context.Magazines.CountAsync(x => x.IsDeleted == false);
+            var query = _context.Magazines
+                .AsNoTracking();
+            if (type > 0)
+                query = query.Where(x => x.MediaTypeId == type);
+            return await query.CountAsync(x => x.IsDeleted == false);
         }
     }
 }

@@ -176,7 +176,7 @@ namespace KLN
             builder.Services.AddScoped<ILogBookRepository, LogBookRepository>();
             builder.Services.AddScoped<ILogMagazineRepository, LogMagazineRepository>();
             builder.Services.AddScoped<ISlideShowRepository, SlideShowRepository>();
-            builder.Services.AddScoped<ISlideImageRepository, SlideImageRepository>();
+            builder.Services.AddScoped<ISlideShowTypeRepository, SlideShowTypeRepository>();
             builder.Services.AddScoped<ISolemnVisitRepository, SolemnVisitRepository>();
             builder.Services.AddScoped<IVideoRepository, VideoRepository>();
             builder.Services.AddScoped<ILogVideoRepository, LogVideoRepository>();
@@ -192,6 +192,7 @@ namespace KLN
             builder.Services.AddScoped<ILogBookService, LogBookService>();
             builder.Services.AddScoped<ILogMagazineService, LogMagazineService>();
             builder.Services.AddScoped<ISlideShowService, SlideShowService>();
+            builder.Services.AddScoped<ISlideShowTypeService, SlideShowTypeService>();
             builder.Services.AddScoped<ISolemnVisitService, SolemnVisitService>();
             builder.Services.AddScoped<IVideoService, VideoService>();
             builder.Services.AddScoped<ILogVideoService, LogVideoService>();

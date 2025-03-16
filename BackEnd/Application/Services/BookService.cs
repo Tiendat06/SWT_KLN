@@ -43,8 +43,9 @@ namespace Application.Services
         {
             var page = input.Page;
             var fetch = input.Fetch;
-            var books = await _bookRepository.GetAllBooksAsync(page, fetch);
-            var totalBooks = await _bookRepository.CountBooksAsync();
+            var type = input.Type;
+            var books = await _bookRepository.GetAllBooksAsync(page, fetch, type);
+            var totalBooks = await _bookRepository.CountBooksAsync(type);
             var bookMapper = GetBookResponseMapper.GetBookListMapEntityToDTO(books);
             return new PaginationResponseDto<GetBookResponse>(totalBooks, bookMapper);
         }
@@ -252,9 +253,9 @@ namespace Application.Services
             }
         }
 
-        public async Task<int> CountBooksAsync()
-        {
-            return await _bookRepository.CountBooksAsync();
-        }
+        //public async Task<int> CountBooksAsync(int type)
+        //{
+        //    return await _bookRepository.CountBooksAsync(x => x.IsDeleted == false);
+        //}
     }
 }

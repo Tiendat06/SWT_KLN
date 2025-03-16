@@ -10,7 +10,9 @@ namespace Application.Mapper.Magazines.Output
             {
                 MagazineId = magazine.MagazineId,
                 Title = magazine.Title,
+                MediaTypeId = magazine.MediaTypeId,
                 MagazineContent = magazine.MagazineContent,
+                Description = magazine.Description,
                 Image = magazine.Image,
                 CreateDate = magazine.CreateDate,
                 UserId = magazine.UserId,
@@ -30,7 +32,9 @@ namespace Application.Mapper.Magazines.Output
                 {
                     MagazineId = magazine.MagazineId,
                     Title = magazine.Title,
+                    MediaTypeId = magazine.MediaTypeId,
                     MagazineContent = magazine.MagazineContent,
+                    Description = magazine.Description,
                     Image = magazine.Image,
                     CreateDate = magazine.CreateDate,
                     UserId = magazine.UserId,

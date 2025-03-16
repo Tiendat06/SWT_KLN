@@ -38,12 +38,21 @@
       }
     }
 
+    &__item--choose{
+      background-color: $app-color-14;
+      p{
+        color: $app-color-9;
+      }
+    }
+
     &__title {
-      padding: 10px 0;
+      padding: 20px 10px;
       text-align: center;
       margin-bottom: 0;
-      background-color: $app-color-3;
+      background-color: $app-color-14;
       color: $app-color-13;
+      font-size: 21px;
+      border-bottom: 1px solid $app-color-13;
     }
   }
 }

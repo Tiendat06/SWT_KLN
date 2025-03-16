@@ -28,6 +28,7 @@ namespace Application.Mapper.SlideShows.Output
                 Image = slideShow.Image,
                 Description = slideShow.Description,
                 MediaTypeId = slideShow.MediaTypeId,
+                SlideShowTypeId = slideShow.SlideShowTypeId,
                 UserId = slideShow.UserId,
                 Name = slideShow?.User?.Name,
                 Email = slideShow?.User?.Email,
@@ -58,13 +59,14 @@ namespace Application.Mapper.SlideShows.Output
                     Image = slideShow.Image,
                     Description = slideShow.Description,
                     MediaTypeId = slideShow.MediaTypeId,
+                    SlideShowTypeId = slideShow.SlideShowTypeId,
                     CreateDate = slideShow.CreateDate,
                     UserId = slideShow.UserId,
-                    Name = slideShow.User.Name,
-                    Email = slideShow.User.Email,
-                    UserName = slideShow.User.Account.UserName,
-                    RoleName = slideShow.User.Account.Role.RoleName,
-                    SlideImage = slideShow.SlideImage != null ? JsonSerializer.Deserialize<List<GetSlideImageResponse>>(slideShow.SlideImage) : new List<GetSlideImageResponse>()
+                    Name = slideShow?.User?.Name,
+                    Email = slideShow?.User?.Email,
+                    UserName = slideShow?.User?.Account?.UserName,
+                    RoleName = slideShow?.User?.Account?.Role?.RoleName,
+                    SlideImage = slideShow?.SlideImage != null ? JsonSerializer.Deserialize<List<GetSlideImageResponse>>(slideShow.SlideImage) : new List<GetSlideImageResponse>()
                 });
             }
             return slideShowListDTO;

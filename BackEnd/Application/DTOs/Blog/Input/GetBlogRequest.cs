@@ -1,7 +1,6 @@
 ﻿namespace Application
 {
-    public class GetAllBlogRequest : PaginationRequest
+    public class GetAllBlogRequest : PaginationWithSearchAndMediaTypeDto
     {
-        public int Type { get; set; } = 0;
     }
 }

@@ -43,8 +43,10 @@ namespace Application.Services
         {
             var page = input.Page;
             var fetch = input.Fetch;
-            var topics = await _topicRepository.GetAllTopicsAsync(page, fetch);
-            var totalTopic = await _topicRepository.CountTopicAsync();
+            var type = input.Type;
+            var topicType = input.TopicType;
+            var topics = await _topicRepository.GetAllTopicsAsync(page, fetch, type, topicType);
+            var totalTopic = await _topicRepository.CountTopicAsync(type, topicType);
             var topicMapper = GetTopicResponseMapper.GetTopicListMapEntityToDTO(topics);
             return new PaginationResponseDto<GetTopicResponse>(totalTopic, topicMapper);
         }

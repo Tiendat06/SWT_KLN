@@ -12,6 +12,7 @@ namespace Application.Mapper.Topics.Output
             {
                 TopicId = topic.TopicId,
                 Capture = topic.Capture,
+                MediaTypeId = topic.MediaTypeId,
                 CreateDate = topic.CreateDate,
                 UserId = topic.UserId,
                 Name = topic.User.Name,
@@ -31,6 +32,7 @@ namespace Application.Mapper.Topics.Output
                 {
                     TopicId = topic.TopicId,
                     Capture = topic.Capture,
+                    MediaTypeId = topic.MediaTypeId,
                     CreateDate = topic.CreateDate,
                     UserId = topic.UserId,
                     Name = topic.User.Name,

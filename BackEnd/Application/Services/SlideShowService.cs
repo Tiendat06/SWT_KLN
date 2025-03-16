@@ -42,9 +42,10 @@ namespace Application.Services
         {
             var page = input.Page;
             var fetch = input.Fetch;
-            var type = input.Type;
-            var slideShows = await _slideShowRepository.GetAllSlideShowsAsync(page, fetch, type);
-            var totalSlideShow = await _slideShowRepository.CountSlideShowAsync();
+            var mediaType = input.Type;
+            var slideShowType = input.SlideShowType;
+            var slideShows = await _slideShowRepository.GetAllSlideShowsAsync(page, fetch, mediaType, slideShowType);
+            var totalSlideShow = await _slideShowRepository.CountSlideShowAsync(mediaType, slideShowType);
             var slideShowsMapper = GetSlideShowResponseMapper.GetSlideShowListMapEntityToDTO(slideShows);
             return new PaginationResponseDto<GetSlideShowResponse>(totalSlideShow, slideShowsMapper);
         }

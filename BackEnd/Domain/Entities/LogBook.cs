@@ -45,11 +45,20 @@ namespace Domain.Entities
         [Column("yearPublic", TypeName ="datetime")]
         public DateTime? YearPublic {  get; set; } = DateTime.Now;
 
+        [Column("Description", TypeName = "nvarchar")]
+        public string? Description { get; set; } = string.Empty;
+
         [Column("userId", TypeName = "uniqueidentifier")]
         public Guid? UserId { get; set; }
 
         [Column("bookId", TypeName = "uniqueidentifier")]
         public Guid? BookId { get; set; }
+        
+        [Column("mediaTypeId", TypeName = "int")]
+        public int? MediaTypeId { get; set; } = null;
+
+        [ForeignKey("MediaTypeId")]
+        public virtual MediaType? MediaType { get; set; }
 
         [ForeignKey("UserId")]
         public virtual User? User { get; set; }

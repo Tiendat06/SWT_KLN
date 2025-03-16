@@ -11,6 +11,7 @@ namespace Application
     public class UpdateBookRequest
     {
         public string Title { get; set; }
+        public int MediaTypeId { get; set; }
         public IFormFile? BookContent { get; set; }
         public string Publisher { get; set; }
         public string Author { get; set; }
@@ -62,6 +63,10 @@ namespace Application
             RuleFor(x => x.UserId)
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]))
                 .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]));
+
+            RuleFor(x => x.MediaTypeId)
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MediaTypeId"]))
+                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MediaTypeId"]));
         }
     }
 }

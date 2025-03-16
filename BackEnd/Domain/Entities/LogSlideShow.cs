@@ -44,6 +44,12 @@ namespace Domain.Entities
         [ForeignKey("MediaTypeId")]
         public virtual MediaType? MediaType { get; set; }
 
+        [Column("slideShowTypeId", TypeName = "int")]
+        public int? SlideShowTypeId { get; set; } = null;
+
+        [ForeignKey("SlideShowTypeId")]
+        public virtual SlideShowType? SlideShowType { get; set; }
+
         [Column("userId", TypeName = "uniqueidentifier")]
         public Guid? UserId { get; set; }
 

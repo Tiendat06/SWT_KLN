@@ -4,7 +4,13 @@ import clsx from "clsx";
 import styles from "~/styles/Components/SlideImage/slideImage.module.scss";
 import { memo } from "react";
 
-function SlideImage({slideImageList, setChoosingImage, choosingImage}) {
+function SlideImage({
+                        slideImageList,
+                        setChoosingImage,
+                        choosingImage,
+                        numVisible = 0,
+                        numScroll = 0,
+                        isImage = true}) {
 
     const onClickImage = (slideImage) => {
         setChoosingImage(slideImage);
@@ -17,18 +23,44 @@ function SlideImage({slideImageList, setChoosingImage, choosingImage}) {
     ]
 
     const slideImageTemplate = slideImage => {
-        var isSelected = choosingImage === slideImage?.imageLink;
+        var isSelected = isImage ?
+            (choosingImage?.imageLink === slideImage?.imageLink) :
+            (choosingImage?.videoLink === slideImage?.videoLink);
         return (
             <>
                 <div style={{width: "100%"}} className={clsx(styles["about-card--carousel"] /*,{ [styles["selected"]]: isSelected }*/)}>
-                    <img
-                        style={{
-                            border: isSelected ? "2px solid red" : "none",
-                            cursor: "pointer",
-                            transition: "border 0.2s ease-in-out"
-                        }}
-                        onClick={() => onClickImage(slideImage)}
-                        className={clsx(styles['about-card__img'])} src={slideImage?.imageLink} alt=""/>
+                    {isImage ? (
+                        <img
+                            style={{
+                                border: isSelected ? "2px solid red" : "none",
+                                cursor: "pointer",
+                                transition: "border 0.2s ease-in-out"
+                            }}
+                            onClick={() => onClickImage(slideImage)}
+                            className={clsx(styles['about-card__img'])} src={slideImage?.imageLink} alt=""/>
+                    ) :
+                        (
+                            <div style={{
+                                position: 'relative',
+                            }}>
+                                <iframe src={`${slideImage?.videoLink}`}
+                                         onClick={() => onClickImage(slideImage)}
+                                         title="YouTube video player"
+                                         allow="encrypted-media; picture-in-picture"
+                                         referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+                                <div
+                                    style={{
+                                        position: "absolute",
+                                        top: 0, left: 0, right: 0, bottom: 0,
+                                        background: "transparent",
+                                        cursor: "pointer"
+                                    }}
+                                    onClick={() => onClickImage(slideImage)}
+                                ></div>
+                            </div>
+                        )
+                    }
+
                 </div>
             </>
         )
@@ -37,8 +69,8 @@ function SlideImage({slideImageList, setChoosingImage, choosingImage}) {
     return (
         <>
             <Carousel value={slideImageList}
-                    numVisible={4}
-                    numScroll={1}
+                    numVisible={numVisible}
+                    numScroll={numScroll}
                     responsiveOptions={responsiveOptions}
                     className="custom-carousel"
                     circular={true}

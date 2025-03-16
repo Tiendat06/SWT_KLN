@@ -43,8 +43,9 @@ namespace Application.Services
         {
             var page = input.Page;
             var fetch = input.Fetch;
-            var magazines = await _magazineRepository.GetAllMagazinesAsync(page, fetch);
-            var totalMagazine = await _magazineRepository.CountMagazineAsync();
+            var type = input.Type;
+            var magazines = await _magazineRepository.GetAllMagazinesAsync(page, fetch, type);
+            var totalMagazine = await _magazineRepository.CountMagazineAsync(type);
             var magazineMapper = GetMagazineResponseMapper.GetMagazineListMapEntityToDTO(magazines);
             return new PaginationResponseDto<GetMagazineResponse>(totalMagazine, magazineMapper);
         }
