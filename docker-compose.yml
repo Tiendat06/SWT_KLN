@@ -10,7 +10,7 @@ services:
       - MSSQL_SA_PASSWORD=MyPassword123.
     volumes:
       - sql_data:/var/opt/mssql
-      - ./data/newMemorialArea.sql:/init.sql
+      - ./data/newMemorialAreaDB.sql:/init.sql
     restart: unless-stopped
     entrypoint: >
       /bin/bash -c "
