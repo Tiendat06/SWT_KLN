@@ -17,8 +17,9 @@ import AudioList from "~/features/About/AboutMusic/AudioList";
 import SidebarBook from "~/features/About/AboutBooksAndMagazines/SlidebarBook";
 import SidebarMagazines from "~/features/About/AboutBooksAndMagazines/SlideMagazines";
 import SidebarTopic from "~/features/About/AboutTopic/SidebarTopic";
+import MultimediaCategory from "~/features/About/AboutMultimediaDocuments/MultimediaCategory";
 
 export {TDTMasterpiece, TDTHandiwork, CreatureList, ListOfBooks,ListOfMagazines,
     PictureGallery, VideoClipGallery,MusicGallery, SlideShow,
     VideoClipList, MainAudio, AudioList, VideoMain,SlideShowTopic, SidebarBook, SidebarMagazines, ItemContent,
-    SidebarTopic, ButtonLink};
+    SidebarTopic, ButtonLink, MultimediaCategory};

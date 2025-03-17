@@ -61,7 +61,11 @@
       cursor: pointer;
       background-color: $app-color-TD-15;
       &:hover {
-        filter: brightness(98%);
+        filter: brightness(95%);
+      }
+
+      &--active {
+        filter: brightness(95%);
       }
 
       &--img {

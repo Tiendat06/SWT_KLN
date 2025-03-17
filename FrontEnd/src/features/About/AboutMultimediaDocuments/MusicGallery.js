@@ -1,37 +1,62 @@
 import clsx from "clsx";
 import styles from "~/styles/Pages/About/aboutMultimediaDocuments.module.scss";
-import { songThumbnail } from '~/assets/img';
-
-const songs = [
-  { title: "An Giang quê tôi", artist: "Phạm Nguyễn", duration: "03:14" },
-  { title: "An Giang quê tôi", artist: "Phạm Nguyễn", duration: "03:14" },
-  { title: "An Giang quê tôi", artist: "Phạm Nguyễn", duration: "03:14" },
-  { title: "An Giang quê tôi", artist: "Phạm Nguyễn", duration: "03:14" },
-  { title: "An Giang quê tôi", artist: "Phạm Nguyễn", duration: "03:14" },
-];
+import {Link} from "react-router-dom";
+import {useRef, useState} from "react";
+import {FormatTime} from "~/utils";
+import {useAboutMultimediaDocumentContext} from "~/context/About/AboutMultimediaDocumentContext";
 
 function AboutMusicGallery() {
-  return (
-    <div className={clsx(styles["music-library"])}>
-      <div className={clsx(styles["music-library__header"])}>
-        <h3 className={clsx(styles["music-library__title"])}>THƯ VIỆN NHẠC</h3>
-        <a href="#" className={clsx(styles["music-library__view-more"])}>Xem thêm</a>
-      </div>
-      <div className={clsx(styles["music-library__list"])}>
-        {songs.map((song, index) => (
-          <div className={clsx(styles["music-library"])}>
-            <div key={index} className={clsx(styles["music-library__item"], index % 2 === 0 ? styles["music-library__item--alt"] : "")}>
-              <img src={songThumbnail} alt="Thumbnail" className={clsx(styles["music-library__thumbnail"])} />
-              <div className={clsx(styles["music-library__info"])}>
-                <p className={clsx(styles["music-library__song"])}>{song.title} <span>| {song.artist}</span></p>
-                <span className={clsx(styles["music-library__duration"])}>{song.duration}</span>
-              </div>
+    const audioRefs = useRef([]);
+    const [duration, setDuration] = useState(0);
+
+    const {
+        aboutAudio
+    } = useAboutMultimediaDocumentContext();
+
+    const handleLoadedMetadata = (index) => {
+        const audioElement = audioRefs.current[index];
+        if (audioElement) {
+            setDuration((prev) => ({
+                ...prev,
+                [index]: audioElement.duration || 0
+            }));
+        }
+    };
+
+    return (
+        <div className={clsx(styles["music-library"])}>
+            <div className={clsx(styles["music-library__header"])}>
+                <h3 className={clsx(styles["music-library__title"])}>THƯ VIỆN NHẠC</h3>
+                <Link to={`/about-audio/${aboutAudio[0]?.musicId}`} className={clsx(styles["music-library__view-more"])}>Xem
+                    thêm</Link>
             </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+            <div className={clsx(styles["music-library__list"])}>
+                {aboutAudio.map((music, index) => (
+                    <Link key={`multimedia-music-${index}`} to={`/about-audio/${music?.musicId}`}
+                          className={clsx(styles["music-library"])}>
+                        <div
+                            className={clsx(styles["music-library__item"], index % 2 === 0 ? styles["music-library__item--alt"] : "")}>
+                            <img src={music?.imageLink} alt="Thumbnail"
+                                 className={clsx(styles["music-library__thumbnail"])}/>
+                            <div className={clsx(styles["music-library__info"])}>
+                                <p className={clsx(styles["music-library__song"])}>
+                                    {music.musicTitle}
+                                    <span style={{marginLeft: 8}}>| {music?.musicAuthor}</span>
+                                </p>
+                                <span
+                                    className={clsx(styles["music-library__duration"])}>{FormatTime(duration[index])}</span>
+                                <audio
+                                    ref={(el) => (audioRefs.current[index] = el)}
+                                    src={music?.audioLink}
+                                    onLoadedMetadata={() => handleLoadedMetadata(index)}
+                                />
+                            </div>
+                        </div>
+                    </Link>
+                ))}
+            </div>
+        </div>
+    );
 }
 
 export default AboutMusicGallery;

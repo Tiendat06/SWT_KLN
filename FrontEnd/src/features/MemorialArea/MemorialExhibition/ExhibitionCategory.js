@@ -62,6 +62,8 @@ const ExhibitionCategory = () => {
                                 slideImageList={slideImageList}
                                 setChoosingImage={setSlideImageMain}
                                 choosingImage={slideImageMain}
+                                numVisible={4}
+                                numScroll={1}
                             />
                         </div>
                     </div>

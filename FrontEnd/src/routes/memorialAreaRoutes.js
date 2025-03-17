@@ -6,7 +6,7 @@ import {
     // MemorialTomb,
     // MemorialTemple,
     // Memorial15YearsPrison,
-    MemorialArtifacts, MemorialExhibition,
+    MemorialArtifacts, MemorialExhibition, MemorialSolemnVisit,
     // MemorialBlogContent
 } from "~/pages"
 
@@ -14,6 +14,7 @@ const memorialAreaJRoutes = [
     {path: "/memorial-areas", element: <MemorialAreas />},
     {path: "/memorial-artifact/:slideShowId", element: <MemorialArtifacts />},
     {path: "/memorial-exhibition/:slideShowId", element: <MemorialExhibition />},
+    {path: "/memorial-solemn-visit", element: <MemorialSolemnVisit />},
 ]
 
 const memorialAreaTRoutes = [

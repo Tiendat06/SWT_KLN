@@ -4,11 +4,13 @@ import {Fragment, useLayoutEffect, useRef, useState} from "react";
 import {useAboutAudioContext} from "~/context/About/AboutAudioContext";
 import {FormatTime} from "~/utils";
 import {getMusicListService} from "~/services/MusicService";
+import {Link} from "react-router-dom";
 
 function AudioList() {
     const audioRefs = useRef([]);
     const [duration, setDuration] = useState(0);
     const {
+        audio,
         setAudio,
         audioList,
         setAudioList
@@ -45,18 +47,24 @@ function AudioList() {
                     </div>
                     <div className={clsx(styles["about-music__song-list"])}>
                         {audioList?.map((item, index) => (
-                            <div onClick={() => setAudio(item)} key={`${item?.musicId}-${index}`} className={clsx(styles["about-music__song-item"])}>
+                            <Link to={`/about-audio/${item?.musicId}`} onClick={() => setAudio(item)}
+                                  key={`${item?.musicId}-${index}`} className={clsx(styles["about-music__song-item"],
+                                ((audio?.musicId === item?.musicId) && styles["about-music__song-item--active"])
+                            )}>
                                 <div className="col-lg-1 col-md-1 col-md-1">
                                     <i className="fa-solid fa-bars-staggered"></i>
                                 </div>
-                                <div className={clsx(styles["about-music__song-item--img"], 'col-lg-2 col-md-2 col-md-2')}>
+                                <div
+                                    className={clsx(styles["about-music__song-item--img"], 'col-lg-2 col-md-2 col-md-2')}>
                                     <img src={item?.imageLink} alt=""/>
                                 </div>
-                                <div className={clsx(styles["about-music__song-item--text"], 'col-lg-7 col-md-7 col-md-7')}>
+                                <div
+                                    className={clsx(styles["about-music__song-item--text"], 'col-lg-7 col-md-7 col-md-7')}>
                                     <p>{item?.musicTitle}</p>
                                     <p>{item?.musicAuthor}</p>
                                 </div>
-                                <div className={clsx(styles["about-music__song-item--time"], 'col-lg-2 col-md-2 col-md-2')}>
+                                <div
+                                    className={clsx(styles["about-music__song-item--time"], 'col-lg-2 col-md-2 col-md-2')}>
                                     <p>{FormatTime(duration[index])}</p>
                                 </div>
                                 <audio
@@ -64,7 +72,7 @@ function AudioList() {
                                     src={item?.audioLink}
                                     onLoadedMetadata={() => handleLoadedMetadata(index)}
                                 />
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </div>

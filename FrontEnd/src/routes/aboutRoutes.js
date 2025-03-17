@@ -18,8 +18,8 @@ const aboutJRoutes = [
     {path: "/about", element: <About />},
     {path: "/about-creature", element: <AboutCreature />},
     {path: "/about-art/:slideShowId", element: <AboutArt />},
-    {path: "/about-film", element: <AboutVideo />},
-    {path: "/about-audio", element: <AboutMusic />},
+    {path: "/about-film/:videoId", element: <AboutVideo />},
+    {path: "/about-audio/:audioId", element: <AboutMusic />},
 ]
 
 const aboutTRoutes = [

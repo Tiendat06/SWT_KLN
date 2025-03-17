@@ -8,8 +8,8 @@ function SlideImage({
                         slideImageList,
                         setChoosingImage,
                         choosingImage,
-                        numVisible = 0,
-                        numScroll = 0,
+                        numVisible = 4,
+                        numScroll = 1,
                         isImage = true}) {
 
     const onClickImage = (slideImage) => {
@@ -42,6 +42,7 @@ function SlideImage({
                         (
                             <div style={{
                                 position: 'relative',
+                                border: isSelected ? "2px solid red" : "none",
                             }}>
                                 <iframe src={`${slideImage?.videoLink}`}
                                          onClick={() => onClickImage(slideImage)}

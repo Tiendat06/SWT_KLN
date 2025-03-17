@@ -1,43 +1,24 @@
-// import { useState } from 'react';
-import {PictureGallery, VideoClipGallery, MusicGallery} from '~/features/About';
-import {anh, nhac, videoclip, phim} from '~/assets/img';
+import {PictureGallery, VideoClipGallery, MusicGallery, MultimediaCategory} from '~/features/About';
 import styles from '~/styles/Pages/About/aboutMultimediaDocuments.module.scss';
 import clsx from 'clsx';
-
-const multimediaData = [
-    {title: "Ảnh", imgSrc: anh},
-    {title: "Nhạc", imgSrc: nhac},
-    {title: "Video Clip", imgSrc: videoclip},
-    {title: "Phim", imgSrc: phim},
-];
+import {KLNTitle} from "~/components";
+import {AboutMultimediaDocumentProvider} from "~/context/About/AboutMultimediaDocumentContext";
 
 function AboutMultimediaDocuments() {
     return (
-        <div className={clsx(styles["aboutMultimedia"])}>
-            <div className={clsx(styles["aboutMultimedia-title"])}>
-                <h3 className={clsx(styles["aboutMultimedia-title__text"])}>
+        <AboutMultimediaDocumentProvider>
+            <div className={clsx(styles["aboutMultimedia"])}>
+                <KLNTitle>
                     TÀI LIỆU ĐA PHƯƠNG TIỆN
-                </h3>
-            </div>
-            <div className={clsx(styles["aboutMultimediaposition"])}>
-
-                <div className={clsx(styles["multimedia-grid"])}>
-                    {multimediaData.map((item, index) => (
-                        <div key={index} className={clsx(styles["multimedia-card"])}>
-                            <img
-                                src={item.imgSrc}
-                                alt={item.title}
-                                className={clsx(styles["card-image"])}
-                            />
-                            <p className={clsx(styles["card-title"])}>{item.title}</p>
-                        </div>
-                    ))}
+                </KLNTitle>
+                <div className={clsx(styles["aboutMultimediaposition"])}>
+                    <MultimediaCategory />
+                    <PictureGallery/>
+                    <VideoClipGallery/>
+                    <MusicGallery/>
                 </div>
-                <PictureGallery/>
-                <VideoClipGallery/>
-                <MusicGallery/>
             </div>
-        </div>
+        </AboutMultimediaDocumentProvider>
     );
 }
 

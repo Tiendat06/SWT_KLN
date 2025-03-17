@@ -3,18 +3,19 @@ import {clsx} from "clsx";
 import styles from '~/styles/Pages/About/aboutMusic.module.scss';
 import {useAboutAudioContext} from "~/context/About/AboutAudioContext";
 import {useLayoutEffect,} from "react";
-import {getMusicListService} from "~/services/MusicService";
+import {getMusicByIdService, getMusicListService} from "~/services/MusicService";
 
 function MainAudio() {
     const {
         audio,
-        setAudio
+        setAudio,
+        audioId
     } = useAboutAudioContext();
 
     useLayoutEffect(() => {
         const getAudio = async () => {
-            const data = await getMusicListService(1, 1);
-            setAudio(data?.data?.items[0]);
+            const data = await getMusicByIdService(audioId);
+            setAudio(data?.data);
         }
         getAudio();
     }, []);

@@ -2,7 +2,6 @@ import clsx from "clsx";
 import styles from '~/styles/Pages/About/aboutMusic.module.scss';
 import {KLNTitle} from "~/components";
 import {AudioList, MainAudio} from "~/features/About";
-import React from "react";
 import {AboutAudioProvider} from "~/context/About/AboutAudioContext";
 
 function AboutMusic() {
@@ -14,8 +13,8 @@ function AboutMusic() {
                     HÌNH ẢNH NGHỆ THUẬT VỀ CHỦ TỊCH TÔN ĐỨC THẮNG
                 </KLNTitle>
                 <div className={clsx(styles["about-music__content"], 'mt-5 mb-5')}>
-                    <MainAudio />
-                    <AudioList />
+                    <MainAudio/>
+                    <AudioList/>
                 </div>
             </div>
         </AboutAudioProvider>

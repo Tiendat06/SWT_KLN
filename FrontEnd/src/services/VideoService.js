@@ -6,3 +6,9 @@ export const getVideoListService = async (fetch, page, type = MediaType.None, ke
         api: `api/Video?Fetch=${fetch}&Page=${page}&Type=${type}&Keyword=${keyword}`,
     })
 }
+
+export const getVideoByIdService = async (id) => {
+    return await UseFetchAPI({
+        api: `api/Video/${id}`,
+    })
+}

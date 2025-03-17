@@ -6,7 +6,11 @@ import {getVideoListService} from "~/services/VideoService";
 import {useAboutVideoContext} from "~/context/About/AboutVideoContext";
 
 function VideoClipList(){
-    const {videoList, setVideoList} = useAboutVideoContext();
+    const {
+        isLoading,
+        videoList, setVideoList,
+        selectedVideo, setSelectedVideo
+    } = useAboutVideoContext();
 
     useLayoutEffect(() => {
         const getVideoList = async () => {
@@ -14,7 +18,7 @@ function VideoClipList(){
             setVideoList(data?.data?.items);
         }
         getVideoList();
-    }, []);
+    }, [isLoading]);
 
     return (
         <>
@@ -24,6 +28,8 @@ function VideoClipList(){
                 <div className={clsx(styles["about-video__list--inner"])}>
                     <VideoClip
                         videoClipList={videoList}
+                        choosingVideo={selectedVideo}
+                        setChoosingVideo={setSelectedVideo}
                     />
                 </div>
             </div>
