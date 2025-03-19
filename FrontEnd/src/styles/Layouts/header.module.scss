@@ -86,6 +86,12 @@
   }
   &__navigate-item{
     padding: 0 15px 0 15px;
+
+    //&-dropdown__president{
+    //  opacity: 1;
+    //  visibility: visible;
+    //}
+
     &__para{
       color: $app-color-5;
       font-weight: bold;

@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from "react";
 import clsx from "clsx";
 import styles from "~/styles/Pages/About/aboutSidebarBooks.module.scss";
-import {CustomReactDotPaginate} from "~/components";
+import {KLNReactDotPaginate} from "~/components";
 import {useAboutTopicContext} from "~/context/About/AboutTopicContext";
 import {getTopicByIdService, getTopicListService} from "~/services/TopicService";
 import {useNavigate} from "react-router-dom";
@@ -70,7 +70,7 @@ const SidebarTopic = () => {
                         </li>
                     ))}
                 </ul>
-                <CustomReactDotPaginate
+                <KLNReactDotPaginate
                     pageCount={pageCount}
                     currentPage={currentPage}
                     onClick={onClickCurrentPage}

@@ -1,9 +1,8 @@
 // import { element } from "prop-types";
-import { element } from "prop-types";
 import {
     About,
-    AboutGenealogy,
-    AboutBiography,
+    // AboutGenealogy,
+    // AboutBiography,
     AboutCreature,
     AboutBooks_Magazines,
     AboutTopic,

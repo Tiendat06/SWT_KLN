@@ -1,7 +1,6 @@
 // import { element } from "prop-types";
 import {
     MemorialArea,
-    MemorialAreas,
     // MemorialStiltHouse,
     // MemorialTomb,
     // MemorialTemple,
@@ -11,7 +10,6 @@ import {
 } from "~/pages"
 
 const memorialAreaJRoutes = [
-    {path: "/memorial-areas", element: <MemorialAreas />},
     {path: "/memorial-artifact/:slideShowId", element: <MemorialArtifacts />},
     {path: "/memorial-exhibition/:slideShowId", element: <MemorialExhibition />},
     {path: "/memorial-solemn-visit", element: <MemorialSolemnVisit />},

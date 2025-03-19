@@ -8,13 +8,14 @@ import {memorialAreaTRoutes} from "~/routes/memorialAreaRoutes";
 import {useEffect, useState} from "react";
 import {getBlogListService} from "~/services/BlogService";
 import MediaType from "~/enum/MediaType/MediaType";
+import {KLNDropdown} from "~/components";
+import {MemorialTDTLink, PresidentTDTLink} from "~/features/Site";
 
 function Header() {
     const [blogId, setBlogId] = useState(null);
     useEffect(() => {
         const getBlogById = async () => {
             const data = await getBlogListService(1, 1, MediaType.TDTHandiwork);
-            // console.log(data);
             setBlogId(data?.data?.items[0]?.blogId);
         }
         getBlogById();
@@ -42,18 +43,24 @@ function Header() {
                     <p className={clsx(styles['header-bottom__title-tdt'])}>CHỦ TỊCH TÔN ĐỨC THẮNG</p>
                 </div>
                 <ul className={clsx(styles['header-bottom__navigate-list'])}>
-                    <Link to={siteJRoutes[0].path} className={clsx(styles['header-bottom__navigate-item'])}>
-                        <p className={clsx(styles['header-bottom__navigate-item__para'], 'link-underline')}>TRANG CHỦ</p>
-                    </Link>
-                    <Link to={aboutJRoutes[0].path} className={clsx(styles['header-bottom__navigate-item'])}>
-                        <p className={clsx(styles['header-bottom__navigate-item__para'], 'link-underline')}>CHỦ TỊCH TÔN ĐỨC THẮNG</p>
-                    </Link>
-                    <Link to={memorialAreaTRoutes[0].path} className={clsx(styles['header-bottom__navigate-item'])}>
-                        <p className={clsx(styles['header-bottom__navigate-item__para'], 'link-underline')}>KHU LƯU NIỆM BÁC TÔN</p>
-                    </Link>
-                    <Link to={`/handiwork/${blogId}`} className={clsx(styles['header-bottom__navigate-item'])}>
-                        <p className={clsx(styles['header-bottom__navigate-item__para'], 'link-underline')}>CÔNG TRÌNH MANG TÊN BÁC TÔN</p>
-                    </Link>
+                    <div style={{
+                        paddingLeft: 15,
+                        paddingRight: 15,
+                    }} className="position-relative">
+                        <Link to={siteJRoutes[0].path} className={clsx(styles['header-bottom__navigate-item'], 'position-relative')}>
+                            <p className={clsx(styles['header-bottom__navigate-item__para'], 'link-underline')}>TRANG CHỦ</p>
+                        </Link>
+                    </div>
+                    <PresidentTDTLink />
+                    <MemorialTDTLink />
+                    <div style={{
+                        paddingLeft: 15,
+                        paddingRight: 15,
+                    }} className="position-relative">
+                        <Link to={`/handiwork/${blogId}`} className={clsx(styles['header-bottom__navigate-item'], 'position-relative')}>
+                            <p className={clsx(styles['header-bottom__navigate-item__para'], 'link-underline')}>CÔNG TRÌNH MANG TÊN BÁC TÔN</p>
+                        </Link>
+                    </div>
                 </ul>
             </header>
         </>

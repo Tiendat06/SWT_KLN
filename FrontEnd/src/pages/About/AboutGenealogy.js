@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import styles from '~/styles/Pages/About/aboutGenealogy.module.scss';
-import { gia_pha, tuong_BacTon, tau } from '~/assets/img';
 import {KLNTitle} from "~/components";
 
 function AboutGenealogy() {

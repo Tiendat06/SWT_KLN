@@ -1,14 +1,14 @@
 import styles from '~/styles/Pages/Site/site.module.scss';
 import {home_img_1, home_img_2, home_img_3} from '~/assets/img';
 import clsx from "clsx";
-import {SlideBanner} from "~/components";
+import {KLNSlideBanner} from "~/components";
 import {BooksList, NewsList} from '~/features/Site';
 import { Editor } from '@tinymce/tinymce-react';
 
 function Home() {
     return (
         <>
-            <SlideBanner/>
+            <KLNSlideBanner/>
             <div className={clsx(styles['home-info'])}>
                 <div className={clsx(styles['home-info__title'])}>
                     <p className={clsx(styles['home-info__title-1'])}>THÔNG TIN</p>

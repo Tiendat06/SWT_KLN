@@ -1,9 +1,9 @@
 import { Carousel } from 'primereact/carousel';
 import {banner_1, banner_2, banner_3, banner_4} from '~/assets/img';
-import styles from '~/styles/Components/SlideBanner/slidebanner.module.scss';
+import styles from '~/styles/Components/KLNSlideBanner/klnSlideBanner.module.scss';
 import clsx from "clsx";
 
-function SlideBanner() {
+function KLNSlideBanner() {
     const bannerList = [
         {id: 1, imageLink: banner_1, imageName: 'banner 1'},
         {id: 2, imageLink: banner_2, imageName: 'banner 2'},
@@ -36,4 +36,4 @@ function SlideBanner() {
     )
 }
 
-export default SlideBanner;
+export default KLNSlideBanner;

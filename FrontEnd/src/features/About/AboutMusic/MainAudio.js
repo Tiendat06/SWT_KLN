@@ -1,4 +1,4 @@
-import {CustomAudio} from "~/components";
+import {KLNAudio} from "~/components";
 import {clsx} from "clsx";
 import styles from '~/styles/Pages/About/aboutMusic.module.scss';
 import {useAboutAudioContext} from "~/context/About/AboutAudioContext";
@@ -22,7 +22,7 @@ function MainAudio() {
     return (
         <>
             <div className={clsx(styles["about-music__main"], 'col-lg-8 col-md-7 col-sm-12')}>
-                <CustomAudio
+                <KLNAudio
                     imageLink={audio?.imageLink}
                     title={audio?.musicTitle}
                     author={audio?.musicAuthor}

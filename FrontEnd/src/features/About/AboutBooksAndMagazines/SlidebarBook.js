@@ -3,7 +3,7 @@ import styles from "~/styles/Pages/About/aboutSidebarBooks.module.scss";
 import {useCallback, useEffect, useState} from "react";
 import {getBookByIdService, getBookListService} from "~/services/BookService";
 import {useAboutBooksMagazinesContext} from "~/context/About/AboutBooksMagazinesContext";
-import {CustomReactDotPaginate} from "~/components";
+import {KLNReactDotPaginate} from "~/components";
 import {useNavigate} from "react-router-dom";
 
 function SidebarBook() {
@@ -58,7 +58,7 @@ function SidebarBook() {
                         </li>
                     ))}
                 </ul>
-                <CustomReactDotPaginate
+                <KLNReactDotPaginate
                     pageCount={pageCount}
                     currentPage={currentPage}
                     onClick={onClickCurrentPage}

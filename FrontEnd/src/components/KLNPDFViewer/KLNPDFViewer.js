@@ -4,7 +4,7 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import {highlightPlugin} from '@react-pdf-viewer/highlight'
 
-function PDFViewer({url}) {
+function KLNPDFViewer({url}) {
     // https://static3.luatvietnam.vn/uploaded/LawJudgs/2021/12/21/ban-an-123-2021-ds-pt-103010.pdf
     const pdfUrl = url;
     const defaultLayoutPluginInstance = defaultLayoutPlugin();
@@ -32,4 +32,4 @@ function PDFViewer({url}) {
     );
 }
 
-export default PDFViewer;
+export default KLNPDFViewer;

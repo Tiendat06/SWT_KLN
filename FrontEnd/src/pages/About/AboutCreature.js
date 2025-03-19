@@ -2,7 +2,7 @@ import clsx from "clsx";
 import styles from '~/styles/Pages/About/aboutCreature.module.scss';
 import {ButtonLink, CreatureList} from '~/features/About';
 import {tac_pham_2, tac_pham_3, tac_pham_4} from "~/assets/img";
-import {Button} from "~/components";
+import {KLNButton} from "~/components";
 import {AboutBooksMagazinesProvider} from "~/context/About/AboutBooksMagazinesContext";
 
 function AboutCreature() {
@@ -49,7 +49,7 @@ function AboutCreature() {
                             Tài liệu đa phương tiện
                         </h5>
                         <div className={clsx(styles["about-creature__item-btn"])}>
-                            <Button urlLink={`/about-multimedia-documents`} options={2}>Xem chi tiết</Button>
+                            <KLNButton urlLink={`/about-multimedia-documents`} options={2}>Xem chi tiết</KLNButton>
                         </div>
                     </div>
                 </li>

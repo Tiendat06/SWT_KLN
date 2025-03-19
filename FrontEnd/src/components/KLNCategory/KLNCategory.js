@@ -1,8 +1,8 @@
-import styles from '~/styles/Components/CustomCategory/customCategory.module.scss';
+import styles from '~/styles/Components/KLNCategory/klnCategory.module.scss';
 import clsx from "clsx";
 import {Link} from "react-router-dom";
 
-const CustomCategory = ({
+const KLNCategory = ({
         title = '',
         categoryList = [],
         choosingItemId = '',
@@ -38,4 +38,4 @@ const CustomCategory = ({
     )
 }
 
-export default CustomCategory;
+export default KLNCategory;

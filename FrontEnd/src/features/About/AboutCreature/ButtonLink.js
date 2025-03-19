@@ -1,4 +1,4 @@
-import {Button} from "~/components";
+import {KLNButton} from "~/components";
 import {useEffect, useState} from "react";
 import {getBookListService} from "~/services/BookService";
 import {getMagazineListService} from "~/services/MagazineService";
@@ -24,9 +24,9 @@ const ButtonLink = ({isBookNavigation = true}) => {
 
     return (
         <>
-            <Button
+            <KLNButton
                 urlLink={`/about-books-magazines/${itemsId}`}
-                options={2}>Xem chi tiết</Button>
+                options={2}>Xem chi tiết</KLNButton>
         </>
     )
 }

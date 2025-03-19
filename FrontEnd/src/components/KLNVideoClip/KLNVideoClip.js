@@ -2,10 +2,10 @@ import {clsx} from "clsx";
 import {Carousel} from "primereact/carousel";
 import {Link} from "react-router-dom";
 import {next_icon_1, previous_icon_1} from "~/assets/img";
-import styles from '~/styles/Components/VideoClip/videoClip.module.scss';
+import styles from '~/styles/Components/KLNVideoClip/klnVideoClip.module.scss';
 import {about_art_main} from '~/assets/img';
 
-function VideoClip({
+function KLNVideoClip({
                        videoClipList,
                        choosingVideo,
                        setChoosingVideo,
@@ -66,4 +66,4 @@ function VideoClip({
     )
 }
 
-export default VideoClip;
+export default KLNVideoClip;

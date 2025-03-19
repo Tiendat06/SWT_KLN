@@ -1,4 +1,4 @@
-import {SlideBanner,} from "~/components";
+import {KLNSlideBanner,} from "~/components";
 import {MemorialAreasProvider} from "~/context/MemorialArea/MemorialAreasContext";
 import {SlideContents} from "~/features/MemorialArea";
 import clsx from "clsx";
@@ -8,7 +8,7 @@ function MemorialAreas() {
     return (
         <MemorialAreasProvider>
             <>
-                <SlideBanner/>
+                <KLNSlideBanner/>
                 <h1 className={clsx(styles["memorial-title"])}>KHU LƯU NIỆM CHỦ TỊCH TÔN ĐỨC THẮNG</h1>
                 <SlideContents />
                 <div className='d-flex flex-wrap'>

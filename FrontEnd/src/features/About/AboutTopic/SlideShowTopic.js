@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import styles from "~/styles/Pages/About/aboutTopic.module.scss";
 import {banner_1} from "~/assets/img";
-import SlideImage from "~/components/SlideImage/SlideImage";
+import SlideImage from "~/components/KLNSlideImage/KLNSlideImage";
 import {useAboutTopicContext} from "~/context/About/AboutTopicContext";
 import {useEffect} from "react";
 import {getTopicByIdService, getTopicListService} from "~/services/TopicService";

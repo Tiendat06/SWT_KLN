@@ -4,7 +4,7 @@ import {useCallback, useEffect, useState} from "react";
 import { book_img } from '~/assets/img';
 import {getMagazineByIdService, getMagazineListService} from "~/services/MagazineService";
 import {useAboutBooksMagazinesContext} from "~/context/About/AboutBooksMagazinesContext";
-import {CustomReactDotPaginate} from "~/components";
+import {KLNReactDotPaginate} from "~/components";
 import {useNavigate} from "react-router-dom";
 
 function SlidebarMagazines() {
@@ -58,7 +58,7 @@ function SlidebarMagazines() {
                         </li>
                     ))}
                 </ul>
-                <CustomReactDotPaginate
+                <KLNReactDotPaginate
                     pageCount={pageCount}
                     currentPage={currentPage}
                     onClick={onClickCurrentPage}

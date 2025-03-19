@@ -8,7 +8,7 @@ import AboutVideo from "./About/AboutVideo";
 import AboutMusic from "./About/AboutMusic";
 
 import MemorialArea from './MemorialArea/MemorialArea';
-import MemorialAreas from "./MemorialArea/MemorialAreas"
+// import MemorialAreas from "./MemorialArea/MemorialAreas"
 import Handiwork from "./Handiwork/Handiwork"
 import AboutBooks_Magazines from "./About/AboutBooks_Magazines";
 import AboutTopic from "./About/AboutTopic";
@@ -26,7 +26,7 @@ import BlogContent from "~/pages/Reusable/BlogContent";
 export {Home, BlogContent};
 
 export {
-    MemorialArea, MemorialAreas, MemorialStiltHouse, MemorialTomb,
+    MemorialArea, MemorialStiltHouse, MemorialTomb,
     MemorialTemple, Memorial15YearsPrison, MemorialArtifacts, MemorialExhibition,
     MemorialSolemnVisit
 };

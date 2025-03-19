@@ -8,10 +8,10 @@ import {
     mute_volume_icon,
     increase_volume_icon
 } from '~/assets/img';
-import styles from '~/styles/Components/CustomAudio/customVideo.module.scss';
+import styles from '~/styles/Components/KLNAudio/klnVideo.module.scss';
 import {FormatTime} from "~/utils";
 
-function CustomAudio({src,
+function KLNAudio({src,
                          imageLink=about_art_main,
                          title = 'An Giang quê tôi',
                          author = 'Phạm Nguyên'
@@ -94,7 +94,7 @@ function CustomAudio({src,
                 <div className="d-flex justify-content-between align-items-center" style={{width: "30%"}}>
                     {/* Skip Back 10s */}
                     <img style={{height: 20, cursor: "pointer"}} onClick={() => skipTime(-10)} src={previous_icon_2} alt=""/>
-                    {/* Play/Pause Button */}
+                    {/* Play/Pause KLNButton */}
                     <button onClick={togglePlay} className={styles["custom-audio__btn--play"]}>
                         {isPlaying ? <Pause size={32} /> : <Play size={32} />}
                     </button>
@@ -131,4 +131,4 @@ function CustomAudio({src,
     );
 }
 
-export default CustomAudio;
+export default KLNAudio;

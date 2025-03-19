@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import styles from "~/styles/Pages/About/aboutArt.module.scss";
-import SlideImage from "~/components/SlideImage/SlideImage";
+import SlideImage from "~/components/KLNSlideImage/KLNSlideImage";
 import {useAboutArtContext} from "~/context/About/AboutArtContext";
 import {useLayoutEffect} from "react";
 import {getSlideShowByIdService} from "~/services/SlideShowService";

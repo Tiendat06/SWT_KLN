@@ -1,9 +1,9 @@
 import {memo} from "react";
 import clsx from "clsx";
-import styles from '~/styles/Components/Button/button.module.scss';
+import styles from '~/styles/Components/KLNButton/klnButton.module.scss';
 import {Link} from "react-router-dom";
 
-function Button({children,
+function KLNButton({children,
                     urlLink = '',
                     btnClassName = '',
                     onClick = () => {},
@@ -26,4 +26,4 @@ function Button({children,
     )
 }
 
-export default memo(Button);
+export default memo(KLNButton);

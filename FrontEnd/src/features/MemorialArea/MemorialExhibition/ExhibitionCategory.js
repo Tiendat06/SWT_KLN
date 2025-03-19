@@ -1,4 +1,4 @@
-import {CustomCategory, SlideImage} from "~/components";
+import {KLNCategory, KLNSlideImage} from "~/components";
 import clsx from "clsx";
 import styles from "~/styles/Pages/Memorial/memorialExhibition.module.scss";
 import {useEffect, useState} from "react";
@@ -40,7 +40,7 @@ const ExhibitionCategory = () => {
     }, []);
     return (
         <>
-            <CustomCategory
+            <KLNCategory
                 title="Danh sách mục trưng bày"
                 categoryList={slideShowList}
                 choosingItemId={slideShowId}
@@ -58,7 +58,7 @@ const ExhibitionCategory = () => {
                             </div>
                         </div>
                         <div className={clsx(styles["memorial-exhibition__slide-image"])}>
-                            <SlideImage
+                            <KLNSlideImage
                                 slideImageList={slideImageList}
                                 setChoosingImage={setSlideImageMain}
                                 choosingImage={slideImageMain}
@@ -68,7 +68,7 @@ const ExhibitionCategory = () => {
                         </div>
                     </div>
                 </div>
-            </CustomCategory>
+            </KLNCategory>
         </>
     )
 }

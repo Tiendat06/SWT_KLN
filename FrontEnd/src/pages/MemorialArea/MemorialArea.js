@@ -1,12 +1,12 @@
 import styles from '~/styles/Pages/Memorial/memorialArea.module.scss';
 import clsx from "clsx";
-import { SlideBanner } from "~/components";
+import { KLNSlideBanner } from "~/components";
 import {ExhibitSection, HistoryList, ImageCarousel} from '~/features/MemorialArea';
 
 function MemorialArea() {
     return (
         <>
-            <SlideBanner />
+            <KLNSlideBanner />
             <div className={clsx(styles['memorial'])}>
                 <div className={clsx(styles['memorial-info'])}>
                     <div className={clsx(styles['memorial-info__title'])}>

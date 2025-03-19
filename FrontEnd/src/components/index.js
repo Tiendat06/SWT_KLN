@@ -1,17 +1,23 @@
 import Header from '~/components/Partials/Header/Header'
 import Footer from '~/components/Partials/Footer/Footer'
 import Body from '~/components/Partials/Body/Body'
-import Button from "./Button/Button";
-import SlideBanner from "~/components/SlideBanner/SlideBanner";
-import PDFViewer from "~/components/PDFViewer/PDFViewer";
-import CustomReactPaginate from "~/components/CustomReactPaginate/CustomReactPaginate";
-import SlideImage from './SlideImage/SlideImage';
-import VideoClip from './VideoClip/VideoClip';
+import KLNButton from "~/components/KLNButton/KLNButton";
+import KLNSlideBanner from "~/components/KLNSlideBanner/KLNSlideBanner";
+import KLNPDFViewer from "~/components/KLNPDFViewer/KLNPDFViewer";
+import KLNReactPaginate from "~/components/KLNReactPaginate/KLNReactPaginate";
+import KLNSlideImage from '~/components/KLNSlideImage/KLNSlideImage';
+import KLNVideoClip from '~/components/KLNVideoClip/KLNVideoClip';
 import KLNTitle from "~/components/KLNTitle/KLNTitle";
-import CustomAudio from "~/components/CustomAudio/CustomAudio";
-import CustomCategory from "~/components/CustomCategory/CustomCategory";
-import CustomReactDotPaginate from "~/components/CustomReactDotPaginate/CustomReactDotPaginate";
+import KLNAudio from "~/components/KLNAudio/KLNAudio";
+import KLNCategory from "~/components/KLNCategory/KLNCategory";
+import KLNReactDotPaginate from "~/components/KLNReactDotPaginate/KLNReactDotPaginate";
+import KLNDropdown from "~/components/KLNDropdown/KLNDropdown";
 
-export {Header, Footer, Body, Button, SlideBanner, PDFViewer,
-    CustomReactPaginate, SlideImage, VideoClip, KLNTitle, CustomAudio, CustomCategory, CustomReactDotPaginate}
+export {
+    Header, Footer, Body,
+    KLNButton, KLNSlideBanner, KLNPDFViewer,
+    KLNReactPaginate, KLNSlideImage, KLNVideoClip,
+    KLNTitle, KLNAudio, KLNCategory,
+    KLNReactDotPaginate, KLNDropdown
+}
 

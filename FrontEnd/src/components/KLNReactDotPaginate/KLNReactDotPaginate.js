@@ -1,8 +1,8 @@
 import clsx from "clsx";
-import styles from "~/styles/Components/CustomReactDotPaginate/customReactDotPaginate.module.scss";
+import styles from "~/styles/Components/KLNReactDotPaginate/klnReactDotPaginate.module.scss";
 import {memo} from "react";
 
-const CustomReactDotPaginate = ({currentPage, pageCount, onClickCurrentPage}) => {
+const KLNReactDotPaginate = ({currentPage, pageCount, onClickCurrentPage}) => {
 
     return (
         <div className={clsx(styles["react-dot-paginate"])}>
@@ -19,4 +19,4 @@ const CustomReactDotPaginate = ({currentPage, pageCount, onClickCurrentPage}) =>
     )
 }
 
-export default memo(CustomReactDotPaginate);
+export default memo(KLNReactDotPaginate);

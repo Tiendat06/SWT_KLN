@@ -2,16 +2,15 @@ import {ItemContent, SidebarBook, SidebarMagazines} from '~/features/About';
 import styles from '~/styles/Pages/About/aboutSidebarBooks.module.scss';
 import clsx from 'clsx';
 import {AboutBooksMagazinesProvider} from "~/context/About/AboutBooksMagazinesContext";
+import {KLNTitle} from "~/components";
 
 function AboutBooksAndMagazines() {
     return (
         <AboutBooksMagazinesProvider>
             <div className={clsx(styles["aboutbooksandmagazines"])}>
-                <div className={clsx(styles["aboutbooksandmagazines-title"])}>
-                    <h3 className={clsx(styles['aboutbooksandmagazines-title__text'])}>
-                        TIỂU SỬ CUỘC ĐỜI VÀ SỰ NGHIỆP CỦA CHỦ TỊCH TÔN ĐỨC THẮNG
-                    </h3>
-                </div>
+                <KLNTitle>
+                    TIỂU SỬ CUỘC ĐỜI VÀ SỰ NGHIỆP CỦA CHỦ TỊCH TÔN ĐỨC THẮNG
+                </KLNTitle>
             </div>
             <div className={clsx(styles["aboutbooks-container"])}>
                 <div className={clsx(styles["sidebars"])}>

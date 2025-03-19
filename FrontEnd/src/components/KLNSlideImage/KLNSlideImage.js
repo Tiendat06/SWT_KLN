@@ -1,10 +1,10 @@
 import {Carousel} from "primereact/carousel";
 import {next_icon_1, previous_icon_1} from "~/assets/img";
 import clsx from "clsx";
-import styles from "~/styles/Components/SlideImage/slideImage.module.scss";
+import styles from "~/styles/Components/KLNSlideImage/klnSlideImage.module.scss";
 import { memo } from "react";
 
-function SlideImage({
+function KLNSlideImage({
                         slideImageList,
                         setChoosingImage,
                         choosingImage,
@@ -85,4 +85,4 @@ function SlideImage({
     )
 }
 
-export default memo(SlideImage);
+export default memo(KLNSlideImage);

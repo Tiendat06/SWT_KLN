@@ -3,12 +3,12 @@ import { Card } from "primereact/card";
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-import styles from "~/styles/Components/Memorial/HistoryList.module.scss";
+import styles from "~/styles/Pages/Memorial/HistoryList.module.scss";
 import clsx from "clsx"; 
 import { Link } from "react-router-dom";
 import {getBlogListService} from "~/services/BlogService";
 import MediaType from "~/enum/MediaType/MediaType";
-import {CustomReactPaginate} from "~/components";
+import {KLNReactPaginate} from "~/components";
 
 const HistoryList = () => {
     const [cardList, setCardList] = useState([]);
@@ -47,7 +47,7 @@ const HistoryList = () => {
                     </div>
                 </Card>
             ))}
-            <CustomReactPaginate
+            <KLNReactPaginate
                 handlePageClick={handlePageClick}
                 pageCount={pageCount}
             />

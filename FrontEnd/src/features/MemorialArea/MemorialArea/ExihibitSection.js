@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import { Card } from "primereact/card";
 import clsx from "clsx";
-import styles from "~/styles/Components/Memorial/ExhibitSection.module.scss";
+import styles from "~/styles/Pages/Memorial/ExhibitSection.module.scss";
 import {getSlideShowListService,} from "~/services/SlideShowService";
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";

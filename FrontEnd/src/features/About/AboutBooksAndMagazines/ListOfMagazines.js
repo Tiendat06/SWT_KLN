@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import styles from "~/styles/Pages/About/aboutSidebarBooks.module.scss";
-import {PDFViewer} from "~/components";
+import {KLNPDFViewer} from "~/components";
 import {useAboutBooksMagazinesContext} from "~/context/About/AboutBooksMagazinesContext";
 
 function ListOfMagazines() {
@@ -23,7 +23,7 @@ function ListOfMagazines() {
                                 {selectedMagazine?.description}
                             </p>
                         </div>
-                        <PDFViewer
+                        <KLNPDFViewer
                             url={selectedMagazine?.magazineContent}/>
                     </>
                 )}

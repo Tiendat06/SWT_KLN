@@ -1,8 +1,9 @@
 import ReactPaginate from "react-paginate";
 import clsx from "clsx";
-import styles from '~/styles/Components/CustomReactPaginate/customReactPaginate.module.scss';
+import styles from '~/styles/Components/KLNReactPaginate/klnReactPaginate.module.scss';
+import {memo} from "react";
 
-function CustomReactPaginate({ handlePageClick, pageCount }) {
+function KLNReactPaginate({ handlePageClick, pageCount }) {
     return (
         <ReactPaginate
             breakLabel="..."
@@ -26,4 +27,4 @@ function CustomReactPaginate({ handlePageClick, pageCount }) {
     );
 }
 
-export default CustomReactPaginate;
+export default memo(KLNReactPaginate);
