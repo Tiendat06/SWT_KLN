@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { KLNSlideBanner } from "~/components";
 import {ExhibitSection, HistoryList, ImageCarousel} from '~/features/MemorialArea';
 
-function MemorialArea() {
+const MemorialArea = () => {
     return (
         <>
             <KLNSlideBanner />

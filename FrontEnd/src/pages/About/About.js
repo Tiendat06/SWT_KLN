@@ -5,7 +5,7 @@ import {KLNButton} from '~/components';
 import {TDTMasterpiece, TDTHandiwork} from '~/features/About';
 import KLNTitle from "~/components/KLNTitle/KLNTitle";
 
-function About() {
+const About = () => {
     return (
         <>
             <div className={clsx(styles["about"])}>

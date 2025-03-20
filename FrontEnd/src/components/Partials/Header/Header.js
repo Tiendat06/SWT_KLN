@@ -3,12 +3,10 @@ import {Link} from "react-router-dom";
 
 import styles from "~/styles/Layouts/header.module.scss";
 import {tdtu_logo, search_icon, user_icon, vn_icon} from "~/assets/img";
-import {siteJRoutes, aboutJRoutes,} from "~/routes/appRoutes";
-import {memorialAreaTRoutes} from "~/routes/memorialAreaRoutes";
+import {siteJRoutes,} from "~/routes/appRoutes";
 import {useEffect, useState} from "react";
 import {getBlogListService} from "~/services/BlogService";
 import MediaType from "~/enum/MediaType/MediaType";
-import {KLNDropdown} from "~/components";
 import {MemorialTDTLink, PresidentTDTLink} from "~/features/Site";
 
 function Header() {

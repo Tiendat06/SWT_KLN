@@ -4,7 +4,7 @@ import { SlideShowTopic, SidebarTopic } from "~/features/About";
 import styles from "~/styles/Pages/About/aboutTopic.module.scss";
 import {AboutTopicProvider} from "~/context/About/AboutTopicContext";
 
-function AboutTopic() {
+const AboutTopic = () => {
 
     return (
         <AboutTopicProvider>

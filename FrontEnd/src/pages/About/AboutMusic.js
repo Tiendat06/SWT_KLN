@@ -4,7 +4,7 @@ import {KLNTitle} from "~/components";
 import {AudioList, MainAudio} from "~/features/About";
 import {AboutAudioProvider} from "~/context/About/AboutAudioContext";
 
-function AboutMusic() {
+const AboutMusic = () => {
 
     return (
         <AboutAudioProvider>

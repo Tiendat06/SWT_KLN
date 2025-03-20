@@ -3,9 +3,8 @@ import styles from '~/styles/Pages/About/aboutCreature.module.scss';
 import {ButtonLink, CreatureList} from '~/features/About';
 import {tac_pham_2, tac_pham_3, tac_pham_4} from "~/assets/img";
 import {KLNButton} from "~/components";
-import {AboutBooksMagazinesProvider} from "~/context/About/AboutBooksMagazinesContext";
 
-function AboutCreature() {
+const AboutCreature = () => {
     return (
         <>
             <div className={clsx(styles["about-creature"])}>

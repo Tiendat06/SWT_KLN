@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import {KLNTitle} from "~/components";
 import {AboutMultimediaDocumentProvider} from "~/context/About/AboutMultimediaDocumentContext";
 
-function AboutMultimediaDocuments() {
+const AboutMultimediaDocuments = () => {
     return (
         <AboutMultimediaDocumentProvider>
             <div className={clsx(styles["aboutMultimedia"])}>

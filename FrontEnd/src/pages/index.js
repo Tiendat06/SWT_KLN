@@ -8,7 +8,6 @@ import AboutVideo from "./About/AboutVideo";
 import AboutMusic from "./About/AboutMusic";
 
 import MemorialArea from './MemorialArea/MemorialArea';
-// import MemorialAreas from "./MemorialArea/MemorialAreas"
 import Handiwork from "./Handiwork/Handiwork"
 import AboutBooks_Magazines from "./About/AboutBooks_Magazines";
 import AboutTopic from "./About/AboutTopic";

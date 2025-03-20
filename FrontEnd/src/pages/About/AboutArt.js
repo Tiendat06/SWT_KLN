@@ -4,7 +4,7 @@ import KLNTitle from "~/components/KLNTitle/KLNTitle";
 import {AboutArtProvider} from "~/context/About/AboutArtContext";
 import {SlideShow} from "~/features/About";
 
-function AboutArt(){
+const AboutArt = () => {
 
     return (
         <AboutArtProvider>

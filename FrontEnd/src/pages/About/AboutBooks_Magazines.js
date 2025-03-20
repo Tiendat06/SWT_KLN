@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import {AboutBooksMagazinesProvider} from "~/context/About/AboutBooksMagazinesContext";
 import {KLNTitle} from "~/components";
 
-function AboutBooksAndMagazines() {
+const AboutBooksAndMagazines = () => {
     return (
         <AboutBooksMagazinesProvider>
             <div className={clsx(styles["aboutbooksandmagazines"])}>

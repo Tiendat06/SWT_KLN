@@ -4,7 +4,7 @@ import styles from '~/styles/Pages/About/aboutVideoFilm.module.scss';
 import {VideoClipList, VideoMain} from "~/features/About";
 import {AboutVideoProvider} from "~/context/About/AboutVideoContext";
 
-function AboutVideo(){
+const AboutVideo = () => {
     return (
         <AboutVideoProvider>
             <div className={clsx(styles["about-video"])}>
