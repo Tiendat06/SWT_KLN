@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
 namespace KLN.Shared.CrossCuttingConcerns.Enums
 {
     public enum MediaTypeEnum
