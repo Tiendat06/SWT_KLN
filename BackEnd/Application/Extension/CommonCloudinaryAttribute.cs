@@ -7,15 +7,19 @@
 
         // book
         public static readonly string assetFolderBook = "KLN/book";
-        public static readonly string assetFolderBookImage = "KLN/book/image";
-        public static readonly string assetFolderBookPDF = "KLN/book/PDF";
+        public static readonly string assetFolderBookImage = $"{assetFolderBook}/image";
+        public static readonly string assetFolderBookPDF = $"{assetFolderBook}/PDF";
 
         // magazine
         public static readonly string assetFolderMagazine = "KLN/magazine";
-        public static readonly string assetFolderMagazineImage = "KLN/magazine/image";
+        public static readonly string assetFolderMagazineImage = $"{assetFolderMagazine}/image";
 
         // video
         public static readonly string assetFolderVideo = "KLN/video";
-        public static readonly string assetFolderVideoImage = "KLN/video/image";
+        public static readonly string assetFolderVideoImage = $"{assetFolderVideo}/image";
+
+        // slide show
+        public static readonly string assetFolderSlideShow = "KLN/SlideShow";
+        public static readonly string assetFolderSlideImage = $"{assetFolderSlideShow}/SlideShow";
     }
 }

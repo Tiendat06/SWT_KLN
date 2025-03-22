@@ -7,6 +7,7 @@ using KLN.Shared.CrossCuttingConcerns;
 namespace API.Controller.Base
 {
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<>))]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(DefaultResponse))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(DefaultResponse))]
     [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(DefaultResponse))]
     [ProducesResponseType(StatusCodes.Status403Forbidden, Type = typeof(DefaultResponse))]
@@ -20,14 +21,14 @@ namespace API.Controller.Base
         public static ObjectResult ApiSuccess(HttpStatusCode code = HttpStatusCode.OK, string message = "Success")
         {
             var result = new ObjectResult(new DefaultResponse { status = (int)code, message = message });
-            if (code == HttpStatusCode.Created) result.StatusCode = (int)code;
+            //if (code == HttpStatusCode.Created) result.StatusCode = (int)code;
             return result;
         }
 
         public static ObjectResult ApiSuccess<T>(T data, HttpStatusCode code = HttpStatusCode.OK, string message = "Success")
         {
             var result = new ObjectResult(new CustomResponse<T> { status = (int)code, data = data, message = message });
-            if (code == HttpStatusCode.Created) result.StatusCode = (int)code;
+            //if (code == HttpStatusCode.Created) result.StatusCode = (int)code;
             return result;
         }
     }
