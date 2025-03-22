@@ -2,7 +2,7 @@
 using Application.Interfaces;
 using Application.Mapper.Videos.Input;
 using Application.Mapper.Videos.Output;
-using Application.Utils;
+using KLN.Shared.CrossCuttingConcerns.Utils;
 using CloudinaryDotNet;
 using Domain;
 using Domain.Entities;
@@ -13,6 +13,7 @@ using Google.Apis.Services;
 using Google.Apis.YouTube.v3.Data;
 using Google.Apis.YouTube.v3;
 using Microsoft.Extensions.Localization;
+using KLN.Shared.CrossCuttingConcerns;
 
 namespace Application.Services
 {

@@ -3,6 +3,7 @@ using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Domain.Interfaces;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using KLN.Shared.CrossCuttingConcerns.Enums;
 
 namespace Infrastructure.Repositories
 {
@@ -19,13 +20,13 @@ namespace Infrastructure.Repositories
                 .AsNoTracking()
                 .Where(topic => topic.IsDeleted == false);
 
-            if (type > 0)
+            if (type > (int)MediaTypeEnum.None)
                 query = query.Where(x => x.MediaTypeId == type);
 
             // check get images or videos
-            if (topicType == 1)
+            if (topicType == (int)TopicTypeEnum.ImageType)
                 query = query.Where(x => x.Images != null);
-            else if (topicType == 2)
+            else if (topicType == (int)TopicTypeEnum.VideoType)
                 query = query.Where(x => x.Videos != null);
 
             // Sắp xếp trước khi phân trang
@@ -82,13 +83,13 @@ namespace Infrastructure.Repositories
         {
             var query = _context.Topics
                 .AsNoTracking();
-            if (type > 0)
+            if (type > (int)MediaTypeEnum.None)
                 query = query.Where(x => x.MediaTypeId == type);
 
             // check get images or videos
-            if (topicType == 1)
+            if (topicType == (int)TopicTypeEnum.ImageType)
                 query = query.Where(x => x.Images != null);
-            else if (topicType == 2)
+            else if (topicType == (int)TopicTypeEnum.VideoType)
                 query = query.Where(x => x.Videos != null);
 
             return await query.CountAsync(x => x.IsDeleted == false);

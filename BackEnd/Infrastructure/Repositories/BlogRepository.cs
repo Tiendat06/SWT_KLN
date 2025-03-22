@@ -2,6 +2,7 @@ using Infrastructure.Persistence;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Domain.Interfaces;
+using KLN.Shared.CrossCuttingConcerns.Enums;
 
 namespace Infrastructure.Repositories
 {
@@ -18,17 +19,6 @@ namespace Infrastructure.Repositories
         {
             await _context.Blogs.AddAsync(blog);
         }
-
-        //public async Task<IEnumerable<Blog>> GetAllBlogsAsync()
-        //{
-        //    return await _context.Blogs
-        //        .AsNoTracking()
-        //        .Where(blog => blog.IsDeleted == false)
-        //        .Include(blog => blog.User)
-        //        .ThenInclude(user => user.Account)
-        //        .ThenInclude(account => account.Role)
-        //        .ToListAsync();
-        //}
 
         public async Task<Blog?> GetBlogByIdAsync(Guid id)
         {
@@ -49,7 +39,7 @@ namespace Infrastructure.Repositories
             query = query.OrderByDescending(blog => blog.CreateDate);
 
             // check if type is exists
-            if (type > 0)
+            if (type > (int)MediaTypeEnum.None)
                 query = query.Where(x => x.MediaTypeId == type);
 
             // Phân trang nếu fetch > 0, ngược lại lấy tất cả
@@ -80,7 +70,7 @@ namespace Infrastructure.Repositories
         public async Task<int> CountAllBlogsAsync(int type)
         {
             var query = _context.Blogs.AsNoTracking();
-            if (type > 0)
+            if (type > (int)MediaTypeEnum.None)
                 query = query.Where(x => x.MediaTypeId == type);
             return await query.CountAsync(x => x.IsDeleted == false);
         }

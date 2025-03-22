@@ -3,6 +3,7 @@ using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Domain.Interfaces;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using KLN.Shared.CrossCuttingConcerns.Enums;
 
 namespace Infrastructure.Repositories
 {
@@ -19,7 +20,7 @@ namespace Infrastructure.Repositories
                 .AsNoTracking()
                 .Where(music => music.IsDeleted == false);
 
-            if (type > 0)
+            if (type > (int)MediaTypeEnum.None)
                 query = query.Where(x => x.MediaTypeId == type);
 
             // Sắp xếp trước khi phân trang
@@ -51,7 +52,7 @@ namespace Infrastructure.Repositories
         {
             var query = _context.Musics
                 .AsNoTracking();
-            if (type > 0)
+            if (type > (int)MediaTypeEnum.None)
                 query = query.Where(x => x.MediaTypeId == type);
             return await query.CountAsync(x => x.IsDeleted == false);
         }

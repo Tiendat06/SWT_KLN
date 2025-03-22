@@ -12,7 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Domain.Localization;
 using Microsoft.Extensions.Localization;
-using Application.Exceptions;
+using KLN.Shared.CrossCuttingConcerns.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using CloudinaryDotNet;
 using DotNetEnv;

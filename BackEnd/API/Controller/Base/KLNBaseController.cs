@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using KLN.Shared.CrossCuttingConcerns;
 
 namespace API.Controller.Base
 {

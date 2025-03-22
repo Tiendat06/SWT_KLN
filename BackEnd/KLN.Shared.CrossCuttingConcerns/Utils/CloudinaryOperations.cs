@@ -2,7 +2,7 @@
 using CloudinaryDotNet;
 using Newtonsoft.Json.Linq;
 
-namespace Application.Utils
+namespace KLN.Shared.CrossCuttingConcerns.Utils
 {
     public class CloudinaryOperations
     {

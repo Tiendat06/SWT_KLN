@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Application.Utils
+namespace KLN.Shared.CrossCuttingConcerns.Utils
 {
     public class FileOperations
     {

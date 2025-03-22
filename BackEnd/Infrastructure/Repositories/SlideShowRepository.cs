@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Domain.Interfaces;
+using KLN.Shared.CrossCuttingConcerns.Enums;
 
 namespace Infrastructure.Repositories
 {
@@ -19,11 +20,11 @@ namespace Infrastructure.Repositories
                 .Where(SlideShow => SlideShow.IsDeleted == false);
 
             // check slide show type is exists
-            if (slideShowType > 0)
+            if (slideShowType > (int)SlideShowTypeEnum.None)
                 query = query.Where(x => x.SlideShowTypeId == slideShowType);
 
             // check if type is exists
-            if (type > 0)
+            if (type > (int)MediaTypeEnum.None)
                 query = query.Where(x => x.MediaTypeId == type);
 
             // Sắp xếp trước khi phân trang
@@ -68,10 +69,10 @@ namespace Infrastructure.Repositories
         public async Task<int> CountSlideShowAsync(int type, int slideShowType)
         {
             var query = _context.SlideShows.AsNoTracking();
-            if (slideShowType > 0)
+            if (slideShowType > (int)SlideShowTypeEnum.None)
                 query = query.Where(x => x.SlideShowTypeId == slideShowType);
 
-            if (type > 0)
+            if (type > (int)MediaTypeEnum.None)
                 query = query.Where(x => x.MediaTypeId == type);
             return await query.CountAsync(x => x.IsDeleted == false);
         }

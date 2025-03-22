@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Application.Enums
+namespace KLN.Shared.CrossCuttingConcerns.Enums
 {
     public enum TopicTypeEnum
     {

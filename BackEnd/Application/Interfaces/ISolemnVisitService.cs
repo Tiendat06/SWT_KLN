@@ -1,4 +1,4 @@
-﻿
+﻿using KLN.Shared.CrossCuttingConcerns;
 namespace Application.Interfaces
 {
     public interface ISolemnVisitService

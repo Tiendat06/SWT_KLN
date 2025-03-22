@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\KLN.Shared.CrossCuttingConcerns\KLN.Shared.CrossCuttingConcerns.csproj" />
   </ItemGroup>
 
 </Project>

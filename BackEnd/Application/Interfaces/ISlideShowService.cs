@@ -1,4 +1,5 @@
-﻿namespace Application.Interfaces
+﻿using KLN.Shared.CrossCuttingConcerns;
+namespace Application.Interfaces
 {
     public interface ISlideShowService
     {

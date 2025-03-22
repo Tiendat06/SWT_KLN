@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Net;
 
-namespace Application.Exceptions
+namespace KLN.Shared.CrossCuttingConcerns.Exceptions
 {
     public class ExceptionApiResult: ExceptionFilterAttribute
     {

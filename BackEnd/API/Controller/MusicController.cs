@@ -4,6 +4,7 @@ using Application.Interfaces;
 using API.Controller.Base;
 using Application.Validators;
 using Application;
+using KLN.Shared.CrossCuttingConcerns;
 
 namespace API.Controller
 {

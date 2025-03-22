@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces;
 using API.Controller.Base;
 using Application;
+using KLN.Shared.CrossCuttingConcerns;
 
 namespace API.Controllers
 {

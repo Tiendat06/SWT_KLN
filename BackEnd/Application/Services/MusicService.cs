@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Application.Extension;
 using Microsoft.Extensions.Localization;
 using Domain.Localization;
+using KLN.Shared.CrossCuttingConcerns;
 
 namespace Application.Services
 {
