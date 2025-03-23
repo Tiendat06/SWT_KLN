@@ -7,7 +7,7 @@
         public string BookContent { get; set; }
         public string Publisher { get; set; }
         public string Author { get; set; }
-        public DateTime YearPublic { get; set; }
+        public string YearPublic { get; set; }
         public int? MediaTypeId { get; set; }
         public string? Description { get; set; }
         public string Image { get; set; }

@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import styles from "~/styles/Pages/About/aboutSidebarBooks.module.scss";
 import {useCallback, useEffect, useState} from "react";
-import {getBookByIdService, getBookListService} from "~/services/BookService";
+import {getBookListService} from "~/services/BookService";
 import {useAboutBooksMagazinesContext} from "~/context/About/AboutBooksMagazinesContext";
 import {KLNReactDotPaginate} from "~/components";
 import {useNavigate} from "react-router-dom";
@@ -13,16 +13,11 @@ function SidebarBook() {
     const navigate = useNavigate();
     const ITEMS_PER_PAGE = 7;
 
-    const {selectedBook, setSelectedBook, setSelectedMagazine, itemId} = useAboutBooksMagazinesContext();
+    const {itemId} = useAboutBooksMagazinesContext();
 
     useEffect(() => {
         const getBookList = async () => {
             const data = await getBookListService(ITEMS_PER_PAGE, currentPage);
-            const defaultData = await getBookByIdService(itemId);
-            if (defaultData?.data !== null) {
-                setSelectedBook(defaultData?.data);
-                setSelectedMagazine(null);
-            }
             setBookList(data?.data?.items);
             setPageCount(Math.ceil(data?.data?.totalCount / ITEMS_PER_PAGE));
         }
@@ -30,8 +25,6 @@ function SidebarBook() {
     }, [currentPage]);
 
     const onClickBook = (book) => {
-        setSelectedBook(book);
-        setSelectedMagazine(null);
         navigate(`/about-books-magazines/${book?.bookId}`)
     }
 
@@ -49,7 +42,7 @@ function SidebarBook() {
                             key={book?.bookId}
                             className={clsx(styles.ListOfBooks__listItem,
                                 {
-                                [styles["ListOfBooks__listItem--active"]]: selectedBook?.bookId === book?.bookId,
+                                [styles["ListOfBooks__listItem--active"]]: book?.bookId === itemId,
                             }
                             )}
                             onClick={() => onClickBook(book)}

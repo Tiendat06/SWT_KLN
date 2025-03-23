@@ -23,8 +23,8 @@ namespace Domain.Entities
         [Column("author", TypeName ="nvarchar")]
         public string? Author { get; set; } = string.Empty;
 
-        [Column("yearPublic", TypeName ="datetime")]
-        public DateTime YearPublic { get; set; } = DateTime.Now;
+        [Column("yearPublic", TypeName = "varchar")]
+        public string YearPublic { get; set; } = string.Empty;
 
         [Column("image", TypeName ="varchar")]
         public string? Image {  get; set; } = string.Empty;

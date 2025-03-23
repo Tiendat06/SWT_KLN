@@ -1,8 +1,7 @@
 import clsx from "clsx";
 import styles from "~/styles/Pages/About/aboutSidebarBooks.module.scss";
 import {useCallback, useEffect, useState} from "react";
-import { book_img } from '~/assets/img';
-import {getMagazineByIdService, getMagazineListService} from "~/services/MagazineService";
+import {getMagazineListService} from "~/services/MagazineService";
 import {useAboutBooksMagazinesContext} from "~/context/About/AboutBooksMagazinesContext";
 import {KLNReactDotPaginate} from "~/components";
 import {useNavigate} from "react-router-dom";
@@ -14,15 +13,10 @@ function SlidebarMagazines() {
     const ITEMS_PER_PAGE = 7;
     const navigate = useNavigate();
 
-    const {selectedMagazine, setSelectedMagazine, setSelectedBook, itemId} = useAboutBooksMagazinesContext();
+    const {itemId} = useAboutBooksMagazinesContext();
     useEffect(() => {
         const getListMagazine = async () => {
             const data = await getMagazineListService(ITEMS_PER_PAGE, currentPage);
-            const defaultData = await getMagazineByIdService(itemId);
-            if (defaultData?.data !== null){
-                setSelectedBook(null);
-                setSelectedMagazine(defaultData?.data);
-            }
             setMagazineList(data?.data?.items);
             setPageCount(Math.ceil(data?.data?.totalCount / ITEMS_PER_PAGE));
         }
@@ -30,8 +24,6 @@ function SlidebarMagazines() {
     }, [currentPage]);
 
     const onClickMagazine = (magazine) => {
-        setSelectedMagazine(magazine);
-        setSelectedBook(null);
         navigate(`/about-books-magazines/${magazine?.magazineId}`)
     }
 
@@ -49,7 +41,7 @@ function SlidebarMagazines() {
                             key={`magazine-sidebar-${magazine?.magazineId}`}
                             className={clsx(styles.ListOfBooks__listItem,
                                 {
-                                [styles["ListOfBooks__listItem--active"]]: selectedMagazine?.magazineId === magazine?.magazineId,
+                                [styles["ListOfBooks__listItem--active"]]: magazine?.magazineId === itemId,
                             }
                             )}
                             onClick={() => onClickMagazine(magazine)}
