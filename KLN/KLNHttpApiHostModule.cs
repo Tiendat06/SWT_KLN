@@ -16,6 +16,9 @@ using KLN.Shared.CrossCuttingConcerns.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using CloudinaryDotNet;
 using DotNetEnv;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.OpenApi.Models;
 
 namespace KLN
 {
@@ -36,6 +39,7 @@ namespace KLN
             app.UseCors("AllowSpecificOrigin");
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseRequestLocalization((RequestLocalizationOptions)data[0]);
 
@@ -86,7 +90,35 @@ namespace KLN
         public void SwaggerConfiguration(WebApplicationBuilder builder)
         {
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(x =>
+            {
+                x.SwaggerDoc("v1", new OpenApiInfo { Title = "KLN", Version = "v1" });
+
+                x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer",
+                    BearerFormat = "token",
+                    In = ParameterLocation.Header,
+                    Description = "**<p>Bearer (token)</p>**"
+                });
+
+                x.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
+            });
         }
 
         public RequestLocalizationOptions LocalizationConfiguration(WebApplicationBuilder builder)
@@ -111,39 +143,56 @@ namespace KLN
 
         public void AuthenticationConfiguration(WebApplicationBuilder builder)
         {
-            // add jwt in cookie
-            builder.Services.AddAuthentication(x =>
+            // add jwt in header
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
             {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddCookie(x =>
-            {
-                x.Cookie.Name = "token";
-            }).AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT_KEY_SECRET"])),
-                    ValidateIssuer = false,
+                    ValidateIssuer = false, 
                     ValidateAudience = false,
                 };
-                x.Events = new JwtBearerEvents
-                {
-                    OnMessageReceived = context =>
-                    {
-                        context.Token = context.Request.Cookies["token"];
-                        return Task.CompletedTask;
-                    }
-                };
             });
+
+            // add jwt in cookie
+            //builder.Services.AddAuthentication(x =>
+            //{
+            //    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    x.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //}).AddCookie(x =>
+            //{
+            //    x.Cookie.Name = "token";
+            //}).AddJwtBearer(x =>
+            //{
+            //    x.RequireHttpsMetadata = false;
+            //    x.SaveToken = true;
+            //    x.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuerSigningKey = true,
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT_KEY_SECRET"])),
+            //        ValidateIssuer = false,
+            //        ValidateAudience = false,
+            //    };
+            //    x.Events = new JwtBearerEvents
+            //    {
+            //        OnMessageReceived = context =>
+            //        {
+            //            context.Token = context.Request.Cookies["token"];
+            //            return Task.CompletedTask;
+            //        }
+            //    };
+            //});
+            builder.Services.AddAuthorization();
         }
 
         public void DatabaseConfiguration(WebApplicationBuilder builder)
         {
-            builder.Services.AddDbContext<DatabaseManager>(options => 
+            builder.Services.AddDbContext<DatabaseManager>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
         }
 

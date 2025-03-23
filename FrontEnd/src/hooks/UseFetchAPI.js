@@ -1,20 +1,25 @@
+import Cookies from "js-cookie";
 
 async function UseFetchAPI(
                      {
                          api = '',
                          method = 'GET',
                          headers = {
-                             'Content-Type': 'application/json'
+                             'Content-Type': 'application/json',
                          },
                          body = null,
                          credentials = 'include'
                      }) {
 
     const API_URL = process.env.REACT_APP_API_URL;
+    const newHeaders = {
+        ...headers,
+        'Authorization': `Bearer ${Cookies.get("access_token") || ""}`
+    };
 
     const options = {
         method,
-        headers,
+        newHeaders,
         credentials,
     };
 

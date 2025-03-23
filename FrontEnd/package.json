@@ -9,6 +9,7 @@
     "@react-pdf/renderer": "^4.1.6",
     "@tinymce/tinymce-react": "^5.1.1",
     "clsx": "^2.1.1",
+    "js-cookie": "^3.0.5",
     "lucide-react": "^0.475.0",
     "normalize.css": "^8.0.1",
     "pdfjs-dist": "^3.11.174",
