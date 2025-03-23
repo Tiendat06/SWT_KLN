@@ -19,4 +19,4 @@ class SlideShowType{
 
 }
 
-export default new SlideShowType;
+export default new SlideShowType();

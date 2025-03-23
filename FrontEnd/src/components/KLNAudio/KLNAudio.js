@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect} from "react";
-import { Play, Pause } from "lucide-react";
+import {Play, Pause} from "lucide-react";
 import {clsx} from "clsx";
 import {
     about_art_main,
@@ -11,11 +11,12 @@ import {
 import styles from '~/styles/Components/KLNAudio/klnVideo.module.scss';
 import {FormatTime} from "~/utils";
 
-function KLNAudio({src,
-                         imageLink=about_art_main,
-                         title = 'An Giang quê tôi',
-                         author = 'Phạm Nguyên'
-}) {
+const KLNAudio = ({
+                      src,
+                      imageLink = about_art_main,
+                      title = 'An Giang quê tôi',
+                      author = 'Phạm Nguyên'
+                  }) => {
 
     const audioRef = useRef(null);
     const progressRef = useRef(null);
@@ -63,11 +64,13 @@ function KLNAudio({src,
 
     return (
         <div className={clsx("d-flex flex-wrap", styles["custom-audio"])}>
-            <audio ref={audioRef} src={src} />
+            <audio ref={audioRef} src={src}/>
             <div className={clsx(styles["custom-audio__img"], 'mb-3')}>
-                <img style={{width: "50%", height: 300, objectFit: "cover"}} className={clsx(styles["custom-audio__img--inner"])} src={imageLink} alt=""/>
+                <img style={{width: "50%", height: 300, objectFit: "cover"}}
+                     className={clsx(styles["custom-audio__img--inner"])} src={imageLink} alt=""/>
                 <p className={clsx('col-lg-12 col-sm-12 col-md-12 mb-0 text-center')}>{title}</p>
-                <p style={{fontSize: 14}} className={clsx('col-lg-12 col-sm-12 col-md-12 mb-0 text-center')}>{author}</p>
+                <p style={{fontSize: 14}}
+                   className={clsx('col-lg-12 col-sm-12 col-md-12 mb-0 text-center')}>{author}</p>
             </div>
 
             <div className={clsx(styles["custom-audio__progress"], 'col-lg-12 col-sm-12 col-md-12')}>
@@ -93,10 +96,11 @@ function KLNAudio({src,
             <div className={clsx(styles["custom-audio__btn"], "col-lg-12 col-sm-12 col-md-12")}>
                 <div className="d-flex justify-content-between align-items-center" style={{width: "30%"}}>
                     {/* Skip Back 10s */}
-                    <img style={{height: 20, cursor: "pointer"}} onClick={() => skipTime(-10)} src={previous_icon_2} alt=""/>
+                    <img style={{height: 20, cursor: "pointer"}} onClick={() => skipTime(-10)} src={previous_icon_2}
+                         alt=""/>
                     {/* Play/Pause KLNButton */}
                     <button onClick={togglePlay} className={styles["custom-audio__btn--play"]}>
-                        {isPlaying ? <Pause size={32} /> : <Play size={32} />}
+                        {isPlaying ? <Pause size={32}/> : <Play size={32}/>}
                     </button>
 
                     {/* Skip Forward 10s */}
@@ -110,7 +114,8 @@ function KLNAudio({src,
                 {/*    <VolumeX size={20} />*/}
                 {/*</button>*/}
                 <div className="d-flex justify-content-between align-items-center" style={{width: "60%"}}>
-                    <img style={{marginRight: 10, cursor: "pointer"}} onClick={() => changeVolume(0)} src={mute_volume_icon} alt=""/>
+                    <img style={{marginRight: 10, cursor: "pointer"}} onClick={() => changeVolume(0)}
+                         src={mute_volume_icon} alt=""/>
                     <input
                         type="range"
                         min="0"
@@ -121,7 +126,8 @@ function KLNAudio({src,
                         className={clsx(styles["custom-audio__volume--bar"])}
                         style={{height: 5, width: "100%"}}
                     />
-                    <img style={{marginLeft: 10, cursor: "pointer"}} onClick={() => changeVolume(1)} src={increase_volume_icon} alt=""/>
+                    <img style={{marginLeft: 10, cursor: "pointer"}} onClick={() => changeVolume(1)}
+                         src={increase_volume_icon} alt=""/>
                 </div>
                 {/*<button onClick={() => changeVolume(1)} className="text-white">*/}
                 {/*    <Volume2 size={20} />*/}

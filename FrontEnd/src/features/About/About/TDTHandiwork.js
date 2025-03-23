@@ -1,11 +1,7 @@
 import styles from '~/styles/Pages/About/about.module.scss';
 import clsx from "clsx";
 import {Link} from "react-router-dom";
-
-import {aboutJRoutes} from '~/routes/appRoutes';
 import {next_icon_1, previous_icon_1} from '~/assets/img';
-import {getMagazineListService} from "~/services/MagazineService";
-
 import {Carousel} from "primereact/carousel";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";

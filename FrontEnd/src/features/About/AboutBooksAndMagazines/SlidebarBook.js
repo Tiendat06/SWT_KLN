@@ -11,7 +11,7 @@ function SidebarBook() {
     const [pageCount, setPageCount] = useState(0);
     const [bookList, setBookList] = useState([]);
     const navigate = useNavigate();
-    const ITEMS_PER_PAGE = 7;
+    const ITEMS_PER_PAGE = 4;
 
     const {itemId} = useAboutBooksMagazinesContext();
 
@@ -46,15 +46,16 @@ function SidebarBook() {
                             }
                             )}
                             onClick={() => onClickBook(book)}
+                            title={book?.title}
                         >
-                            {book?.title}
+                            <p>{book?.title}</p>
                         </li>
                     ))}
                 </ul>
                 <KLNReactDotPaginate
                     pageCount={pageCount}
                     currentPage={currentPage}
-                    onClick={onClickCurrentPage}
+                    onClickCurrentPage={onClickCurrentPage}
                 />
             </div>
         </div>

@@ -3,7 +3,7 @@ import {clsx} from "clsx";
 import styles from '~/styles/Pages/About/aboutMusic.module.scss';
 import {useAboutAudioContext} from "~/context/About/AboutAudioContext";
 import {useLayoutEffect,} from "react";
-import {getMusicByIdService, getMusicListService} from "~/services/MusicService";
+import {getMusicByIdService} from "~/services/MusicService";
 
 function MainAudio() {
     const {

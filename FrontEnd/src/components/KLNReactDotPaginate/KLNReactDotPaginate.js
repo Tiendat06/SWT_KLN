@@ -12,7 +12,7 @@ const KLNReactDotPaginate = ({currentPage, pageCount, onClickCurrentPage}) => {
                     className={clsx(styles["dot"], {
                         [styles["dotActive"]]: currentPage === index + 1,
                     })}
-                    onClick={() => index + 1 !== currentPage && onClickCurrentPage(index + 1)}
+                    onClick={() => index + 1 !== currentPage && onClickCurrentPage(index)}
                 ></span>
             ))}
         </div>

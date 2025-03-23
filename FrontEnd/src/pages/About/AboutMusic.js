@@ -10,7 +10,7 @@ const AboutMusic = () => {
         <AboutAudioProvider>
             <div className={clsx(styles["about-music"])}>
                 <KLNTitle>
-                    HÌNH ẢNH NGHỆ THUẬT VỀ CHỦ TỊCH TÔN ĐỨC THẮNG
+                    NHẠC VỀ BÁC TÔN
                 </KLNTitle>
                 <div className={clsx(styles["about-music__content"], 'mt-5 mb-5')}>
                     <MainAudio/>

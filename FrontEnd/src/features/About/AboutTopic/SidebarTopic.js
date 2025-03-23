@@ -6,7 +6,6 @@ import {useAboutTopicContext} from "~/context/About/AboutTopicContext";
 import {getTopicByIdService, getTopicListService} from "~/services/TopicService";
 import {useNavigate} from "react-router-dom";
 import MediaType from "~/enum/MediaType/MediaType";
-import TopicType from "~/enum/Topic/TopicType";
 
 const SidebarTopic = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -66,14 +65,14 @@ const SidebarTopic = () => {
                             )}
                             onClick={() => onClickTopic(topic)}
                         >
-                            {topic?.capture}
+                            <p>{topic?.capture}</p>
                         </li>
                     ))}
                 </ul>
                 <KLNReactDotPaginate
                     pageCount={pageCount}
                     currentPage={currentPage}
-                    onClick={onClickCurrentPage}
+                    onClickCurrentPage={onClickCurrentPage}
                 />
             </div>
         </div>

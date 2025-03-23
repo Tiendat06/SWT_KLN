@@ -1,14 +1,11 @@
 import clsx from "clsx";
 import styles from "~/styles/Pages/About/aboutTopic.module.scss";
-import {banner_1} from "~/assets/img";
 import SlideImage from "~/components/KLNSlideImage/KLNSlideImage";
 import {useAboutTopicContext} from "~/context/About/AboutTopicContext";
 import {useEffect} from "react";
-import {getTopicByIdService, getTopicListService} from "~/services/TopicService";
-import MediaType from "~/enum/MediaType/MediaType";
+import {getTopicByIdService} from "~/services/TopicService";
 import {Button} from "primereact/button";
 import TopicType from "~/enum/Topic/TopicType";
-import topicType from "~/enum/Topic/TopicType";
 
 function SlideShowTopic() {
     const {

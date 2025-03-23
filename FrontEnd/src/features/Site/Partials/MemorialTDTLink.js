@@ -3,7 +3,6 @@ import clsx from "clsx";
 import styles from "~/styles/Layouts/header.module.scss";
 import {KLNDropdown} from "~/components";
 import {useEffect, useState} from "react";
-import {getTopicListService} from "~/services/TopicService";
 import {getBlogListService} from "~/services/BlogService";
 import MediaType from "~/enum/MediaType/MediaType";
 

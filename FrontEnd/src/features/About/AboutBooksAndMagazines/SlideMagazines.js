@@ -10,7 +10,7 @@ function SlidebarMagazines() {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageCount, setPageCount] = useState(0);
     const [magazineList, setMagazineList] = useState([]);
-    const ITEMS_PER_PAGE = 7;
+    const ITEMS_PER_PAGE = 4;
     const navigate = useNavigate();
 
     const {itemId} = useAboutBooksMagazinesContext();
@@ -45,15 +45,16 @@ function SlidebarMagazines() {
                             }
                             )}
                             onClick={() => onClickMagazine(magazine)}
+                            title={magazine?.title}
                         >
-                            {magazine?.title}
+                            <p>{magazine?.title}</p>
                         </li>
                     ))}
                 </ul>
                 <KLNReactDotPaginate
                     pageCount={pageCount}
                     currentPage={currentPage}
-                    onClick={onClickCurrentPage}
+                    onClickCurrentPage={onClickCurrentPage}
                 />
             </div>
         </div>

@@ -13,4 +13,4 @@ class TopicType{
     VideoType = 2;
 }
 
-export default new TopicType;
+export default new TopicType();

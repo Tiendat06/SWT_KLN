@@ -3,11 +3,11 @@ import clsx from "clsx";
 import styles from '~/styles/Components/KLNButton/klnButton.module.scss';
 import {Link} from "react-router-dom";
 
-function KLNButton({children,
+const KLNButton = ({children,
                     urlLink = '',
                     btnClassName = '',
                     onClick = () => {},
-                    options= 1}) {
+                    options= 1}) => {
     const buttonStyle = {
         1: styles['button-1'],
         2: styles['button-2'],

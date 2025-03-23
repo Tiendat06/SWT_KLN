@@ -24,7 +24,7 @@ namespace Domain.Entities
         public string? Author { get; set; } = string.Empty;
 
         [Column("yearPublic", TypeName = "varchar")]
-        public string YearPublic { get; set; } = string.Empty;
+        public string? YearPublic { get; set; } = string.Empty;
 
         [Column("image", TypeName ="varchar")]
         public string? Image {  get; set; } = string.Empty;
