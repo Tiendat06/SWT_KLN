@@ -13,7 +13,7 @@ function ListOfBooks() {
                 {selectedBook && (
                     <>
                         <h2 className={clsx(styles.BookContent__title)}>
-                            {selectedBook?.title}
+                            {selectedBook?.title} - {selectedBook?.author}
                         </h2>
                         <div className={clsx(styles.BookContent__info)}>
                             <img

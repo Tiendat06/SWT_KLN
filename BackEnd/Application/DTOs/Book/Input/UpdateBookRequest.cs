@@ -15,7 +15,7 @@ namespace Application
         public IFormFile? BookContent { get; set; }
         public string Publisher { get; set; }
         public string Author { get; set; }
-        public DateTime YearPublic { get; set; }
+        public string YearPublic { get; set; }
         public IFormFile? Image { get; set; }
         public Guid UserId { get; set; }
     }

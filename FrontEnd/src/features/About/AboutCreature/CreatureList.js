@@ -4,7 +4,6 @@ import {getBookListService} from "~/services/BookService";
 import {KLNButton, KLNReactPaginate} from "~/components";
 import {play_icon_1} from "~/assets/img";
 import {useCallback, useLayoutEffect, useState} from "react";
-import {DateTimeFormat} from "~/utils/DateTimeFormat";
 
 function CreatureList() {
     const itemsPerPage = 3;
@@ -42,7 +41,7 @@ function CreatureList() {
                                     <h3 className={clsx('col-lg-12 col-md-12 col-sm-12')}>{creature?.title}</h3>
                                     <p className={clsx('col-lg-12 col-md-12 col-sm-12 mb-1')}>Author: {creature?.author}</p>
                                     <p className={clsx('col-lg-12 col-md-12 col-sm-12 mb-1')}>Publisher: {creature?.publisher}</p>
-                                    <p className={clsx('col-lg-12 col-md-12 col-sm-12 mb-1')}>Year Public: {DateTimeFormat(creature?.yearPublic)}</p>
+                                    <p className={clsx('col-lg-12 col-md-12 col-sm-12 mb-1')}>Year Public: {creature?.yearPublic} {/*DateTimeFormat(creature?.yearPublic)*/}</p>
                                     <div className={clsx(styles["about-creature__outstanding-btn"])}>
                                         <KLNButton options={3}
                                                    btnClassName={clsx(styles['about-creature__outstanding-btn-item'])}>
