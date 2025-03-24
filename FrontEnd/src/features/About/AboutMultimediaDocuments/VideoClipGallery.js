@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import {FaPlayCircle} from "react-icons/fa";
-import styles from "~/styles/Pages/About/aboutMultimediaDocuments.module.scss";
+import styles from "~/styles/Pages/B2C/About/aboutMultimediaDocuments.module.scss";
 import {Link} from "react-router-dom";
 import {useAboutMultimediaDocumentContext} from "~/context/About/AboutMultimediaDocumentContext";
 

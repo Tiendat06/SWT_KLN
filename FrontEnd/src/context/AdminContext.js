@@ -1,15 +1,20 @@
-import {createContext, useContext} from "react";
+import {createContext, useContext, useEffect, useState} from "react";
+import {useLocation} from "react-router-dom";
 
 const AdminContext = createContext();
 
 export const AdminProvider = ({ children }) => {
-    let dataContext = {
-        id: 1,
-        name: 'Test',
-        age: 18
-    }
+    const currentPath = useLocation().pathname;
+    const [currentLocation, setCurrentLocation] = useState(currentPath);
+
+    useEffect(() => {
+        setCurrentLocation(currentPath);
+    }, [currentPath]);
+
     return (
-        <AdminContext.Provider value={{dataContext}} >
+        <AdminContext.Provider value={{
+            currentLocation
+        }} >
             {children}
         </AdminContext.Provider>
     )

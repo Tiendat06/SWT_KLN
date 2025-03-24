@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from "react";
 import {getSolemnVisitListService} from "~/services/SolemnVisitService";
 import clsx from "clsx";
-import styles from '~/styles/Pages/Memorial/memorialSolemnVisit.module.scss';
+import styles from '~/styles/Pages/B2C/Memorial/memorialSolemnVisit.module.scss';
 import {KLNReactPaginate} from "~/components";
 
 const SolemnVisitList = () => {

@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import styles from "~/styles/Pages/About/aboutSidebarBooks.module.scss";
+import styles from "~/styles/Pages/B2C/About/aboutSidebarBooks.module.scss";
 import {useCallback, useEffect, useState} from "react";
 import {getMagazineListService} from "~/services/MagazineService";
 import {useAboutBooksMagazinesContext} from "~/context/About/AboutBooksMagazinesContext";

@@ -1,5 +1,5 @@
 import {clsx} from "clsx";
-import styles from "~/styles/Pages/About/aboutVideoFilm.module.scss";
+import styles from "~/styles/Pages/B2C/About/aboutVideoFilm.module.scss";
 import {useAboutVideoContext} from "~/context/About/AboutVideoContext";
 import {useEffect} from "react";
 import {getVideoByIdService} from "~/services/VideoService";

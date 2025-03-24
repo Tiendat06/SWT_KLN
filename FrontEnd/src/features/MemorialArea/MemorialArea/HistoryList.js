@@ -3,7 +3,7 @@ import { Card } from "primereact/card";
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-import styles from "~/styles/Pages/Memorial/HistoryList.module.scss";
+import styles from "~/styles/Pages/B2C/Memorial/HistoryList.module.scss";
 import clsx from "clsx"; 
 import { Link } from "react-router-dom";
 import {getBlogListService} from "~/services/BlogService";

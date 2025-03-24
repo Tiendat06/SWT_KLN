@@ -1,6 +1,6 @@
 import {KLNCategory, KLNSlideImage} from "~/components";
 import clsx from "clsx";
-import styles from "~/styles/Pages/Memorial/memorialExhibition.module.scss";
+import styles from "~/styles/Pages/B2C/Memorial/memorialExhibition.module.scss";
 import {useEffect, useState} from "react";
 import {getSlideShowByIdService, getSlideShowListService} from "~/services/SlideShowService";
 import {useMemorialExhibitionContext} from "~/context/MemorialArea/MemorialExhibitionContext";

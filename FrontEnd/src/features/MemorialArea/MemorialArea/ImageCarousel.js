@@ -5,7 +5,7 @@ import { FaRegArrowAltCircleLeft, FaRegArrowAltCircleRight } from "react-icons/f
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-import styles from '~/styles/Pages/Memorial/memorialArea.module.scss';
+import styles from '~/styles/Pages/B2C/Memorial/memorialArea.module.scss';
 import {getBlogListService} from "~/services/BlogService";
 import {clsx} from "clsx";
 import MediaType from "~/enum/MediaType/MediaType";

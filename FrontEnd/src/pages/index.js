@@ -1,26 +1,28 @@
-import Home from "./Home/Home"
-import About from "./About/About"
-import AboutGenealogy from "./About/AboutGenealogy"
-import AboutBiography from "./About/AboutBiography";
-import AboutCreature from './About/AboutCreature';
-import AboutArt from "~/pages/About/AboutArt";
-import AboutVideo from "./About/AboutVideo";
-import AboutMusic from "./About/AboutMusic";
+import Home from "~/pages/B2C/Home/Home"
+import About from "~/pages/B2C/About/About"
+import AboutGenealogy from "~/pages/B2C/About/AboutGenealogy"
+import AboutBiography from "~/pages/B2C/About/AboutBiography";
+import AboutCreature from '~/pages/B2C/About/AboutCreature';
+import AboutArt from "~/pages/B2C/About/AboutArt";
+import AboutVideo from "~/pages/B2C/About/AboutVideo";
+import AboutMusic from "~/pages/B2C/About/AboutMusic";
 
-import MemorialArea from './MemorialArea/MemorialArea';
-import Handiwork from "./Handiwork/Handiwork"
-import AboutBooks_Magazines from "./About/AboutBooks_Magazines";
-import AboutTopic from "./About/AboutTopic";
-import AboutMultimedia_Documents from "./About/AboutMultimedia_Documents";
-import MemorialStiltHouse from "./MemorialArea/MemorialStiltHouse";
-import MemorialTomb from "./MemorialArea/MemorialTomb";
-import MemorialTemple from "./MemorialArea/MemorialTemple";
-import Memorial15YearsPrison from "./MemorialArea/Memorial15YearsPrison";
-import MemorialArtifacts from "./MemorialArea/MemorialArtifacts";
-import MemorialExhibition from "~/pages/MemorialArea/MemorialExhibition";
-import MemorialSolemnVisit from "~/pages/MemorialArea/MemorialSolemnVisit";
+import MemorialArea from '~/pages/B2C/MemorialArea/MemorialArea';
+import Handiwork from "~/pages/B2C/Handiwork/Handiwork"
+import AboutBooksMagazines from "~/pages/B2C/About/AboutBooks_Magazines";
+import AboutTopic from "~/pages/B2C/About/AboutTopic";
+import AboutMultimediaDocuments from "~/pages/B2C/About/AboutMultimedia_Documents";
+import MemorialStiltHouse from "~/pages/B2C/MemorialArea/MemorialStiltHouse";
+import MemorialTomb from "~/pages/B2C/MemorialArea/MemorialTomb";
+import MemorialTemple from "~/pages/B2C/MemorialArea/MemorialTemple";
+import Memorial15YearsPrison from "~/pages/B2C/MemorialArea/Memorial15YearsPrison";
+import MemorialArtifacts from "~/pages/B2C/MemorialArea/MemorialArtifacts";
+import MemorialExhibition from "~/pages/B2C/MemorialArea/MemorialExhibition";
+import MemorialSolemnVisit from "~/pages/B2C/MemorialArea/MemorialSolemnVisit";
 
-import BlogContent from "~/pages/Reusable/BlogContent";
+import BlogContent from "~/pages/B2C/Reusable/BlogContent";
+
+import ManageImage from "~/pages/B2B/ManageImage";
 
 export {Home, BlogContent};
 
@@ -32,8 +34,11 @@ export {
 
 export {
     About, AboutGenealogy, AboutBiography, AboutCreature,
-    AboutBooks_Magazines, AboutTopic, AboutMultimedia_Documents, AboutArt, AboutVideo, AboutMusic
+    AboutBooksMagazines, AboutTopic, AboutMultimediaDocuments, AboutArt, AboutVideo, AboutMusic
 };
 
 export {Handiwork};
 
+export {
+    ManageImage
+}

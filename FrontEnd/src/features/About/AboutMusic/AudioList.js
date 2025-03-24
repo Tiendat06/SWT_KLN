@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import styles from '~/styles/Pages/About/aboutMusic.module.scss';
+import styles from '~/styles/Pages/B2C/About/aboutMusic.module.scss';
 import {Fragment, useLayoutEffect, useRef, useState} from "react";
 import {useAboutAudioContext} from "~/context/About/AboutAudioContext";
 import {FormatTime} from "~/utils";

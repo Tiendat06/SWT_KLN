@@ -1,6 +1,6 @@
 import {KLNAudio} from "~/components";
 import {clsx} from "clsx";
-import styles from '~/styles/Pages/About/aboutMusic.module.scss';
+import styles from '~/styles/Pages/B2C/About/aboutMusic.module.scss';
 import {useAboutAudioContext} from "~/context/About/AboutAudioContext";
 import {useLayoutEffect,} from "react";
 import {getMusicByIdService} from "~/services/MusicService";

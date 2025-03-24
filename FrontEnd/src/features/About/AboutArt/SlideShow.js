@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import styles from "~/styles/Pages/About/aboutArt.module.scss";
+import styles from "~/styles/Pages/B2C/About/aboutArt.module.scss";
 import SlideImage from "~/components/KLNSlideImage/KLNSlideImage";
 import {useAboutArtContext} from "~/context/About/AboutArtContext";
 import {useLayoutEffect} from "react";

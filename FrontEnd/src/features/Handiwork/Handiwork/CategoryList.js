@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import styles from "~/styles/Pages/Handiwork/handiwork.module.scss";
+import styles from "~/styles/Pages/B2C/Handiwork/handiwork.module.scss";
 import {useEffect, useState} from "react";
 import {getBlogListService} from "~/services/BlogService";
 import MediaType from "~/enum/MediaType/MediaType";

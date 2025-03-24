@@ -1,4 +1,4 @@
-import styles from '~/styles/Pages/About/about.module.scss';
+import styles from '~/styles/Pages/B2C/About/about.module.scss';
 import clsx from "clsx";
 import {Link} from "react-router-dom";
 import {aboutJRoutes} from '~/routes/appRoutes';

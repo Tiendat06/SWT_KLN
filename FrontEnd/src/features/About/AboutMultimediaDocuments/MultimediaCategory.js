@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import styles from "~/styles/Pages/About/aboutMultimediaDocuments.module.scss";
+import styles from "~/styles/Pages/B2C/About/aboutMultimediaDocuments.module.scss";
 import {anh, nhac, phim, videoclip} from "~/assets/img";
 import {Link} from "react-router-dom";
 import {useLayoutEffect, useState} from "react";

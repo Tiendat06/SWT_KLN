@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useState} from "react";
 import clsx from "clsx";
-import styles from "~/styles/Pages/About/aboutSidebarBooks.module.scss";
+import styles from "~/styles/Pages/B2C/About/aboutSidebarBooks.module.scss";
 import {KLNReactDotPaginate} from "~/components";
 import {useAboutTopicContext} from "~/context/About/AboutTopicContext";
 import {getTopicByIdService, getTopicListService} from "~/services/TopicService";

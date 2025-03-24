@@ -1,6 +1,8 @@
-import Header from '~/components/Partials/Header/Header'
-import Footer from '~/components/Partials/Footer/Footer'
-import Body from '~/components/Partials/Body/Body'
+import Header from '~/components/Partials/Header/Header';
+import Footer from '~/components/Partials/Footer/Footer';
+import Body from '~/components/Partials/Body/Body';
+import Sidebar from '~/components/Partials/Sidebar/Sidebar';
+import AdminHeader from "~/components/Partials/Header/AdminHeader";
 import KLNButton from "~/components/KLNButton/KLNButton";
 import KLNSlideBanner from "~/components/KLNSlideBanner/KLNSlideBanner";
 import KLNPDFViewer from "~/components/KLNPDFViewer/KLNPDFViewer";
@@ -14,7 +16,7 @@ import KLNReactDotPaginate from "~/components/KLNReactDotPaginate/KLNReactDotPag
 import KLNDropdown from "~/components/KLNDropdown/KLNDropdown";
 
 export {
-    Header, Footer, Body,
+    Header, Footer, Body, Sidebar, AdminHeader,
     KLNButton, KLNSlideBanner, KLNPDFViewer,
     KLNReactPaginate, KLNSlideImage, KLNVideoClip,
     KLNTitle, KLNAudio, KLNCategory,

@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import styles from '~/styles/Pages/About/aboutCreature.module.scss';
+import styles from '~/styles/Pages/B2C/About/aboutCreature.module.scss';
 import {getBookListService} from "~/services/BookService";
 import {KLNButton, KLNReactPaginate} from "~/components";
 import {play_icon_1} from "~/assets/img";

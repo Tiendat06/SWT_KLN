@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import styles from "~/styles/Pages/Memorial/memorialArtifacts.module.scss";
+import styles from "~/styles/Pages/B2C/Memorial/memorialArtifacts.module.scss";
 import SlideImage from "~/components/KLNSlideImage/KLNSlideImage";
 import {useMemorialArtifactContext} from "~/context/MemorialArea/MemorialArtifactContext";
 import { useEffect } from "react";
