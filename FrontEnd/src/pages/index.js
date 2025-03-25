@@ -23,6 +23,9 @@ import MemorialSolemnVisit from "~/pages/B2C/MemorialArea/MemorialSolemnVisit";
 import BlogContent from "~/pages/B2C/Reusable/BlogContent";
 
 import ManageImage from "~/pages/B2B/ManageImage";
+import ManageMultimedia from "~/pages/B2B/ManageMultimedia";
+import ManageMagazine from "~/pages/B2B/ManageMagazine";
+import ManageTopic from "~/pages/B2B/ManageTopic";
 
 export {Home, BlogContent};
 
@@ -40,5 +43,8 @@ export {
 export {Handiwork};
 
 export {
-    ManageImage
+    ManageImage,
+    ManageMultimedia,
+    ManageMagazine,
+    ManageTopic
 }
