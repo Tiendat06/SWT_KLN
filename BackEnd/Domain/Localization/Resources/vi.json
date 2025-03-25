@@ -22,6 +22,7 @@
   "SlideImageImage": "Hình ảnh con trong slide",
   "SlideShowTitle": "Tiêu đề slide",
   "SlideShowImage": "Hình ảnh áp phích của slide",
+  "SlideShowTypeId": "Mã loại slide",
   "SolemnVisit": "Lãnh đạo viếng thăm",
   "SolemnVisitId": "Mã lãnh đạo viếng thăm",
   "SolemnVisitName": "Tên lãnh đạo viếng thăm",
@@ -53,6 +54,9 @@
   "DeleteBookFailed": "Xóa sách không thành công.",
   "UpdateMagazineFailed": "Cập nhật tạp chí không thành công.",
   "AddMagazineFailed": "Thêm tạp chí không thành công.",
-  "DeleteMagazineFailed": "Xóa tạp chí không thành công."
+  "DeleteMagazineFailed": "Xóa tạp chí không thành công.",
+  "UpdateSlideShowFailed": "Cập nhật slide ảnh không thành công.",
+  "AddSlideShowFailed": "Thêm slide ảnh không thành công.",
+  "DeleteSlideShowFailed": "Xóa slide ảnh không thành công."
 
 }

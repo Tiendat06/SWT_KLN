@@ -12,5 +12,8 @@ namespace Domain.Interfaces
         Task<IEnumerable<SlideShow>> GetAllSlideShowsAsync(int page, int fetch, int type, int slideShowType);
         Task<SlideShow?> GetSlideShowByIdAsync(Guid id);
         Task<int> CountSlideShowAsync(int type, int slideShowType);
+        Task CreateSlideShowAsync(SlideShow slideShow);
+        Task HardDeleteSlideShowAsync(Guid id);
+        Task SoftDeleteSlideShowAsync(SlideShow slideShow);
     }
 }

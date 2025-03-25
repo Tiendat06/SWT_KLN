@@ -9,7 +9,7 @@ namespace Domain.Entities
         [Key]
         [Required]
         [Column("logSlideShowId", TypeName ="int")]
-        public required int? LogSlideShowId { get; set; }
+        public required int LogSlideShowId { get; set; }
 
         //[Column("version", TypeName = "varchar")]
         //public string? Version { get; set; } = string.Empty;

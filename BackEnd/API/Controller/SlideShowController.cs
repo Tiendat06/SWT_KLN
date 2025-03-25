@@ -5,6 +5,7 @@ using API.Controller.Base;
 using Application.Validators;
 using Application;
 using KLN.Shared.CrossCuttingConcerns;
+using System.Net;
 
 namespace API.Controller
 {
@@ -39,5 +40,30 @@ namespace API.Controller
             return ApiSuccess(slideShow);
         }
 
+        // POST: api/SlideShow
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetSlideShowResponse>))]
+        public async Task<IActionResult> CreateSlideShow([FromForm] AddSlideShowRequest addSlideShowRequest)
+        {
+            var slideshow = await _slideShowValidator.CreateSlideShowAsyncValidator(addSlideShowRequest);
+            return ApiSuccess(slideshow, HttpStatusCode.Created);
+        }
+
+        // PUT: api/SlideShow/5
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetSlideShowResponse>))]
+        public async Task<IActionResult> PutSlideShow(Guid id, [FromForm] UpdateSlideShowRequest updateSlideShowRequest)
+        {
+            var updatedSlideShow = await _slideShowValidator.UpdateSlideShowAsyncValidator(id, updateSlideShowRequest);
+            return ApiSuccess(updatedSlideShow);
+        }
+
+        // DELETE: api/SlideShow/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteSlideShow(Guid id)
+        {
+            var isDeleted = await _slideShowService.DeleteSlideShowAsync(id);
+            return ApiSuccess(isDeleted);
+        }
     }
 }
