@@ -22,6 +22,7 @@
   "SlideImageImage": "Slide Image Content",
   "SlideShowTitle": "Slide Show Title",
   "SlideShowImage": "Slide Poster Image",
+  "SlideShowTypeId": "Slide Show Type ID",
   "SolemnVisit": "Leader Visit",
   "SolemnVisitId": "Leader Visit ID",
   "SolemnVisitName": "Leader Name",
@@ -53,5 +54,8 @@
   "DeleteBookFailed": "Failed to delete book.",
   "UpdateMagazineFailed": "Failed to update magazine.",
   "AddMagazineFailed": "Failed to add magazine.",
-  "DeleteMagazineFailed": "Failed to delete magazine."
+  "DeleteMagazineFailed": "Failed to delete magazine.",
+  "UpdateSlideShowFailed": "Failed to update slide show.",
+  "AddSlideShowFailed": "Failed to add slide show.",
+  "DeleteSlideShowFailed": "Failed to delete slide show."
 }
