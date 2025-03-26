@@ -13,6 +13,11 @@ namespace Infrastructure.Repositories
         {
             _context = context;
         }
+        public async Task CreateSlideShowAsync(SlideShow slideShow)
+        {
+            await _context.SlideShows.AddAsync(slideShow);
+        }
+
         public async Task<IEnumerable<SlideShow>> GetAllSlideShowsAsync(int page, int fetch, int type, int slideShowType)
         {
             var query = _context.SlideShows
@@ -75,6 +80,18 @@ namespace Infrastructure.Repositories
             if (type > (int)MediaTypeEnum.None)
                 query = query.Where(x => x.MediaTypeId == type);
             return await query.CountAsync(x => x.IsDeleted == false);
+        }
+
+        public async Task HardDeleteSlideShowAsync(Guid id)
+        {
+            _context.SlideShows.Remove(new SlideShow { SlideShowId = id });
+            await Task.CompletedTask;
+        }
+
+        public async Task SoftDeleteSlideShowAsync(SlideShow slideShow)
+        {
+            slideShow.IsDeleted = true;
+            await Task.CompletedTask;
         }
     }
 }
