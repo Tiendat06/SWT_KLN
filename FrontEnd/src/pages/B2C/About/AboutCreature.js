@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import styles from '~/styles/Pages/B2C/About/aboutCreature.module.scss';
-import {ButtonLink, CreatureList} from '~/features/About';
+import {ButtonLink, CreatureList} from 'src/features/B2C/About';
 import {tac_pham_2, tac_pham_3, tac_pham_4} from "~/assets/img";
 import {KLNButton} from "~/components";
 

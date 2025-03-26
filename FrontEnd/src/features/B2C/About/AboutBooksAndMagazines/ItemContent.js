@@ -1,5 +1,5 @@
 import {useAboutBooksMagazinesContext} from "~/context/About/AboutBooksMagazinesContext";
-import {ListOfBooks, ListOfMagazines} from "~/features/About";
+import {ListOfBooks, ListOfMagazines} from "~/features/B2C/About";
 import {useEffect} from "react";
 import {getBookByIdService} from "~/services/BookService";
 import {getMagazineByIdService} from "~/services/MagazineService";

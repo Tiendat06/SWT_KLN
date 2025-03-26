@@ -14,12 +14,15 @@ import KLNAudio from "~/components/KLNAudio/KLNAudio";
 import KLNCategory from "~/components/KLNCategory/KLNCategory";
 import KLNReactDotPaginate from "~/components/KLNReactDotPaginate/KLNReactDotPaginate";
 import KLNDropdown from "~/components/KLNDropdown/KLNDropdown";
+import KLNTabView from "~/components/KLNTabView/KLNTabView";
+import KLNCascadeSelect from "~/components/KLNCascadeSelect/KLNCascadeSelect";
 
 export {
     Header, Footer, Body, Sidebar, AdminHeader,
     KLNButton, KLNSlideBanner, KLNPDFViewer,
     KLNReactPaginate, KLNSlideImage, KLNVideoClip,
     KLNTitle, KLNAudio, KLNCategory,
-    KLNReactDotPaginate, KLNDropdown
+    KLNReactDotPaginate, KLNDropdown,
+    KLNTabView, KLNCascadeSelect
 }
 

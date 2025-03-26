@@ -1,4 +1,4 @@
-import {PictureGallery, VideoClipGallery, MusicGallery, MultimediaCategory} from '~/features/About';
+import {PictureGallery, VideoClipGallery, MusicGallery, MultimediaCategory} from 'src/features/B2C/About';
 import styles from '~/styles/Pages/B2C/About/aboutMultimediaDocuments.module.scss';
 import clsx from 'clsx';
 import {KLNTitle} from "~/components";

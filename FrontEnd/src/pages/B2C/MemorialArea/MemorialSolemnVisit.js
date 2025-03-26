@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import {KLNTitle} from "~/components";
 import styles from '~/styles/Pages/B2C/Memorial/memorialSolemnVisit.module.scss';
-import {SolemnVisitList} from "~/features/MemorialArea";
+import {SolemnVisitList} from "src/features/B2C/MemorialArea";
 
 const MemorialSolemnVisit = () => {
 

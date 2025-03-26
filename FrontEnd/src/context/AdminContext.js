@@ -7,10 +7,16 @@ export const AdminProvider = ({ children }) => {
     const currentPath = useLocation().pathname;
     const [currentLocation, setCurrentLocation] = useState(currentPath);
     const [sideBarCategory, setSideBarCategory] = useState(Number(localStorage.getItem('sideBarCategory')) || 1);
+    const [tabView, setTabView] = useState(Number(localStorage.getItem('tabView')) || null);
+    const [selectedPageOption, setSelectedPageOption] = useState({ name: '5', code: 5 });
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         localStorage.setItem('sideBarCategory', Number(sideBarCategory));
     }, [sideBarCategory]);
+
+    useEffect(() => {
+        localStorage.setItem('tabView', Number(tabView));
+    }, [tabView]);
 
     useEffect(() => {
         setCurrentLocation(currentPath);
@@ -19,7 +25,9 @@ export const AdminProvider = ({ children }) => {
     return (
         <AdminContext.Provider value={{
             currentLocation,
-            sideBarCategory, setSideBarCategory
+            sideBarCategory, setSideBarCategory,
+            tabView, setTabView,
+            selectedPageOption, setSelectedPageOption
         }} >
             {children}
         </AdminContext.Provider>

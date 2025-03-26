@@ -1,0 +1,21 @@
+@use "../../GlobalStyles/index" as *;
+@use "../../Utils/mixins" as *;
+@use "../../Utils/variables" as *;
+
+.tab-view{
+
+  &__item {
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: border-color linear .2s;
+    user-select: none;
+    &--active {
+      border-bottom: 2px solid $app-color-3;
+    }
+  }
+
+  &__para {
+    font-weight: bold;
+    margin-right: 30px;
+  }
+}
