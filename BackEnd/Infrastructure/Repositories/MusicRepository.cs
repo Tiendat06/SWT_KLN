@@ -42,5 +42,20 @@ namespace Infrastructure.Repositories
                 .FirstOrDefaultAsync(music => music.MusicId == id && music.IsDeleted == false);
         }
 
+        public async Task<int> CountMusicAsync(int type)
+        {
+            var query = _context.Musics
+                .AsNoTracking();
+            if (type > (int)MediaTypeEnum.None)
+                query = query.Where(x => x.MediaTypeId == type);
+            return await query.CountAsync(x => x.IsDeleted == false);
+        }
+
+        public async Task<Music> CreateMusicAsync(Music music)
+        {
+            await _context.Musics.AddAsync(music);
+            return music;
+        }
+
     }
 }

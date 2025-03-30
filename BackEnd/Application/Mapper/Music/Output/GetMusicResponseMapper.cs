@@ -15,10 +15,10 @@ namespace Application.Mapper.Musics.Output
                 ImageLink = music.ImageLink,
                 AudioLink = music.AudioLink,
                 UserId = music.UserId,
-                Name = music.User.Name,
-                Email = music.User.Email,
-                UserName = music.User.Account.UserName,
-                RoleName = music.User.Account.Role.RoleName
+                Name = music.User?.Name,
+                Email = music.User?.Email,
+                UserName = music.User?.Account?.UserName,
+                RoleName = music.User?.Account?.Role?.RoleName
             };
         }
         public static IEnumerable<GetMusicResponse> GetMusicListMapEntityToDTO(IEnumerable<Music> musics) 
@@ -35,10 +35,10 @@ namespace Application.Mapper.Musics.Output
                     ImageLink = music.ImageLink,
                     AudioLink = music.AudioLink,
                     UserId = music.UserId,
-                    Name = music.User.Name,
-                    Email = music.User.Email,
-                    UserName = music.User.Account.UserName,
-                    RoleName = music.User.Account.Role.RoleName
+                    Name = music.User?.Name,
+                    Email = music.User?.Email,
+                    UserName = music.User?.Account.UserName,
+                    RoleName = music.User?.Account.Role.RoleName
                 });
             }
             return musicListDTO;

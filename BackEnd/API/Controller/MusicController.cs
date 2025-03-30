@@ -4,6 +4,8 @@ using Application.Interfaces;
 using API.Controller.Base;
 using Application.Validators;
 using Application;
+using KLN.Shared.CrossCuttingConcerns;
+using System.Net;
 
 namespace API.Controller
 {
@@ -43,6 +45,16 @@ namespace API.Controller
         {
             var music = await _musicService.GetAllMusicAsync(input);
             return ApiSuccess(music);
+        }
+
+        // POST: api/Music
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetMusicResponse>))]
+        public async Task<IActionResult> CreateMusic([FromForm] AddMusicRequest addMusicRequest)
+        {
+            var musics = await _musicValidator.CreateMusicAsyncValidator(addMusicRequest);
+            return ApiSuccess(musics, HttpStatusCode.Created);
         }
     }
 }

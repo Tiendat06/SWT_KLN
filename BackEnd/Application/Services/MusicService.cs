@@ -1,11 +1,12 @@
-﻿using Application.Interfaces;
+﻿using Application.Extension;
+using Application.Interfaces;
+using Application.Mapper.Musics.Input;
 using Application.Mapper.Musics.Output;
-using Domain;
-using Domain.Interfaces;
+using KLN.Shared.CrossCuttingConcerns.Utils;
 using CloudinaryDotNet;
-using Microsoft.Extensions.Configuration;
-using Application.Extension;
-using Microsoft.Extensions.Localization;
+using Domain;
+using Domain.Entities;
+using Domain.Interfaces;
 using Domain.Localization;
 
 namespace Application.Services
@@ -14,8 +15,7 @@ namespace Application.Services
     {
         #region Fields
         private readonly IMusicRepository _musicRepository;
-        //private readonly ILogMusicRepository _logMusicRepository;
-        private readonly IConfiguration _configuration;
+        // private readonly ILogMusicRepository _logMusicRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly Cloudinary _cloudinary;
         IStringLocalizer<KLNSharedResources> _localizer;
@@ -25,17 +25,15 @@ namespace Application.Services
         public MusicService(
             IMusicRepository musicRepository,
             IUnitOfWork unitOfWork,
-            //ILogMusicRepository logMusicRepository,
+            // ILogMusicRepository logMusicRepository,
             Cloudinary cloudinary,
-            IConfiguration configuration,
             IStringLocalizer<KLNSharedResources> localizer
         )
         {
             _musicRepository = musicRepository;
             _unitOfWork = unitOfWork;
-            //_logMusicRepository = logMusicRepository;
+            // _logMusicRepository = logMusicRepository;
             _cloudinary = cloudinary;
-            _configuration = configuration;
             _localizer = localizer;
         }
         #endregion
@@ -50,6 +48,62 @@ namespace Application.Services
         {
             var music = await _musicRepository.GetMusicByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Music"]));
             return GetMusicResponseMapper.GetMusicMapEntityToDTO(music);
+        }
+        
+        public async Task<GetMusicResponse> CreateMusicAsync(AddMusicRequest addMusicRequest)
+        {
+            using (var uow = await _unitOfWork.BeginTransactionAsync()) 
+            {
+                try
+                {
+                    Guid newGuid = Guid.NewGuid();
+                    var assetFolderImage = CommonCloudinaryAttribute.assetFolderMusicImage;
+                    var assetFolderAudioMP3 = CommonCloudinaryAttribute.assetFolderMusicAudioMP3;
+                    var assetFolderAudioWMA = CommonCloudinaryAttribute.assetFolderMusicAudioWMA;
+                    var publicId = $"{nameof(Music)}_{newGuid}";
+                    var allowedContentTypesImage = new[] { CommonFileType.JPEG, CommonFileType.PNG };
+
+                    // upload Image
+                    // check file type
+                    var isAllowedcImage = FileOperations.CheckFileType(allowedContentTypesImage, addMusicRequest.ImageLink);
+
+                    //add file to local
+                    var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
+                    var filePathImage = await FileOperations.SaveFileToLocal(folderPath, addMusicRequest.ImageLink);
+                    var filePathAudio = await FileOperations.SaveFileToLocal(folderPath, addMusicRequest.AudioLink);
+
+                    // upload to cloudinary
+                    var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
+                    var resultImage = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePathImage, assetFolderImage, publicId) ?? throw new InvalidOperationException(_localizer["UploadImageCloudinaryFailed"]);
+                    var musicImage = resultImage["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
+                    var resultAudio = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePathAudio, assetFolderAudioMP3, publicId) ?? throw new InvalidOperationException(_localizer["UploadAudioCloudinaryFailed"]);
+                    var musicAudio = resultAudio["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
+
+                    // delete file and folder from local
+                    var isDeletedImage = FileOperations.DeleteFileFromLocal(filePathImage, folderPath);
+                    var isDeletedAudio = FileOperations.DeleteFileFromLocal(filePathAudio, folderPath);
+
+                    // map from DTO to entity
+                    var addMusicMapperDTOToEntity = AddMusicRequestMapper.AddMusicMapDTOToEntity(addMusicRequest, musicImage, musicAudio, newGuid);
+                    await uow.TrackEntity(addMusicMapperDTOToEntity);
+                    await _musicRepository.CreateMusicAsync(addMusicMapperDTOToEntity);
+
+                    await uow.SaveChangesAsync();
+                    await uow.CommitTransactionAsync();
+                    var addedMusic = await _musicRepository.GetMusicByIdAsync(newGuid) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Music"]));
+                    return GetMusicResponseMapper.GetMusicMapEntityToDTO(addedMusic);
+                }
+                catch (Exception ex)
+                {
+                    await uow.RollbackTransactionAsync();
+                    throw new InvalidOperationException(_localizer["AddMusicFailed"]);
+                }
+            }
+        }
+
+        public async Task<GetMusicResponse> UpdateMusicAsync(Guid id, UpdateMusicRequest updateMusicRequest)
+        {
+            throw new NotImplementedException();
         }
     }
 }
