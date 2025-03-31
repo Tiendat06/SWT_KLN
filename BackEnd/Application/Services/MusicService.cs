@@ -9,6 +9,7 @@ using Domain.Entities;
 using Domain.Interfaces;
 using Domain.Localization;
 using KLN.Shared.CrossCuttingConcerns;
+using Microsoft.Extensions.Localization;
 
 namespace Application.Services
 {
