@@ -37,6 +37,7 @@
     <ProjectReference Include="..\BackEnd\Application\Application.csproj" />
     <ProjectReference Include="..\BackEnd\Domain\Domain.csproj" />
     <ProjectReference Include="..\BackEnd\Infrastructure\Infrastructure.csproj" />
+	<ProjectReference Include="..\BackEnd\KLN.Shared.CrossCuttingConcerns\KLN.Shared.CrossCuttingConcerns.csproj" />
   </ItemGroup>
 
 </Project>
