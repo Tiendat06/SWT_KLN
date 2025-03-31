@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Domain.Interfaces;
+using KLN.Shared.CrossCuttingConcerns.Enums;
 
 namespace Infrastructure.Repositories
 {
@@ -12,11 +13,15 @@ namespace Infrastructure.Repositories
         {
             _context = context;
         }
-        public async Task<IEnumerable<Music>> GetAllMusicAsync(int fetch, int page)
+        public async Task<IEnumerable<Music>> GetAllMusicAsync(int fetch, int page, int type)
         {
             var query = _context.Musics
                 .AsNoTracking()
                 .Where(music => music.IsDeleted == false);
+
+            if (type > (int)MediaTypeEnum.None)
+                query = query.Where(x => x.MediaTypeId == type);
+
             // Sắp xếp trước khi phân trang
             query = query.OrderByDescending(musics => musics.CreateDate);
 

@@ -4,6 +4,7 @@ using Application.Interfaces;
 using API.Controller.Base;
 using Application.Validators;
 using Application;
+using KLN.Shared.CrossCuttingConcerns;
 
 namespace API.Controller
 {
@@ -21,7 +22,7 @@ namespace API.Controller
         }
         // GET: api/SolemnVisit
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetSolemnVisitResponse>>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<PaginationResponseDto<GetSolemnVisitResponse>>))]
         public async Task<IActionResult> GetAllSolemnVisits([FromQuery] GetSolemnVisitRequest input)
         {
             var solemnVisits = await _solemnVisitService.GetAllSolemnVisitsAsync(input);

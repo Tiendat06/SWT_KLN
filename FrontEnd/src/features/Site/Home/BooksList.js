@@ -1,19 +1,18 @@
 import clsx from "clsx";
 import styles from "~/styles/Pages/Site/site.module.scss";
-import {plus_icon_1, /*book_home_1,*/ book_home_2} from "~/assets/img";
+import {plus_icon_1,} from "~/assets/img";
 import {siteJRoutes} from '~/routes/appRoutes';
 import {Link} from "react-router-dom";
-import {getMagazineListData} from "~/services/SiteService";
+import {getMagazineListService} from "~/services/MagazineService";
 import {useEffect, useState} from "react";
-import {DateTimeFormat} from "~/utils/DateTimeFormat";
 
 function BooksList() {
 
     const [bookList, setBookList] = useState([]);
     useEffect(() => {
         const GetMagazineList = async () => {
-            const data = await getMagazineListData(3, 1);
-            setBookList(data.data);
+            const data = await getMagazineListService(3, 1);
+            setBookList(data?.data?.items);
         }
         GetMagazineList();
     }, []);

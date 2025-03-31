@@ -1,6 +1,7 @@
-﻿namespace Application
+﻿using KLN.Shared.CrossCuttingConcerns;
+namespace Application
 {
-    public class GetMusicRequest : PaginationRequest
+    public class GetMusicRequest : PaginationWithSearchAndMediaTypeDto
     {
     }
 }

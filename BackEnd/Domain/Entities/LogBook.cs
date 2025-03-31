@@ -6,6 +6,7 @@ namespace Domain.Entities
     [Table("LogBook")]
     public class LogBook
     {
+        // ok
         [Key]
         [Required]
         [Column("logBookId", TypeName ="int")]
@@ -41,14 +42,23 @@ namespace Domain.Entities
         [Column("author", TypeName ="nvarchar")]
         public string? Author {  get; set; } = string.Empty;
 
-        [Column("yearPublic", TypeName ="datetime")]
-        public DateTime? YearPublic {  get; set; } = DateTime.Now;
+        [Column("yearPublic", TypeName ="varchar")]
+        public string? YearPublic {  get; set; } = string.Empty;
+
+        [Column("Description", TypeName = "nvarchar")]
+        public string? Description { get; set; } = string.Empty;
 
         [Column("userId", TypeName = "uniqueidentifier")]
         public Guid? UserId { get; set; }
 
         [Column("bookId", TypeName = "uniqueidentifier")]
         public Guid? BookId { get; set; }
+        
+        [Column("mediaTypeId", TypeName = "int")]
+        public int? MediaTypeId { get; set; } = null;
+
+        [ForeignKey("MediaTypeId")]
+        public virtual MediaType? MediaType { get; set; }
 
         [ForeignKey("UserId")]
         public virtual User? User { get; set; }

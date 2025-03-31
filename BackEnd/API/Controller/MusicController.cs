@@ -40,7 +40,7 @@ namespace API.Controller
 
         // GET: api/Music
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetMusicResponse>>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<PaginationResponseDto<GetMusicResponse>>))]
         public async Task<IActionResult> GetAllMusicAsync([FromQuery] GetMusicRequest input)
         {
             var music = await _musicService.GetAllMusicAsync(input);

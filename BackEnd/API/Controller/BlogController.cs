@@ -5,6 +5,7 @@ using Application;
 using API.Controller.Base;
 using Application.Validators;
 using System.Net;
+using KLN.Shared.CrossCuttingConcerns;
 
 namespace API.Controllers
 {
@@ -44,7 +45,7 @@ namespace API.Controllers
 
         // GET: api/Blog
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetBlogResponse>>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<PaginationResponseDto<GetBlogResponse>>))]
         public async Task<IActionResult> GetAllBlogs([FromQuery] GetAllBlogRequest input)
         {
             var blogs = await _blogService.GetAllBlogsAsync(input);

@@ -1,18 +1,18 @@
-import styles from '~/styles/Pages/About/about.module.scss';
+import styles from '~/styles/Pages/B2C/About/about.module.scss';
 import clsx from "clsx";
 import {Link} from "react-router-dom";
 import {aboutJRoutes} from '~/routes/appRoutes';
 import {Carousel} from "primereact/carousel";
 import {next_icon_1, previous_icon_1} from '~/assets/img';
-import {getMasterPieceList} from "~/services/AboutService";
+import {getBookListService} from "~/services/BookService";
 import {useEffect, useState} from "react";
 
 function TDTMasterpiece() {
     const [masterPieceList, setMasterPieceList] = useState([]);
     useEffect(() => {
         const GetMasterPieceList = async () =>  {
-            let data = await getMasterPieceList(0, 1);
-            setMasterPieceList(data.data);
+            let data = await getBookListService(0, 1);
+            setMasterPieceList(data?.data?.items);
         }
         GetMasterPieceList();
     }, []);
@@ -42,7 +42,7 @@ function TDTMasterpiece() {
             <div className={clsx(styles["about-masterpiece"])}>
                 <div className={clsx(styles["about-masterpiece__title"])}>
                     <p className={clsx(styles['about-masterpiece__title-text'])}>TÁC PHẨM MANG TÊN BÁC TÔN</p>
-                    <Link to={aboutJRoutes[3].path} className={clsx(styles['about-masterpiece__title-more'])}>Xem thêm</Link>
+                    <Link to={'/about-creature'} className={clsx(styles['about-masterpiece__title-more'])}>Xem thêm</Link>
                 </div>
                 <div className={clsx(styles["about-masterpiece__list"])}>
                     <Carousel value={masterPieceList}

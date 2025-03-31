@@ -10,6 +10,7 @@ namespace Application.Mapper.Videos.Output
             {
                 VideoId = video.VideoId,
                 VideoTitle = video.Title,
+                MediaTypeId = video.MediaTypeId,
                 VideoCreateDate = video.CreateDate,
                 VideoImageLink = video.ImageLink,
                 VideoLink = video.VideoLink,
@@ -29,6 +30,7 @@ namespace Application.Mapper.Videos.Output
                 {
                     VideoId = video.VideoId,
                     VideoTitle = video.Title,
+                    MediaTypeId = video.MediaTypeId,
                     VideoCreateDate = video.CreateDate,
                     VideoImageLink = video.ImageLink,
                     VideoLink = video.VideoLink,

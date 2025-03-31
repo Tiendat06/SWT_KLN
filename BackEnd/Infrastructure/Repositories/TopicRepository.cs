@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Domain.Interfaces;
+using KLN.Shared.CrossCuttingConcerns.Enums;
 
 namespace Infrastructure.Repositories
 {
@@ -12,11 +13,20 @@ namespace Infrastructure.Repositories
         {
             _context = context;
         }
-        public async Task<IEnumerable<Topic>> GetAllTopicsAsync(int page, int fetch)
+        public async Task<IEnumerable<Topic>> GetAllTopicsAsync(int page, int fetch, int type, int topicType)
         {
             var query = _context.Topics
                 .AsNoTracking()
                 .Where(topic => topic.IsDeleted == false);
+
+            if (type > (int)MediaTypeEnum.None)
+                query = query.Where(x => x.MediaTypeId == type);
+
+            // check get images or videos
+            if (topicType == (int)TopicTypeEnum.ImageType)
+                query = query.Where(x => x.Images != null);
+            else if (topicType == (int)TopicTypeEnum.VideoType)
+                query = query.Where(x => x.Videos != null);
 
             // Sắp xếp trước khi phân trang
             query = query.OrderByDescending(topic => topic.CreateDate);
@@ -37,13 +47,13 @@ namespace Infrastructure.Repositories
             var topics = await query.ToListAsync();
 
             // Với mỗi Topic, load danh sách TopicMedias
-            foreach (var topic in topics)
-            {
-                topic.TopicMedias = await _context.TopicMedias
-                    .AsNoTracking()
-                    .Where(tm => tm.TopicId == topic.TopicId && tm.IsDeleted == false)
-                    .ToListAsync();
-            }
+            //foreach (var topic in topics)
+            //{
+            //    topic.TopicMedias = await _context.TopicMedias
+            //        .AsNoTracking()
+            //        .Where(tm => tm.TopicId == topic.TopicId && tm.IsDeleted == false)
+            //        .ToListAsync();
+            //}
 
             return topics;
         }
@@ -56,16 +66,32 @@ namespace Infrastructure.Repositories
                 .ThenInclude(account => account.Role)
                 .FirstOrDefaultAsync(topic => topic.TopicId == id && topic.IsDeleted == false);
 
-            if (topic != null)
-            {
-                // Load danh sách TopicMedias cho topic
-                topic.TopicMedias = await _context.TopicMedias
-                    .AsNoTracking()
-                    .Where(tm => tm.TopicId == topic.TopicId && (tm.IsDeleted == false || tm.IsDeleted == null))
-                    .ToListAsync();
-            }
+            //if (topic != null)
+            //{
+            //    // Load danh sách TopicMedias cho topic
+            //    topic.TopicMedias = await _context.TopicMedias
+            //        .AsNoTracking()
+            //        .Where(tm => tm.TopicId == topic.TopicId && (tm.IsDeleted == false || tm.IsDeleted == null))
+            //        .ToListAsync();
+            //}
 
             return topic;
+        }
+
+        public async Task<int> CountTopicAsync(int type, int topicType)
+        {
+            var query = _context.Topics
+                .AsNoTracking();
+            if (type > (int)MediaTypeEnum.None)
+                query = query.Where(x => x.MediaTypeId == type);
+
+            // check get images or videos
+            if (topicType == (int)TopicTypeEnum.ImageType)
+                query = query.Where(x => x.Images != null);
+            else if (topicType == (int)TopicTypeEnum.VideoType)
+                query = query.Where(x => x.Videos != null);
+
+            return await query.CountAsync(x => x.IsDeleted == false);
         }
     }
 }

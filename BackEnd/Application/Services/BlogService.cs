@@ -6,7 +6,8 @@ using Domain.Entities;
 using Domain.Interfaces;
 using CloudinaryDotNet;
 using Microsoft.Extensions.Configuration;
-using Application.Utils;
+using KLN.Shared.CrossCuttingConcerns.Utils;
+using KLN.Shared.CrossCuttingConcerns;
 using Application.Extension;
 using Microsoft.Extensions.Localization;
 using Domain.Localization;
@@ -58,12 +59,15 @@ namespace Application.Services
             return GetBlogResponseMapper.GetBlogMapEntityToDTO(blog);
         }
 
-        public async Task<IEnumerable<GetBlogResponse>> GetAllBlogsAsync(GetAllBlogRequest input)
+        public async Task<PaginationResponseDto<GetBlogResponse>> GetAllBlogsAsync(GetAllBlogRequest input)
         {
             var page = input.Page;
             var fetch = input.Fetch;
-            var blogs = await _blogRepository.GetAllBlogsAsync(page, fetch);
-            return GetBlogResponseMapper.GetBlogListMapEntityToDTO(blogs);
+            var type = input.Type;
+            var blogs = await _blogRepository.GetAllBlogsAsync(page, fetch, type);
+            var totalBlogs = await _blogRepository.CountAllBlogsAsync(type);
+            var blogMapper = GetBlogResponseMapper.GetBlogListMapEntityToDTO(blogs);
+            return new PaginationResponseDto<GetBlogResponse>(totalBlogs, blogMapper);
         }
 
         public async Task<GetBlogResponse> CreateBlogAsync(AddBlogRequest addBlogRequest)

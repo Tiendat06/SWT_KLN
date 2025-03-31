@@ -26,13 +26,19 @@ namespace Domain.Entities
         [Column("isDeleted", TypeName = "bit")]
         public bool? IsDeleted { get; set; } = false;
 
+        [Column("mediaTypeId", TypeName = "int")]
+        public int? MediaTypeId { get; set; } = null;
+
+        [ForeignKey("MediaTypeId")]
+        public virtual MediaType? MediaType { get; set; }
+
         [Column("userId", TypeName = "uniqueidentifier")]
         public Guid? UserId { get; set; }
 
         [ForeignKey("UserId")]
         public virtual User? User { get; set; }
 
-        [NotMapped]
+        //[NotMapped]
         // log video: 1 - 1
         public virtual ICollection<LogVideo>? LogVideos { get; set; }
     }

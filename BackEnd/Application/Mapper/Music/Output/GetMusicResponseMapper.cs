@@ -10,6 +10,7 @@ namespace Application.Mapper.Musics.Output
             {
                 MusicId = music.MusicId,
                 MusicTitle = music.Title,
+                MediaTypeId = music.MediaTypeId,
                 MusicAuthor = music.Author,
                 MusicCreateDate = music.CreateDate,
                 ImageLink = music.ImageLink,
@@ -30,6 +31,7 @@ namespace Application.Mapper.Musics.Output
                 {
                     MusicId = music.MusicId,
                     MusicTitle = music.Title,
+                    MediaTypeId = music.MediaTypeId,
                     MusicAuthor = music.Author,
                     MusicCreateDate = music.CreateDate,
                     ImageLink = music.ImageLink,

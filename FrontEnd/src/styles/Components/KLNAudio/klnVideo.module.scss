@@ -1,0 +1,95 @@
+@use "../../GlobalStyles/index" as *;
+@use "../../Utils/mixins" as *;
+@use "../../Utils/variables" as *;
+
+.custom-audio{
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+  &__img {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    p{
+      font-weight: bold;
+    }
+  }
+
+  &__progress {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    &-time {
+      display: flex;
+      justify-content: space-between;
+      width: 90%;
+
+      span {
+        font-weight: bold;
+        font-size: 14px;
+      }
+    }
+
+    &-bar {
+      width: 90%;
+      -webkit-appearance: none;
+      background: $app-color-3;
+      border-radius: 4px;
+      outline: none;
+      height: 8px;
+      background: linear-gradient(90deg, red 0%, gray 0%);
+      transition: background 0.3s;
+
+      &::-webkit-slider-thumb{
+        -webkit-appearance: none;
+        background: $app-color-3;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        //margin-top: -6px;
+      }
+    }
+  }
+
+  &__btn{
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    &--play{
+      border: none;
+      border-radius: 50%;
+      padding: 8px 10px;
+      background-color: $app-color-3;
+      color: $app-color-13;
+    }
+  }
+
+  &__volume {
+    width: 60%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    &--bar{
+      -webkit-appearance: none;
+      background: $app-color-3;
+      border-radius: 4px;
+      outline: none;
+      height: 5px;
+      background: linear-gradient(90deg, red 0%, gray 0%);
+    }
+
+    &--bar::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      background: $app-color-3;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+  }
+}

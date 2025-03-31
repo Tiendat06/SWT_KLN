@@ -5,6 +5,7 @@ using API.Controller.Base;
 using Application.Validators;
 using System.Net;
 using Application;
+using KLN.Shared.CrossCuttingConcerns;
 
 namespace API.Controllers
 {
@@ -25,7 +26,7 @@ namespace API.Controllers
 
         // GET: api/Book
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetBookResponse>>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<PaginationResponseDto<GetBookResponse>>))]
         public async Task<IActionResult> GetAllBooks([FromQuery] GetAllBookRequest input)
         {
             var books = await _bookService.GetAllBooksAsync(input);
@@ -69,13 +70,13 @@ namespace API.Controllers
         }
 
         // GET: api/Book/book-quan
-        [HttpGet("book-quan")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
-        public async Task<IActionResult> CountBookAsync()
-        {
-            var result = await _bookService.CountBooksAsync();
-            return ApiSuccess(result);
-        }
+        //[HttpGet("book-quan")]
+        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        //public async Task<IActionResult> CountBookAsync()
+        //{
+        //    var result = await _bookService.CountBooksAsync();
+        //    return ApiSuccess(result);
+        //}
     }
 }
 

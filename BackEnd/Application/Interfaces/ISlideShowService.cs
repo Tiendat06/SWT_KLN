@@ -1,8 +1,12 @@
-﻿namespace Application.Interfaces
+﻿using KLN.Shared.CrossCuttingConcerns;
+namespace Application.Interfaces
 {
     public interface ISlideShowService
     {
-        Task<IEnumerable<GetSlideShowResponse>> GetAllSlideShowsAsync(GetSlideShowRequest input);
+        Task<PaginationResponseDto<GetSlideShowResponse>> GetAllSlideShowsAsync(GetSlideShowRequest input);
         Task<GetSlideShowResponse?> GetSlideShowByIdAsync(Guid id);
+        Task<GetSlideShowResponse> CreateSlideShowAsync(AddSlideShowRequest addSlideShowRequest);
+        Task<GetSlideShowResponse> UpdateSlideShowAsync(Guid id, UpdateSlideShowRequest updateSlideShowRequest);
+        Task<bool> DeleteSlideShowAsync(Guid id);
     }
 }

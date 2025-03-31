@@ -10,6 +10,7 @@ namespace Application.Mapper.Magazines.Input
             {
                 MagazineId = guid,
                 Title = addMagazineRequest.Title,
+                MediaTypeId = addMagazineRequest.MediaTypeId,
                 MagazineContent = addMagazineRequest.MagazineContent,
                 Image = magazineImage,
                 UserId = addMagazineRequest.UserId,

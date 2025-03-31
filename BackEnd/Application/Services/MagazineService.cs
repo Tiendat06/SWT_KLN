@@ -2,13 +2,14 @@
 using Application.Interfaces;
 using Application.Mapper.Magazines.Input;
 using Application.Mapper.Magazines.Output;
-using Application.Utils;
+using KLN.Shared.CrossCuttingConcerns.Utils;
 using CloudinaryDotNet;
 using Domain;
 using Domain.Entities;
 using Domain.Interfaces;
 using Domain.Localization;
 using Microsoft.Extensions.Localization;
+using KLN.Shared.CrossCuttingConcerns;
 
 namespace Application.Services
 {
@@ -39,12 +40,15 @@ namespace Application.Services
         }
         #endregion
 
-        public async Task<IEnumerable<GetMagazineResponse>> GetAllMagazinesAsync(GetAllMagazineRequest input)
+        public async Task<PaginationResponseDto<GetMagazineResponse>> GetAllMagazinesAsync(GetAllMagazineRequest input)
         {
             var page = input.Page;
             var fetch = input.Fetch;
-            var magazines = await _magazineRepository.GetAllMagazinesAsync(page, fetch);
-            return GetMagazineResponseMapper.GetMagazineListMapEntityToDTO(magazines);
+            var type = input.Type;
+            var magazines = await _magazineRepository.GetAllMagazinesAsync(page, fetch, type);
+            var totalMagazine = await _magazineRepository.CountMagazineAsync(type);
+            var magazineMapper = GetMagazineResponseMapper.GetMagazineListMapEntityToDTO(magazines);
+            return new PaginationResponseDto<GetMagazineResponse>(totalMagazine, magazineMapper);
         }
 
         public async Task<GetMagazineResponse> GetMagazineByIdAsync(Guid id)
@@ -186,9 +190,9 @@ namespace Application.Services
                     await _logMagazineRepository.CreateLogMagazineAsync(newLogMagazine);
 
                     // delete image from cloudinary
-                    var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
-                    var publicId = $"{nameof(Magazine)}_{id}";
-                    var result = cloudinaryOperations.DeleteFileFromCloudinary(publicId);
+                    //var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
+                    //var publicId = $"{nameof(Magazine)}_{id}";
+                    //var result = cloudinaryOperations.DeleteFileFromCloudinary(publicId);
 
                     // delete Magazine
                     var magazine = new Magazine { MagazineId = id };

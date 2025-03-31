@@ -1,0 +1,15 @@
+@use "../../GlobalStyles/index" as *;
+@use "../../Utils/mixins" as *;
+@use "../../Utils/variables" as *;
+
+.kln-dropdown{
+  background-color: $app-color-13;
+  top: 60px;
+  &__para{
+    font-weight: bold;
+    border-bottom: 1px solid $app-color-14;
+    color: $app-color-4;
+    margin-bottom: 0;
+    padding: 10px;
+  }
+}

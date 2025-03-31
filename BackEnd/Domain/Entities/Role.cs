@@ -14,7 +14,8 @@ namespace Domain.Entities
         [Column("role_name", TypeName ="varchar")]
         public string? RoleName { get; set; } = string.Empty;
 
-        [NotMapped]
-        public virtual Account? Account { get; set; }
+        //[NotMapped]
+        //[ForeignKey("RoleId")]
+        //public virtual Account? Account { get; set; }
     }
 }

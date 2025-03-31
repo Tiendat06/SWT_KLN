@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Application.Extension;
 using Microsoft.Extensions.Localization;
 using Domain.Localization;
+using KLN.Shared.CrossCuttingConcerns;
 
 namespace Application.Services
 {
@@ -38,13 +39,14 @@ namespace Application.Services
             _localizer = localizer;
         }
         #endregion
-        public async Task<IEnumerable<GetSolemnVisitResponse>> GetAllSolemnVisitsAsync(GetSolemnVisitRequest input)
+        public async Task<PaginationResponseDto<GetSolemnVisitResponse>> GetAllSolemnVisitsAsync(GetSolemnVisitRequest input)
         {
             var page = input.Page;
             var fetch = input.Fetch;
             var solemnVisits = await _solemnVisitRepository.GetAllSolemnVisitsAsync(page, fetch);
-
-            return GetSolemnVisitResponseMapper.GetSolemnVisitListMapEntityToDTO(solemnVisits);
+            var totalSolemnVisit = await _solemnVisitRepository.CountSolemnVisitAsync();
+            var solemnVisitMapper = GetSolemnVisitResponseMapper.GetSolemnVisitListMapEntityToDTO(solemnVisits);
+            return new PaginationResponseDto<GetSolemnVisitResponse>(totalSolemnVisit, solemnVisitMapper);
         }
         public async Task<GetSolemnVisitResponse?> GetSolemnVisitByIdAsync(Guid id)
         {

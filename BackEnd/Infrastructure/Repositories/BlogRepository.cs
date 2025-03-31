@@ -2,6 +2,7 @@ using Infrastructure.Persistence;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Domain.Interfaces;
+using KLN.Shared.CrossCuttingConcerns.Enums;
 
 namespace Infrastructure.Repositories
 {
@@ -19,17 +20,6 @@ namespace Infrastructure.Repositories
             await _context.Blogs.AddAsync(blog);
         }
 
-        //public async Task<IEnumerable<Blog>> GetAllBlogsAsync()
-        //{
-        //    return await _context.Blogs
-        //        .AsNoTracking()
-        //        .Where(blog => blog.IsDeleted == false)
-        //        .Include(blog => blog.User)
-        //        .ThenInclude(user => user.Account)
-        //        .ThenInclude(account => account.Role)
-        //        .ToListAsync();
-        //}
-
         public async Task<Blog?> GetBlogByIdAsync(Guid id)
         {
             return await _context.Blogs
@@ -40,13 +30,17 @@ namespace Infrastructure.Repositories
                 .FirstOrDefaultAsync(blog => blog.BlogId == id && blog.IsDeleted == false);
         }
 
-        public async Task<IEnumerable<Blog>> GetAllBlogsAsync(int page, int fetch)
+        public async Task<IEnumerable<Blog>> GetAllBlogsAsync(int page, int fetch, int type)
         {
             var query = _context.Blogs
                 .AsNoTracking()
                 .Where(blog => blog.IsDeleted == false);
             // Sắp xếp trước khi phân trang
             query = query.OrderByDescending(blog => blog.CreateDate);
+
+            // check if type is exists
+            if (type > (int)MediaTypeEnum.None)
+                query = query.Where(x => x.MediaTypeId == type);
 
             // Phân trang nếu fetch > 0, ngược lại lấy tất cả
             if (fetch > 0)
@@ -71,6 +65,14 @@ namespace Infrastructure.Repositories
         {
             blog.IsDeleted = true;
             await Task.CompletedTask;
+        }
+
+        public async Task<int> CountAllBlogsAsync(int type)
+        {
+            var query = _context.Blogs.AsNoTracking();
+            if (type > (int)MediaTypeEnum.None)
+                query = query.Where(x => x.MediaTypeId == type);
+            return await query.CountAsync(x => x.IsDeleted == false);
         }
     }
 }

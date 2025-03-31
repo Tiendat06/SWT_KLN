@@ -6,10 +6,11 @@ namespace Domain.Entities
     [Table("LogVideo")]
     public class LogVideo
     {
+        // ok
         [Key]
         [Required]
         [Column("logVideoId", TypeName ="int")]
-        public required int? LogVideoId { get; set; }
+        public required int LogVideoId { get; set; }
 
         //[Column("version", TypeName = "varchar")]
         //public string? Version { get; set; } = string.Empty;
@@ -40,6 +41,12 @@ namespace Domain.Entities
 
         [Column("videoId", TypeName = "uniqueidentifier")]
         public Guid? VideoId { get; set; }
+
+        [Column("mediaTypeId", TypeName = "int")]
+        public int? MediaTypeId { get; set; } = null;
+
+        [ForeignKey("MediaTypeId")]
+        public virtual MediaType? MediaType { get; set; }
 
         [ForeignKey("UserId")]
         public virtual User? User { get; set; }

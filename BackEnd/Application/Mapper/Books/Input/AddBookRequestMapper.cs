@@ -14,6 +14,7 @@ namespace Application.Mapper.Books.Input
                 Publisher = addBookRequest.Publisher,
                 Author = addBookRequest.Author,
                 YearPublic = addBookRequest.YearPublic,
+                MediaTypeId = addBookRequest.MediaTypeId,
                 Image = bookImage,
                 UserId = addBookRequest.UserId,
             };

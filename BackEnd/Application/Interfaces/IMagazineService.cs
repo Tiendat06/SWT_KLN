@@ -1,9 +1,9 @@
-﻿
+﻿using KLN.Shared.CrossCuttingConcerns;
 namespace Application.Interfaces
 {
     public interface IMagazineService
     {
-        Task<IEnumerable<GetMagazineResponse>> GetAllMagazinesAsync(GetAllMagazineRequest input);
+        Task<PaginationResponseDto<GetMagazineResponse>> GetAllMagazinesAsync(GetAllMagazineRequest input);
         Task<GetMagazineResponse> GetMagazineByIdAsync(Guid id);
         Task<GetMagazineResponse> CreateMagazineAsync(AddMagazineRequest addMagazineRequest);
         Task<bool> DeleteMagazineAsync(Guid id);

@@ -1,6 +1,7 @@
-﻿namespace Application 
+﻿using KLN.Shared.CrossCuttingConcerns;
+namespace Application 
 {
-    public class GetVideoRequest : PaginationRequest
+    public class GetVideoRequest : PaginationWithSearchAndMediaTypeDto
     {
     }
 }

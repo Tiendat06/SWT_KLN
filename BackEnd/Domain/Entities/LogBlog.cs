@@ -10,6 +10,7 @@ namespace Domain.Entities
         [Required]
         [Column("logBlogId", TypeName ="int")]
         public required int LogBlogId { get; set; }
+
         [Column("blogImage", TypeName = "varchar")]
         public string? BlogImage { get; set; } = string.Empty;
 
@@ -33,6 +34,15 @@ namespace Domain.Entities
 
         [Column("flag", TypeName ="bit")]
         public bool? Flag { get; set; } = false;
+
+        [Column("Description", TypeName = "nvarchar")]
+        public string? Description { get; set; } = string.Empty;
+
+        [Column("mediaTypeId", TypeName = "int")]
+        public int? MediaTypeId { get; set; } = null;
+
+        [ForeignKey("MediaTypeId")]
+        public virtual MediaType? MediaType { get; set; }
 
         [Column("userId", TypeName ="uniqueidentifier")]
         public Guid? UserId { get; set; }

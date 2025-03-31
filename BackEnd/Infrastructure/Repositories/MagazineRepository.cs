@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Domain.Interfaces;
+using KLN.Shared.CrossCuttingConcerns.Enums;
 
 namespace Infrastructure.Repositories
 {
@@ -19,11 +20,14 @@ namespace Infrastructure.Repositories
             await _context.Magazines.AddAsync(magazine);
         }
 
-        public async Task<IEnumerable<Magazine>> GetAllMagazinesAsync(int page, int fetch)
+        public async Task<IEnumerable<Magazine>> GetAllMagazinesAsync(int page, int fetch, int type)
         {
             var query = _context.Magazines
                 .AsNoTracking()
                 .Where(magazine => magazine.IsDeleted == false);
+
+            if (type > (int)MediaTypeEnum.None)
+                query = query.Where(x => x.MediaTypeId == type);
 
             // Sắp xếp trước khi phân trang
             query = query.OrderByDescending(magazine => magazine.CreateDate);
@@ -61,6 +65,15 @@ namespace Infrastructure.Repositories
         {
             magazine.IsDeleted = true;
             await Task.CompletedTask;
+        }
+
+        public async Task<int> CountMagazineAsync(int type)
+        {
+            var query = _context.Magazines
+                .AsNoTracking();
+            if (type > (int)MediaTypeEnum.None)
+                query = query.Where(x => x.MediaTypeId == type);
+            return await query.CountAsync(x => x.IsDeleted == false);
         }
     }
 }

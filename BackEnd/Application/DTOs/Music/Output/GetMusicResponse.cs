@@ -4,6 +4,7 @@
     {
         public required Guid MusicId { get; set; }
         public string? MusicTitle { get; set; }
+        public int? MediaTypeId { get; set; }
         public string? MusicAuthor { get; set; }
         public DateTime? MusicCreateDate { get; set; }
         public string? ImageLink { get; set; }

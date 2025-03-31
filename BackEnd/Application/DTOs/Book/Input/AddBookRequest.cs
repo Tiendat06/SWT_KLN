@@ -14,7 +14,8 @@ namespace Application
         public IFormFile BookContent { get; set; }
         public string Publisher { get; set; }
         public string Author { get; set; }
-        public DateTime YearPublic { get; set; }
+        public string YearPublic { get; set; }
+        public int MediaTypeId { get; set; }
         public IFormFile Image { get; set; }
         public Guid UserId { get; set; }
     }
@@ -63,6 +64,10 @@ namespace Application
             RuleFor(x => x.UserId)
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]))
                 .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]));
+
+            RuleFor(x => x.MediaTypeId)
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MediaTypeId"]))
+                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MediaTypeId"]));
         }
     }
 }

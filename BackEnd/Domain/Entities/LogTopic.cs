@@ -31,8 +31,20 @@ namespace Domain.Entities
         [Column("createDate", TypeName = "datetime")]
         public DateTime CreateDate { get; set; } = DateTime.Now;
 
+        [Column("images", TypeName = "nvarchar")]
+        public string? Images { get; set; }
+
+        [Column("videos", TypeName = "nvarchar")]
+        public string? Videos { get; set; }
+
         [Column("topicId", TypeName = "uniqueidentifier")]
         public Guid? TopicId { get; set; }
+
+        [Column("mediaTypeId", TypeName = "int")]
+        public int? MediaTypeId { get; set; } = null;
+
+        [ForeignKey("MediaTypeId")]
+        public virtual MediaType? MediaType { get; set; }
 
         [Column("UserId", TypeName = "uniqueidentifier")]
         public Guid? UserId { get; set; }
@@ -43,7 +55,7 @@ namespace Domain.Entities
         [ForeignKey("TopicId")]
         public virtual Topic? Topic { get; set; }
 
-        [NotMapped]
-        public virtual ICollection<LogTopicMedia>? LogTopicMedias { get; set; }
+        //[NotMapped]
+        //public virtual ICollection<LogTopicMedia>? LogTopicMedias { get; set; }
     }
 }

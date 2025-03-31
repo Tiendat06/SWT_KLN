@@ -1,6 +1,8 @@
-﻿namespace Application
+﻿using KLN.Shared.CrossCuttingConcerns;
+namespace Application
 {
-    public class GetSlideShowRequest : PaginationRequest
+    public class GetSlideShowRequest : PaginationWithSearchAndMediaTypeDto
     {
+        public int SlideShowType { get; set; } = 0;
     }
 }

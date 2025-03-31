@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Interfaces;
 using API.Controller.Base;
 using Application;
+using KLN.Shared.CrossCuttingConcerns;
 
 namespace API.Controllers
 {
@@ -23,7 +24,7 @@ namespace API.Controllers
 
         // GET: api/Topic
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetTopicResponse>>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<PaginationResponseDto<GetTopicResponse>>))]
         public async Task<IActionResult> GetAllTopics([FromQuery] GetAllTopicRequest input)
         {
             var topics = await _topicService.GetAllTopicsAsync(input);

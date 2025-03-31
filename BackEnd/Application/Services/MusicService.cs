@@ -8,6 +8,7 @@ using Domain;
 using Domain.Entities;
 using Domain.Interfaces;
 using Domain.Localization;
+using KLN.Shared.CrossCuttingConcerns;
 
 namespace Application.Services
 {
@@ -37,13 +38,17 @@ namespace Application.Services
             _localizer = localizer;
         }
         #endregion
-        public async Task<IEnumerable<GetMusicResponse>> GetAllMusicAsync(GetMusicRequest input)
+        public async Task<PaginationResponseDto<GetMusicResponse>> GetAllMusicAsync(GetMusicRequest input)
         {
             var page = input.Page;
             var fetch = input.Fetch;
-            var musics = await _musicRepository.GetAllMusicAsync(fetch, page);
-            return GetMusicResponseMapper.GetMusicListMapEntityToDTO(musics);
+            var type = input.Type;
+            var musics = await _musicRepository.GetAllMusicAsync(fetch, page, type);
+            var totalMusic = await _musicRepository.CountMusicAsync(type);
+            var musicMapper = GetMusicResponseMapper.GetMusicListMapEntityToDTO(musics);
+            return new PaginationResponseDto<GetMusicResponse>(totalMusic, musicMapper);
         }
+
         public async Task<GetMusicResponse?> GetMusicByIdAsync(Guid id)
         {
             var music = await _musicRepository.GetMusicByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Music"]));

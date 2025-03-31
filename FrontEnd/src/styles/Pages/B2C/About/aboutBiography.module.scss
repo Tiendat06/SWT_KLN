@@ -1,0 +1,116 @@
+@use "../../../GlobalStyles/index" as *;
+@use "../../../Utils/mixins" as *;
+@use "../../../Utils/variables" as *;
+
+.aboutbiography {
+    margin-top: $app-page-title-margin-top;
+
+
+    &-title {
+        height: $app-page-title-height;
+        background-color: $app-color-3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &__text {
+            font-weight: bold;
+            color: $app-color-8;
+            margin-bottom: 0;
+        }
+    }
+
+    &-biography {
+        position: relative;
+        padding-top: 70px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        right: 5%;
+
+
+        &__img {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 2;
+
+
+            img {
+                position: relative;
+                width: 20%;
+                left: 10%;
+            }
+        }
+
+        &__content {
+            background: $app-color-9;
+            right: 5%;
+            flex: 1;
+            width: 40%;
+            padding: 8% 5% 8% 12%;
+            p{
+                font-size: 20px;
+            }
+        }
+
+        &-text {
+            text-align: center;
+            font-weight: bold;
+            position: relative;
+            right: 30%;
+            top: -92px;
+            font-size: 21px;
+        }
+
+        &__highlighted {
+            &-text {
+                color: $app-color-3;
+                font-weight: bold;
+            }
+        }
+    }
+
+    &-politicalactivity,&-family{
+        &__info{
+            
+        &-text {
+            color: $app-color-3;
+            position: relative;
+            padding: 0 10px 20px 0;
+            width: 115%;
+            border-bottom: 1px solid $app-color-5;
+            left: 10%;
+            font-weight: bold;
+            font-size: 32px;
+            text-align: center;
+        }
+        &-para{
+            position: relative;
+            left: 10%;
+            width: 115%;
+            padding-top: 20px;
+            padding-bottom: 10px;
+
+        }
+        &-imgBacandCacem {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 50px;
+            img {
+                object-fit: contain;
+                position: relative;
+                left:20%;
+            }
+        }
+        
+    }
+
+}
+
+
+
+}

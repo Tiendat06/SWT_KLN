@@ -13,6 +13,8 @@ namespace Application
         public string BlogTitle { get; set; }
         public string BlogContent { get; set; }
         public Guid UserId { get; set; }
+        public int MediaTypeId { get; set; }
+        public string? Description { get; set; } = string.Empty;
     }
 
     public class UpdateBlogRequestValidator : AbstractValidator<UpdateBlogRequest>
@@ -36,6 +38,9 @@ namespace Application
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]))
                 .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]));
 
+            RuleFor(x => x.MediaTypeId)
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MediaTypeId"]))
+                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MediaTypeId"]));
             //RuleFor(x => x.BlogImageFile)
             //    .NotNull().WithMessage(BlogValidatorResources.BlogImageNotEmpty)
             //    .NotEmpty().WithMessage(BlogValidatorResources.BlogImageNotEmpty);

@@ -1,4 +1,6 @@
 ﻿using Domain.Entities;
+using System.Text.Json;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Application.Mapper.Topics.Output
 {
@@ -10,20 +12,15 @@ namespace Application.Mapper.Topics.Output
             {
                 TopicId = topic.TopicId,
                 Capture = topic.Capture,
+                MediaTypeId = topic.MediaTypeId,
                 CreateDate = topic.CreateDate,
                 UserId = topic.UserId,
                 Name = topic.User.Name,
                 Email = topic.User.Email,
                 UserName = topic.User.Account.UserName,
                 RoleName = topic.User.Account.Role.RoleName,
-                TopicMedias = topic.TopicMedias?.Select(media => new GetTopicMediaResponse
-                {
-                    TopicMediaId = media.TopicMediaId,
-                    TopicId = media.TopicId,
-                    ImageLink = media.ImageLink,
-                    VideoLink = media.VideoLink,
-                    Title = media.Title
-                }).ToList() ?? new List<GetTopicMediaResponse>()
+                Images = topic.Images != null ? JsonSerializer.Deserialize<List<GetTopicImagesResponse>>(topic.Images) : new List<GetTopicImagesResponse>(),
+                Videos = topic.Videos != null ? JsonSerializer.Deserialize<List<GetTopicVideoLinkResponse>>(topic.Videos) : new List<GetTopicVideoLinkResponse>()
             };
         }
         public static IEnumerable<GetTopicResponse> GetTopicListMapEntityToDTO(IEnumerable<Topic> topics)
@@ -35,20 +32,15 @@ namespace Application.Mapper.Topics.Output
                 {
                     TopicId = topic.TopicId,
                     Capture = topic.Capture,
+                    MediaTypeId = topic.MediaTypeId,
                     CreateDate = topic.CreateDate,
                     UserId = topic.UserId,
                     Name = topic.User.Name,
                     Email = topic.User.Email,
                     UserName = topic.User.Account.UserName,
                     RoleName = topic.User.Account.Role.RoleName,
-                    TopicMedias = topic.TopicMedias?.Select(media => new GetTopicMediaResponse
-                    {
-                        TopicMediaId = media.TopicMediaId,
-                        TopicId = media.TopicId,
-                        ImageLink = media.ImageLink,
-                        VideoLink = media.VideoLink,
-                        Title = media.Title
-                    }).ToList() ?? new List<GetTopicMediaResponse>()
+                    Images = topic.Images != null ? JsonSerializer.Deserialize<List<GetTopicImagesResponse>>(topic.Images) : new List<GetTopicImagesResponse>(),
+                    Videos = topic.Videos != null ? JsonSerializer.Deserialize<List<GetTopicVideoLinkResponse>>(topic.Videos) : new List<GetTopicVideoLinkResponse>()
                 });
             }
             return topicListDTO;

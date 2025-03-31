@@ -9,7 +9,7 @@ namespace Domain.Entities
         [Key]
         [Required]
         [Column("logSlideShowId", TypeName ="int")]
-        public required int? LogSlideShowId { get; set; }
+        public required int LogSlideShowId { get; set; }
 
         //[Column("version", TypeName = "varchar")]
         //public string? Version { get; set; } = string.Empty;
@@ -32,6 +32,24 @@ namespace Domain.Entities
         [Column("createDate", TypeName = "datetime")]
         public DateTime? CreateDate { get; set; } = DateTime.Now;
 
+        [Column("Description", TypeName = "nvarchar")]
+        public string? Description { get; set; } = string.Empty;
+
+        [Column("slideImage", TypeName = "nvarchar")]
+        public string? SlideImage { get; set; }
+
+        [Column("mediaTypeId", TypeName = "int")]
+        public int? MediaTypeId { get; set; } = null;
+
+        [ForeignKey("MediaTypeId")]
+        public virtual MediaType? MediaType { get; set; }
+
+        [Column("slideShowTypeId", TypeName = "int")]
+        public int? SlideShowTypeId { get; set; } = null;
+
+        [ForeignKey("SlideShowTypeId")]
+        public virtual SlideShowType? SlideShowType { get; set; }
+
         [Column("userId", TypeName = "uniqueidentifier")]
         public Guid? UserId { get; set; }
 
@@ -44,7 +62,7 @@ namespace Domain.Entities
         [ForeignKey("SlideShowId")]
         public virtual SlideShow? SlideShow { get; set; }
 
-        [NotMapped]
-        public virtual ICollection<LogSlideImage>? LogSlideImages {  get; set; } 
+        //[NotMapped]
+        //public virtual ICollection<LogSlideImage>? LogSlideImages {  get; set; } 
     }
 }

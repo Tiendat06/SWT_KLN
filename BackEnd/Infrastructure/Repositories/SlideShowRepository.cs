@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Domain.Interfaces;
+using KLN.Shared.CrossCuttingConcerns.Enums;
 
 namespace Infrastructure.Repositories
 {
@@ -12,11 +13,24 @@ namespace Infrastructure.Repositories
         {
             _context = context;
         }
-        public async Task<IEnumerable<SlideShow>> GetAllSlideShowsAsync(int page, int fetch)
+        public async Task CreateSlideShowAsync(SlideShow slideShow)
+        {
+            await _context.SlideShows.AddAsync(slideShow);
+        }
+
+        public async Task<IEnumerable<SlideShow>> GetAllSlideShowsAsync(int page, int fetch, int type, int slideShowType)
         {
             var query = _context.SlideShows
                 .AsNoTracking()
                 .Where(SlideShow => SlideShow.IsDeleted == false);
+
+            // check slide show type is exists
+            if (slideShowType > (int)SlideShowTypeEnum.None)
+                query = query.Where(x => x.SlideShowTypeId == slideShowType);
+
+            // check if type is exists
+            if (type > (int)MediaTypeEnum.None)
+                query = query.Where(x => x.MediaTypeId == type);
 
             // Sắp xếp trước khi phân trang
             query = query.OrderByDescending(SlideShows => SlideShows.CreateDate);
@@ -37,13 +51,13 @@ namespace Infrastructure.Repositories
             var slideShows = await query.ToListAsync();
 
             // Với mỗi Topic, load danh sách TopicMedias
-            foreach (var slideShow in slideShows)
-            {
-                slideShow.SlideImages = await _context.SlideImages
-                    .AsNoTracking()
-                    .Where(tm => tm.SlideShowId == slideShow.SlideShowId && tm.IsDeleted == false)
-                    .ToListAsync();
-            }
+            //foreach (var slideShow in slideShows)
+            //{
+            //    slideShow.SlideImages = await _context.SlideImages
+            //        .AsNoTracking()
+            //        .Where(tm => tm.SlideShowId == slideShow.SlideShowId && tm.IsDeleted == false)
+            //        .ToListAsync();
+            //}
 
             return slideShows;
         }
@@ -55,6 +69,29 @@ namespace Infrastructure.Repositories
                 .ThenInclude(user => user.Account)
                 .ThenInclude(account => account.Role)
                 .FirstOrDefaultAsync(slideShow => slideShow.SlideShowId == id && slideShow.IsDeleted == false);
+        }
+
+        public async Task<int> CountSlideShowAsync(int type, int slideShowType)
+        {
+            var query = _context.SlideShows.AsNoTracking();
+            if (slideShowType > (int)SlideShowTypeEnum.None)
+                query = query.Where(x => x.SlideShowTypeId == slideShowType);
+
+            if (type > (int)MediaTypeEnum.None)
+                query = query.Where(x => x.MediaTypeId == type);
+            return await query.CountAsync(x => x.IsDeleted == false);
+        }
+
+        public async Task HardDeleteSlideShowAsync(Guid id)
+        {
+            _context.SlideShows.Remove(new SlideShow { SlideShowId = id });
+            await Task.CompletedTask;
+        }
+
+        public async Task SoftDeleteSlideShowAsync(SlideShow slideShow)
+        {
+            slideShow.IsDeleted = true;
+            await Task.CompletedTask;
         }
     }
 }

@@ -2,13 +2,14 @@
 using Application.Interfaces;
 using Application.Mapper.Books.Input;
 using Application.Mapper.Books.Output;
-using Application.Utils;
+using KLN.Shared.CrossCuttingConcerns.Utils;
 using CloudinaryDotNet;
 using Domain;
 using Domain.Entities;
 using Domain.Interfaces;
 using Domain.Localization;
 using Microsoft.Extensions.Localization;
+using KLN.Shared.CrossCuttingConcerns;
 
 namespace Application.Services
 {
@@ -39,12 +40,15 @@ namespace Application.Services
         }
         #endregion
 
-        public async Task<IEnumerable<GetBookResponse>> GetAllBooksAsync(GetAllBookRequest input)
+        public async Task<PaginationResponseDto<GetBookResponse>> GetAllBooksAsync(GetAllBookRequest input)
         {
             var page = input.Page;
             var fetch = input.Fetch;
-            var books = await _bookRepository.GetAllBooksAsync(page, fetch);
-            return GetBookResponseMapper.GetBookListMapEntityToDTO(books);
+            var type = input.Type;
+            var books = await _bookRepository.GetAllBooksAsync(page, fetch, type);
+            var totalBooks = await _bookRepository.CountBooksAsync(type);
+            var bookMapper = GetBookResponseMapper.GetBookListMapEntityToDTO(books);
+            return new PaginationResponseDto<GetBookResponse>(totalBooks, bookMapper);
         }
 
         public async Task<GetBookResponse> GetBookByIdAsync(Guid id)
@@ -250,9 +254,9 @@ namespace Application.Services
             }
         }
 
-        public async Task<int> CountBooksAsync()
-        {
-            return await _bookRepository.CountBooksAsync();
-        }
+        //public async Task<int> CountBooksAsync(int type)
+        //{
+        //    return await _bookRepository.CountBooksAsync(x => x.IsDeleted == false);
+        //}
     }
 }

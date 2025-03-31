@@ -6,6 +6,7 @@ namespace Domain.Entities
     [Table("LogMusic")]
     public class LogMusic
     {
+        // ok
         [Key]
         [Required]
         [Column("logMusicId", TypeName ="int")]
@@ -43,6 +44,12 @@ namespace Domain.Entities
 
         [Column("musicId", TypeName = "uniqueidentifier")]
         public Guid? MusicId {  get; set; }
+
+        [Column("mediaTypeId", TypeName = "int")]
+        public int? MediaTypeId { get; set; } = null;
+
+        [ForeignKey("MediaTypeId")]
+        public virtual MediaType? MediaType { get; set; }
 
         [ForeignKey("UserId")]
         public virtual User? User { get; set; }

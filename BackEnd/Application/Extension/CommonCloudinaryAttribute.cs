@@ -7,8 +7,8 @@
 
         // book
         public static readonly string assetFolderBook = "KLN/book";
-        public static readonly string assetFolderBookImage = "KLN/book/image";
-        public static readonly string assetFolderBookPDF = "KLN/book/PDF";
+        public static readonly string assetFolderBookImage = $"{assetFolderBook}/image";
+        public static readonly string assetFolderBookPDF = $"{assetFolderBook}/PDF";
 
         // magazine
         public static readonly string assetFolderMagazine = "KLN/magazine";

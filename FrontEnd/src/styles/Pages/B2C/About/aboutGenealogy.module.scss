@@ -1,0 +1,158 @@
+@use "../../../GlobalStyles/index" as *;
+@use "../../../Utils/mixins" as *;
+@use "../../../Utils/variables" as *;
+
+.aboutgenealogy {
+    margin-top: $app-page-title-margin-top;
+
+    &-title {
+        height: $app-page-title-height;
+        background-color: $app-color-3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &__text {
+            font-weight: bold;
+            color: $app-color-8;
+            margin-bottom: 0;
+        }
+    }
+
+    &-genealogy {
+        &__img {
+            display: flex;
+            justify-content: center;
+
+            img {
+                width: 80%;
+                margin-top: 50px;
+            }
+        }
+
+        &__info {
+            &-title {
+                text-align: center;
+                padding-top: 50px;
+                font-weight: bold;
+                color: $app-color-5;
+                font-size: 35px;
+            }
+
+            &-text {
+                color: $app-color-3;
+                position: relative;
+                padding: 0 10px 10px 0;
+                width: 80%;
+                border-bottom: 1px solid $app-color-5;
+                left: 10%;
+                font-weight: bold;
+                font-size: 21px;
+            }
+
+            &-paracontent {
+                position: relative;
+                left: 10%;
+                width: 80%;
+                padding-top: 10%;
+                padding-bottom: 10px;
+            }
+
+            &__paraimg {
+                display: flex;
+                flex-wrap: nowrap;
+                justify-items: center;
+                gap: 40px;
+                padding-top: 20px;
+
+                &-para {
+                    position: relative;
+                    left: 10%;
+                    padding-top: 22px;
+                    width: 40%;
+
+                }
+
+                &-imgtuongBacTon {
+                    display: flex;
+                    justify-content: left;
+                    align-items: center;
+
+                    img {
+                        object-fit: cover;
+                        object-position: right;
+                        position:absolute;
+                        left: 54%;
+                        padding-bottom: 3%;
+                        width: auto;
+                    }
+                }
+
+            }
+        }
+    }
+
+    &-politicalactivity {
+        &__info {
+            &-title {
+                text-align: center;
+                padding-top: 50px;
+                font-weight: bold;
+                color: $app-color-5;
+            }
+
+            &-text {
+                color: $app-color-3;
+                position: relative;
+                padding: 0 10px 10px 0;
+                width: 108%;
+                border-bottom: 1px solid $app-color-5;
+                text-align: right;
+                right: -13%;
+                font-weight: bold;
+                font-size: 21px;
+            }
+
+            &-paracontent {
+                position: relative;
+                left: 13%;
+                
+                padding-top: 20px;
+            }
+
+            &__paraimg {
+                display: flex;
+                flex-wrap: nowrap;
+                justify-items: center;
+                flex-direction: row-reverse;
+                gap: 50px;
+                padding-top: 20px;
+
+                &-para {
+                    position: relative;
+                    left: 15%;
+                    padding-top: 10px;
+                    width: 80%;
+
+                }
+
+                &-imgtau {
+                    display: flex;
+                    justify-content: left;
+                    align-items: center;
+
+                    img {
+                        object-fit: cover;
+                        object-position: left;
+                        position: relative;
+                        left: 27%;
+                        width: auto;
+                    }
+                }
+
+
+            }
+
+        }
+    }
+}
