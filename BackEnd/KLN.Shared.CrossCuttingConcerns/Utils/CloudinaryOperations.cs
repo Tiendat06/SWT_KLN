@@ -24,6 +24,32 @@ namespace KLN.Shared.CrossCuttingConcerns.Utils
             return (JObject)result.JsonObj;
         }
 
+        public JObject UploadMusicFileToCloudinary(string filePath, string folder, string publicId)
+        {
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException($"File not found at path: {filePath}");
+            }
+
+            var uploadParams = new RawUploadParams()
+            {
+                File = new FileDescription(filePath),
+                PublicId = publicId,
+                Folder = folder, // Correctly using "Folder"
+                Type = "video"
+            };
+
+            // Set "ResourceType" to "video" by passing a parameter during upload
+            var result = _cloudinary.Upload(uploadParams);
+
+            if (result == null)
+            {
+                throw new InvalidOperationException("Upload music file to Cloudinary failed!");
+            }
+
+            return (JObject)result.JsonObj;
+        }
+
         public JObject DeleteFileFromCloudinary(string publicId)
         {
             var deleteParams = new DelResParams()

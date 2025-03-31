@@ -71,7 +71,7 @@ namespace Application.Services
 
                     // upload Image
                     // check file type
-                    var isAllowedcImage = FileOperations.CheckFileType(allowedContentTypesImage, addMusicRequest.ImageLink);
+                    var isAllowedImage = FileOperations.CheckFileType(allowedContentTypesImage, addMusicRequest.ImageLink);
 
                     //add file to local
                     var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
@@ -82,7 +82,7 @@ namespace Application.Services
                     var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
                     var resultImage = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePathImage, assetFolderImage, publicId) ?? throw new InvalidOperationException(_localizer["UploadImageCloudinaryFailed"]);
                     var musicImage = resultImage["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
-                    var resultAudio = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePathAudio, assetFolderAudioMP3, publicId) ?? throw new InvalidOperationException(_localizer["UploadAudioCloudinaryFailed"]);
+                    var resultAudio = cloudinaryOperations.UploadMusicFileToCloudinary(filePathAudio, assetFolderAudioMP3, publicId) ?? throw new InvalidOperationException(_localizer["UploadAudioCloudinaryFailed"]);
                     var musicAudio = resultAudio["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
 
                     // delete file and folder from local
