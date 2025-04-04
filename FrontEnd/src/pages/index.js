@@ -26,6 +26,7 @@ import ManageImage from "~/pages/B2B/ManageImage/ManageImage";
 import ManageMultimedia from "~/pages/B2B/ManageMultimedia/ManageMultimedia";
 import ManageMagazine from "~/pages/B2B/ManageMagazine/ManageMagazine";
 import ManageTopic from "~/pages/B2B/ManageTopic/ManageTopic";
+import LoginPage from "~/pages/B2B/Login/Login";
 
 export {Home, BlogContent};
 
@@ -47,4 +48,6 @@ export {
     ManageMultimedia,
     ManageMagazine,
     ManageTopic
-}
+};
+
+export {LoginPage}

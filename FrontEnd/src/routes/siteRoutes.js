@@ -1,9 +1,10 @@
-import {BlogContent, Home, ManageImage} from "~/pages"
+import {BlogContent, Home, ManageImage, LoginPage} from "~/pages"
 
 const siteJRoutes = [
     {path: "/", element: <Home/>},
     {path: "/blog/:blogId", element: <BlogContent/>},
     {path: '/administration', element: <ManageImage/>},
+    { path: "/administration/login", element: <LoginPage /> }, 
 ];
 
 const siteRoutes = [
