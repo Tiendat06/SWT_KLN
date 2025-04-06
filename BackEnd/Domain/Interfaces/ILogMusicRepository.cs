@@ -8,6 +8,7 @@ namespace Domain.Interfaces
         Task<LogMusic?> GetLogMusicByIdAsync(int id);
         Task<IEnumerable<LogMusic>> GetLogMusicsByMusicIdAsync(Guid musicId);
         Task CreateLogMusicAsync(LogMusic logMusic);
+        Task CreateLogMusicRangeAsync(IEnumerable<LogMusic> logMusics);
         Task HardDeleteLogMusicAsync(int id);
         Task SoftDeleteLogMusicAsync(LogMusic logMusic);
     }

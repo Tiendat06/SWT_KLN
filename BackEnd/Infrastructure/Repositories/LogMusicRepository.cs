@@ -16,6 +16,12 @@ namespace Infrastructure.Repositories
         {
             await _context.LogMusics.AddAsync(logMusic);
         }
+
+        public async Task CreateLogMusicRangeAsync(IEnumerable<LogMusic> logMusics)
+        {
+            await _context.LogMusics.AddRangeAsync(logMusics);
+        }
+
         public async Task<IEnumerable<LogMusic>> GetAllLogMusicsAsync()
         {
             return await _context.LogMusics

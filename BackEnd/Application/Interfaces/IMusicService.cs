@@ -7,6 +7,6 @@ namespace Application.Interfaces
         Task<GetMusicResponse?> GetMusicByIdAsync(Guid id);
         Task<GetMusicResponse> CreateMusicAsync(AddMusicRequest addMusicRequest);
         Task<GetMusicResponse> UpdateMusicAsync(Guid id, UpdateMusicRequest updateMusicRequest);
-        Task<bool> DeleteMusicAsync(Guid id);
+        Task<bool> DeleteMultipleMusicAsync(List<Guid> ids);
     }
 }
