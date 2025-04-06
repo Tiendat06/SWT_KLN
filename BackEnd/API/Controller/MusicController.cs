@@ -66,5 +66,14 @@ namespace API.Controller
             var musics = await _musicValidator.UpdateMusicAsyncValidator(id, updateMusicRequest);
             return ApiSuccess(musics);
         }
+
+        // DELETE: api/Music/id
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMusic(Guid id)
+        {
+            var isDeleted = await _musicService.DeleteMusicAsync(id);
+
+            return ApiSuccess(isDeleted);
+        }
     }
 }

@@ -207,5 +207,45 @@ namespace Application.Services
                 }
             }
         }
+
+        public async Task<bool> DeleteMusicAsync(Guid id)
+        {
+            using (var uow = await _unitOfWork.BeginTransactionAsync())
+            {
+                try
+                {
+                    var musicEntity = await _musicRepository.GetMusicByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Music"]));
+                    // update Log Music
+
+                    var newLogMusic = new LogMusic
+                    {
+                        LogMusicId = 0,
+                        Title = musicEntity.Title,
+                        ImageLink = musicEntity.ImageLink,
+                        CreateDate = musicEntity.CreateDate,
+                        AudioLink = musicEntity.AudioLink,
+                        UserId = musicEntity.UserId,
+                        MusicId = musicEntity.MusicId,
+                        Process = "DELETE",
+                    };
+                    await _logMusicRepository.CreateLogMusicAsync(newLogMusic);
+
+                    // delete music
+                    var music = new Music { MusicId = id };
+                    await uow.TrackEntity(music);
+
+                    await _musicRepository.SoftDeleteMusicAsync(music);
+                    await uow.SaveChangesAsync();
+                    await uow.CommitTransactionAsync();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Delete music error: {ex.Message}");
+                    await uow.RollbackTransactionAsync();
+                    throw new InvalidOperationException(_localizer["DeleteMusicFailed"]);
+                }
+            }
+        }
     }
 }

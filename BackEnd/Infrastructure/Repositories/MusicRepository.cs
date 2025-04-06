@@ -56,16 +56,31 @@ namespace Infrastructure.Repositories
             return await query.CountAsync(x => x.IsDeleted == false);
         }
 
-        public async Task<Music> CreateMusicAsync(Music music)
+        public async Task CreateMusicAsync(Music music)
         {
             await _context.Musics.AddAsync(music);
-            return music;
         }
 
         public async Task<Music> UpdateMusicAsync(Music music)
         {
             _context.Musics.Update(music);
             return music;
+        }
+
+        public async Task SoftDeleteMusicAsync(Music music)
+        {
+            music.IsDeleted = true;
+            await Task.CompletedTask;
+        }
+
+        public async Task HardDeleteMusicAsync(Guid id)
+        {
+            _context.Musics.Remove(new Music { MusicId = id });
+            await _context.SaveChangesAsync();
+        }
+        public Task HardDeleteMusicAsync(Music music)
+        {
+            throw new NotImplementedException();
         }
     }
 }
