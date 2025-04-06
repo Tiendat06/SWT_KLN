@@ -29,7 +29,7 @@ namespace API.Controller
         //    var music = await _musicService.GetAllMusicAsync();
         //    return ApiSuccess(music);
         //}
-        // GET: api/Music/5
+        // GET: api/Music/id
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetMusicResponse>))]
         public async Task<IActionResult> GetMusicById(Guid id)
@@ -55,6 +55,16 @@ namespace API.Controller
         {
             var musics = await _musicValidator.CreateMusicAsyncValidator(addMusicRequest);
             return ApiSuccess(musics, HttpStatusCode.Created);
+        }
+
+        // PUT: api/Music/id
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetMusicResponse>))]
+        public async Task<IActionResult> UpdateMusic(Guid id, [FromForm] UpdateMusicRequest updateMusicRequest)
+        {
+            var musics = await _musicValidator.UpdateMusicAsyncValidator(id, updateMusicRequest);
+            return ApiSuccess(musics);
         }
     }
 }

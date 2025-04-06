@@ -61,5 +61,7 @@
     "UpdateMagazineFailed": "Cập nhật tạp chí không thành công.",
     "AddMagazineFailed": "Thêm tạp chí không thành công.",
     "DeleteMagazineFailed": "Xóa tạp chí không thành công.",
-    "AddMusicFailed": "Thêm nhạc không thành công."
+    "AddMusicFailed": "Thêm nhạc không thành công.",
+    "UpdateMusicFailed": "Cập nhật nhạc không thành công.",
+    "DeleteMusicFailed": "Xóa nhạc không thành công."
 }

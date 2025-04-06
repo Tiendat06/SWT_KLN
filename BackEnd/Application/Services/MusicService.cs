@@ -17,7 +17,7 @@ namespace Application.Services
     {
         #region Fields
         private readonly IMusicRepository _musicRepository;
-        // private readonly ILogMusicRepository _logMusicRepository;
+        private readonly ILogMusicRepository _logMusicRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly Cloudinary _cloudinary;
         IStringLocalizer<KLNSharedResources> _localizer;
@@ -27,14 +27,14 @@ namespace Application.Services
         public MusicService(
             IMusicRepository musicRepository,
             IUnitOfWork unitOfWork,
-            // ILogMusicRepository logMusicRepository,
+             ILogMusicRepository logMusicRepository,
             Cloudinary cloudinary,
             IStringLocalizer<KLNSharedResources> localizer
         )
         {
             _musicRepository = musicRepository;
             _unitOfWork = unitOfWork;
-            // _logMusicRepository = logMusicRepository;
+            _logMusicRepository = logMusicRepository;
             _cloudinary = cloudinary;
             _localizer = localizer;
         }
@@ -116,7 +116,96 @@ namespace Application.Services
 
         public async Task<GetMusicResponse> UpdateMusicAsync(Guid id, UpdateMusicRequest updateMusicRequest)
         {
-            throw new NotImplementedException();
+            using (var uow = await _unitOfWork.BeginTransactionAsync())
+            {
+                try
+                {
+                    var musicEntity = await _musicRepository.GetMusicByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Music"]));
+                    await uow.TrackEntity(musicEntity);
+
+                    // Update Music
+                    musicEntity.Title = updateMusicRequest.Title;
+                    musicEntity.ImageLink = updateMusicRequest.ImageLink != null ? musicEntity.ImageLink : musicEntity.ImageLink;
+                    musicEntity.AudioLink = updateMusicRequest.AudioLink != null ? musicEntity.AudioLink : musicEntity.AudioLink;
+                    var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
+
+                    // Upload new image if provided
+                    if (updateMusicRequest.ImageLink != null)
+                    {
+                        // Check file type
+                        var allowedContentTypesImage = new[] { CommonFileType.JPEG, CommonFileType.PNG };
+                        var isAllowedImage = FileOperations.CheckFileType(allowedContentTypesImage, updateMusicRequest.ImageLink) == false 
+                                ? throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}")) : true;
+
+                        // Add file to local
+                        var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
+                        var filePathImage = await FileOperations.SaveMultipleFileToLocal(folderPath, updateMusicRequest.ImageLink);
+                        var filePathAudio = await FileOperations.SaveMultipleFileToLocal(folderPath, updateMusicRequest.AudioLink);
+                        Console.WriteLine($"Saved updated image to: {filePathImage}");
+
+                        // Upload to cloudinary
+                        var assetFolderImage = CommonCloudinaryAttribute.assetFolderMusicImage;
+                        var publicId = $"{nameof(Music)}_{id}";
+                        var resultImage = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePathImage, assetFolderImage, publicId) ?? throw new InvalidOperationException(_localizer["UploadImageCloudinaryFailed"]);
+                        var musicImage = resultImage["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
+
+                        // Delete file from local
+                        var isDeletedImage = FileOperations.DeleteFileFromLocal(filePathImage, folderPath);
+                        Console.WriteLine($"Updated image to: {musicImage}");
+
+                        // Update image link
+                        musicEntity.ImageLink = musicImage;
+                    }
+
+                    // Upload new audio if provided
+                    if (updateMusicRequest.AudioLink != null)
+                    {
+                        // Add file to local
+                        var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
+                        var filePathAudio = await FileOperations.SaveMultipleFileToLocal(folderPath, updateMusicRequest.AudioLink);
+                        Console.WriteLine($"Saved updated audio to: {filePathAudio}");
+
+                        // Upload to cloudinary
+                        var assetFolderAudioMP3 = CommonCloudinaryAttribute.assetFolderMusicAudioMP3;
+                        var publicId = $"{nameof(Music)}_{id}";
+                        var resultAudio = cloudinaryOperations.UploadMusicFileToCloudinary(filePathAudio, assetFolderAudioMP3, publicId) ?? throw new InvalidOperationException(_localizer["UploadAudioCloudinaryFailed"]);
+                        Console.WriteLine($"Result Audio: {resultAudio}");
+                        var musicAudio = resultAudio["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
+
+                        // Delete file from local
+                        var isDeletedAudio = FileOperations.DeleteFileFromLocal(filePathAudio, folderPath);
+                        Console.WriteLine($"Updated audio to: {musicAudio}");
+
+                        // Update audio link
+                        musicEntity.AudioLink = musicAudio;
+                    }
+
+                    // If you have a log repository for music, you can add logging here
+                    // Similar to your Magazine implementation
+                    var newLogMusic = new LogMusic
+                    {
+                        LogMusicId = 0,
+                        Title = musicEntity.Title,
+                        ImageLink = musicEntity.ImageLink,
+                        CreateDate = musicEntity.CreateDate,
+                        AudioLink = musicEntity.AudioLink,
+                        UserId = musicEntity.UserId,
+                        MusicId = musicEntity.MusicId,
+                        Process = "UPDATE",
+                    };
+                    await _logMusicRepository.CreateLogMusicAsync(newLogMusic);
+                    await uow.SaveChangesAsync();
+                    await uow.CommitTransactionAsync();
+
+                    return GetMusicResponseMapper.GetMusicMapEntityToDTO(musicEntity);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Update music error: {ex.Message}");
+                    await uow.RollbackTransactionAsync();
+                    throw new InvalidOperationException(_localizer["UpdateMusicFailed"]);
+                }
+            }
         }
     }
 }

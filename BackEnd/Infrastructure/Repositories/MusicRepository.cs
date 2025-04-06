@@ -62,5 +62,10 @@ namespace Infrastructure.Repositories
             return music;
         }
 
+        public async Task<Music> UpdateMusicAsync(Music music)
+        {
+            _context.Musics.Update(music);
+            return music;
+        }
     }
 }

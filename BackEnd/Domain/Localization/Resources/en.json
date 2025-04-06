@@ -61,5 +61,7 @@
     "UpdateMagazineFailed": "Failed to update magazine.",
     "AddMagazineFailed": "Failed to add magazine.",
     "DeleteMagazineFailed": "Failed to delete magazine.",
-    "AddMusicFailed": "Failed to add music."
+    "AddMusicFailed": "Failed to add music.",
+    "UpdateMusicFailed": "Failed to update music.",
+    "DeleteMusicFailed": "Failed to delete music."
 }
