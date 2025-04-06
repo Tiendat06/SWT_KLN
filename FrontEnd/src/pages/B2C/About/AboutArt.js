@@ -1,8 +1,8 @@
 import styles from '~/styles/Pages/B2C/About/aboutArt.module.scss';
 import clsx from "clsx";
 import KLNTitle from "~/components/KLNTitle/KLNTitle";
-import {AboutArtProvider} from "~/context/About/AboutArtContext";
-import {SlideShow} from "~/features/About";
+import {AboutArtProvider} from "~/context/B2C/About/AboutArtContext";
+import {SlideShow} from "src/features/B2C/About";
 
 const AboutArt = () => {
 

@@ -1,7 +1,7 @@
-import {ItemContent, SidebarBook, SidebarMagazines} from '~/features/About';
+import {ItemContent, SidebarBook, SidebarMagazines} from 'src/features/B2C/About';
 import styles from '~/styles/Pages/B2C/About/aboutSidebarBooks.module.scss';
 import clsx from 'clsx';
-import {AboutBooksMagazinesProvider} from "~/context/About/AboutBooksMagazinesContext";
+import {AboutBooksMagazinesProvider} from "~/context/B2C/About/AboutBooksMagazinesContext";
 import {KLNTitle} from "~/components";
 
 const AboutBooksAndMagazines = () => {

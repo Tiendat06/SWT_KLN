@@ -5,6 +5,9 @@ import App from '~/App';
 import {AppProvider, AdminProvider} from "~/context";
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router} from 'react-router-dom'
+import "primereact/resources/themes/lara-light-blue/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

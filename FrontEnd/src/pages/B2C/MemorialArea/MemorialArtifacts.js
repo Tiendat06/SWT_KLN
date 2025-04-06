@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import {KLNTitle} from "~/components";
 import styles from '~/styles/Pages/B2C/Memorial/memorialArtifacts.module.scss';
-import {MemorialArtifactProvider} from "~/context/MemorialArea/MemorialArtifactContext";
-import {SlideShow} from "~/features/MemorialArea";
+import {MemorialArtifactProvider} from "~/context/B2C/MemorialArea/MemorialArtifactContext";
+import {SlideShow} from "src/features/B2C/MemorialArea";
 
 const MemorialArtifacts = () => {
 

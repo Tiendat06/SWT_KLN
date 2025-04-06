@@ -14,12 +14,19 @@ import KLNAudio from "~/components/KLNAudio/KLNAudio";
 import KLNCategory from "~/components/KLNCategory/KLNCategory";
 import KLNReactDotPaginate from "~/components/KLNReactDotPaginate/KLNReactDotPaginate";
 import KLNDropdown from "~/components/KLNDropdown/KLNDropdown";
+import KLNTabView from "~/components/KLNTabView/KLNTabView";
+import KLNCascadeSelect from "~/components/KLNCascadeSelect/KLNCascadeSelect";
+import KLNTableAction from "~/components/KLNTableAction/KLNTableAction";
+import KLNBreadCrumb from "~/components/KLNBreadCumb/KLNBreadCrumb";
+import KLNModal from "~/components/KLNModal/KLNModal";
 
 export {
     Header, Footer, Body, Sidebar, AdminHeader,
     KLNButton, KLNSlideBanner, KLNPDFViewer,
     KLNReactPaginate, KLNSlideImage, KLNVideoClip,
     KLNTitle, KLNAudio, KLNCategory,
-    KLNReactDotPaginate, KLNDropdown
+    KLNReactDotPaginate, KLNDropdown,
+    KLNTabView, KLNCascadeSelect, KLNTableAction,
+    KLNBreadCrumb, KLNModal
 }
 

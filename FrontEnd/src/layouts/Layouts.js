@@ -19,15 +19,15 @@ function Layouts() {
             ): (
                 <>
                     <div className="d-flex flex-wrap" style={{
-                        height: "100vh",
+                        minHeight: 900,
                     }}>
                         <div style={{
-                            width: "20%"
+                            width: "20%",
                         }}>
                             <Sidebar />
                         </div>
                         <div style={{
-                            width: "80%"
+                            width: "80%",
                         }} className={clsx('bg-light')}>
                             <AdminHeader />
                             <div className="p-4">

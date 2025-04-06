@@ -34,3 +34,16 @@
   color: $app-color-10;
 }
 
+.button-4{
+  @include default_button;
+  //border-radius: 5px;
+  //padding: 5px 15px;
+  background-color: $app-color-24;
+  color: $app-color-23;
+}
+
+.button-5{
+  @include default_button;
+  background-color: $app-color-25;
+  color: $app-color-16;
+}

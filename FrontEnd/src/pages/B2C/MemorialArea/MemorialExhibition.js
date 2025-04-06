@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import {KLNTitle} from "~/components";
 import styles from '~/styles/Pages/B2C/Memorial/memorialExhibition.module.scss';
-import ExhibitionCategory from "~/features/MemorialArea/MemorialExhibition/ExhibitionCategory";
-import {MemorialExhibitionProvider} from "~/context/MemorialArea/MemorialExhibitionContext";
+import ExhibitionCategory from "~/features/B2C/MemorialArea/MemorialExhibition/ExhibitionCategory";
+import {MemorialExhibitionProvider} from "~/context/B2C/MemorialArea/MemorialExhibitionContext";
 
 const MemorialExhibition = () => {
 

@@ -1,8 +1,8 @@
 import KLNTitle from "~/components/KLNTitle/KLNTitle";
 import styles from '~/styles/Pages/B2C/Handiwork/handiwork.module.scss';
 import clsx from "clsx";
-import {HandiworkProvider} from "~/context/Handiwork/HandiworkContext";
-import {CategoryList, HandiworkContent} from "~/features/Handiwork";
+import {HandiworkProvider} from "~/context/B2C/Handiwork/HandiworkContext";
+import {CategoryList, HandiworkContent} from "src/features/B2C/Handiwork";
 
 const Handiwork = () => {
 
