@@ -71,23 +71,30 @@ namespace Application.Services
 
                     // upload Image
                     // check file type
-                    var isAllowedImage = FileOperations.CheckFileType(allowedContentTypesImage, addMusicRequest.ImageLink);
+                    //var isAllowedImage = FileOperations.CheckFileType(allowedContentTypesImage, addMusicRequest.ImageLink);
 
                     //add file to local
                     var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
-                    var filePathImage = await FileOperations.SaveFileToLocal(folderPath, addMusicRequest.ImageLink);
-                    var filePathAudio = await FileOperations.SaveFileToLocal(folderPath, addMusicRequest.AudioLink);
+                    var filePathImage = await FileOperations.SaveMultipleFileToLocal(folderPath, addMusicRequest.ImageLink);
+                    var filePathAudio = await FileOperations.SaveMultipleFileToLocal(folderPath, addMusicRequest.AudioLink);
+                    Console.WriteLine($"Saved image to: {filePathImage}");
+                    Console.WriteLine($"Saved audio to: {filePathAudio}");
 
                     // upload to cloudinary
                     var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
                     var resultImage = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePathImage, assetFolderImage, publicId) ?? throw new InvalidOperationException(_localizer["UploadImageCloudinaryFailed"]);
                     var musicImage = resultImage["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
                     var resultAudio = cloudinaryOperations.UploadMusicFileToCloudinary(filePathAudio, assetFolderAudioMP3, publicId) ?? throw new InvalidOperationException(_localizer["UploadAudioCloudinaryFailed"]);
+                    Console.WriteLine($"Result Audio: {resultAudio}");
                     var musicAudio = resultAudio["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
 
                     // delete file and folder from local
                     var isDeletedImage = FileOperations.DeleteFileFromLocal(filePathImage, folderPath);
                     var isDeletedAudio = FileOperations.DeleteFileFromLocal(filePathAudio, folderPath);
+
+                    Console.WriteLine($"Upload image to: {musicImage}");
+                    Console.WriteLine($"Upload audio to: {musicAudio}");
+
 
                     // map from DTO to entity
                     var addMusicMapperDTOToEntity = AddMusicRequestMapper.AddMusicMapDTOToEntity(addMusicRequest, musicImage, musicAudio, newGuid);
