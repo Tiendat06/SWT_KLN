@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {getBlogListService} from "~/services/BlogService";
 import MediaType from "~/enum/MediaType/MediaType";
 import {Link} from "react-router-dom";
-import {useHandiworkContext} from "~/context/Handiwork/HandiworkContext";
+import {useHandiworkContext} from "~/context/B2C/Handiwork/HandiworkContext";
 
 const CategoryList = () => {
     const [blogList, setBlogList] = useState([]);

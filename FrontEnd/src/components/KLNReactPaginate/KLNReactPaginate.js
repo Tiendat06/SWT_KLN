@@ -5,6 +5,7 @@ import {memo} from "react";
 import {BsThreeDots} from "react-icons/bs";
 
 function KLNReactPaginate({ handlePageClick, pageCount }) {
+
     return (
         <ReactPaginate
             breakLabel={<BsThreeDots className={clsx(styles['break-icon'])} size={18} />}

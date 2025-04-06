@@ -3,7 +3,7 @@ import styles from "~/styles/Pages/B2C/About/aboutMultimediaDocuments.module.scs
 import {Link} from "react-router-dom";
 import {useRef, useState} from "react";
 import {FormatTime} from "~/utils";
-import {useAboutMultimediaDocumentContext} from "~/context/About/AboutMultimediaDocumentContext";
+import {useAboutMultimediaDocumentContext} from "~/context/B2C/About/AboutMultimediaDocumentContext";
 
 function AboutMusicGallery() {
     const audioRefs = useRef([]);

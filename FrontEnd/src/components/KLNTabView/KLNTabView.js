@@ -2,15 +2,15 @@ import clsx from "clsx";
 import React from "react";
 import styles from '~/styles/Components/KLNTabView/klnTabView.module.scss';
 import {useAdminContext} from "~/context/AdminContext";
-import {Badge} from "primereact/badge";
 
 const KLNTabView = ({
                         data,
+                        onClickTabView = () => {}
                     }) => {
     const {tabView, setTabView} = useAdminContext();
 
     return (
-        <ul className={clsx(styles['tab-view'], 'd-flex flex-wrap')}>
+        <ul onClick={onClickTabView} className={clsx(styles['tab-view'], 'd-flex flex-wrap')}>
             {data?.map((item, index) => (
                 <li onClick={() => setTabView(item.tabView)}
                     className={clsx(styles['tab-view__item'],

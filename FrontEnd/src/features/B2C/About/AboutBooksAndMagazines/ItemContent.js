@@ -1,4 +1,4 @@
-import {useAboutBooksMagazinesContext} from "~/context/About/AboutBooksMagazinesContext";
+import {useAboutBooksMagazinesContext} from "~/context/B2C/About/AboutBooksMagazinesContext";
 import {ListOfBooks, ListOfMagazines} from "~/features/B2C/About";
 import {useEffect} from "react";
 import {getBookByIdService} from "~/services/BookService";

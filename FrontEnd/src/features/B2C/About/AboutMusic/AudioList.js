@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import styles from '~/styles/Pages/B2C/About/aboutMusic.module.scss';
 import {Fragment, useLayoutEffect, useRef, useState} from "react";
-import {useAboutAudioContext} from "~/context/About/AboutAudioContext";
+import {useAboutAudioContext} from "~/context/B2C/About/AboutAudioContext";
 import {FormatTime} from "~/utils";
 import {getMusicListService} from "~/services/MusicService";
 import {Link} from "react-router-dom";

@@ -2,7 +2,7 @@ import {PictureGallery, VideoClipGallery, MusicGallery, MultimediaCategory} from
 import styles from '~/styles/Pages/B2C/About/aboutMultimediaDocuments.module.scss';
 import clsx from 'clsx';
 import {KLNTitle} from "~/components";
-import {AboutMultimediaDocumentProvider} from "~/context/About/AboutMultimediaDocumentContext";
+import {AboutMultimediaDocumentProvider} from "~/context/B2C/About/AboutMultimediaDocumentContext";
 
 const AboutMultimediaDocuments = () => {
     return (

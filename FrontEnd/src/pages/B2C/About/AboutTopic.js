@@ -2,7 +2,7 @@ import clsx from "clsx";
 import KLNTitle from "~/components/KLNTitle/KLNTitle";
 import { SlideShowTopic, SidebarTopic } from "src/features/B2C/About";
 import styles from "~/styles/Pages/B2C/About/aboutTopic.module.scss";
-import {AboutTopicProvider} from "~/context/About/AboutTopicContext";
+import {AboutTopicProvider} from "~/context/B2C/About/AboutTopicContext";
 
 const AboutTopic = () => {
 

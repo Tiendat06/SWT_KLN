@@ -2,7 +2,7 @@ import {useCallback, useEffect, useState} from "react";
 import clsx from "clsx";
 import styles from "~/styles/Pages/B2C/About/aboutSidebarBooks.module.scss";
 import {KLNReactDotPaginate} from "~/components";
-import {useAboutTopicContext} from "~/context/About/AboutTopicContext";
+import {useAboutTopicContext} from "~/context/B2C/About/AboutTopicContext";
 import {getTopicByIdService, getTopicListService} from "~/services/TopicService";
 import {useNavigate} from "react-router-dom";
 import MediaType from "~/enum/MediaType/MediaType";

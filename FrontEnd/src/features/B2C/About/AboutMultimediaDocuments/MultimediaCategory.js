@@ -6,7 +6,7 @@ import {useLayoutEffect, useState} from "react";
 import {getSlideShowListService} from "~/services/SlideShowService";
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
-import {useAboutMultimediaDocumentContext} from "~/context/About/AboutMultimediaDocumentContext";
+import {useAboutMultimediaDocumentContext} from "~/context/B2C/About/AboutMultimediaDocumentContext";
 import {getVideoListService} from "~/services/VideoService";
 import {getMusicListService} from "~/services/MusicService";
 

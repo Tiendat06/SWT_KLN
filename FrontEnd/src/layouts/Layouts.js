@@ -15,7 +15,7 @@ function Layouts() {
             ): (
                 <>
                     <div className="d-flex flex-wrap" style={{
-                        // height: "100",
+                        minHeight: 900,
                     }}>
                         <div style={{
                             width: "20%",

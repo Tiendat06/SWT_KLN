@@ -16,6 +16,9 @@ import KLNReactDotPaginate from "~/components/KLNReactDotPaginate/KLNReactDotPag
 import KLNDropdown from "~/components/KLNDropdown/KLNDropdown";
 import KLNTabView from "~/components/KLNTabView/KLNTabView";
 import KLNCascadeSelect from "~/components/KLNCascadeSelect/KLNCascadeSelect";
+import KLNTableAction from "~/components/KLNTableAction/KLNTableAction";
+import KLNBreadCrumb from "~/components/KLNBreadCumb/KLNBreadCrumb";
+import KLNModal from "~/components/KLNModal/KLNModal";
 
 export {
     Header, Footer, Body, Sidebar, AdminHeader,
@@ -23,6 +26,7 @@ export {
     KLNReactPaginate, KLNSlideImage, KLNVideoClip,
     KLNTitle, KLNAudio, KLNCategory,
     KLNReactDotPaginate, KLNDropdown,
-    KLNTabView, KLNCascadeSelect
+    KLNTabView, KLNCascadeSelect, KLNTableAction,
+    KLNBreadCrumb, KLNModal
 }
 

@@ -13,5 +13,7 @@
   background-color: $app-color-21;
   padding: 10px 15px;
   border-radius: 10px;
-  color: $app-color-22;
+  svg {
+    color: $app-color-22;
+  }
 }

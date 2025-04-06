@@ -3,7 +3,7 @@ import clsx from "clsx";
 import styles from "~/styles/Pages/B2C/Memorial/memorialExhibition.module.scss";
 import {useEffect, useState} from "react";
 import {getSlideShowByIdService, getSlideShowListService} from "~/services/SlideShowService";
-import {useMemorialExhibitionContext} from "~/context/MemorialArea/MemorialExhibitionContext";
+import {useMemorialExhibitionContext} from "~/context/B2C/MemorialArea/MemorialExhibitionContext";
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
 

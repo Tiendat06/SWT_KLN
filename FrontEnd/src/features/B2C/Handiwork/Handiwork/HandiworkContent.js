@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useHandiworkContext} from "~/context/Handiwork/HandiworkContext";
+import {useHandiworkContext} from "~/context/B2C/Handiwork/HandiworkContext";
 import {getBlogByIdService} from "~/services/BlogService";
 import clsx from "clsx";
 

@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import styles from "~/styles/Pages/B2C/About/aboutSidebarBooks.module.scss";
 import {KLNPDFViewer} from "~/components";
-import {useAboutBooksMagazinesContext} from "~/context/About/AboutBooksMagazinesContext";
+import {useAboutBooksMagazinesContext} from "~/context/B2C/About/AboutBooksMagazinesContext";
 
 function ListOfBooks() {
     // const [selectedBook, setSelectedBook] = useState(bookList[0]);

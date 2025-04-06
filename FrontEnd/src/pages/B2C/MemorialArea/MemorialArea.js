@@ -24,7 +24,7 @@ const MemorialArea = () => {
                         <ExhibitSection />
                     </div>
                 </div>
-        </div>
+            </div>
         </>
     );
 }
