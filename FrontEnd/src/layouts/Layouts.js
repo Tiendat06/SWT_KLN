@@ -4,6 +4,10 @@ import clsx from "clsx";
 
 function Layouts() {
     const {currentLocation} = useAdminContext();
+
+    if (currentLocation === "/administration/login") {
+        return <Body />; 
+    }
     return (
         <>
             {!currentLocation.startsWith('/administration') ? (
