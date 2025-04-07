@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React from "react";
+import React, {memo} from "react";
 import styles from '~/styles/Components/KLNTabView/klnTabView.module.scss';
 import {useAdminContext} from "~/context/AdminContext";
 
@@ -27,4 +27,4 @@ const KLNTabView = ({
     );
 }
 
-export default KLNTabView;
+export default memo(KLNTabView);

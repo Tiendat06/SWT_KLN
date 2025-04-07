@@ -1,6 +1,17 @@
-import {DELETE_AUDIO, DELETE_IMAGE, DELETE_VIDEO} from "./constansts";
+import {
+    DELETE_AUDIO,
+    DELETE_IMAGE,
+    DELETE_VIDEO,
+    SET_IMAGE,
+    GET_IMAGES,
+    GET_SLIDESHOW,
+} from "./constansts";
 
 export const initialState = {
+    isUpdated: false,
+
+    slideShow: {},
+
     image: {},
     imageList: [],
 
@@ -14,12 +25,39 @@ export const initialState = {
 const reducer = (state, action) => {
     let newState;
     switch (action.type) {
-        case DELETE_IMAGE:
-            // coding
-            let newDeletedImageList = [...state.imageList];
-            newDeletedImageList = newDeletedImageList.filter(x => x.id !== action.payLoad.id);
+        // slideshow
+        case GET_SLIDESHOW:
             newState = {
                 ...state,
+                slideShow: action.payLoad,
+            }
+            break;
+        // image
+        case SET_IMAGE:
+            newState = {
+                ...state,
+                image: action.payLoad,
+            }
+            break;
+        case GET_IMAGES:
+            newState = {
+                ...state,
+                imageList: [...action.payLoad]
+            }
+            break;
+        case DELETE_IMAGE:
+            let newDeletedImageList = [...state.imageList];
+            let deletedImageList = [...action.payLoad];
+            console.log(deletedImageList);
+            newDeletedImageList = newDeletedImageList.filter(x => !deletedImageList.some(deletedImage => deletedImage.id === x.id));
+            console.log(newDeletedImageList);
+            newState = {
+                ...state,
+                isUpdated: !state.isUpdated,
+                slideShow: {
+                    ...state.slideShow,
+                    slideImage: newDeletedImageList,
+                },
                 imageList: newDeletedImageList,
             }
             break;

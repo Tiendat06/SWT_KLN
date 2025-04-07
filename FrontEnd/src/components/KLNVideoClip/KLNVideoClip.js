@@ -23,7 +23,7 @@ function KLNVideoClip({
     }
 
     const videoListTemplate = videoClip => {
-        var isSelected = choosingVideo?.videoLink === videoClip?.videoLink;
+        let isSelected = choosingVideo?.videoLink === videoClip?.videoLink;
 
         return (
             <>

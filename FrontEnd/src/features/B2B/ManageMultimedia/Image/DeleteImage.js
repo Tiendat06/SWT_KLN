@@ -1,13 +1,18 @@
 import {KLNModal} from "~/components";
-import React, {useReducer} from "react";
+import React, {useCallback} from "react";
 import {useAdminContext} from "~/context/AdminContext";
-import {deleteImage} from '~/store/B2B/ManageMultimedia/actions';
-import reducer, {initialState} from "~/store/B2B/ManageMultimedia/reducer";
+import {deleteImageAction} from '~/store/B2B/ManageMultimedia/actions';
+import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
 
 const DeleteImage = () => {
     const {deleteAction, setDeleteAction} = useAdminContext();
-    const [state, dispatch] = useReducer(reducer, initialState);
-    const {image, imageList} = state;
+    const {image, dispatch} = useManageMultimediaContext();
+
+    const onClickDeleteItem = useCallback(() => {
+        // api
+        dispatch(deleteImageAction([image]));
+        setDeleteAction(false);
+    }, [image]);
 
     return (
         <>
@@ -17,7 +22,7 @@ const DeleteImage = () => {
                 position={'top'}
                 labelSave='Delete'
                 labelCancel='Cancel'
-                btnSaveOnClick={() => setDeleteAction(false)}
+                btnSaveOnClick={onClickDeleteItem}
                 btnCancelOnClick={() => setDeleteAction(false)}
                 footerStyle={{
                     display: 'flex',
