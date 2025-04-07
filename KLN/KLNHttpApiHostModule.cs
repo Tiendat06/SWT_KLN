@@ -231,6 +231,7 @@ namespace KLN
             builder.Services.AddScoped<IVideoRepository, VideoRepository>();
             builder.Services.AddScoped<ILogVideoRepository, LogVideoRepository>();
             builder.Services.AddScoped<IMusicRepository, MusicRepository>();
+            builder.Services.AddScoped<ILogMusicRepository, LogMusicRepository>();
             builder.Services.AddScoped<ITopicRepository, TopicRepository>();
 
             // Services
@@ -247,6 +248,7 @@ namespace KLN
             builder.Services.AddScoped<IVideoService, VideoService>();
             builder.Services.AddScoped<ILogVideoService, LogVideoService>();
             builder.Services.AddScoped<IMusicService, MusicService>();
+            builder.Services.AddScoped<ILogMusicService, LogMusicService>();
             builder.Services.AddScoped<ITopicService, TopicService>();
 
         }

@@ -10,7 +10,7 @@ namespace Domain.Entities
         [Key]
         [Required]
         [Column("logMusicId", TypeName ="int")]
-        public required int? LogMusicId { get; set; }
+        public required int LogMusicId { get; set; }
 
         //[Column("version", TypeName = "varchar")]
         //public string? Version { get; set; } = string.Empty;
