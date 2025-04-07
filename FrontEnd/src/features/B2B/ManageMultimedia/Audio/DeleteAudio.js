@@ -1,7 +1,7 @@
 import {KLNModal} from "~/components";
 import React, {useReducer} from "react";
 import {useAdminContext} from "~/context/AdminContext";
-import {deleteAudio} from '~/store/B2B/ManageMultimedia/actions';
+import {deleteAudioAction} from '~/store/B2B/ManageMultimedia/actions';
 import reducer, {initialState} from "~/store/B2B/ManageMultimedia/reducer";
 
 const DeleteAudio = () => {

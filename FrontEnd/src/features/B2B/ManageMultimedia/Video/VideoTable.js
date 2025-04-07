@@ -16,9 +16,9 @@ const VideoTable = () => {
         selectedPageOption, setDeleteAction
     } = useAdminContext();
 
-    const showModal = () => {
+    const showModal = useCallback(() => {
         setDeleteAction(true);
-    }
+    }, []);
 
     useLayoutEffect(() => {
         const getVideoList = async () => {
@@ -44,6 +44,10 @@ const VideoTable = () => {
             className="w-6rem shadow-2 border-round" />;
     };
 
+    const indexTemplate = (rowData, { rowIndex }) => {
+        return <span>{rowIndex + 1}</span>;
+    }
+
     return (
         <>
             <div style={{
@@ -57,8 +61,9 @@ const VideoTable = () => {
                     onSelectionChange={(e) => setSelectedItems(e.value)}
                 >
                     <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
+                    <Column body={indexTemplate} header="#" headerStyle={{ width: '3rem' }}></Column>
                     <Column headerStyle={{width: '8rem'}} bodyStyle={{width: '8rem', textAlign: 'center'}} header="Thumnails" body={imageBodyTemplate}></Column>
-                    <Column field="videoTitle" header="Nội dung"></Column>
+                    <Column field="videoTitle" header="Tiêu đề"></Column>
                     <Column headerStyle={{width: '10rem'}} bodyStyle={{
                         width: '10rem',
                         display: 'flex',

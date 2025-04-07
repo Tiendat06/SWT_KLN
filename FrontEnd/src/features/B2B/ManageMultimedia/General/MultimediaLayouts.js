@@ -3,7 +3,7 @@ import {KLNBreadCrumb, KLNButton, KLNTabView, KLNCascadeSelect} from "~/componen
 import {faSquarePlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 import {ImageTable, AudioTable, VideoTable} from '~/features/B2B/ManageMultimedia';
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {Link} from "react-router-dom";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import {useAdminContext} from "~/context/AdminContext";
@@ -11,16 +11,12 @@ import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageM
 import DeleteMany from "~/features/B2B/ManageMultimedia/General/DeleteMany";
 
 const MultimediaLayouts = () => {
-    const {tabView, setTabView} = useAdminContext();
+    const {tabView, setTabView, setDeleteAction} = useAdminContext();
     const {setVisible} = useManageMultimediaContext();
 
-    const {
-        setDeleteAction
-    } = useAdminContext();
-
-    const showModal = () => {
+    const showModal = useCallback(() => {
         setVisible(true);
-    }
+    }, []);
 
     useEffect(() => {
         if (tabView === null || tabView === undefined)
