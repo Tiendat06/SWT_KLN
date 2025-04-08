@@ -77,42 +77,23 @@ namespace API.Controller
         //}
 
         [HttpDelete("ids")]
-        public async Task<IActionResult> DeleteMultipleMusic([FromBody] List<string> stringIds)
+        public async Task<IActionResult> DeleteMultipleMusic([FromBody] List<Guid> ids)
         {
-            if (stringIds == null || !stringIds.Any())
-            {
-                return BadRequest("No music IDs provided.");
-            }
-
-            try
-            {
-                // Convert strings to Guids, filter out invalid ones
-                var guidIds = new List<Guid>();
-                foreach (var id in stringIds)
-                {
-                    if (Guid.TryParse(id, out var parsedId))
-                    {
-                        guidIds.Add(parsedId);
-                    }
-                    else
-                    {
-                        return BadRequest($"Invalid Guid format: {id}");
-                    }
-                }
-
-                var result = await _musicService.DeleteMultipleMusicAsync(guidIds);
-
-                if (result)
-                {
-                    return Ok(new { success = true, message = "Music records deleted successfully." });
-                }
-
-                return StatusCode(500, new { success = false, message = "Failed to delete music records." });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { success = false, message = ex.Message });
-            }
+            // Convert strings to Guids, filter out invalid ones
+            //var guidIds = new List<Guid>();
+            //foreach (var id in ids)
+            //{
+            //    if (Guid.TryParse(id, out var parsedId))
+            //    {
+            //        guidIds.Add(parsedId);
+            //    }
+            //    else
+            //    {
+            //        return BadRequest($"Invalid Guid format: {id}");
+            //    }
+            //}
+            var result = await _musicService.DeleteMultipleMusicAsync(ids);
+            return ApiSuccess(result);
         }
     }
 }

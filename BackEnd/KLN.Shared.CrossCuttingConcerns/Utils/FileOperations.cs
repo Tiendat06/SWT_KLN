@@ -19,22 +19,21 @@ namespace KLN.Shared.CrossCuttingConcerns.Utils
             return filePath;
         }
 
-        public static async Task<string> SaveMultipleFileToLocal(string folderPath, IFormFile file)
-        {
-            if (!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(folderPath);
-            }
+        //public static async Task<string> SaveMultipleFileToLocal(string folderPath, IFormFile file)
+        //{
+        //    if (!Directory.Exists(folderPath))
+        //    {
+        //        Directory.CreateDirectory(folderPath);
+        //    }
 
-            var uniqueFileName = $"{Guid.NewGuid()}_{file.FileName}";
-            var filePath = Path.Combine(folderPath, uniqueFileName);
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-            return filePath;
-        }
-
+        //    var uniqueFileName = $"{Guid.NewGuid()}_{file.FileName}";
+        //    var filePath = Path.Combine(folderPath, uniqueFileName);
+        //    using (var stream = new FileStream(filePath, FileMode.Create))
+        //    {
+        //        await file.CopyToAsync(stream);
+        //    }
+        //    return filePath;
+        //}
 
         public static bool DeleteFileFromLocal(string filePath, string folderPath)
         {
