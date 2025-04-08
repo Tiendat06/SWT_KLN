@@ -62,6 +62,7 @@ namespace Application.Services
             return GetSlideShowResponseMapper.GetSlideShowMapEntityToDTO(slideShow);
         }
 
+
         public async Task<GetSlideShowResponse> CreateSlideShowAsync(AddSlideShowRequest addSlideShowRequest)
         {
             using (var uow = await _unitOfWork.BeginTransactionAsync())
@@ -247,15 +248,62 @@ namespace Application.Services
             }
         }
 
-        public async Task<bool> DeleteSlideShowAsync(Guid id)
+        //public async Task<bool> DeleteSlideShowAsync(Guid id)
+        //{
+        //    using (var uow = await _unitOfWork.BeginTransactionAsync())
+        //    {
+        //        try
+        //        {
+        //            var slideShowEntity = await _slideShowRepository.GetSlideShowByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["SlideShow"]));
+
+        //            var newLogSlideShow = new LogSlideShow
+        //            {
+        //                LogSlideShowId = 0,
+        //                Title = slideShowEntity.Title,
+        //                Image = slideShowEntity.Image,
+        //                Description = slideShowEntity.Description,
+        //                CreateDate = slideShowEntity.CreateDate,
+        //                UserId = slideShowEntity.UserId,
+        //                SlideShowId = slideShowEntity.SlideShowId,
+        //                Process = "DELETE",
+        //            };
+        //            await _logSlideShowRepository.CreateLogSlideShowAsync(newLogSlideShow);
+
+        //            //delete slideshow
+        //            var slideShow = new SlideShow { SlideShowId = id };
+        //            await uow.TrackEntity(slideShow);
+
+        //            await _slideShowRepository.SoftDeleteSlideShowAsync(slideShow);
+
+        //            await uow.SaveChangesAsync();
+        //            await uow.CommitTransactionAsync();
+        //            return true;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            await uow.RollbackTransactionAsync();
+        //            throw new InvalidOperationException(_localizer["DeleteSlideShowFailed"]);
+        //        }
+        //    }
+        //}
+
+        public async Task<bool> DeleteSlideShowsAsync(DeleteSlideShowsRequest deleteSlideShowsRequest)
         {
             using (var uow = await _unitOfWork.BeginTransactionAsync())
             {
                 try
                 {
-                    var slideShowEntity = await _slideShowRepository.GetSlideShowByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["SlideShow"]));
-
-                    var newLogSlideShow = new LogSlideShow
+                    var slideShowIds = deleteSlideShowsRequest.Ids;
+                    // check if slide show exists
+                    var slideShowEntities = await _slideShowRepository.GetSlideShowsByIdsAsync(slideShowIds);
+                    var foundIds = slideShowEntities.Select(x => x.SlideShowId);
+                    var notFoundIds = slideShowIds.Except(foundIds).ToList();
+                    if (notFoundIds.Any())
+                    {
+                        throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["SlideShow"]));
+                    }
+                    // log slide show
+                    var newLogSlideShows = slideShowEntities.Select(slideShowEntity => new LogSlideShow
                     {
                         LogSlideShowId = 0,
                         Title = slideShowEntity.Title,
@@ -265,17 +313,15 @@ namespace Application.Services
                         UserId = slideShowEntity.UserId,
                         SlideShowId = slideShowEntity.SlideShowId,
                         Process = "DELETE",
-                    };
-                    await _logSlideShowRepository.CreateLogSlideShowAsync(newLogSlideShow);
+                    }).ToList();
+                    
+                    await _logSlideShowRepository.CreateLogSlideShowsAsync(newLogSlideShows);
 
-                    //delete slideshow
-                    var slideShow = new SlideShow { SlideShowId = id };
-                    await uow.TrackEntity(slideShow);
-
-                    await _slideShowRepository.SoftDeleteSlideShowAsync(slideShow);
+                    await _slideShowRepository.SoftDeleteSlideShowsAsync(slideShowEntities.ToList());
 
                     await uow.SaveChangesAsync();
                     await uow.CommitTransactionAsync();
+                    
                     return true;
                 }
                 catch (Exception ex)

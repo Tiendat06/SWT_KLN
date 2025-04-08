@@ -59,10 +59,19 @@ namespace API.Controller
         }
 
         // DELETE: api/SlideShow/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSlideShow(Guid id)
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteSlideShow(Guid id)
+        //{
+        //    var isDeleted = await _slideShowService.DeleteSlideShowsAsync(id);
+        //    return ApiSuccess(isDeleted);
+        //}
+
+        // DELETE: api/SlideShow
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
+        public async Task<IActionResult> DeleteSlideShows([FromBody] DeleteSlideShowsRequest deleteSlideShowsRequest)
         {
-            var isDeleted = await _slideShowService.DeleteSlideShowAsync(id);
+            var isDeleted = await _slideShowService.DeleteSlideShowsAsync(deleteSlideShowsRequest);
             return ApiSuccess(isDeleted);
         }
     }

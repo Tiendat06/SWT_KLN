@@ -9,7 +9,7 @@ namespace Domain.Entities
         [Key]
         [Required]
         [Column("slideShowId", TypeName = "uniqueidentifier")]
-        public required Guid? SlideShowId { get; set; }
+        public required Guid SlideShowId { get; set; }
 
         [Column("title", TypeName = "nvarchar")]
         public string? Title { get; set; } = string.Empty;
