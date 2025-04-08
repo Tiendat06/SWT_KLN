@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import {Link} from "react-router-dom";
-
 import styles from "~/styles/Layouts/header.module.scss";
 import {tdtu_logo, search_icon, user_icon, vn_icon} from "~/assets/img";
 import {siteJRoutes,} from "~/routes/appRoutes";
@@ -8,6 +7,7 @@ import {useEffect, useState} from "react";
 import {getBlogListService} from "~/services/BlogService";
 import MediaType from "~/enum/MediaType/MediaType";
 import {MemorialTDTLink, PresidentTDTLink} from "~/features/Site";
+import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 
 function Header() {
     const [blogId, setBlogId] = useState(null);
@@ -28,10 +28,10 @@ function Header() {
                 </div>
                 <div className={clsx(styles['header-top__right'])}>
                     <img className={clsx(styles['header-top__right-icon-search'])} src={`${search_icon}`} alt=""/>
-                    <div className={styles['header-top__right-login']}>
+                    <Link to={`${AppRoutesEnum.AdminRoute}/login`} className={styles['header-top__right-login']}>
                         <img className={clsx(styles['header-top__right-login-icon'])} src={`${user_icon}`} alt=""/>
                         <p className={clsx(styles['header-top__right-login-para'])}>Đăng nhập</p>
-                    </div>
+                    </Link>
                     <img className={clsx(styles['header-top__right-icon-vn'])} src={`${vn_icon}`} alt=""/>
                 </div>
             </header>

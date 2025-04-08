@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
-import {getSlideShowListService} from "~/services/SlideShowService";
+import {deleteSlideImageInSpecificSlideShow, getSlideShowListService} from "~/services/SlideShowService";
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
 import {DataTable} from 'primereact/datatable';
@@ -23,9 +23,11 @@ const ImageTable = () => {
     const {selectedPageOption, setDeleteAction} = useAdminContext();
     const {visible, setVisible, imageList, slideShow, isUpdated, dispatch} = useManageMultimediaContext();
 
-    const handleDeleteMany = useCallback(() => {
+    const handleDeleteMany = useCallback(async () => {
         // api
-        dispatch(deleteImageAction(selectedItems));
+        const deleteSlideImages = await deleteSlideImageInSpecificSlideShow(selectedItems, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
+        if (deleteSlideImages)
+            dispatch(deleteImageAction(selectedItems));
         setVisible(false);
     }, [selectedItems]);
 

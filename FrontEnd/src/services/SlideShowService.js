@@ -16,3 +16,15 @@ export const getSlideShowListService = async (fetch, page,
         api: `api/SlideShow?Fetch=${fetch}&Page=${page}&Type=${type}&Keyword=${keyword}&slideShowType=${slideShowType}`,
     })
 }
+
+export const deleteSlideImageInSpecificSlideShow = async (ids, mediaType, slideShowType) => {
+    return await UseFetchAPI({
+        api: `api/SlideShow`,
+        method: "DELETE",
+        body: JSON.stringify({
+            ids,
+            mediaType,
+            slideShowType
+        })
+    });
+}

@@ -14,7 +14,7 @@ const KLNDropdown = ({
             paddingLeft: 0,
         }} onMouseMove={() => setDropdownVisible(true)}
             onMouseLeave={() => setDropdownVisible(false)}
-            className={clsx(styles["kln-dropdown"], "position-absolute z-3 w-100")}>
+            className={clsx(styles["kln-dropdown"], "position-absolute z-5 w-100")}>
             {itemList?.map((item, index) => (
                 <Link to={item?.href} className={clsx(styles["kln-dropdown__link"], "text-center")}
                       key={`KLNDropdown-${index}`}>

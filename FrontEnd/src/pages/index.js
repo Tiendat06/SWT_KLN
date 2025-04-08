@@ -1,7 +1,5 @@
 import Home from "~/pages/B2C/Home/Home"
 import About from "~/pages/B2C/About/About"
-import AboutGenealogy from "~/pages/B2C/About/AboutGenealogy"
-import AboutBiography from "~/pages/B2C/About/AboutBiography";
 import AboutCreature from '~/pages/B2C/About/AboutCreature';
 import AboutArt from "~/pages/B2C/About/AboutArt";
 import AboutVideo from "~/pages/B2C/About/AboutVideo";
@@ -37,7 +35,7 @@ export {
 };
 
 export {
-    About, AboutGenealogy, AboutBiography, AboutCreature,
+    About, AboutCreature,
     AboutBooksMagazines, AboutTopic, AboutMultimediaDocuments, AboutArt, AboutVideo, AboutMusic
 };
 

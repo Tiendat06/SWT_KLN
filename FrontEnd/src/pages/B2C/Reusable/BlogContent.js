@@ -2,6 +2,8 @@ import KLNTitle from "~/components/KLNTitle/KLNTitle";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getBlogByIdService} from "~/services/BlogService";
+import {Helmet} from "react-helmet-async";
+import { capitalCase } from 'change-case';
 
 const BlogContent = () => {
     const {blogId} = useParams();
@@ -17,6 +19,9 @@ const BlogContent = () => {
 
     return (
         <>
+            <Helmet>
+                <title>{capitalCase(blog?.blogTitle || '')}</title>
+            </Helmet>
             <div style={{marginTop: 30}}>
                 <KLNTitle>
                     {blog?.blogTitle}

@@ -3,10 +3,15 @@ import styles from '~/styles/Pages/B2C/About/aboutCreature.module.scss';
 import {ButtonLink, CreatureList} from 'src/features/B2C/About';
 import {tac_pham_2, tac_pham_3, tac_pham_4} from "~/assets/img";
 import {KLNButton} from "~/components";
+import {Helmet} from "react-helmet-async";
+import {CREATURE_TDT_TITLE} from "~/utils/Constansts";
 
 const AboutCreature = () => {
     return (
         <>
+            <Helmet>
+                <title>{CREATURE_TDT_TITLE}</title>
+            </Helmet>
             <div className={clsx(styles["about-creature"])}>
                 <div className={clsx(styles["about-creature__bg"])}>
                     <h1 className={clsx(styles["about-creature__bg-title"])}>TÁC PHẨM VỀ BÁC</h1>
