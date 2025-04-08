@@ -7,6 +7,6 @@ namespace Application.Interfaces
         Task<GetSlideShowResponse?> GetSlideShowByIdAsync(Guid id);
         Task<GetSlideShowResponse> CreateSlideShowAsync(AddSlideShowRequest addSlideShowRequest);
         Task<GetSlideShowResponse> UpdateSlideShowAsync(Guid id, UpdateSlideShowRequest updateSlideShowRequest);
-        Task<bool> DeleteSlideShowAsync(Guid id);
+        Task<bool> DeleteSlideShowsAsync(DeleteSlideShowsRequest deleteSlideShowsRequest);
     }
 }

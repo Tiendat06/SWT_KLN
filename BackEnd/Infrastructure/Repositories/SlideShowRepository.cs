@@ -3,6 +3,7 @@ using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Domain.Interfaces;
 using KLN.Shared.CrossCuttingConcerns.Enums;
+using System.Linq;
 
 namespace Infrastructure.Repositories
 {
@@ -71,6 +72,14 @@ namespace Infrastructure.Repositories
                 .FirstOrDefaultAsync(slideShow => slideShow.SlideShowId == id && slideShow.IsDeleted == false);
         }
 
+        public async Task<List<SlideShow>> GetSlideShowsByIdsAsync(List<Guid> ids)
+        {
+            return await _context.SlideShows
+                .AsNoTracking()
+                .Where(slideShow => ids.Contains(slideShow.SlideShowId) && slideShow.IsDeleted == false)
+                .ToListAsync();
+        }
+
         public async Task<int> CountSlideShowAsync(int type, int slideShowType)
         {
             var query = _context.SlideShows.AsNoTracking();
@@ -93,5 +102,17 @@ namespace Infrastructure.Repositories
             slideShow.IsDeleted = true;
             await Task.CompletedTask;
         }
+
+        public async Task SoftDeleteSlideShowsAsync(List<SlideShow> slideShows)
+        {
+            foreach (var slideShow in slideShows)
+            {
+                slideShow.IsDeleted = true;
+            }
+
+            _context.SlideShows.UpdateRange(slideShows);
+            await Task.CompletedTask;
+        }
+
     }
 }
