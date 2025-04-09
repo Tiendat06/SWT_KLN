@@ -6,13 +6,15 @@ const ManageMultimediaContext = createContext();
 export const ManageMultimediaProvider = ({ children }) => {
     const [visible, setVisible] = useState(false);
     const [state, dispatch] = useReducer(reducer, initialState);
-    const {image, imageList, slideShow, isUpdated, selectedImageList} = state;
+    const {image, imageList, video, videoList, audio, audioList, slideShow, isUpdated} = state;
 
     return (
         <ManageMultimediaContext.Provider value={{
             visible, setVisible,
             dispatch, isUpdated,
-            image, imageList, slideShow, selectedImageList
+            image, imageList, slideShow,
+            video, videoList,
+            audio, audioList,
         }} >
             {children}
         </ManageMultimediaContext.Provider>

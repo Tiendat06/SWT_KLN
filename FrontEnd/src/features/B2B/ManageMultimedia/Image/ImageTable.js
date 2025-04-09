@@ -32,7 +32,7 @@ const ImageTable = () => {
     }, [selectedItems]);
 
     const hideModal = useCallback(() => {
-        setVisible(false)
+        setVisible(false);
     }, []);
 
     const showModal = useCallback((imageItem) => {

@@ -1,13 +1,18 @@
 import {KLNModal} from "~/components";
-import React, {useReducer} from "react";
 import {useAdminContext} from "~/context/AdminContext";
-import {deleteAudioAction} from '~/store/B2B/ManageMultimedia/actions';
-import reducer, {initialState} from "~/store/B2B/ManageMultimedia/reducer";
+import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
+import {useCallback} from "react";
+import {deleteAudioAction} from "~/store/B2B/ManageMultimedia/actions";
 
 const DeleteAudio = () => {
     const {deleteAction, setDeleteAction} = useAdminContext();
-    const [state, dispatch] = useReducer(reducer, initialState);
-    const {audio, audioList} = state;
+    const {audio, dispatch} = useManageMultimediaContext()
+
+    const onClickDeleteItem = useCallback(() => {
+        // api
+        dispatch(deleteAudioAction([audio]));
+        setDeleteAction(false);
+    }, [audio]);
 
     return (
         <>
@@ -17,7 +22,7 @@ const DeleteAudio = () => {
                 position={'top'}
                 labelSave='Delete'
                 labelCancel='Cancel'
-                btnSaveOnClick={() => setDeleteAction(false)}
+                btnSaveOnClick={onClickDeleteItem}
                 btnCancelOnClick={() => setDeleteAction(false)}
                 footerStyle={{
                     display: 'flex',

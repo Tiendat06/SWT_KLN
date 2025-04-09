@@ -8,7 +8,6 @@ import {Link} from "react-router-dom";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import {useAdminContext} from "~/context/AdminContext";
 import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
-import DeleteMany from "~/features/B2B/ManageMultimedia/General/DeleteMany";
 
 const MultimediaLayouts = () => {
     const {tabView, setTabView, setDeleteAction} = useAdminContext();
@@ -24,9 +23,9 @@ const MultimediaLayouts = () => {
     }, [tabView]);
 
     const tabViewData = [
-        {id: 1, tabView: TabViewEnum.ManageMultimediaTabImage, title: 'Ảnh'},
-        {id: 2, tabView: TabViewEnum.ManageMultimediaTabVideo, title: 'Video'},
-        {id: 3, tabView: TabViewEnum.ManageMultimediaTabAudio, title: 'Nhạc'},
+        {id: 1, tabView: TabViewEnum.ManageMultimediaTabImage, title: 'Ảnh', totalCount: 0},
+        {id: 2, tabView: TabViewEnum.ManageMultimediaTabVideo, title: 'Video', totalCount: 0},
+        {id: 3, tabView: TabViewEnum.ManageMultimediaTabAudio, title: 'Nhạc', totalCount: 0},
     ];
 
     const items = [
@@ -86,6 +85,15 @@ const MultimediaLayouts = () => {
                         onClick={showModal}
                     >Xóa</KLNButton>
                     <KLNButton
+                        urlLink={
+                            tabView === TabViewEnum.ManageMultimediaTabImage
+                                ? `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-image`
+                                : tabView === TabViewEnum.ManageMultimediaTabVideo
+                                    ? `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-video`
+                                    : tabView === TabViewEnum.ManageMultimediaTabAudio
+                                        ? `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-audio`
+                                        : ''
+                        }
                         options={5}
                         icon={faSquarePlus}
                         iconStyle={{
@@ -115,7 +123,6 @@ const MultimediaLayouts = () => {
                     <AudioTable />
                 )}
             </div>
-            <DeleteMany />
         </>
     );
 }

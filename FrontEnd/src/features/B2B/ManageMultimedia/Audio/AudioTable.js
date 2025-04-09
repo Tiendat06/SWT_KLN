@@ -6,29 +6,43 @@ import {useAdminContext} from "~/context/AdminContext";
 import {getMusicListService} from "~/services/MusicService";
 import MediaType from "~/enum/MediaType/MediaType";
 import DeleteAudio from "~/features/B2B/ManageMultimedia/Audio/DeleteAudio";
+import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
+import {deleteAudioAction, getAudioAction, setAudioAction} from "~/store/B2B/ManageMultimedia/actions";
+import {DeleteMany} from "~/features/B2B/ManageMultimedia";
 
 const AudioTable = () => {
     const [selectedItems, setSelectedItems] = useState([]);
-    const [audioList, setAudioList] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const {
         selectedPageOption, setDeleteAction
     } = useAdminContext();
+    const {visible, setVisible, audioList, isUpdated, dispatch} = useManageMultimediaContext();
 
-    const showModal = useCallback(() => {
+    const handleDeleteMany = useCallback(async () => {
+        // api
+        dispatch(deleteAudioAction(selectedItems));
+        setVisible(false);
+    }, [selectedItems]);
+
+    const hideModal = useCallback(() => {
+        setVisible(false);
+    }, []);
+
+    const showModal = useCallback((audioItem) => {
         setDeleteAction(true);
+        dispatch(setAudioAction(audioItem))
     }, []);
 
     useLayoutEffect(() => {
         const getAudioList = async () => {
             const data = await getMusicListService(selectedPageOption.code, currentPage, MediaType.PresidentTDT);
             const audioData = data?.data?.items;
-            setAudioList(audioData);
+            dispatch(getAudioAction(audioData));
             setPageCount(Math.ceil(data?.data?.totalCount / selectedPageOption.code))
         }
         getAudioList();
-    }, [currentPage, selectedPageOption]);
+    }, [currentPage, selectedPageOption, isUpdated]);
 
     const handlePageClick = useCallback( (event) => {
         setCurrentPage(event.selected + 1);
@@ -71,9 +85,9 @@ const AudioTable = () => {
                             display: 'flex',
                             justifyContent: 'space-around',
                             alignItems: 'center'
-                        }} header="Thao tác" body={<KLNTableAction
-                            onClickDelete={showModal}
-                        />}></Column>
+                        }} header="Thao tác" body={(rowData) => (<KLNTableAction
+                            onClickDelete={() => showModal(rowData)}
+                        />)}></Column>
                     </DataTable>
                 </div>
                 <KLNReactPaginate
@@ -81,6 +95,12 @@ const AudioTable = () => {
                     handlePageClick={handlePageClick}
                 />
                 <DeleteAudio />
+                <DeleteMany
+                    visible={visible}
+                    setVisible={setVisible}
+                    btnSaveOnClick={handleDeleteMany}
+                    btnCancelOnClick={hideModal}
+                />
             </div>
         </>
     )
