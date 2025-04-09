@@ -4,7 +4,7 @@ import {
     DELETE_VIDEO,
     SET_IMAGE,
     GET_IMAGES,
-    GET_SLIDESHOW,
+    GET_SLIDESHOW, SET_VIDEO, GET_VIDEO, SET_AUDIO, GET_AUDIO,
 } from "./constansts";
 
 export const initialState = {
@@ -48,9 +48,7 @@ const reducer = (state, action) => {
         case DELETE_IMAGE:
             let newDeletedImageList = [...state.imageList];
             let deletedImageList = [...action.payLoad];
-            console.log(deletedImageList);
             newDeletedImageList = newDeletedImageList.filter(x => !deletedImageList.some(deletedImage => deletedImage.id === x.id));
-            console.log(newDeletedImageList);
             newState = {
                 ...state,
                 isUpdated: !state.isUpdated,
@@ -61,19 +59,48 @@ const reducer = (state, action) => {
                 imageList: newDeletedImageList,
             }
             break;
-        case DELETE_VIDEO:
-            let newDeletedVideoList = [...state.videoList];
-            newDeletedVideoList = newDeletedVideoList.filter(x => x.id !== action.payLoad.id);
+        // video
+        case SET_VIDEO:
             newState = {
                 ...state,
+                video: action.payLoad,
+            }
+            break;
+        case GET_VIDEO:
+            newState = {
+                ...state,
+                videoList: [...action.payLoad]
+            }
+            break;
+        case DELETE_VIDEO:
+            let newDeletedVideoList = [...state.videoList];
+            let deletedVideoList = [...action.payLoad];
+            newDeletedVideoList = newDeletedVideoList.filter(x => !deletedVideoList.some(deletedVideo => deletedVideo.videoId === x.videoId));
+            newState = {
+                ...state,
+                isUpdated: !state.isUpdated,
                 videoList: newDeletedVideoList,
+            }
+            break;
+        case SET_AUDIO:
+            newState = {
+                ...state,
+                audio: action.payLoad,
+            }
+            break;
+        case GET_AUDIO:
+            newState = {
+                ...state,
+                audioList: [...action.payLoad]
             }
             break;
         case DELETE_AUDIO:
             let newDeletedAudioList = [...state.audioList];
-            newDeletedAudioList = newDeletedAudioList.filter(x => x.id !== action.payLoad.id);
+            let deletedAudioList = [...action.payLoad];
+            newDeletedAudioList = newDeletedAudioList.filter(x => !deletedAudioList.some(deletedAudio => deletedAudio.musicId === x.musicId));
             newState = {
                 ...state,
+                isUpdated: !state.isUpdated,
                 audioList: newDeletedAudioList,
             }
             break;

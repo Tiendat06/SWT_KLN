@@ -9,6 +9,9 @@
     border-bottom: 2px solid transparent;
     transition: border-color linear .2s;
     user-select: none;
+    &--badge{
+      background-color: $app-color-3;
+    }
     &--active {
       border-bottom: 2px solid $app-color-3;
     }
@@ -16,6 +19,6 @@
 
   &__para {
     font-weight: bold;
-    margin-right: 30px;
+    margin-right: 20px;
   }
 }

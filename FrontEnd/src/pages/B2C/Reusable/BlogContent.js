@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import {getBlogByIdService} from "~/services/BlogService";
 import {Helmet} from "react-helmet-async";
 import { capitalCase } from 'change-case';
+import {BLOG_TDT_TITLE} from "~/utils/Constansts";
 
 const BlogContent = () => {
     const {blogId} = useParams();
@@ -20,7 +21,7 @@ const BlogContent = () => {
     return (
         <>
             <Helmet>
-                <title>{capitalCase(blog?.blogTitle || '')}</title>
+                <title>{capitalCase(blog?.blogTitle || BLOG_TDT_TITLE)}</title>
             </Helmet>
             <div style={{marginTop: 30}}>
                 <KLNTitle>

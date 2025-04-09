@@ -6,29 +6,44 @@ import {getVideoListService} from "~/services/VideoService";
 import {useAdminContext} from "~/context/AdminContext";
 import MediaType from "~/enum/MediaType/MediaType";
 import DeleteVideo from "~/features/B2B/ManageMultimedia/Video/DeleteVideo";
+import {DeleteMany} from "~/features/B2B/ManageMultimedia";
+import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
+import {deleteVideoAction, getVideoAction, setVideoAction} from "~/store/B2B/ManageMultimedia/actions";
 
 const VideoTable = () => {
     const [selectedItems, setSelectedItems] = useState([]);
-    const [videoList, setVideoList] = useState([]);
+    // const [videoList, setVideoList] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const {
         selectedPageOption, setDeleteAction
     } = useAdminContext();
+    const {visible, setVisible, isUpdated, dispatch, videoList} = useManageMultimediaContext();
 
-    const showModal = useCallback(() => {
+    const handleBtnDeleteMany = useCallback(async () => {
+        // api
+        dispatch(deleteVideoAction(selectedItems))
+        setVisible(false);
+    }, [selectedItems]);
+
+    const showModal = useCallback((videoItem) => {
         setDeleteAction(true);
+        dispatch(setVideoAction(videoItem));
     }, []);
+
+    const hideModal = useCallback(() => {
+        setVisible(false);
+    }, [])
 
     useLayoutEffect(() => {
         const getVideoList = async () => {
             const data = await getVideoListService(selectedPageOption.code, currentPage, MediaType.PresidentTDT);
             const videoData = data?.data?.items;
-            setVideoList(videoData);
+            dispatch(getVideoAction(videoData));
             setPageCount(Math.ceil(data?.data?.totalCount / selectedPageOption.code));
         }
         getVideoList();
-    }, [currentPage, selectedPageOption]);
+    }, [currentPage, selectedPageOption, isUpdated]);
 
     const handlePageClick = useCallback( (event) => {
         setCurrentPage(event.selected + 1);
@@ -69,9 +84,9 @@ const VideoTable = () => {
                         display: 'flex',
                         justifyContent: 'space-around',
                         alignItems: 'center'
-                    }} header="Thao tác" body={<KLNTableAction
-                        onClickDelete={showModal}
-                    />}></Column>
+                    }} header="Thao tác" body={(rowData) => (<KLNTableAction
+                        onClickDelete={() => showModal(rowData)}
+                    />)}></Column>
                 </DataTable>
             </div>
             <KLNReactPaginate
@@ -79,6 +94,12 @@ const VideoTable = () => {
                 handlePageClick={handlePageClick}
             />
             <DeleteVideo />
+            <DeleteMany
+                visible={visible}
+                setVisible={setVisible}
+                btnSaveOnClick={handleBtnDeleteMany}
+                btnCancelOnClick={hideModal}
+            />
         </>
     )
 }
