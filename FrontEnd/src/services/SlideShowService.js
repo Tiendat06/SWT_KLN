@@ -13,11 +13,11 @@ export const getSlideShowListService = async (fetch, page,
                                               slideShowType = SlideShowType.None,
                                               keyword = "") => {
     return await UseFetchAPI({
-        api: `api/SlideShow?Fetch=${fetch}&Page=${page}&Type=${type}&Keyword=${keyword}&slideShowType=${slideShowType}`,
+        api: `api/SlideShow?Fetch=${fetch}&Page=${page}&Type=${type}&Keyword=${keyword}&SlideShowType=${slideShowType}`,
     })
 }
 
-export const deleteSlideImageInSpecificSlideShow = async (ids, mediaType, slideShowType) => {
+export const deleteSlideImageInSpecificSlideShowService = async (ids, mediaType = MediaType.None, slideShowType = SlideShowType.None) => {
     return await UseFetchAPI({
         api: `api/SlideShow`,
         method: "DELETE",
@@ -28,3 +28,10 @@ export const deleteSlideImageInSpecificSlideShow = async (ids, mediaType, slideS
         })
     });
 }
+
+export const getTotalSlideImageInSpecificSlideShowService = async (type = MediaType.None, slideShowType = SlideShowType.None) => {
+    return await UseFetchAPI({
+        api: `api/SlideShow/total?Type=${type}&SlideShowType=${slideShowType}`,
+    });
+}
+

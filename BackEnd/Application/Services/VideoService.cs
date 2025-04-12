@@ -54,10 +54,20 @@ namespace Application.Services
             return new PaginationResponseDto<GetVideoResponse>(totalVideo, videoMapper);
         }
 
-        public async Task<GetVideoResponse> GetVideoByIdAsync(Guid id)
+        public async Task<GetVideoResponse?> GetVideoByIdAsync(Guid id)
         {
             var video = await _videoRepository.GetVideoByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Video"]));
             return GetVideoResponseMapper.GetVideoMapEntityToDTO(video);
+        }
+
+        public async Task<GetTotalVideoResponse> GetTotalVideoAsync(GetTotalVideoRequest input)
+        {
+            var mediaType = input.Type;
+            var count = await _videoRepository.CountVideoAsync(mediaType);
+            return new GetTotalVideoResponse
+            {
+                TotalVideo = count,
+            };
         }
 
         public async Task<GetVideoResponse> UpdateVideoAsync(Guid id, UpdateVideoRequest updateVideoRequest)

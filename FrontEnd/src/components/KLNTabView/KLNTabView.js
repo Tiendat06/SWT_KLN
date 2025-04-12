@@ -21,7 +21,9 @@ const KLNTabView = ({
                     <p className={clsx(styles['tab-view__para'], 'mb-0')}>
                         {item.title}
                     </p>
-                    <Badge className={clsx(styles['tab-view__item--badge'])} value={item.totalCount} />
+                    <Badge style={{
+                        borderRadius: 8
+                    }} className={clsx(styles['tab-view__item--badge'])} value={item.totalCount} />
                 </li>
             ))}
         </ul>

@@ -8,5 +8,6 @@ namespace Application.Interfaces
         Task<GetVideoResponse> CreateVideoAsync(AddVideoRequest addVideoRequest);
         Task<bool> DeleteVideoAsync(Guid id);
         Task<GetVideoResponse> UpdateVideoAsync(Guid id, UpdateVideoRequest updateVideoRequest);
+        Task<GetTotalVideoResponse> GetTotalVideoAsync(GetTotalVideoRequest input);
     }
 }

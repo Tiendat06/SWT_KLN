@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Domain.Interfaces;
 using KLN.Shared.CrossCuttingConcerns.Enums;
 using System.Linq;
+using System.Text.Json;
+using Application;
 
 namespace Infrastructure.Repositories
 {
@@ -51,15 +53,6 @@ namespace Infrastructure.Repositories
             // Lấy danh sách Topic
             var slideShows = await query.ToListAsync();
 
-            // Với mỗi Topic, load danh sách TopicMedias
-            //foreach (var slideShow in slideShows)
-            //{
-            //    slideShow.SlideImages = await _context.SlideImages
-            //        .AsNoTracking()
-            //        .Where(tm => tm.SlideShowId == slideShow.SlideShowId && tm.IsDeleted == false)
-            //        .ToListAsync();
-            //}
-
             return slideShows;
         }
         public async Task<SlideShow?> GetSlideShowByIdAsync(Guid id)
@@ -89,6 +82,21 @@ namespace Infrastructure.Repositories
             if (type > (int)MediaTypeEnum.None)
                 query = query.Where(x => x.MediaTypeId == type);
             return await query.CountAsync(x => x.IsDeleted == false);
+        }
+
+        public async Task<int> CountSlideImageInSpecificSlideShow(int type, int slideShowType)
+        {
+            var query = _context.SlideShows.AsNoTracking();
+            if (slideShowType > (int)SlideShowTypeEnum.None)
+                query = query.Where(x => x.SlideShowTypeId == slideShowType);
+
+            if (type > (int)MediaTypeEnum.None)
+                query = query.Where(x => x.MediaTypeId == type);
+            var slideShow = await query.FirstOrDefaultAsync(x => x.IsDeleted == false);
+            var slideImage = slideShow?.SlideImage != null ?
+                JsonSerializer.Deserialize<List<GetSlideImageResponse>>(slideShow.SlideImage) :
+                new List<GetSlideImageResponse>();
+            return slideImage.Count;
         }
 
         public async Task HardDeleteSlideShowAsync(Guid id)

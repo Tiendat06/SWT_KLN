@@ -9,6 +9,7 @@ import DeleteAudio from "~/features/B2B/ManageMultimedia/Audio/DeleteAudio";
 import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
 import {deleteAudioAction, getAudioAction, setAudioAction} from "~/store/B2B/ManageMultimedia/actions";
 import {DeleteMany} from "~/features/B2B/ManageMultimedia";
+import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 
 const AudioTable = () => {
     const [selectedItems, setSelectedItems] = useState([]);
@@ -86,6 +87,7 @@ const AudioTable = () => {
                             justifyContent: 'space-around',
                             alignItems: 'center'
                         }} header="Thao tác" body={(rowData) => (<KLNTableAction
+                            editActionLink={`${AppRoutesEnum.AdminRoute}/manage-multimedia/music/${rowData.musicId}`}
                             onClickDelete={() => showModal(rowData)}
                         />)}></Column>
                     </DataTable>

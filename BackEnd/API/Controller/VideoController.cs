@@ -67,5 +67,13 @@ namespace API.Controller
 
             return ApiSuccess(isDeleted);
         }
+
+        [HttpGet("total")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetTotalVideoResponse>))]
+        public async Task<IActionResult> GetTotalVideoAsync([FromQuery] GetTotalVideoRequest input)
+        {
+            var result = await _videoService.GetTotalVideoAsync(input);
+            return ApiSuccess(result);
+        }
     }
 }

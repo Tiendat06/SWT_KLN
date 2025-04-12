@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 import {memo} from "react";
 
 const KLNTableAction = ({
-                            actionLink = '',
+                            editActionLink = '',
                             onClickDelete = () => {}
                         }) => {
 
@@ -16,7 +16,7 @@ const KLNTableAction = ({
                 <FontAwesomeIcon icon={faTrash}/>
             </div>
             <div className={clsx(styles['action-edit'])}>
-                <Link to={actionLink}>
+                <Link to={editActionLink}>
                     <FontAwesomeIcon icon={faPencil}/>
                 </Link>
             </div>
