@@ -2,6 +2,7 @@ import clsx from "clsx";
 import React, {memo} from "react";
 import styles from '~/styles/Components/KLNTabView/klnTabView.module.scss';
 import {useAdminContext} from "~/context/AdminContext";
+import {Badge} from "primereact/badge";
 
 const KLNTabView = ({
                         data,
@@ -20,7 +21,7 @@ const KLNTabView = ({
                     <p className={clsx(styles['tab-view__para'], 'mb-0')}>
                         {item.title}
                     </p>
-                    {/*<Badge value={item.count} />*/}
+                    <Badge className={clsx(styles['tab-view__item--badge'])} value={item.totalCount} />
                 </li>
             ))}
         </ul>

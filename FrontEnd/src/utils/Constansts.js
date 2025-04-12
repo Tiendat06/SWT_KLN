@@ -1,4 +1,4 @@
-
+export const BLOG_TDT_TITLE = 'Bài viết về chủ tịch Tôn Đức Thắng';
 export const LOGIN_PAGE_TITLE = 'Đăng nhập';
 export const HOME_PAGE_TITLE = 'Trang chủ';
 export const PRESIDENT_TDT_TITLE = 'Chủ tịch Tôn Đức Thắng';

@@ -11,7 +11,7 @@ const KLNButton = ({
                        onClick = () => {
                        },
                        options = 1,
-                       icon = '',
+                       icon = null,
                        style = {},
                        iconStyle = {}
                    }) => {
@@ -29,7 +29,7 @@ const KLNButton = ({
                 <button style={style} className={clsx(buttonStyle, btnClassName)}
                         onClick={onClick}>
                     {children}
-                    <FontAwesomeIcon style={iconStyle} icon={icon}/>
+                    {icon && <FontAwesomeIcon style={iconStyle} icon={icon} />}
                 </button>
             </Link>
         </>
