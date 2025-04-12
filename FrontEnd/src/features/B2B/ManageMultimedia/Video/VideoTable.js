@@ -9,6 +9,7 @@ import DeleteVideo from "~/features/B2B/ManageMultimedia/Video/DeleteVideo";
 import {DeleteMany} from "~/features/B2B/ManageMultimedia";
 import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
 import {deleteVideoAction, getVideoAction, setVideoAction} from "~/store/B2B/ManageMultimedia/actions";
+import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 
 const VideoTable = () => {
     const [selectedItems, setSelectedItems] = useState([]);
@@ -85,6 +86,7 @@ const VideoTable = () => {
                         justifyContent: 'space-around',
                         alignItems: 'center'
                     }} header="Thao tác" body={(rowData) => (<KLNTableAction
+                        editActionLink={`${AppRoutesEnum.AdminRoute}/manage-multimedia/video/${rowData.videoId}`}
                         onClickDelete={() => showModal(rowData)}
                     />)}></Column>
                 </DataTable>

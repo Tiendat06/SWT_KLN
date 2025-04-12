@@ -58,14 +58,6 @@ namespace API.Controller
             return ApiSuccess(updatedSlideShow);
         }
 
-        // DELETE: api/SlideShow/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteSlideShow(Guid id)
-        //{
-        //    var isDeleted = await _slideShowService.DeleteSlideShowsAsync(id);
-        //    return ApiSuccess(isDeleted);
-        //}
-
         // DELETE: api/SlideShow
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
@@ -73,6 +65,14 @@ namespace API.Controller
         {
             var isDeleted = await _slideShowService.DeleteSlideShowsAsync(deleteSlideShowsRequest);
             return ApiSuccess(isDeleted);
+        }
+
+        [HttpGet("total")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetTotalSlideImageResponse>))]
+        public async Task<IActionResult> CountTotalSlideImagePerSlideShow([FromQuery] GetSlideShowRequest input)
+        {
+            var result = await _slideShowService.CountSlideImagePerSlideShowAsync(input);
+            return ApiSuccess(result);
         }
     }
 }

@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
-import {deleteSlideImageInSpecificSlideShow, getSlideShowListService} from "~/services/SlideShowService";
+import {deleteSlideImageInSpecificSlideShowService, getSlideShowListService} from "~/services/SlideShowService";
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
 import {DataTable} from 'primereact/datatable';
@@ -15,6 +15,7 @@ import {
 } from '~/store/B2B/ManageMultimedia/actions';
 import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
 import {DeleteMany} from "~/features/B2B/ManageMultimedia";
+import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 
 const ImageTable = () => {
     const [pageCount, setPageCount] = useState(0);
@@ -25,7 +26,7 @@ const ImageTable = () => {
 
     const handleDeleteMany = useCallback(async () => {
         // api
-        const deleteSlideImages = await deleteSlideImageInSpecificSlideShow(selectedItems, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
+        const deleteSlideImages = await deleteSlideImageInSpecificSlideShowService(selectedItems, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
         if (deleteSlideImages)
             dispatch(deleteImageAction(selectedItems));
         setVisible(false);
@@ -111,6 +112,7 @@ const ImageTable = () => {
                             justifyContent: 'space-around',
                             alignItems: 'center'
                         }} header="Thao tác" body={(rowData) => (<KLNTableAction
+                            editActionLink={`${AppRoutesEnum.AdminRoute}/manage-multimedia/image/${rowData.id}`}
                             onClickDelete={() => showModal(rowData)}
                         />)}></Column>
                     </DataTable>
