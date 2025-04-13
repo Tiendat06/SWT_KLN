@@ -45,9 +45,10 @@ const ImageTable = () => {
         const getSlideShow = async () => {
             const data = await getSlideShowListService(1, 1, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
             const slideShowData = data?.data?.items[0];
-            dispatch(getImagesAction(slideShowData?.slideImage));
             const startIndex = (currentPage - 1) * selectedPageOption.code;
             const endIndex = startIndex + selectedPageOption.code;
+
+            dispatch(getImagesAction(slideShowData?.slideImage));
             dispatch(getSlideShowAction({
                 ...slideShowData,
                 slideImage: slideShowData?.slideImage.slice(startIndex, endIndex),
