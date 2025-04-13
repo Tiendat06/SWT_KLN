@@ -35,7 +35,7 @@ const DeleteImage = () => {
                 <p style={{
                     fontWeight: "bold",
                     fontSize: 21,
-                }} className="text-center mb-0 text-dark">Bạn có chắc chắn muốn xóa không ?</p>
+                }} className="text-center mb-0 text-dark">Bạn có chắc chắn muốn xóa hình '{image?.capture}' không ?</p>
             </KLNModal>
         </>
     );

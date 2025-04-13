@@ -16,6 +16,8 @@ import next_icon_2 from "~/assets/img/icon/next-icon-2.png";
 import previous_icon_2 from "~/assets/img/icon/previous-icon-2.png";
 import increase_volume_icon from "~/assets/img/icon/increase-volume-icon.png";
 import mute_volume_icon from "~/assets/img/icon/mute-volume-icon.png";
+import solar_upload_icon_1 from "~/assets/img/icon/solar_upload-linear.png";
+import logout_icon from "~/assets/img/icon/logout_icon.png";
 
 import home_img_1 from '~/assets/img/home/home-img-1.png';
 import home_img_2 from '~/assets/img/home/home-img-2.png';
@@ -94,13 +96,13 @@ import memorial_exhibitselection_1 from '~/assets/img/memorialarea/memorial_exhi
 import memorial_exhibitselection_2 from '~/assets/img/memorialarea/memorial_exhibitselection_2.png';
 
 
-
-
 //handiwork
 export {handiwork_dsct}
 
 // icon
-export { search_icon, user_icon, plus_icon_1, next_icon_1, previous_icon_1, play_icon_1, play_icon_2, next_icon_2, previous_icon_2, increase_volume_icon, mute_volume_icon };
+export { search_icon, user_icon, plus_icon_1, next_icon_1, previous_icon_1,
+    play_icon_1, play_icon_2, next_icon_2, previous_icon_2, increase_volume_icon,
+    mute_volume_icon, solar_upload_icon_1, logout_icon };
 
 // general
 export {vn_icon, tdtu_logo, banner_1, banner_2, banner_3, banner_4};
