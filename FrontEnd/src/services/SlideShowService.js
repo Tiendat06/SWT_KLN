@@ -35,3 +35,22 @@ export const getTotalSlideImageInSpecificSlideShowService = async (type = MediaT
     });
 }
 
+export const addSlideImageInSpecificSlideShowService = async (addedSlideImage,
+                                                              type = MediaType.None,
+                                                              slideShowType = SlideShowType.None) => {
+    const formData = new FormData();
+    formData.append("type", type);
+    formData.append("slideShowType", slideShowType);
+    formData.append("imageFile", addedSlideImage.imageFile);
+    formData.append("capture", addedSlideImage.description);
+
+    return await UseFetchAPI({
+        api: `api/SlideShow`,
+        method: "PUT",
+        body: formData,
+        headers: {
+            "Content-Type": "multipart/form-data",
+        }
+    })
+}
+

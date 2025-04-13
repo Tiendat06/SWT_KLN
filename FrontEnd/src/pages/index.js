@@ -25,6 +25,7 @@ import ManageMultimedia from "~/pages/B2B/ManageMultimedia/ManageMultimedia";
 import ManageMagazine from "~/pages/B2B/ManageMagazine/ManageMagazine";
 import ManageTopic from "~/pages/B2B/ManageTopic/ManageTopic";
 import LoginPage from "~/pages/B2B/Login/Login";
+import CreateMultimediaImage from "~/pages/B2B/ManageMultimedia/CreateMultimediaImage";
 
 export {Home, BlogContent};
 
@@ -44,8 +45,9 @@ export {Handiwork};
 export {
     ManageImage,
     ManageMultimedia,
+    CreateMultimediaImage,
     ManageMagazine,
-    ManageTopic
+    ManageTopic,
 };
 
 export {LoginPage}

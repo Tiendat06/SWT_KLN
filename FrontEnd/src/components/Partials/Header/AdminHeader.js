@@ -1,10 +1,9 @@
 import { InputText } from 'primereact/inputtext';
 import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
-import { faGear } from '@fortawesome/free-solid-svg-icons'
+import {logout_icon} from '~/assets/img';
 import styles from '~/styles/Layouts/adminHeader.module.scss';
 import clsx from "clsx";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const AdminHeader = () => {
 
@@ -21,10 +20,10 @@ const AdminHeader = () => {
 
                 <div className={clsx(styles["admin-header__settings"], 'col-lg-1 col-md-1 col-sm-1 d-flex justify-content-center')}>
                     <div className={clsx(styles["admin-header__settings--inner"], 'd-flex justify-content-center align-items-center')}>
-                        <FontAwesomeIcon style={{
-                            fontSize: 20,
-                            color: "rgb(254, 94, 94)"
-                        }} icon={faGear} />
+                        <img style={{
+                            width: 15,
+                            height: 15,
+                        }} src={logout_icon} alt=""/>
                     </div>
                 </div>
             </div>

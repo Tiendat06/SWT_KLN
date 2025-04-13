@@ -8,3 +8,4 @@ export const BOOK_MAGAZINE_TITLE = 'Báo - tạp chí';
 export const MULTIMEDIA_TITLE = 'Tài liệu đa phương tiện';
 export const MEMORIAL_TDT_TITLE = 'Khu lưu niệm bác Tôn';
 export const HANDIWORK_TDT_TITLE = 'Công trình mang tên bác Tôn';
+export const ADD_MULTIMEDIA_IMAGE_TITLE = 'Thêm hình ảnh nghê thuật về bác Tôn';

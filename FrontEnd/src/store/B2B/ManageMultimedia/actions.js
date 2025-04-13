@@ -4,7 +4,7 @@ import {
     DELETE_VIDEO,
     SET_IMAGE,
     GET_IMAGES,
-    GET_SLIDESHOW, SET_VIDEO, GET_VIDEO, SET_AUDIO, GET_AUDIO,
+    GET_SLIDESHOW, SET_VIDEO, GET_VIDEO, SET_AUDIO, GET_AUDIO, ADD_IMAGE,
 } from './constansts';
 
 export const getSlideShowAction = payLoad => {
@@ -32,6 +32,13 @@ export const deleteImageAction = payLoad => {
     return {
         type: DELETE_IMAGE,
         payLoad
+    }
+}
+
+export const addImageAction = payLoad => {
+    return {
+        type: ADD_IMAGE,
+        payLoad,
     }
 }
 

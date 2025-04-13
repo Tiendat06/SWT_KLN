@@ -4,7 +4,7 @@ import {
     DELETE_VIDEO,
     SET_IMAGE,
     GET_IMAGES,
-    GET_SLIDESHOW, SET_VIDEO, GET_VIDEO, SET_AUDIO, GET_AUDIO,
+    GET_SLIDESHOW, SET_VIDEO, GET_VIDEO, SET_AUDIO, GET_AUDIO, ADD_IMAGE,
 } from "./constansts";
 
 export const initialState = {
@@ -57,6 +57,11 @@ const reducer = (state, action) => {
                     slideImage: newDeletedImageList,
                 },
                 imageList: newDeletedImageList,
+            }
+            break;
+        case ADD_IMAGE:
+            newState = {
+                isUpdated: !state.isUpdated,
             }
             break;
         // video

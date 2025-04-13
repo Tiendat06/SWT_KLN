@@ -1,4 +1,4 @@
-import{createContext, useContext} from "react";
+import {createContext, useContext, useRef} from "react";
 
 const AppContext =createContext();
 
@@ -8,8 +8,13 @@ export const AppProvider = ({ children }) => {
         name: 'Test',
         age: 18
     }
+    const toast = useRef(null);
+
     return (
-        <AppContext.Provider value={{dataContext}} >
+        <AppContext.Provider value={{
+            dataContext,
+            toast
+        }} >
             {children}
         </AppContext.Provider>
     )
