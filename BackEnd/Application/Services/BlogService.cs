@@ -14,44 +14,14 @@ using Domain.Localization;
 
 namespace Application.Services
 {
-    public class BlogService : IBlogService
+    public class BlogService (
+        IBlogRepository _blogRepository,
+        ILogBlogRepository _logBlogRepository,
+        IUnitOfWork _unitOfWork,
+        Cloudinary _cloudinary,
+        IStringLocalizer<KLNSharedResources> _localizer
+        ) : IBlogService
     {
-        #region Fields
-        private readonly IBlogRepository _blogRepository;
-        private readonly ILogBlogRepository _logBlogRepository;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly Cloudinary _cloudinary;
-        private readonly IConfiguration _configuration;
-        private readonly IStringLocalizer<KLNSharedResources> _localizer;
-        #endregion
-
-        #region Constructor
-        public BlogService(
-            IBlogRepository blogRepository,
-            IUnitOfWork unitOfWork, 
-            ILogBlogRepository logBlogRepository,
-            Cloudinary cloudinary,
-            IConfiguration configuration,
-            IStringLocalizer<KLNSharedResources> localizer
-        )
-        {
-            _blogRepository = blogRepository;
-            _unitOfWork = unitOfWork;
-            _logBlogRepository = logBlogRepository;
-            _cloudinary = cloudinary;
-            _configuration = configuration;
-            _localizer = localizer;
-        }
-        #endregion
-
-        //public async Task<IEnumerable<GetBlogResponse>> GetAllBlogsAsync()
-        //{
-        //    var blogs = await _blogRepository.GetAllBlogsAsync();
-        //    //Console.WriteLine(JsonSerializer.Serialize(blogs));
-
-        //    return GetBlogResponseMapper.GetBlogListMapEntityToDTO(blogs);
-        //}
-
         public async Task<GetBlogResponse?> GetBlogByIdAsync(Guid id)
         {
             var blog = await _blogRepository.GetBlogByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Blog"]));
@@ -133,7 +103,7 @@ namespace Application.Services
                         CreateDate = blogEntity.CreateDate,
                         UserId = blogEntity.UserId,
                         BlogId = blogEntity.BlogId,
-                        Process = "DELETE",
+                        Process = ProcessMethod.DELETE,
                     };
                     await _logBlogRepository.CreateLogBlogAsync(newLogBlog);
 
@@ -208,7 +178,7 @@ namespace Application.Services
                         CreateDate = blogEntity.CreateDate,
                         UserId = blogEntity.UserId,
                         BlogId = blogEntity.BlogId,
-                        Process = "UPDATE",
+                        Process = ProcessMethod.UPDATE,
                     };
                     await _logBlogRepository.CreateLogBlogAsync(newLogBlog);
 

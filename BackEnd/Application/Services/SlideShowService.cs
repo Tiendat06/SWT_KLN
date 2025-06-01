@@ -15,34 +15,15 @@ using System.Text.Json;
 
 namespace Application.Services
 {
-    public class SlideShowService : ISlideShowService
+    public class SlideShowService(
+        ISlideShowRepository _slideShowRepository,
+        ILogSlideShowRepository _logSlideShowRepository,
+        IConfiguration _configuration,
+        IUnitOfWork _unitOfWork,
+        Cloudinary _cloudinary,
+        IStringLocalizer<KLNSharedResources> _localizer
+        ) : ISlideShowService
     {
-        #region Fields
-        private readonly ISlideShowRepository _slideShowRepository;
-        private readonly ILogSlideShowRepository _logSlideShowRepository;
-        private readonly IConfiguration _configuration;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly Cloudinary _cloudinary;
-        private readonly IStringLocalizer<KLNSharedResources> _localizer;
-        #endregion
-
-        #region Constructor
-        public SlideShowService(
-            Domain.Interfaces.ISlideShowRepository slideShowRepository,
-            IUnitOfWork unitOfWork,
-            ILogSlideShowRepository logSlideShowRepository,
-            Cloudinary cloudinary,
-            IConfiguration configuration,
-            IStringLocalizer<KLNSharedResources> localizer
-        )
-        { _slideShowRepository = slideShowRepository;
-            _unitOfWork = unitOfWork;
-            _logSlideShowRepository = logSlideShowRepository;
-            _cloudinary = cloudinary;
-            _configuration = configuration;
-            _localizer = localizer;
-        }
-        #endregion
         public async Task<PaginationResponseDto<GetSlideShowResponse>> GetAllSlideShowsAsync(GetSlideShowRequest input)
         {
             var page = input.Page;
@@ -242,7 +223,7 @@ namespace Application.Services
                         SlideShowTypeId = slideShowEntity.SlideShowTypeId,
                         UserId = slideShowEntity.UserId,
                         SlideShowId = slideShowEntity.SlideShowId,
-                        Process = "UPDATE",
+                        Process = ProcessMethod.UPDATE,
                     });
 
                     await uow.SaveChangesAsync();
@@ -283,7 +264,7 @@ namespace Application.Services
                         CreateDate = slideShowEntity.CreateDate,
                         UserId = slideShowEntity.UserId,
                         SlideShowId = slideShowEntity.SlideShowId,
-                        Process = "DELETE",
+                        Process = ProcessMethod.DELETE,
                     }).ToList();
                     
                     await _logSlideShowRepository.CreateLogSlideShowsAsync(newLogSlideShows);

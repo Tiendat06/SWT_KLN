@@ -13,32 +13,14 @@ using Microsoft.Extensions.Localization;
 
 namespace Application.Services
 {
-    public class MusicService : IMusicService
+    public class MusicService(
+        IMusicRepository _musicRepository,
+        ILogMusicRepository _logMusicRepository,
+        IUnitOfWork _unitOfWork,
+        Cloudinary _cloudinary,
+        IStringLocalizer<KLNSharedResources> _localizer
+        ) : IMusicService
     {
-        #region Fields
-        private readonly IMusicRepository _musicRepository;
-        private readonly ILogMusicRepository _logMusicRepository;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly Cloudinary _cloudinary;
-        IStringLocalizer<KLNSharedResources> _localizer;
-        #endregion
-
-        #region Constructor
-        public MusicService(
-            IMusicRepository musicRepository,
-            IUnitOfWork unitOfWork,
-             ILogMusicRepository logMusicRepository,
-            Cloudinary cloudinary,
-            IStringLocalizer<KLNSharedResources> localizer
-        )
-        {
-            _musicRepository = musicRepository;
-            _unitOfWork = unitOfWork;
-            _logMusicRepository = logMusicRepository;
-            _cloudinary = cloudinary;
-            _localizer = localizer;
-        }
-        #endregion
         public async Task<PaginationResponseDto<GetMusicResponse>> GetAllMusicAsync(GetMusicRequest input)
         {
             var page = input.Page;
@@ -87,23 +69,23 @@ namespace Application.Services
                     var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
                     var filePathImage = await FileOperations.SaveMultipleFileToLocal(folderPath, addMusicRequest.ImageLink);
                     var filePathAudio = await FileOperations.SaveMultipleFileToLocal(folderPath, addMusicRequest.AudioLink);
-                    Console.WriteLine($"Saved image to: {filePathImage}");
-                    Console.WriteLine($"Saved audio to: {filePathAudio}");
+                    //Console.WriteLine($"Saved image to: {filePathImage}");
+                    //Console.WriteLine($"Saved audio to: {filePathAudio}");
 
                     // upload to cloudinary
                     var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
                     var resultImage = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePathImage, assetFolderImage, publicId) ?? throw new InvalidOperationException(_localizer["UploadImageCloudinaryFailed"]);
                     var musicImage = resultImage["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
                     var resultAudio = cloudinaryOperations.UploadMusicFileToCloudinary(filePathAudio, assetFolderAudioMP3, publicId) ?? throw new InvalidOperationException(_localizer["UploadAudioCloudinaryFailed"]);
-                    Console.WriteLine($"Result Audio: {resultAudio}");
+                    //Console.WriteLine($"Result Audio: {resultAudio}");
                     var musicAudio = resultAudio["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
 
                     // delete file and folder from local
                     var isDeletedImage = FileOperations.DeleteFileFromLocal(filePathImage, folderPath);
                     var isDeletedAudio = FileOperations.DeleteFileFromLocal(filePathAudio, folderPath);
 
-                    Console.WriteLine($"Upload image to: {musicImage}");
-                    Console.WriteLine($"Upload audio to: {musicAudio}");
+                    //Console.WriteLine($"Upload image to: {musicImage}");
+                    //Console.WriteLine($"Upload audio to: {musicAudio}");
 
 
                     // map from DTO to entity
@@ -201,7 +183,7 @@ namespace Application.Services
                         AudioLink = musicEntity.AudioLink,
                         UserId = musicEntity.UserId,
                         MusicId = musicEntity.MusicId,
-                        Process = "UPDATE",
+                        Process = ProcessMethod.UPDATE,
                     };
                     await _logMusicRepository.CreateLogMusicAsync(newLogMusic);
                     await uow.SaveChangesAsync();
@@ -211,7 +193,7 @@ namespace Application.Services
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Update music error: {ex.Message}");
+                    //Console.WriteLine($"Update music error: {ex.Message}");
                     await uow.RollbackTransactionAsync();
                     throw new InvalidOperationException(_localizer["UpdateMusicFailed"]);
                 }
@@ -243,7 +225,7 @@ namespace Application.Services
                         AudioLink = music.AudioLink,
                         UserId = music.UserId,
                         MusicId = music.MusicId,
-                        Process = "DELETE",
+                        Process = ProcessMethod.DELETE,
                     }).ToList();
 
                     await _logMusicRepository.CreateLogMusicRangeAsync(logEntries);

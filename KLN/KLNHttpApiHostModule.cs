@@ -79,11 +79,13 @@ namespace KLN
 
         public void EnvConfiguration(WebApplicationBuilder builder)
         {
+            var currentEnvironment = builder.Environment.EnvironmentName;
             Env.Load();
             // add .env to project
             builder.Configuration
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{currentEnvironment}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
         }
 

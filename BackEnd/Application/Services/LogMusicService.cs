@@ -4,15 +4,10 @@ using Domain.Interfaces;
 
 namespace Application.Services
 {
-    public class LogMusicService : ILogMusicService
+    public class LogMusicService(
+        ILogMusicRepository _logMusicRepository,
+        IUnitOfWork _unitOfWork
+        ) : ILogMusicService
     {
-        private readonly ILogMusicRepository _logMusicRepository;
-        private readonly IUnitOfWork _unitOfWork;
-
-        public LogMusicService(ILogMusicRepository logMusicRepository, IUnitOfWork unitOfWork)
-        {
-            _logMusicRepository = logMusicRepository;
-            _unitOfWork = unitOfWork;
-        }
     }
 }

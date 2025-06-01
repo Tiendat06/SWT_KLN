@@ -11,19 +11,12 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BookController : KLNBaseController
+    public class BookController(
+        IBookService _bookService,
+        ILogBookService _logBookService,
+        IBookValidator _bookValidator
+        ) : KLNBaseController
     {
-        private readonly IBookService _bookService;
-        private readonly ILogBookService _logBookService;
-        private readonly IBookValidator _bookValidator;
-
-        public BookController(IBookService bookService, ILogBookService logBookService, IBookValidator bookValidator)
-        {
-            _bookService = bookService;
-            _logBookService = logBookService;
-            _bookValidator = bookValidator;
-        }
-
         // GET: api/Book
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<PaginationResponseDto<GetBookResponse>>))]
