@@ -1,3 +1,6 @@
+export const DEFAULT_FETCH = 10;
+export const DEFAULT_PAGE = 1;
+
 export const BLOG_TDT_TITLE = 'Bài viết về chủ tịch Tôn Đức Thắng';
 export const LOGIN_PAGE_TITLE = 'Đăng nhập';
 export const HOME_PAGE_TITLE = 'Trang chủ';
