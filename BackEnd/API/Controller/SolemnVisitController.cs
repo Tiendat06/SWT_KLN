@@ -10,16 +10,11 @@ namespace API.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SolemnVisitController : KLNBaseController
+    public class SolemnVisitController(
+        ISolemnVisitService _solemnVisitService,
+        ISolemnVisitValidator _solemnVisitValidator
+        ) : KLNBaseController
     {
-        private readonly ISolemnVisitService _solemnVisitService;
-        //private readonly ILogSolemnVisitService logSolemnVisitService;
-        private readonly ISolemnVisitValidator _solemnVisitValidator;
-        public SolemnVisitController(ISolemnVisitService solemnVisitService, ISolemnVisitValidator solemnVisitValidator)
-        {
-            _solemnVisitService = solemnVisitService;
-            _solemnVisitValidator = solemnVisitValidator;
-        }
         // GET: api/SolemnVisit
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<PaginationResponseDto<GetSolemnVisitResponse>>))]

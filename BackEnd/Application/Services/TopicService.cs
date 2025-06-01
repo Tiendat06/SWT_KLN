@@ -11,35 +11,14 @@ using KLN.Shared.CrossCuttingConcerns;
 
 namespace Application.Services
 {
-    public class TopicService : ITopicService
+    public class TopicService(
+        ITopicRepository _topicRepository,
+        IConfiguration _configuration,
+        IUnitOfWork _unitOfWork,
+        Cloudinary _cloudinary,
+        IStringLocalizer<KLNSharedResources> _localizer
+        ) : ITopicService
     {
-        #region Fields
-        private readonly ITopicRepository _topicRepository;
-        //private readonly ILogTopicRepository _logTopicRepository;
-        private readonly IConfiguration _configuration;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly Cloudinary _cloudinary;
-        private readonly IStringLocalizer<KLNSharedResources> _localizer;
-        #endregion
-
-        #region Constructor
-        public TopicService(
-            Domain.Interfaces.ITopicRepository topicRepository,
-            IUnitOfWork unitOfWork,
-            //ILogTopicRepository logTopicRepository,
-            Cloudinary cloudinary,
-            IConfiguration configuration,
-            IStringLocalizer<KLNSharedResources> localizer
-        )
-        {
-            _topicRepository = topicRepository;
-            _unitOfWork = unitOfWork;
-            //_logTopicRepository = logTopicRepository;
-            _cloudinary = cloudinary;
-            _configuration = configuration;
-            _localizer = localizer;
-        }
-        #endregion
         public async Task<PaginationResponseDto<GetTopicResponse>> GetAllTopicsAsync(GetAllTopicRequest input)
         {
             var page = input.Page;

@@ -40,4 +40,8 @@
     <ProjectReference Include="..\BackEnd\KLN.Shared.CrossCuttingConcerns\KLN.Shared.CrossCuttingConcerns.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="upload\" />
+  </ItemGroup>
+
 </Project>

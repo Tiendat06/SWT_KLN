@@ -11,19 +11,12 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MagazineController : KLNBaseController
+    public class MagazineController(
+        IMagazineService _magazineService,
+        ILogMagazineService _logMagazineService,
+        IMagazineValidator _magazineValidator
+        ) : KLNBaseController
     {
-        private readonly IMagazineService _magazineService;
-        private readonly ILogMagazineService _logMagazineService;
-        private readonly IMagazineValidator _magazineValidator;
-
-        public MagazineController(IMagazineService magazineService, ILogMagazineService logMagazineService, IMagazineValidator magazineValidator)
-        {
-            _magazineService = magazineService;
-            _logMagazineService = logMagazineService;
-            _magazineValidator = magazineValidator;
-        }
-
         // GET: api/Magazine
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<PaginationResponseDto<GetMagazineResponse>>))]

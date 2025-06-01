@@ -17,32 +17,14 @@ using KLN.Shared.CrossCuttingConcerns;
 
 namespace Application.Services
 {
-    public class VideoService : IVideoService
+    public class VideoService(
+        IVideoRepository _videoRepository,
+        ILogVideoRepository _logVideoRepository,
+        Cloudinary _cloudinary,
+        IUnitOfWork _unitOfWork,
+        IStringLocalizer<KLNSharedResources> _localizer
+        ) : IVideoService
     {
-        #region Fields
-        private readonly IVideoRepository _videoRepository;
-        private readonly ILogVideoRepository _logVideoRepository;
-        private readonly Cloudinary _cloudinary;
-        private readonly IUnitOfWork _unitOfWork;
-        IStringLocalizer<KLNSharedResources> _localizer;
-        #endregion
-
-        #region Constructor
-        public VideoService(
-            IVideoRepository videoRepository,
-            IUnitOfWork unitOfWork,
-            ILogVideoRepository logVideoRepository,
-            Cloudinary cloudinary,
-            IStringLocalizer<KLNSharedResources> localizer
-        )
-        {
-            _videoRepository = videoRepository;
-            _unitOfWork = unitOfWork;
-            _logVideoRepository = logVideoRepository;
-            _cloudinary = cloudinary;
-            _localizer = localizer;
-        }
-        #endregion
         public async Task<PaginationResponseDto<GetVideoResponse>> GetAllVideosAsync(GetVideoRequest input)
         {
             var page = input.Page;
@@ -133,7 +115,7 @@ namespace Application.Services
                         UserId = videoEntity.UserId,
                         VideoLink = videoEntity.VideoLink,
                         VideoId = videoEntity.VideoId,
-                        Process = "UPDATE",
+                        Process = ProcessMethod.UPDATE,
                     };
                     await _logVideoRepository.CreateLogVideoAsync(newLogVideo);
                     await uow.SaveChangesAsync();
@@ -228,7 +210,7 @@ namespace Application.Services
                         UserId = videoEntity.UserId,
                         VideoLink = videoEntity.VideoLink,
                         VideoId = videoEntity.VideoId,
-                        Process = "DELETE",
+                        Process = ProcessMethod.DELETE,
                     };
                     await _logVideoRepository.CreateLogVideoAsync(newLogVideo);
 

@@ -11,17 +11,11 @@ namespace API.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SlideShowController : KLNBaseController
+    public class SlideShowController(
+        ISlideShowService _slideShowService,
+        ISlideShowValidator _slideShowValidator
+        ) : KLNBaseController
     {
-        private readonly ISlideShowService _slideShowService;
-        //private readonly ILogSlideShowService logSlideShowService;
-        private readonly ISlideShowValidator _slideShowValidator;
-        public SlideShowController(ISlideShowService slideShowService, ISlideShowValidator slideShowValidator)
-        {
-            _slideShowService = slideShowService;
-            _slideShowValidator = slideShowValidator;
-        }
-
         // GET: api/SlideShow
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<PaginationResponseDto<GetSlideShowResponse>>))]

@@ -13,33 +13,14 @@ using KLN.Shared.CrossCuttingConcerns;
 
 namespace Application.Services
 {
-    public class BookService : IBookService
+    public class BookService(
+            IBookRepository _bookRepository,
+            ILogBookRepository _logBookRepository,
+            Cloudinary _cloudinary,
+            IUnitOfWork _unitOfWork,
+            IStringLocalizer<KLNSharedResources> _localizer
+        ) : IBookService
     {
-        #region Fields
-        private readonly IBookRepository _bookRepository;
-        private readonly ILogBookRepository _logBookRepository;
-        private readonly Cloudinary _cloudinary;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IStringLocalizer<KLNSharedResources> _localizer;
-        #endregion
-
-        #region Constructor
-        public BookService(
-            IBookRepository bookRepository,
-            IUnitOfWork unitOfWork,
-            ILogBookRepository logBookRepository,
-            Cloudinary cloudinary,
-            IStringLocalizer<KLNSharedResources> localizer
-        )
-        {
-            _bookRepository = bookRepository;
-            _unitOfWork = unitOfWork;
-            _logBookRepository = logBookRepository;
-            _cloudinary = cloudinary;
-            _localizer = localizer;
-        }
-        #endregion
-
         public async Task<PaginationResponseDto<GetBookResponse>> GetAllBooksAsync(GetAllBookRequest input)
         {
             var page = input.Page;
@@ -59,7 +40,7 @@ namespace Application.Services
 
         public async Task<GetBookResponse> UpdateBookAsync(Guid id, UpdateBookRequest updateBookRequest)
         {
-            using (var uow = await _unitOfWork.BeginTransactionAsync()) 
+            using (var uow = await _unitOfWork.BeginTransactionAsync())
             {
                 try
                 {
@@ -81,7 +62,7 @@ namespace Application.Services
                     {
                         // check file type
                         var allowedContentTypes = new[] { CommonFileType.JPEG, CommonFileType.PNG, };
-                        var isAllowed = FileOperations.CheckFileType(allowedContentTypes, updateBookRequest.Image) == false 
+                        var isAllowed = FileOperations.CheckFileType(allowedContentTypes, updateBookRequest.Image) == false
                             ? throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}")) : true;
 
                         // add file to local
@@ -106,7 +87,7 @@ namespace Application.Services
                     {
                         // check file type
                         var allowedContentTypes = new[] { CommonFileType.PDF, };
-                        var isAllowed = FileOperations.CheckFileType(allowedContentTypes, updateBookRequest.BookContent) == false 
+                        var isAllowed = FileOperations.CheckFileType(allowedContentTypes, updateBookRequest.BookContent) == false
                             ? throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], $"{CommonFileType.PDF}")) : true;
 
                         // add file to local
@@ -139,15 +120,16 @@ namespace Application.Services
                         Author = bookEntity.Author,
                         YearPublic = bookEntity.YearPublic,
                         BookId = bookEntity.BookId,
-                        Process = "UPDATE",
+                        Process = ProcessMethod.UPDATE,
                     };
                     await _logBookRepository.CreateLogBookAsync(newLogBook);
                     await uow.SaveChangesAsync();
                     await uow.CommitTransactionAsync();
 
                     return GetBookResponseMapper.GetBookMapEntityToDTO(bookEntity);
-                    
-                } catch (Exception ex)
+
+                }
+                catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
                     throw new InvalidOperationException(_localizer["UpdateBookFailed"]);
@@ -182,7 +164,7 @@ namespace Application.Services
                     var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
                     var resultPDF = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePathPDF, assetFolderPDF, publicId) ?? throw new InvalidOperationException(_localizer["UploadPDFCloudinaryFailed"]);
                     var bookContent = resultPDF["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
-                    
+
                     var resultImage = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePathImage, assetFolderImage, publicId) ?? throw new InvalidOperationException(_localizer["UploadImageCloudinaryFailed"]);
                     var bookImage = resultImage["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
 
@@ -210,7 +192,7 @@ namespace Application.Services
 
         public async Task<bool> DeleteBookAsync(Guid id)
         {
-            using(var uow = await _unitOfWork.BeginTransactionAsync())
+            using (var uow = await _unitOfWork.BeginTransactionAsync())
             {
                 try
                 {
@@ -228,7 +210,7 @@ namespace Application.Services
                         Author = bookEntity.Author,
                         YearPublic = bookEntity.YearPublic,
                         BookId = bookEntity.BookId,
-                        Process = "DELETE",
+                        Process = ProcessMethod.DELETE,
                     };
                     await _logBookRepository.CreateLogBookAsync(newLogBook);
 
@@ -246,17 +228,13 @@ namespace Application.Services
                     await uow.SaveChangesAsync();
                     await uow.CommitTransactionAsync();
                     return true;
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
                     throw new InvalidOperationException(_localizer["DeleteBookFailed"]);
                 }
             }
         }
-
-        //public async Task<int> CountBooksAsync(int type)
-        //{
-        //    return await _bookRepository.CountBooksAsync(x => x.IsDeleted == false);
-        //}
     }
 }

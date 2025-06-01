@@ -11,17 +11,11 @@ namespace API.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MusicController : KLNBaseController
+    public class MusicController(
+        IMusicService _musicService,
+        IMusicValidator _musicValidator
+        ) : KLNBaseController
     {
-        private readonly IMusicService _musicService;
-        //private readonly ILogMusicService logMusicService;
-        private readonly IMusicValidator _musicValidator;
-        public MusicController(IMusicService musicService, IMusicValidator musicValidator)
-        {
-            _musicService = musicService;
-            _musicValidator = musicValidator;
-        }
-
         // GET: api/Music/id
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetMusicResponse>))]
