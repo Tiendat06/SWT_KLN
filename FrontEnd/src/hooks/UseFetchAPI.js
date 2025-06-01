@@ -8,7 +8,8 @@ async function UseFetchAPI(
             'Content-Type': 'application/json',
         },
         body = null,
-        credentials = 'include'
+        credentials = 'include',
+        params = null,
     }) {
 
     const API_URL = process.env.REACT_APP_API_URL;
@@ -23,11 +24,17 @@ async function UseFetchAPI(
         credentials,
     };
 
-    if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method.toUpperCase()) && body) {
+    let queryString = '';
+    if (method.toUpperCase() === 'GET' && params && typeof params === 'object') {
+        const queryParams = new URLSearchParams(params).toString();
+        queryString = `?${queryParams}`;
+    }
+    else if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method.toUpperCase()) && body) {
         options.body = body;
     }
+
     try {
-        const response = await fetch(`${API_URL}/${api}`, options)
+        const response = await fetch(`${API_URL}/${api}${queryString}`, options)
         if (!response.ok) {
 
             let message = 'Có một lỗi nội bộ đã xảy ra trong quá trình thực hiện.'
