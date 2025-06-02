@@ -1,11 +1,16 @@
 import styles from '~/styles/Pages/B2C/Memorial/memorialArea.module.scss';
 import clsx from "clsx";
 import { KLNSlideBanner } from "~/components";
-import {ExhibitSection, HistoryList, ImageCarousel} from '~/features/MemorialArea';
+import {ExhibitSection, HistoryList, ImageCarousel} from 'src/features/B2C/MemorialArea';
+import {Helmet} from "react-helmet-async";
+import {MEMORIAL_TDT_TITLE} from "~/utils/Constansts";
 
 const MemorialArea = () => {
     return (
         <>
+            <Helmet>
+                <title>{MEMORIAL_TDT_TITLE}</title>
+            </Helmet>
             <KLNSlideBanner />
             <div className={clsx(styles['memorial'])}>
                 <div className={clsx(styles['memorial-info'])}>
@@ -24,7 +29,7 @@ const MemorialArea = () => {
                         <ExhibitSection />
                     </div>
                 </div>
-        </div>
+            </div>
         </>
     );
 }

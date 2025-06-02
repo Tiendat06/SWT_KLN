@@ -2,12 +2,17 @@ import clsx from "clsx";
 import styles from '~/styles/Pages/B2C/About/about.module.scss';
 import {gia_pha_1, tieu_su_1} from '~/assets/img';
 import {KLNButton} from '~/components';
-import {TDTMasterpiece, TDTHandiwork} from '~/features/About';
+import {TDTMasterpiece, TDTHandiwork} from 'src/features/B2C/About';
 import KLNTitle from "~/components/KLNTitle/KLNTitle";
+import {Helmet} from "react-helmet-async";
+import {PRESIDENT_TDT_TITLE} from "~/utils/Constansts";
 
 const About = () => {
     return (
         <>
+            <Helmet>
+                <title>{PRESIDENT_TDT_TITLE}</title>
+            </Helmet>
             <div className={clsx(styles["about"])}>
                 <KLNTitle>
                     CHỦ TỊCH TÔN ĐỨC THẮNG

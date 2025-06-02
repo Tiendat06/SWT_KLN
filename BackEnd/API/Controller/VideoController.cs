@@ -11,16 +11,11 @@ namespace API.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VideoController : KLNBaseController
+    public class VideoController(
+        IVideoService _videoService,
+        IVideoValidator _videoValidator
+        ) : KLNBaseController
     {
-        private readonly IVideoService _videoService;
-        //private readonly ILogVideoService logVideoService;
-        private readonly IVideoValidator _videoValidator;
-        public VideoController(IVideoService videoService, IVideoValidator videoValidator)
-        {
-            _videoService = videoService;
-            _videoValidator = videoValidator;
-        }
         // GET: api/Video
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<PaginationResponseDto<GetVideoResponse>>))]
@@ -66,6 +61,14 @@ namespace API.Controller
             var isDeleted = await _videoService.DeleteVideoAsync(id);
 
             return ApiSuccess(isDeleted);
+        }
+
+        [HttpGet("total")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetTotalVideoResponse>))]
+        public async Task<IActionResult> GetTotalVideoAsync([FromQuery] GetTotalVideoRequest input)
+        {
+            var result = await _videoService.GetTotalVideoAsync(input);
+            return ApiSuccess(result);
         }
     }
 }

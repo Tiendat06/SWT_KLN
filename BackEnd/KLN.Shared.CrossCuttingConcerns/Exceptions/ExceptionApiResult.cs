@@ -55,8 +55,8 @@ namespace KLN.Shared.CrossCuttingConcerns.Exceptions
                 context.HttpContext.Response.StatusCode = statusCode;
                 context.Result = new ObjectResult(new DefaultResponse
                 {
-                    status = statusCode,
-                    message = exception.Message
+                    Status = statusCode,
+                    Message = exception.Message
                 });
                 context.ExceptionHandled = true;
             }

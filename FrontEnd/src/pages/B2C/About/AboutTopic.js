@@ -1,13 +1,18 @@
 import clsx from "clsx";
 import KLNTitle from "~/components/KLNTitle/KLNTitle";
-import { SlideShowTopic, SidebarTopic } from "~/features/About";
+import { SlideShowTopic, SidebarTopic } from "src/features/B2C/About";
 import styles from "~/styles/Pages/B2C/About/aboutTopic.module.scss";
-import {AboutTopicProvider} from "~/context/About/AboutTopicContext";
+import {AboutTopicProvider} from "~/context/B2C/About/AboutTopicContext";
+import {Helmet} from "react-helmet-async";
+import {TOPIC_TDT_TITLE} from "~/utils/Constansts";
 
 const AboutTopic = () => {
 
     return (
         <AboutTopicProvider>
+            <Helmet>
+                <title>{TOPIC_TDT_TITLE}</title>
+            </Helmet>
             <div style={{
                 marginTop: 30
             }}>

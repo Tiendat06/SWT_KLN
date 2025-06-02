@@ -15,34 +15,15 @@ using System.Text.Json;
 
 namespace Application.Services
 {
-    public class SlideShowService : ISlideShowService
+    public class SlideShowService(
+        ISlideShowRepository _slideShowRepository,
+        ILogSlideShowRepository _logSlideShowRepository,
+        IConfiguration _configuration,
+        IUnitOfWork _unitOfWork,
+        Cloudinary _cloudinary,
+        IStringLocalizer<KLNSharedResources> _localizer
+        ) : ISlideShowService
     {
-        #region Fields
-        private readonly ISlideShowRepository _slideShowRepository;
-        private readonly ILogSlideShowRepository _logSlideShowRepository;
-        private readonly IConfiguration _configuration;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly Cloudinary _cloudinary;
-        private readonly IStringLocalizer<KLNSharedResources> _localizer;
-        #endregion
-
-        #region Constructor
-        public SlideShowService(
-            Domain.Interfaces.ISlideShowRepository slideShowRepository,
-            IUnitOfWork unitOfWork,
-            ILogSlideShowRepository logSlideShowRepository,
-            Cloudinary cloudinary,
-            IConfiguration configuration,
-            IStringLocalizer<KLNSharedResources> localizer
-        )
-        {   _slideShowRepository = slideShowRepository;
-            _unitOfWork = unitOfWork;
-            _logSlideShowRepository = logSlideShowRepository;
-            _cloudinary = cloudinary;
-            _configuration = configuration;
-            _localizer = localizer;
-        }
-        #endregion
         public async Task<PaginationResponseDto<GetSlideShowResponse>> GetAllSlideShowsAsync(GetSlideShowRequest input)
         {
             var page = input.Page;
@@ -58,8 +39,19 @@ namespace Application.Services
         public async Task<GetSlideShowResponse?> GetSlideShowByIdAsync(Guid id)
         {
             var slideShow = await _slideShowRepository.GetSlideShowByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["SlideShow"]));
-            
+
             return GetSlideShowResponseMapper.GetSlideShowMapEntityToDTO(slideShow);
+        }
+
+        public async Task<GetTotalSlideImageResponse> CountSlideImagePerSlideShowAsync(GetSlideShowRequest input)
+        {
+            int type = input.Type;
+            int slideShowType = input.SlideShowType;
+            var count = await _slideShowRepository.CountSlideImageInSpecificSlideShow(type, slideShowType);
+            return new GetTotalSlideImageResponse
+            {
+                TotalSlideImage = count,
+            };
         }
 
         public async Task<GetSlideShowResponse> CreateSlideShowAsync(AddSlideShowRequest addSlideShowRequest)
@@ -231,7 +223,7 @@ namespace Application.Services
                         SlideShowTypeId = slideShowEntity.SlideShowTypeId,
                         UserId = slideShowEntity.UserId,
                         SlideShowId = slideShowEntity.SlideShowId,
-                        Process = "UPDATE",
+                        Process = ProcessMethod.UPDATE,
                     });
 
                     await uow.SaveChangesAsync();
@@ -247,15 +239,23 @@ namespace Application.Services
             }
         }
 
-        public async Task<bool> DeleteSlideShowAsync(Guid id)
+        public async Task<bool> DeleteSlideShowsAsync(DeleteSlideShowsRequest deleteSlideShowsRequest)
         {
             using (var uow = await _unitOfWork.BeginTransactionAsync())
             {
                 try
                 {
-                    var slideShowEntity = await _slideShowRepository.GetSlideShowByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["SlideShow"]));
-
-                    var newLogSlideShow = new LogSlideShow
+                    var slideShowIds = deleteSlideShowsRequest.Ids;
+                    // check if slide show exists
+                    var slideShowEntities = await _slideShowRepository.GetSlideShowsByIdsAsync(slideShowIds);
+                    var foundIds = slideShowEntities.Select(x => x.SlideShowId);
+                    var notFoundIds = slideShowIds.Except(foundIds).ToList();
+                    if (notFoundIds.Any())
+                    {
+                        throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["SlideShow"]));
+                    }
+                    // log slide show
+                    var newLogSlideShows = slideShowEntities.Select(slideShowEntity => new LogSlideShow
                     {
                         LogSlideShowId = 0,
                         Title = slideShowEntity.Title,
@@ -264,18 +264,16 @@ namespace Application.Services
                         CreateDate = slideShowEntity.CreateDate,
                         UserId = slideShowEntity.UserId,
                         SlideShowId = slideShowEntity.SlideShowId,
-                        Process = "DELETE",
-                    };
-                    await _logSlideShowRepository.CreateLogSlideShowAsync(newLogSlideShow);
+                        Process = ProcessMethod.DELETE,
+                    }).ToList();
+                    
+                    await _logSlideShowRepository.CreateLogSlideShowsAsync(newLogSlideShows);
 
-                    //delete slideshow
-                    var slideShow = new SlideShow { SlideShowId = id };
-                    await uow.TrackEntity(slideShow);
-
-                    await _slideShowRepository.SoftDeleteSlideShowAsync(slideShow);
+                    await _slideShowRepository.SoftDeleteSlideShowsAsync(slideShowEntities.ToList());
 
                     await uow.SaveChangesAsync();
                     await uow.CommitTransactionAsync();
+                    
                     return true;
                 }
                 catch (Exception ex)

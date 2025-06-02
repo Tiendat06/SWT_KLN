@@ -13,32 +13,14 @@ using Microsoft.Extensions.Localization;
 
 namespace Application.Services
 {
-    public class MusicService : IMusicService
+    public class MusicService(
+        IMusicRepository _musicRepository,
+        ILogMusicRepository _logMusicRepository,
+        IUnitOfWork _unitOfWork,
+        Cloudinary _cloudinary,
+        IStringLocalizer<KLNSharedResources> _localizer
+        ) : IMusicService
     {
-        #region Fields
-        private readonly IMusicRepository _musicRepository;
-        private readonly ILogMusicRepository _logMusicRepository;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly Cloudinary _cloudinary;
-        IStringLocalizer<KLNSharedResources> _localizer;
-        #endregion
-
-        #region Constructor
-        public MusicService(
-            IMusicRepository musicRepository,
-            IUnitOfWork unitOfWork,
-             ILogMusicRepository logMusicRepository,
-            Cloudinary cloudinary,
-            IStringLocalizer<KLNSharedResources> localizer
-        )
-        {
-            _musicRepository = musicRepository;
-            _unitOfWork = unitOfWork;
-            _logMusicRepository = logMusicRepository;
-            _cloudinary = cloudinary;
-            _localizer = localizer;
-        }
-        #endregion
         public async Task<PaginationResponseDto<GetMusicResponse>> GetAllMusicAsync(GetMusicRequest input)
         {
             var page = input.Page;
@@ -54,6 +36,16 @@ namespace Application.Services
         {
             var music = await _musicRepository.GetMusicByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Music"]));
             return GetMusicResponseMapper.GetMusicMapEntityToDTO(music);
+        }
+
+        public async Task<GetTotalMusicResponse> GetTotalMusicAsync(GetTotalMusicRequest input)
+        {
+            var mediaType = input.Type;
+            var count = await _musicRepository.CountMusicAsync(mediaType);
+            return new GetTotalMusicResponse
+            {
+                TotalMusic = count
+            };
         }
         
         public async Task<GetMusicResponse> CreateMusicAsync(AddMusicRequest addMusicRequest)
@@ -75,25 +67,25 @@ namespace Application.Services
 
                     //add file to local
                     var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
-                    var filePathImage = await FileOperations.SaveFileToLocal(folderPath, addMusicRequest.ImageLink);
-                    var filePathAudio = await FileOperations.SaveFileToLocal(folderPath, addMusicRequest.AudioLink);
-                    Console.WriteLine($"Saved image to: {filePathImage}");
-                    Console.WriteLine($"Saved audio to: {filePathAudio}");
+                    var filePathImage = await FileOperations.SaveMultipleFileToLocal(folderPath, addMusicRequest.ImageLink);
+                    var filePathAudio = await FileOperations.SaveMultipleFileToLocal(folderPath, addMusicRequest.AudioLink);
+                    //Console.WriteLine($"Saved image to: {filePathImage}");
+                    //Console.WriteLine($"Saved audio to: {filePathAudio}");
 
                     // upload to cloudinary
                     var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
                     var resultImage = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePathImage, assetFolderImage, publicId) ?? throw new InvalidOperationException(_localizer["UploadImageCloudinaryFailed"]);
                     var musicImage = resultImage["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
                     var resultAudio = cloudinaryOperations.UploadMusicFileToCloudinary(filePathAudio, assetFolderAudioMP3, publicId) ?? throw new InvalidOperationException(_localizer["UploadAudioCloudinaryFailed"]);
-                    Console.WriteLine($"Result Audio: {resultAudio}");
+                    //Console.WriteLine($"Result Audio: {resultAudio}");
                     var musicAudio = resultAudio["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
 
                     // delete file and folder from local
                     var isDeletedImage = FileOperations.DeleteFileFromLocal(filePathImage, folderPath);
                     var isDeletedAudio = FileOperations.DeleteFileFromLocal(filePathAudio, folderPath);
 
-                    Console.WriteLine($"Upload image to: {musicImage}");
-                    Console.WriteLine($"Upload audio to: {musicAudio}");
+                    //Console.WriteLine($"Upload image to: {musicImage}");
+                    //Console.WriteLine($"Upload audio to: {musicAudio}");
 
 
                     // map from DTO to entity
@@ -139,7 +131,8 @@ namespace Application.Services
 
                         // Add file to local
                         var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
-                        var filePathImage = await FileOperations.SaveFileToLocal(folderPath, updateMusicRequest.ImageLink);
+                        var filePathImage = await FileOperations.SaveMultipleFileToLocal(folderPath, updateMusicRequest.ImageLink);
+                        //var filePathAudio = await FileOperations.SaveMultipleFileToLocal(folderPath, updateMusicRequest.AudioLink);
                         Console.WriteLine($"Saved updated image to: {filePathImage}");
 
                         // Upload to cloudinary
@@ -190,7 +183,7 @@ namespace Application.Services
                         AudioLink = musicEntity.AudioLink,
                         UserId = musicEntity.UserId,
                         MusicId = musicEntity.MusicId,
-                        Process = "UPDATE",
+                        Process = ProcessMethod.UPDATE,
                     };
                     await _logMusicRepository.CreateLogMusicAsync(newLogMusic);
                     await uow.SaveChangesAsync();
@@ -200,7 +193,7 @@ namespace Application.Services
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Update music error: {ex.Message}");
+                    //Console.WriteLine($"Update music error: {ex.Message}");
                     await uow.RollbackTransactionAsync();
                     throw new InvalidOperationException(_localizer["UpdateMusicFailed"]);
                 }
@@ -232,7 +225,7 @@ namespace Application.Services
                         AudioLink = music.AudioLink,
                         UserId = music.UserId,
                         MusicId = music.MusicId,
-                        Process = "DELETE",
+                        Process = ProcessMethod.DELETE,
                     }).ToList();
 
                     await _logMusicRepository.CreateLogMusicRangeAsync(logEntries);
@@ -254,156 +247,5 @@ namespace Application.Services
                 }
             }
         }
-
-
-        //public async Task<bool> DeleteMultipleMusicAsync(List<Guid> ids)
-        //{
-        //    using (var uow = await _unitOfWork.BeginTransactionAsync())
-        //    {
-        //        try
-        //        {
-        //            // Fetch all music entities by their IDs
-        //            var musicEntities = await _musicRepository.GetMusicByIdsAsync(ids);
-
-        //            if (musicEntities == null || !musicEntities.Any())
-        //            {
-        //                throw new KeyNotFoundException(_localizer["NoMusicRecordsFound"]);
-        //            }
-
-        //            // Create deletion log entries
-        //            var logEntries = musicEntities.Select(music => new LogMusic
-        //            {
-        //                LogMusicId = 0,
-        //                Title = music.Title,
-        //                ImageLink = music.ImageLink,
-        //                CreateDate = music.CreateDate,
-        //                AudioLink = music.AudioLink,
-        //                UserId = music.UserId,
-        //                MusicId = music.MusicId,
-        //                Process = "DELETE",
-        //            }).ToList();
-
-        //            await _logMusicRepository.CreateLogMusicRangeAsync(logEntries);
-
-        //            // Apply soft delete
-        //            foreach (var entity in musicEntities)
-        //            {
-        //                entity.IsDeleted = true;
-        //            }
-
-        //            // Batch update all modified entities
-        //            await _musicRepository.SoftDeleteMultipleMusicAsync(musicEntities);
-
-        //            // Save and commit
-        //            await uow.SaveChangesAsync();
-        //            await uow.CommitTransactionAsync();
-
-        //            return true;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            Console.WriteLine($"Delete multiple music error: {ex.Message}");
-        //            await uow.RollbackTransactionAsync();
-        //            throw new InvalidOperationException(_localizer["DeleteMusicFailed"]);
-        //        }
-        //    }
-        //}
-
-        //public async Task<bool> DeleteMusicAsync(Guid id)
-        //{
-        //    using (var uow = await _unitOfWork.BeginTransactionAsync())
-        //    {
-        //        try
-        //        {
-        //            var musicEntity = await _musicRepository.GetMusicByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Music"]));
-        //            // update Log Music
-
-        //            var newLogMusic = new LogMusic
-        //            {
-        //                LogMusicId = 0,
-        //                Title = musicEntity.Title,
-        //                ImageLink = musicEntity.ImageLink,
-        //                CreateDate = musicEntity.CreateDate,
-        //                AudioLink = musicEntity.AudioLink,
-        //                UserId = musicEntity.UserId,
-        //                MusicId = musicEntity.MusicId,
-        //                Process = "DELETE",
-        //            };
-        //            await _logMusicRepository.CreateLogMusicAsync(newLogMusic);
-
-        //            // delete music
-        //            var music = new Music { MusicId = id };
-        //            await uow.TrackEntity(music);
-
-        //            await _musicRepository.SoftDeleteMusicAsync(music);
-        //            await uow.SaveChangesAsync();
-        //            await uow.CommitTransactionAsync();
-        //            return true;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            Console.WriteLine($"Delete music error: {ex.Message}");
-        //            await uow.RollbackTransactionAsync();
-        //            throw new InvalidOperationException(_localizer["DeleteMusicFailed"]);
-        //        }
-        //    }
-        //}
-        //public async Task<bool> DeleteMultipleMusicAsync(List<Guid> ids)
-        //{
-        //    using (var uow = await _unitOfWork.BeginTransactionAsync())
-        //    {
-        //        try
-        //        {
-        //            // Fetch all music entities in a single query
-        //            var musicEntities = await _musicRepository.GetMusicByIdsAsync(ids);
-
-        //            // Check if any entities were found
-        //            if (musicEntities == null || !musicEntities.Any())
-        //            {
-        //                throw new KeyNotFoundException(_localizer["NoMusicRecordsFound"]);
-        //            }
-
-        //            // Create log entries for each entity being deleted
-        //            var logEntries = musicEntities.Select(music => new LogMusic
-        //            {
-        //                LogMusicId = 0,
-        //                Title = music.Title,
-        //                ImageLink = music.ImageLink,
-        //                CreateDate = music.CreateDate,
-        //                AudioLink = music.AudioLink,
-        //                UserId = music.UserId,
-        //                MusicId = music.MusicId,
-        //                Process = "DELETE",
-        //            }).ToList();
-
-        //            // Bulk insert log entries
-        //            await _logMusicRepository.CreateLogMusicRangeAsync(logEntries);
-
-        //            // Mark all entities for soft deletion
-        //            foreach (var entity in musicEntities)
-        //            {
-        //                entity.IsDeleted = true;
-        //                entity.DeletedAt = DateTimeOffset.UtcNow;
-        //                await uow.TrackEntity(entity);
-        //            }
-
-        //            // Perform batch update
-        //            await _musicRepository.SoftDeleteMultipleMusicAsync(musicEntities);
-
-        //            // Save all changes and commit transaction
-        //            await uow.SaveChangesAsync();
-        //            await uow.CommitTransactionAsync();
-
-        //            Console.WriteLine($"Successfully deleted {musicEntities.Count} music records");
-        //            return true;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            Console.WriteLine($"Delete multiple music error: {ex.Message}");
-        //            await uow.RollbackTransactionAsync();
-        //            throw new InvalidOperationException(_localizer["DeleteMusicFailed"]);
-        //        }
-        //    }
-        //}
     }
 }

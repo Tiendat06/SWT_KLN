@@ -11,28 +11,12 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BlogController : KLNBaseController
+    public class BlogController(
+        IBlogService _blogService,
+        ILogBlogService _logBlogService,
+        IBlogValidator _blogValidator
+        ) : KLNBaseController
     {
-        private readonly IBlogService _blogService;
-        private readonly ILogBlogService _logBlogService;
-        private readonly IBlogValidator _blogValidator;
-
-        public BlogController(IBlogService blogService, ILogBlogService logBlogService, IBlogValidator blogValidator)
-        {
-            _blogService = blogService;
-            _logBlogService = logBlogService;
-            _blogValidator = blogValidator;
-        }
-
-        // GET: api/Blog
-        //[HttpGet]
-        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetBlogResponse>>))]
-        //public async Task<IActionResult> GetAllBlogs()
-        //{
-        //    var blogs = await _blogService.GetAllBlogsAsync();
-        //    return ApiSuccess(blogs);
-        //}
-
         // GET: api/Blog/5
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetBlogResponse>))]

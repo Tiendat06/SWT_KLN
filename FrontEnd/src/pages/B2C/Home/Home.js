@@ -3,11 +3,16 @@ import {home_img_1, home_img_2, home_img_3} from '~/assets/img';
 import clsx from "clsx";
 import {KLNSlideBanner} from "~/components";
 import {BooksList, NewsList} from '~/features/Site';
+import {Helmet} from "react-helmet-async";
+import {HOME_PAGE_TITLE} from "~/utils/Constansts";
 // import { Editor } from '@tinymce/tinymce-react';
 
 const Home = () => {
     return (
         <>
+            <Helmet>
+                <title>{HOME_PAGE_TITLE}</title>
+            </Helmet>
             <KLNSlideBanner/>
             <div className={clsx(styles['home-info'])}>
                 <div className={clsx(styles['home-info__title'])}>

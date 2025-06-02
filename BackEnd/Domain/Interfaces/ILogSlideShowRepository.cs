@@ -8,6 +8,7 @@ namespace Domain.Interfaces
         Task<LogSlideShow?> GetLogSlideShowByIdAsync(int id);
         Task<IEnumerable<LogSlideShow>> GetLogSlideShowsBySlideShowIdAsync(int slideShowId);
         Task CreateLogSlideShowAsync(LogSlideShow logSlideShow);
+        Task CreateLogSlideShowsAsync(IEnumerable<LogSlideShow> logSlideShows);
         Task HardDeleteLogSlideShowAsync(int id);
         Task SoftDeleteLogSlideShowAsync(LogSlideShow logSlideShow);
     }

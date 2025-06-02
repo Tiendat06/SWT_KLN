@@ -1,13 +1,18 @@
 import KLNTitle from "~/components/KLNTitle/KLNTitle";
 import styles from '~/styles/Pages/B2C/Handiwork/handiwork.module.scss';
 import clsx from "clsx";
-import {HandiworkProvider} from "~/context/Handiwork/HandiworkContext";
-import {CategoryList, HandiworkContent} from "~/features/Handiwork";
+import {HandiworkProvider} from "~/context/B2C/Handiwork/HandiworkContext";
+import {CategoryList, HandiworkContent} from "src/features/B2C/Handiwork";
+import {Helmet} from "react-helmet-async";
+import {HANDIWORK_TDT_TITLE} from "~/utils/Constansts";
 
 const Handiwork = () => {
 
     return (
         <HandiworkProvider>
+            <Helmet>
+                <title>{HANDIWORK_TDT_TITLE}</title>
+            </Helmet>
             <div className={clsx(styles["handiwork"])}>
                 <KLNTitle>
                     CÔNG TRÌNH MANG TÊN BÁC TÔN

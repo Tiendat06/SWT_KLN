@@ -11,24 +11,11 @@ namespace API.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MusicController : KLNBaseController
+    public class MusicController(
+        IMusicService _musicService,
+        IMusicValidator _musicValidator
+        ) : KLNBaseController
     {
-        private readonly IMusicService _musicService;
-        //private readonly ILogMusicService logMusicService;
-        private readonly IMusicValidator _musicValidator;
-        public MusicController(IMusicService musicService, IMusicValidator musicValidator)
-        {
-            _musicService = musicService;
-            _musicValidator = musicValidator;
-        }
-        // GET: api/Music
-        //[HttpGet]
-        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<IEnumerable<GetMusicResponse>>))]
-        //public async Task<IActionResult> GetAllMusic()
-        //{
-        //    var music = await _musicService.GetAllMusicAsync();
-        //    return ApiSuccess(music);
-        //}
         // GET: api/Music/id
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetMusicResponse>))]
@@ -67,15 +54,6 @@ namespace API.Controller
             return ApiSuccess(musics);
         }
 
-        // DELETE: api/Music/id
-        //[HttpDelete]
-        //public async Task<IActionResult> DeleteMusic([FromBody] List<Guid> ids)
-        //{
-        //    var isDeleted = await _musicService.DeleteMultipleMusicAsync(ids);
-
-        //    return ApiSuccess(isDeleted);
-        //}
-
         [HttpDelete("ids")]
         public async Task<IActionResult> DeleteMultipleMusic([FromBody] List<Guid> ids)
         {
@@ -93,6 +71,14 @@ namespace API.Controller
             //    }
             //}
             var result = await _musicService.DeleteMultipleMusicAsync(ids);
+            return ApiSuccess(result);
+        }
+
+        [HttpGet("total")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetTotalMusicResponse>))]
+        public async Task<IActionResult> GetTotalMusicAsync([FromQuery] GetTotalMusicRequest input)
+        {
+            var result = await _musicService.GetTotalMusicAsync(input);
             return ApiSuccess(result);
         }
     }

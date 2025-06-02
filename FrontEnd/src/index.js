@@ -3,21 +3,27 @@ import ReactDOM from 'react-dom/client';
 import {GlobalStyles} from './styles';
 import App from '~/App';
 import {AppProvider, AdminProvider} from "~/context";
+import {HelmetProvider} from 'react-helmet-async';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router} from 'react-router-dom'
+import "primereact/resources/themes/lara-light-blue/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        <GlobalStyles>
-            <Router>
-                <AppProvider>
-                    <AdminProvider>
-                        <App />
-                    </AdminProvider>
-                </AppProvider>
-            </Router>
-        </GlobalStyles>
+        <HelmetProvider>
+            <GlobalStyles>
+                <Router>
+                    <AppProvider>
+                        <AdminProvider>
+                            <App/>
+                        </AdminProvider>
+                    </AppProvider>
+                </Router>
+            </GlobalStyles>
+        </HelmetProvider>
     </React.StrictMode>
 );
 
