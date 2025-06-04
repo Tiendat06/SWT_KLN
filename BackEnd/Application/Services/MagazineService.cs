@@ -138,7 +138,7 @@ namespace Application.Services
                     // upload Image
                     // check file type
                     var isAllowedImage = FileOperations.CheckFileType(allowedContentTypesImage, addMagazineRequest.Image) == false ? throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}")) : true;
-                    var isAllowedPDF = FileOperations.CheckFileType(allowedContentTypesPDF, addMagazineRequest.Image) == false ? throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], $"{CommonFileType.PDF}")) : true;
+                    var isAllowedPDF = FileOperations.CheckFileType(allowedContentTypesPDF, addMagazineRequest.MagazineContent) == false ? throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], $"{CommonFileType.PDF}")) : true;
 
                     // add file to local
                     var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
