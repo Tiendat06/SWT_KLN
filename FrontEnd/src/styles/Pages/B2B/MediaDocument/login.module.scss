@@ -2,138 +2,162 @@
 @use "../../../Utils/mixins" as *;
 @use "../../../Utils/variables" as *;
 
+// Định nghĩa các biến để sử dụng lại
+$primary-color: #d32f2f;
+$text-color: #333;
+$secondary-text-color: #555;
+$border-color: #ccc;
+$button-bg: #000;
+$button-bg-hover: #333;
+$input-padding: 0.75rem;
+$border-radius: 6px;
+$font-size-base: 1rem;
+$toggle-icon-size: 1.25rem;
+
 .login {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  position: relative;
+
+  &__header {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    text-align: left;
+  }
+
+  &__logo {
+    font-size: 2.5rem;
+    color: $primary-color;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  &__tagline {
+    font-size: $font-size-base;
+    color: $secondary-text-color;
+    margin: 0;
+  }
+
+  &__background {
     display: flex;
-    height: 100vh;
+    width: 100%;
+    max-width: 1200px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__left {
+    flex: 1;
+    text-align: center;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #fff;
-    position: relative;
+  }
 
-    &__header {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        text-align: left;
+  &__image {
+    max-width: 100%;
+    height: auto;
+    margin-top: 2rem;
+  }
+
+  &__right {
+    flex: 1;
+    max-width: 400px;
+    padding: 2rem;
+  }
+
+  &__form {
+    &-title {
+      margin-bottom: 0.5rem;
+      color: $text-color;
+      font-size: 1.8rem;
+      font-weight: bold;
     }
 
-    &__logo {
-        font-size: 2.5rem;
-        color: #d32f2f;
-        font-weight: bold;
-        margin: 0;
+    &-subtitle {
+      margin-bottom: 1.5rem;
+      color: $text-color;
+      font-size: $font-size-base;
+      font-weight: bold;
     }
 
-    &__tagline {
-        font-size: 1rem;
-        color: #555;
-        margin: 0;
-    }
+    &-field {
+      margin-bottom: 1.2rem;
+      text-align: left;
+      width: 100%;
+      position: relative;
 
-    &__background {
-        display: flex;
+      input,
+      .p-inputtext {
         width: 100%;
-        max-width: 1200px;
-        align-items: center;
-        justify-content: space-between;
-    }
+        padding: $input-padding $input-padding + $toggle-icon-size; // Thêm padding phải để chứa icon
+        border: 1px solid $border-color;
+        border-radius: $border-radius;
+        font-size: $font-size-base;
+        outline: none;
+        transition: border 0.2s ease-in-out;
+        box-sizing: border-box;
 
-    &__left {
-        flex: 1;
-        text-align: center;
-        padding: 2rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
+        &:focus {
+          border-color: $text-color;
+        }
+      }
 
-    &__title {
-        font-size: 3rem;
-        color: #d32f2f;
-        margin: 0;
-    }
-
-    &__subtitle {
-        font-size: 1.2rem;
-        color: #555;
-        margin-top: 0.5rem;
-    }
-
-    &__image {
-        max-width: 100%;
-        height: auto;
-        margin-top: 2rem;
-    }
-
-    &__right {
-        flex: 1;
-        max-width: 400px;
-        padding: 2rem;
-    }
-
-    &__form {
-        &-title {
-            margin-bottom: 0.5rem;
-            color: #000;
-            font-size: 1.8rem;
-            font-weight: bold;
+      &.password-field {
+        .p-inputtext {
+          padding-right: $input-padding + $toggle-icon-size; // Đảm bảo đủ không gian cho icon
         }
 
-        &-subtitle {
-            margin-bottom: 1.5rem;
-            color: #000;
-            font-size: 1rem;
-            font-weight: bold;
+        button {
+          position: absolute;
+          right: $input-padding;
+          top: 50%;
+          left: 40%;
+          background: none;
+          border: none;
+          padding: 0;
+          margin: 0;
+          cursor: pointer;
+          color: $secondary-text-color;
+          font-size: $toggle-icon-size;
+          transition: color 0.2s ease-in-out;
+        
+          z-index: 1; // Đảm bảo nút nằm trên input
+
+         
+          i {
+            font-size: inherit;
+            line-height: 1;
+          }
         }
-
-        &-field {
-            margin-bottom: 1.2rem;
-            text-align: left;
-            width: 100%;
-
-            input, .p-inputtext, .p-password input {
-                width: 100%;
-                padding: 0.75rem;
-                border: 1px solid #ccc;
-                border-radius: 6px;
-                font-size: 1rem;
-                outline: none;
-                transition: border 0.2s ease-in-out;
-
-                &:focus {
-                    border-color: #000;
-                }
-            }
-
-            .p-password {
-                width: 100%; 
-            }
-        }
-
-        &-label {
-            display: block;
-            margin-bottom: 0.3rem;
-            font-weight: bold;
-            color: #333;
-            font-size: 0.95rem;
-        }
+      }
     }
 
-    button {
-        width: 100%;
-        padding: 0.75rem;
-        font-size: 1rem;
-        font-weight: bold;
-        color: #fff;
-        background-color: #000;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: background 0.3s ease-in-out;
-
-        &:hover {
-            background-color: #333;
-        }
+    &-label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: bold;
+      color: $text-color;
+      font-size: 0.95rem;
     }
+  }
+
+  button {
+    width: 100%;
+    padding: $input-padding;
+    font-size: $font-size-base;
+    font-weight: bold;
+    color: #fff;
+    background-color: $button-bg;
+    border: none;
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+  }
 }
