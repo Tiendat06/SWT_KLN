@@ -67,8 +67,8 @@ namespace Application.Services
 
                     //add file to local
                     var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
-                    var filePathImage = await FileOperations.SaveMultipleFileToLocal(folderPath, addMusicRequest.ImageLink);
-                    var filePathAudio = await FileOperations.SaveMultipleFileToLocal(folderPath, addMusicRequest.AudioLink);
+                    var filePathImage = await FileOperations.SaveFileToLocal(folderPath, addMusicRequest.ImageLink);
+                    var filePathAudio = await FileOperations.SaveFileToLocal(folderPath, addMusicRequest.AudioLink);
                     //Console.WriteLine($"Saved image to: {filePathImage}");
                     //Console.WriteLine($"Saved audio to: {filePathAudio}");
 
@@ -131,7 +131,7 @@ namespace Application.Services
 
                         // Add file to local
                         var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
-                        var filePathImage = await FileOperations.SaveMultipleFileToLocal(folderPath, updateMusicRequest.ImageLink);
+                        var filePathImage = await FileOperations.SaveFileToLocal(folderPath, updateMusicRequest.ImageLink);
                         //var filePathAudio = await FileOperations.SaveMultipleFileToLocal(folderPath, updateMusicRequest.AudioLink);
                         Console.WriteLine($"Saved updated image to: {filePathImage}");
 
