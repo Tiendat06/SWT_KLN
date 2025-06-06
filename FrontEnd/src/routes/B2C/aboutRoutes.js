@@ -22,9 +22,6 @@ const aboutJRoutes = [
 ]
 
 const aboutTRoutes = [
-    // {path: "/about-genealogy", element: <AboutGenealogy />},
-    // {path: "/about-biography", element: <AboutBiography />},
-    // {path: "/about-creature", element: <AboutCreature />},
     {path: "/about-books-magazines/:itemId", element: <AboutBooksMagazines/>},
     {path: "/about-topic/:topicId", element: <AboutTopic />},
     {path: "/about-multimedia-documents", element: <AboutMultimediaDocuments />},

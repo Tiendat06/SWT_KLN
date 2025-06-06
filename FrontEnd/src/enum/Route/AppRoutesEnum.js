@@ -1,14 +1,13 @@
-
-class AppRoutesEnum {
+const AppRoutesEnum = Object.freeze({
     /**
      * Admin route
      * */
-    AdminRoute = '/administration'
-
+    AdminRoute: '/administration',
     /**
      * Customer Route
      * */
-    CustomerRoute = '/';
-}
+    CustomerRoute: '/',
+});
 
-export default new AppRoutesEnum();
+export default AppRoutesEnum;
+
