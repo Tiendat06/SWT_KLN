@@ -1,44 +1,24 @@
-﻿using Application.Interfaces;
+﻿using Application.Extension;
+using Application.Interfaces;
 using Application.Mapper.SolemnVisits.Output;
-using Domain;
 using CloudinaryDotNet;
-using Microsoft.Extensions.Configuration;
-using Application.Extension;
-using Microsoft.Extensions.Localization;
+using Domain;
+using Domain.Interfaces;
 using Domain.Localization;
 using KLN.Shared.CrossCuttingConcerns;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 
 namespace Application.Services
 {
-    public class SolemnVisitService : ISolemnVisitService
+    public class SolemnVisitService(
+        ISolemnVisitRepository _solemnVisitRepository,
+        IConfiguration _configuration,
+        IUnitOfWork _unitOfWork,
+        Cloudinary _cloudinary,
+        IStringLocalizer<KLNSharedResources> _localizer
+        ) : ISolemnVisitService
     {
-        #region Fields
-        private readonly Domain.Interfaces.ISolemnVisitRepository _solemnVisitRepository;
-        //private readonly ILogSolemnVisitRepository _logSolemnVisitRepository;
-        private readonly IConfiguration _configuration;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly Cloudinary _cloudinary;
-        private readonly IStringLocalizer<KLNSharedResources> _localizer;
-        #endregion
-
-        #region Constructor
-        public SolemnVisitService(
-            Domain.Interfaces.ISolemnVisitRepository solemnVisitRepository,
-            IUnitOfWork unitOfWork,
-            //ILogSolemnVisitRepository logSolemnVisitRepository,
-            Cloudinary cloudinary,
-            IConfiguration configuration,
-            IStringLocalizer<KLNSharedResources> localizer
-        )
-        {
-            _solemnVisitRepository = solemnVisitRepository;
-            _unitOfWork = unitOfWork;
-            //_logSlideShowRepository = logSlideShowRepository;
-            _cloudinary = cloudinary;
-            _configuration = configuration;
-            _localizer = localizer;
-        }
-        #endregion
         public async Task<PaginationResponseDto<GetSolemnVisitResponse>> GetAllSolemnVisitsAsync(GetSolemnVisitRequest input)
         {
             var page = input.Page;

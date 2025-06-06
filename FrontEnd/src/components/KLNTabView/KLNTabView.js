@@ -1,7 +1,8 @@
 import clsx from "clsx";
-import React from "react";
+import React, {memo} from "react";
 import styles from '~/styles/Components/KLNTabView/klnTabView.module.scss';
 import {useAdminContext} from "~/context/AdminContext";
+import {Badge} from "primereact/badge";
 
 const KLNTabView = ({
                         data,
@@ -20,11 +21,13 @@ const KLNTabView = ({
                     <p className={clsx(styles['tab-view__para'], 'mb-0')}>
                         {item.title}
                     </p>
-                    {/*<Badge value={item.count} />*/}
+                    <Badge style={{
+                        borderRadius: 8
+                    }} className={clsx(styles['tab-view__item--badge'])} value={item.totalCount} />
                 </li>
             ))}
         </ul>
     );
 }
 
-export default KLNTabView;
+export default memo(KLNTabView);

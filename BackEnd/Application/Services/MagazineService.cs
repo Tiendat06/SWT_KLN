@@ -13,33 +13,14 @@ using KLN.Shared.CrossCuttingConcerns;
 
 namespace Application.Services
 {
-    public class MagazineService : IMagazineService
+    public class MagazineService(
+        IMagazineRepository _magazineRepository,
+        ILogMagazineRepository _logMagazineRepository,
+        Cloudinary _cloudinary,
+        IUnitOfWork _unitOfWork,
+        IStringLocalizer<KLNSharedResources> _localizer
+        ) : IMagazineService
     {
-        #region Fields
-        private readonly IMagazineRepository _magazineRepository;
-        private readonly ILogMagazineRepository _logMagazineRepository;
-        private readonly Cloudinary _cloudinary;
-        private readonly IUnitOfWork _unitOfWork;
-        IStringLocalizer<KLNSharedResources> _localizer;
-        #endregion
-
-        #region Constructor
-        public MagazineService(
-            IMagazineRepository magazineRepository,
-            IUnitOfWork unitOfWork,
-            ILogMagazineRepository logMagazineRepository,
-            Cloudinary cloudinary,
-            IStringLocalizer<KLNSharedResources> localizer
-        )
-        {
-            _magazineRepository = magazineRepository;
-            _unitOfWork = unitOfWork;
-            _logMagazineRepository = logMagazineRepository;
-            _cloudinary = cloudinary;
-            _localizer = localizer;
-        }
-        #endregion
-
         public async Task<PaginationResponseDto<GetMagazineResponse>> GetAllMagazinesAsync(GetAllMagazineRequest input)
         {
             var page = input.Page;
@@ -106,7 +87,7 @@ namespace Application.Services
                         UserId = magazineEntity.UserId,
                         MagazineContent = magazineEntity.MagazineContent,
                         MagazineId = magazineEntity.MagazineId,
-                        Process = "UPDATE",
+                        Process = ProcessMethod.UPDATE,
                     };
                     await _logMagazineRepository.CreateLogMagazineAsync(newLogMagazine);
                     await uow.SaveChangesAsync();
@@ -185,7 +166,7 @@ namespace Application.Services
                         UserId = magazineEntity.UserId,
                         MagazineContent = magazineEntity.MagazineContent,
                         MagazineId = magazineEntity.MagazineId,
-                        Process = "DELETE",
+                        Process = ProcessMethod.DELETE,
                     };
                     await _logMagazineRepository.CreateLogMagazineAsync(newLogMagazine);
 

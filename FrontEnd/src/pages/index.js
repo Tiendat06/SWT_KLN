@@ -1,7 +1,5 @@
 import Home from "~/pages/B2C/Home/Home"
 import About from "~/pages/B2C/About/About"
-import AboutGenealogy from "~/pages/B2C/About/AboutGenealogy"
-import AboutBiography from "~/pages/B2C/About/AboutBiography";
 import AboutCreature from '~/pages/B2C/About/AboutCreature';
 import AboutArt from "~/pages/B2C/About/AboutArt";
 import AboutVideo from "~/pages/B2C/About/AboutVideo";
@@ -27,6 +25,7 @@ import ManageMultimedia from "~/pages/B2B/ManageMultimedia/ManageMultimedia";
 import ManageMagazine from "~/pages/B2B/ManageMagazine/ManageMagazine";
 import ManageTopic from "~/pages/B2B/ManageTopic/ManageTopic";
 import LoginPage from "~/pages/B2B/Login/Login";
+import CreateMultimediaImage from "~/pages/B2B/ManageMultimedia/CreateMultimediaImage";
 
 export {Home, BlogContent};
 
@@ -37,7 +36,7 @@ export {
 };
 
 export {
-    About, AboutGenealogy, AboutBiography, AboutCreature,
+    About, AboutCreature,
     AboutBooksMagazines, AboutTopic, AboutMultimediaDocuments, AboutArt, AboutVideo, AboutMusic
 };
 
@@ -46,8 +45,9 @@ export {Handiwork};
 export {
     ManageImage,
     ManageMultimedia,
+    CreateMultimediaImage,
     ManageMagazine,
-    ManageTopic
+    ManageTopic,
 };
 
 export {LoginPage}

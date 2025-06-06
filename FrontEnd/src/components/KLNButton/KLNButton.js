@@ -11,9 +11,13 @@ const KLNButton = ({
                        onClick = () => {
                        },
                        options = 1,
-                       icon = '',
+                       icon = null,
                        style = {},
-                       iconStyle = {}
+                       iconStyle = {},
+                       hasFileInput = false,
+                       onHandleFileChange = () => {
+                       },
+                       acceptedFileType = 'image/*',
                    }) => {
     const buttonStyle = {
         1: styles['button-1'],
@@ -21,17 +25,37 @@ const KLNButton = ({
         3: styles['button-3'],
         4: styles['button-4'],
         5: styles['button-5'],
+        6: styles['button-6'],
     }[options] || styles['button-1'];
 
     return (
         <>
-            <Link to={urlLink}>
-                <button style={style} className={clsx(buttonStyle, btnClassName)}
-                        onClick={onClick}>
-                    {children}
-                    <FontAwesomeIcon style={iconStyle} icon={icon}/>
-                </button>
-            </Link>
+            {!hasFileInput ?
+                (
+                    <Link to={urlLink}>
+                        <button style={style} className={clsx(buttonStyle, btnClassName)}
+                                onClick={onClick}>
+                            {children}
+                            {icon && <FontAwesomeIcon style={iconStyle} icon={icon}/>}
+                        </button>
+                    </Link>
+                ) :
+                (
+                    <>
+                        <label htmlFor="fileUpload" style={style} className={clsx(buttonStyle, btnClassName)}
+                               onClick={onClick}>
+                            {children}
+                            {icon && <FontAwesomeIcon style={iconStyle} icon={icon}/>}
+                        </label>
+                        <input type="file"
+                               id="fileUpload"
+                               accept={acceptedFileType}
+                               onChange={onHandleFileChange}
+                               style={{display: "none"}}
+                        />
+                    </>
+                )
+            }
         </>
     )
 }

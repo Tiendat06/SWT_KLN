@@ -9,19 +9,10 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TopicController : KLNBaseController
+    public class TopicController(
+        ITopicService _topicService
+        ) : KLNBaseController
     {
-        private readonly ITopicService _topicService;
-        //private readonly ILogTopicService _logTopicService;
-        //private readonly ITopicValidator _topicValidator;
-
-        public TopicController(ITopicService topicService)
-        {
-            _topicService = topicService;
-            //_logTopicService = logTopicService;
-            //_topicValidator = topicValidator;
-        }
-
         // GET: api/Topic
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<PaginationResponseDto<GetTopicResponse>>))]

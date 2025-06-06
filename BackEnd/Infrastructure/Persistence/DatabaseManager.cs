@@ -32,5 +32,10 @@ namespace Infrastructure.Persistence
         public DbSet<MediaType> MediaTypes { get; set; }
         public DbSet<SlideShowType> SlideShowTypes { get; set; }
         //public DbSet<LogTopicMedia> LogTopicMedias { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.HasDefaultSchema("dbo");
+        }
     }
 }

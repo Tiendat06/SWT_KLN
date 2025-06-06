@@ -1,53 +1,77 @@
-import {useCallback, useLayoutEffect, useState} from "react";
-import {getSlideShowListService} from "~/services/SlideShowService";
+import {useCallback, useEffect, useState} from "react";
+import {deleteSlideImageInSpecificSlideShowService, getSlideShowListService} from "~/services/SlideShowService";
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
+import {DataTable} from 'primereact/datatable';
+import {Column} from 'primereact/column';
 import {KLNReactPaginate, KLNTableAction} from "~/components";
 import {useAdminContext} from "~/context/AdminContext";
 import DeleteImage from "~/features/B2B/ManageMultimedia/Image/DeleteImage";
+import {
+    getImagesAction,
+    setImageAction,
+    getSlideShowAction,
+    deleteImageAction
+} from '~/store/B2B/ManageMultimedia/actions';
+import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
+import {DeleteMany} from "~/features/B2B/ManageMultimedia";
+import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 
 const ImageTable = () => {
-    const [fullSlideImages, setFullSlideImages] = useState([]);
-    const [slideShow, setSlideShow] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedItems, setSelectedItems] = useState([]);
-    const {
-        selectedPageOption, setDeleteAction
-    } = useAdminContext();
+    const {selectedPageOption, setDeleteAction} = useAdminContext();
+    const {visible, setVisible, imageList, slideShow, isUpdated, dispatch} = useManageMultimediaContext();
 
-    const showModal = () => {
+    const handleDeleteMany = useCallback(async () => {
+        // api
+        const deleteSlideImages = await deleteSlideImageInSpecificSlideShowService(selectedItems, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
+        if (deleteSlideImages)
+            dispatch(deleteImageAction(selectedItems));
+        setVisible(false);
+    }, [selectedItems]);
+
+    const hideModal = useCallback(() => {
+        setVisible(false);
+    }, []);
+
+    const showModal = useCallback((imageItem) => {
         setDeleteAction(true);
-    }
+        dispatch(setImageAction(imageItem));
+    }, []);
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         const getSlideShow = async () => {
             const data = await getSlideShowListService(1, 1, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
             const slideShowData = data?.data?.items[0];
-            setFullSlideImages(slideShowData?.slideImage);
+            const startIndex = (currentPage - 1) * selectedPageOption.code;
+            const endIndex = startIndex + selectedPageOption.code;
+
+            dispatch(getImagesAction(slideShowData?.slideImage));
+            dispatch(getSlideShowAction({
+                ...slideShowData,
+                slideImage: slideShowData?.slideImage.slice(startIndex, endIndex),
+            }));
             setPageCount(Math.ceil((slideShowData?.slideImage?.length || 0) / selectedPageOption.code));
-            setSlideShow(slideShowData);
-            paginateSlideImages(slideShowData?.slideImage || []);
         }
         getSlideShow();
-    }, [selectedPageOption]);
+    }, [selectedPageOption, isUpdated]);
 
-    useLayoutEffect(() => {
-        paginateSlideImages(fullSlideImages);
-    }, [currentPage, selectedPageOption, fullSlideImages]);
+    useEffect(() => {
+        paginateSlideImages(imageList);
+    }, [currentPage, selectedPageOption]);
 
     const paginateSlideImages = (images) => {
         const startIndex = (currentPage - 1) * selectedPageOption.code;
         const endIndex = startIndex + selectedPageOption.code;
-        setSlideShow({
+        dispatch(getSlideShowAction({
             ...slideShow,
             slideImage: images.slice(startIndex, endIndex),
-        });
+        }));
     };
 
-    const handlePageClick = useCallback( (event) => {
+    const handlePageClick = useCallback((event) => {
         setCurrentPage(event.selected + 1);
     }, []);
 
@@ -58,8 +82,12 @@ const ImageTable = () => {
             }}
             src={slideImage.imageLink}
             alt={slideImage.capture}
-            className="w-6rem shadow-2 border-round" />;
+            className="w-6rem shadow-2 border-round"/>;
     };
+
+    const indexTemplate = (rowData, {rowIndex}) => {
+        return <span>{rowIndex + 1}</span>;
+    }
 
     return (
         <>
@@ -69,29 +97,38 @@ const ImageTable = () => {
                 }} className="card overflow-hidden mb-5">
                     <DataTable
                         value={slideShow?.slideImage}
-                        tableStyle={{ minWidth: '60rem' }}
+                        tableStyle={{minWidth: '60rem'}}
                         selectionMode="multiple"
                         selection={selectedItems}
                         onSelectionChange={(e) => setSelectedItems(e.value)}
                     >
-                        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-                        <Column headerStyle={{width: '8rem'}} bodyStyle={{width: '8rem', textAlign: 'center'}} header="Thumnails" body={imageBodyTemplate}></Column>
+                        <Column selectionMode="multiple" headerStyle={{width: '3rem'}}></Column>
+                        <Column body={indexTemplate} header="#" headerStyle={{width: '3rem'}}></Column>
+                        <Column headerStyle={{width: '8rem'}} bodyStyle={{width: '8rem', textAlign: 'center'}}
+                                header="Thumnails" body={imageBodyTemplate}></Column>
                         <Column field="capture" header="Nội dung"></Column>
                         <Column headerStyle={{width: '10rem'}} bodyStyle={{
                             width: '10rem',
                             display: 'flex',
                             justifyContent: 'space-around',
                             alignItems: 'center'
-                        }} header="Thao tác" body={<KLNTableAction
-                            onClickDelete={showModal}
-                        />}></Column>
+                        }} header="Thao tác" body={(rowData) => (<KLNTableAction
+                            editActionLink={`${AppRoutesEnum.AdminRoute}/manage-multimedia/image/${rowData.id}`}
+                            onClickDelete={() => showModal(rowData)}
+                        />)}></Column>
                     </DataTable>
                 </div>
                 <KLNReactPaginate
                     pageCount={pageCount}
                     handlePageClick={handlePageClick}
                 />
-                <DeleteImage />
+                <DeleteImage/>
+                <DeleteMany
+                    visible={visible}
+                    setVisible={setVisible}
+                    btnSaveOnClick={handleDeleteMany}
+                    btnCancelOnClick={hideModal}
+                />
             </div>
         </>
     );

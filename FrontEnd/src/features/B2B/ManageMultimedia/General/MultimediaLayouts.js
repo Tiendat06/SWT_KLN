@@ -3,35 +3,46 @@ import {KLNBreadCrumb, KLNButton, KLNTabView, KLNCascadeSelect} from "~/componen
 import {faSquarePlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 import {ImageTable, AudioTable, VideoTable} from '~/features/B2B/ManageMultimedia';
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import {useAdminContext} from "~/context/AdminContext";
 import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
-import DeleteMany from "~/features/B2B/ManageMultimedia/General/DeleteMany";
+import {getTotalSlideImageInSpecificSlideShowService} from "~/services/SlideShowService";
+import MediaType from "~/enum/MediaType/MediaType";
+import SlideShowType from "~/enum/SlideShowType/SlideShowType";
+import {getTotalMusicService} from "~/services/MusicService";
+import {getTotalVideoService} from "~/services/VideoService";
 
 const MultimediaLayouts = () => {
-    const {tabView, setTabView} = useAdminContext();
-    const {setVisible} = useManageMultimediaContext();
+    const {tabView, setTabView, setDeleteAction} = useAdminContext();
+    const [tabViewData, setTabViewData] = useState([]);
+    const {setVisible, isUpdated
+    } = useManageMultimediaContext();
 
-    const {
-        setDeleteAction
-    } = useAdminContext();
-
-    const showModal = () => {
+    const showModal = useCallback(() => {
         setVisible(true);
-    }
+    }, []);
 
     useEffect(() => {
         if (tabView === null || tabView === undefined)
             setTabView(TabViewEnum.ManageMultimediaTabImage);
     }, [tabView]);
 
-    const tabViewData = [
-        {id: 1, tabView: TabViewEnum.ManageMultimediaTabImage, title: 'Ảnh'},
-        {id: 2, tabView: TabViewEnum.ManageMultimediaTabVideo, title: 'Video'},
-        {id: 3, tabView: TabViewEnum.ManageMultimediaTabAudio, title: 'Nhạc'},
-    ];
+    useEffect(() => {
+        const getTotalCount = async () => {
+            const totalSlideImageData = await getTotalSlideImageInSpecificSlideShowService(MediaType.PresidentTDT, SlideShowType.TDTArtistic)
+            const totalMusicData = await getTotalMusicService(MediaType.PresidentTDT);
+            const totalVideoData = await getTotalVideoService(MediaType.PresidentTDT);
+
+            setTabViewData([
+                {id: 1, tabView: TabViewEnum.ManageMultimediaTabImage, title: 'Ảnh', totalCount: totalSlideImageData.data?.totalSlideImage},
+                {id: 2, tabView: TabViewEnum.ManageMultimediaTabVideo, title: 'Video', totalCount: totalMusicData.data?.totalMusic},
+                {id: 3, tabView: TabViewEnum.ManageMultimediaTabAudio, title: 'Nhạc', totalCount: totalVideoData.data?.totalVideo},
+            ]);
+        }
+        getTotalCount();
+    }, [isUpdated]);
 
     const items = [
         { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-multimedia`}>Tài liệu đa phương tiện</Link> },
@@ -90,6 +101,15 @@ const MultimediaLayouts = () => {
                         onClick={showModal}
                     >Xóa</KLNButton>
                     <KLNButton
+                        urlLink={
+                            tabView === TabViewEnum.ManageMultimediaTabImage
+                                ? `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-image`
+                                : tabView === TabViewEnum.ManageMultimediaTabVideo
+                                    ? `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-video`
+                                    : tabView === TabViewEnum.ManageMultimediaTabAudio
+                                        ? `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-audio`
+                                        : ''
+                        }
                         options={5}
                         icon={faSquarePlus}
                         iconStyle={{
@@ -119,7 +139,6 @@ const MultimediaLayouts = () => {
                     <AudioTable />
                 )}
             </div>
-            <DeleteMany />
         </>
     );
 }

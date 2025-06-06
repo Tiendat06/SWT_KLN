@@ -47,6 +47,14 @@ namespace Infrastructure.Repositories
                 .FirstOrDefaultAsync(music => music.MusicId == id && music.IsDeleted == false);
         }
 
+        public async Task<List<Music>> GetMusicByIdsAsync(List<Guid> ids)
+        {
+            return await _context.Musics
+                .AsNoTracking()
+                .Where(music => ids.Contains(music.MusicId) && music.IsDeleted == false)
+                .ToListAsync();
+        }
+
         public async Task<int> CountMusicAsync(int type)
         {
             var query = _context.Musics
@@ -56,5 +64,61 @@ namespace Infrastructure.Repositories
             return await query.CountAsync(x => x.IsDeleted == false);
         }
 
+        public async Task CreateMusicAsync(Music music)
+        {
+            await _context.Musics.AddAsync(music);
+        }
+
+        public async Task<Music> UpdateMusicAsync(Music music)
+        {
+            _context.Musics.Update(music);
+            return music;
+        }
+
+        public async Task SoftDeleteMusicAsync(Music music)
+        {
+            music.IsDeleted = true;
+            await Task.CompletedTask;
+        }
+        //public async Task SoftDeleteMultipleMusicAsync(IEnumerable<Guid> musicIds)
+        //{
+        //    var musics = await _context.Musics
+        //        .Where(m => musicIds.Contains(m.MusicId) && m.IsDeleted == false)
+        //        .ToListAsync();
+
+        //    foreach (var music in musics)
+        //    {
+        //        music.IsDeleted = true;
+        //    }
+
+        //    // If you want to persist changes immediately
+        //    await _context.SaveChangesAsync();
+        //}
+
+        public async Task SoftDeleteMultipleMusicByIdsAsync(List<Guid> ids)
+        {
+            var musics = await _context.Musics
+                .Where(m => ids.Contains(m.MusicId) && m.IsDeleted == false)
+                .ToListAsync();
+
+            foreach (var music in musics)
+            {
+                music.IsDeleted = true;
+            }
+
+            _context.Musics.UpdateRange(musics);
+        }
+
+
+
+        public async Task HardDeleteMusicAsync(Guid id)
+        {
+            _context.Musics.Remove(new Music { MusicId = id });
+            await _context.SaveChangesAsync();
+        }
+        public Task HardDeleteMusicAsync(Music music)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

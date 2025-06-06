@@ -12,3 +12,9 @@ export const getMusicByIdService = async (id) => {
         api: `api/Music/${id}`,
     })
 }
+
+export const getTotalMusicService = async (type = MediaType.None) => {
+    return await UseFetchAPI({
+        api: `api/Music/total?Type=${type}`,
+    })
+}

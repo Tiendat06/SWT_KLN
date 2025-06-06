@@ -4,15 +4,10 @@ using Domain.Interfaces;
 
 namespace Application.Services
 {
-    public class LogVideoService : ILogVideoService
+    public class LogVideoService(
+        ILogVideoRepository _logVideoRepository,
+        IUnitOfWork _unitOfWork
+        ) : ILogVideoService
     {
-        private readonly ILogVideoRepository _logVideoRepository;
-        private readonly IUnitOfWork _unitOfWork;
-
-        public LogVideoService(ILogVideoRepository logVideoRepository, IUnitOfWork unitOfWork)
-        {
-            _logVideoRepository = logVideoRepository;
-            _unitOfWork = unitOfWork;
-        }
     }
 }

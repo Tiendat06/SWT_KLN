@@ -5,5 +5,9 @@ namespace Application.Interfaces
     {
         Task<PaginationResponseDto<GetMusicResponse>> GetAllMusicAsync(GetMusicRequest input);
         Task<GetMusicResponse?> GetMusicByIdAsync(Guid id);
+        Task<GetMusicResponse> CreateMusicAsync(AddMusicRequest addMusicRequest);
+        Task<GetMusicResponse> UpdateMusicAsync(Guid id, UpdateMusicRequest updateMusicRequest);
+        Task<bool> DeleteMultipleMusicAsync(List<Guid> ids);
+        Task<GetTotalMusicResponse> GetTotalMusicAsync(GetTotalMusicRequest input);
     }
 }

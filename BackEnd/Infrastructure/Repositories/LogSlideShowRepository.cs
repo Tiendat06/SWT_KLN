@@ -18,6 +18,11 @@ namespace Infrastructure.Repositories
             await _context.LogSlideShows.AddAsync(logSlideShow);
         }
 
+        public async Task CreateLogSlideShowsAsync(IEnumerable<LogSlideShow> logSlideShows)
+        {
+            await _context.LogSlideShows.AddRangeAsync(logSlideShows);
+        }
+
         public async Task<IEnumerable<LogSlideShow>> GetAllLogSlideShowsAsync()
         {
             throw new NotImplementedException();

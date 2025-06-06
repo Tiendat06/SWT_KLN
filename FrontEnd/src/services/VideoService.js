@@ -12,3 +12,9 @@ export const getVideoByIdService = async (id) => {
         api: `api/Video/${id}`,
     })
 }
+
+export const getTotalVideoService = async (type = MediaType.None) => {
+    return await UseFetchAPI({
+        api: `api/Video/total?Type=${type}`,
+    })
+}

@@ -20,15 +20,13 @@ namespace API.Controller.Base
 
         public static ObjectResult ApiSuccess(HttpStatusCode code = HttpStatusCode.OK, string message = "Success")
         {
-            var result = new ObjectResult(new DefaultResponse { status = (int)code, message = message });
-            //if (code == HttpStatusCode.Created) result.StatusCode = (int)code;
+            var result = new ObjectResult(new DefaultResponse { Status = (int)code, Message = message });
             return result;
         }
 
         public static ObjectResult ApiSuccess<T>(T data, HttpStatusCode code = HttpStatusCode.OK, string message = "Success")
         {
-            var result = new ObjectResult(new CustomResponse<T> { status = (int)code, data = data, message = message });
-            //if (code == HttpStatusCode.Created) result.StatusCode = (int)code;
+            var result = new ObjectResult(new CustomResponse<T> { Status = (int)code, Data = data, Message = message });
             return result;
         }
     }

@@ -1,10 +1,13 @@
 import {KLNModal} from "~/components";
-import React from "react";
-import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
+import React, {memo} from "react";
+// import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
 
-const DeleteMany = () => {
-    const {visible, setVisible} = useManageMultimediaContext();
-
+const DeleteMany = ({
+                        visible, setVisible,
+                        btnSaveOnClick = () => {},
+                        btnCancelOnClick = () => {}
+                    }) => {
+    // const {visible, setVisible} = useManageMultimediaContext();
     return (
         <>
             <KLNModal
@@ -20,8 +23,8 @@ const DeleteMany = () => {
                 buttonSaveStyle={{
                     marginRight: 20,
                 }}
-                btnSaveOnClick={() => setVisible(false)}
-                btnCancelOnClick={() => setVisible(false)}
+                btnSaveOnClick={btnSaveOnClick}
+                btnCancelOnClick={btnCancelOnClick}
             >
                 <p style={{
                     fontWeight: "bold",
@@ -32,4 +35,4 @@ const DeleteMany = () => {
     );
 }
 
-export default DeleteMany;
+export default memo(DeleteMany);

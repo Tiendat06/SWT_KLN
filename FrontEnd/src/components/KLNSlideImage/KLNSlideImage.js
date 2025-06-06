@@ -23,7 +23,7 @@ function KLNSlideImage({
     ]
 
     const slideImageTemplate = slideImage => {
-        var isSelected = isImage ?
+        let isSelected = isImage ?
             (choosingImage?.imageLink === slideImage?.imageLink) :
             (choosingImage?.videoLink === slideImage?.videoLink);
         return (

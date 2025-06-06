@@ -47,3 +47,11 @@
   background-color: $app-color-25;
   color: $app-color-16;
 }
+
+.button-6{
+  @include default_button;
+  background-color: $app-color-5;
+  font-weight: normal;
+  color: $app-color-13;
+  border-radius: 30px;
+}

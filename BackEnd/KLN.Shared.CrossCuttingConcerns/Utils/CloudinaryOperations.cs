@@ -24,6 +24,25 @@ namespace KLN.Shared.CrossCuttingConcerns.Utils
             return (JObject)result.JsonObj;
         }
 
+        public JObject UploadMusicFileToCloudinary(string filePath, string folder, string publicId)
+        {
+            var uploadParams = new RawUploadParams()
+            {
+                File = new FileDescription(filePath),
+                PublicId = publicId,
+                Folder = folder
+                // Remove the Type = "audio" line
+            };
+
+            // Set "ResourceType" to "raw" for audio files
+            var result = _cloudinary.Upload(uploadParams, "raw");
+            if (result == null)
+            {
+                throw new InvalidOperationException("Upload music file to Cloudinary failed!");
+            }
+            return (JObject)result.JsonObj;
+        }
+
         public JObject DeleteFileFromCloudinary(string publicId)
         {
             var deleteParams = new DelResParams()

@@ -4,6 +4,7 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import clsx from "clsx";
 import {useAdminContext} from "~/context/AdminContext";
+import KLNToast from "./components/KLNToast/KLNToast";
 
 const App = () => {
     const {currentLocation} = useAdminContext();
@@ -15,6 +16,7 @@ const App = () => {
                 "app" :
                 "admin-app"
             )}>
+                <KLNToast />
                 <Layouts/>
             </div>
         </>
