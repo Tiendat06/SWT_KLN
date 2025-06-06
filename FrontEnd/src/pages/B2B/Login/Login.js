@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { InputText } from "primereact/inputtext";
-import { Password } from "primereact/password";
 import { Button } from "primereact/button";
-import styles from "~/styles/Pages/B2B/MediaDocument/login.module.scss"; 
+import styles from "~/styles/Pages/B2B/MediaDocument/login.module.scss";
 import illustration from "~/assets/img/admin/login/admin_loginPage.png";
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleLogin = () => {
         console.log("Email:", email);
@@ -34,6 +34,8 @@ const LoginPage = () => {
                         <p className={styles["login__form-subtitle"]}>
                             Chào mừng trở lại! Vui lòng nhập thông tin của bạn.
                         </p>
+
+                        {/* Email */}
                         <div className={styles["login__form-field"]}>
                             <label htmlFor="email" className={styles["login__form-label"]}>
                                 Email
@@ -46,22 +48,33 @@ const LoginPage = () => {
                                 className="p-inputtext-lg"
                             />
                         </div>
-                        <div className={styles["login__form-field"]}>
+
+                        {/* Password */}
+                        <div className={`${styles["login__form-field"]} ${styles["password-field"]}`}>
                             <label htmlFor="password" className={styles["login__form-label"]}>
                                 Mật khẩu
                             </label>
-                            <div className="Login__from-label-password">
-                            <Password
+                            <InputText
                                 id="password"
+                                type={showPassword ? "text" : "password"}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                feedback={false}
-                                toggleMask
                                 placeholder="Mật khẩu"
                                 className="p-inputtext-lg"
                             />
-                            </div>
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
+                            >
+                                {showPassword ? (
+                                    <i className="pi pi-eye-slash" />
+                                ) : (
+                                    <i className="pi pi-eye" />
+                                )}
+                            </button>
                         </div>
+
                         <Button
                             label="Đăng nhập"
                             className="p-button-lg p-button-primary"
