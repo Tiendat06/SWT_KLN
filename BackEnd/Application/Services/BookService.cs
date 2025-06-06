@@ -98,7 +98,7 @@ namespace Application.Services
                         var assetFolder = CommonCloudinaryAttribute.assetFolderBookPDF;
                         var publicId = $"{nameof(Book)}_{id}";
 
-                        var resultUpload = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePath, assetFolder, publicId) ?? throw new InvalidOperationException(_localizer["UploadPDFCloudinaryFailed"]);
+                        var resultUpload = cloudinaryOperations.UploadRawFileToCloudinary(filePath, assetFolder, publicId) ?? throw new InvalidOperationException(_localizer["UploadPDFCloudinaryFailed"]);
                         var secure_url = resultUpload["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
 
                         // delete file and folder from local
@@ -162,7 +162,7 @@ namespace Application.Services
 
                     // upload to cloudinary
                     var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
-                    var resultPDF = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePathPDF, assetFolderPDF, publicId) ?? throw new InvalidOperationException(_localizer["UploadPDFCloudinaryFailed"]);
+                    var resultPDF = cloudinaryOperations.UploadRawFileToCloudinary(filePathPDF, assetFolderPDF, publicId) ?? throw new InvalidOperationException(_localizer["UploadPDFCloudinaryFailed"]);
                     var bookContent = resultPDF["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
 
                     var resultImage = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePathImage, assetFolderImage, publicId) ?? throw new InvalidOperationException(_localizer["UploadImageCloudinaryFailed"]);
