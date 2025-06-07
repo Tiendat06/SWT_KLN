@@ -1,7 +1,7 @@
 import { Dropdown } from "primereact/dropdown";
 import {useAdminContext} from "~/context/AdminContext";
 
-const KLNCascadeSelect = () => {
+const KLNCascadeSelect = ({...props}) => {
 
     const paginateData = [
         { name: "5", code: 5 },
@@ -16,6 +16,7 @@ const KLNCascadeSelect = () => {
 
     return (
         <Dropdown
+            {...props}
             value={selectedPageOption}
             options={paginateData}
             onChange={(e) => setSelectedPageOption(e.value)}

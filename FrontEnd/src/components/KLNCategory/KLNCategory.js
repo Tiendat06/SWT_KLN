@@ -3,12 +3,12 @@ import clsx from "clsx";
 import {Link} from "react-router-dom";
 
 const KLNCategory = ({
-        title = '',
-        categoryList = [],
-        choosingItemId = '',
-        totalPage = 0,
-        children
-    }) => {
+                         title = '',
+                         categoryList = [],
+                         choosingItemId = '',
+                         totalPage = 0,
+                         children
+                     }) => {
 
     return (
         <>

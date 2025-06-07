@@ -4,7 +4,8 @@ import {KLNButton} from "~/components";
 
 const KLNModal = ({
                       visible = false,
-                      setVisible = () => {},
+                      setVisible = () => {
+                      },
                       position = 'center',
                       children = '',
                       labelCancel = 'Cancel',
@@ -13,8 +14,11 @@ const KLNModal = ({
                       footerStyle = {},
                       buttonSaveStyle = {},
                       buttonCancelStyle = {},
-                      btnSaveOnClick = () => {},
-                      btnCancelOnClick = () => {},
+                      btnSaveOnClick = () => {
+                      },
+                      btnCancelOnClick = () => {
+                      },
+                      ...props
                   }) => {
 
     const footerContent = (
@@ -30,7 +34,7 @@ const KLNModal = ({
 
     return (
         <>
-            <Dialog header={modalHeader} visible={visible} position={position} style={{width: '50vw'}} onHide={() => {
+            <Dialog {...props} header={modalHeader} visible={visible} position={position} style={{width: '50vw'}} onHide={() => {
                 if (!visible) return;
                 setVisible(false);
             }} footer={footerContent} draggable={false} resizable={false}>
