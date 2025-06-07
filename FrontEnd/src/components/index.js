@@ -20,6 +20,10 @@ import KLNTableAction from "~/components/KLNTableAction/KLNTableAction";
 import KLNBreadCrumb from "~/components/KLNBreadCrumb/KLNBreadCrumb";
 import KLNModal from "~/components/KLNModal/KLNModal";
 import KLNToast from "~/components/KLNToast/KLNToast";
+import KLNColumn from "~/components/KLNTable/KLNColumn";
+import KLNDataTable from "~/components/KLNTable/KLNDataTable";
+import KLNSkeletonWithSpinner from "~/components/KLNSkeleton/KLNSkeletonWithSpinner/KLNSkeletonWithSpinner";
+import KLNImageWithSkeleton from "~/components/KLNSkeleton/KLNImageWithSkeleton/KLNImageWithSkeleton";
 
 export {
     Header, Footer, Body, Sidebar, AdminHeader,
@@ -28,6 +32,7 @@ export {
     KLNTitle, KLNAudio, KLNCategory,
     KLNReactDotPaginate, KLNDropdown,
     KLNTabView, KLNCascadeSelect, KLNTableAction,
-    KLNBreadCrumb, KLNModal, KLNToast
+    KLNBreadCrumb, KLNModal, KLNToast, KLNColumn,
+    KLNDataTable, KLNSkeletonWithSpinner, KLNImageWithSkeleton
 }
 
