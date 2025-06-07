@@ -6,7 +6,7 @@ import "primeicons/primeicons.css";
 import styles from "~/styles/Pages/B2C/Memorial/HistoryList.module.scss";
 import clsx from "clsx"; 
 import { Link } from "react-router-dom";
-import {getBlogListService} from "~/services/BlogService";
+import {blogService} from "~/services/BlogService";
 import MediaType from "~/enum/MediaType/MediaType";
 import {KLNReactPaginate} from "~/components";
 
@@ -18,7 +18,7 @@ const HistoryList = () => {
 
     useEffect(() => {
         const getBlogList = async () => {
-            const data = await getBlogListService(itemsPerPage, currentPage, MediaType.TDTMemorial);
+            const data = await blogService.getBlogListService(itemsPerPage, currentPage, MediaType.TDTMemorial);
             setCardList(data?.data?.items);
             setPageCount(Math.ceil(data?.data?.totalCount / itemsPerPage));
         }

@@ -1,24 +1,33 @@
 import UseFetchAPI from "~/hooks/UseFetchAPI";
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
+import {DEFAULT_FETCH, DEFAULT_PAGE} from "~/utils/Constansts";
 
 const slideShowRoute = 'api/SlideShow';
-export const getSlideShowByIdService = async (id) => {
+
+const getSlideShowByIdService = async (id) => {
     return await UseFetchAPI({
         api: `${slideShowRoute}/${id}`,
     })
 }
 
-export const getSlideShowListService = async (fetch, page,
-                                              type = MediaType.None,
-                                              slideShowType = SlideShowType.None,
-                                              keyword = "") => {
+const getSlideShowListService = async (fetch = DEFAULT_FETCH,
+                                       page = DEFAULT_PAGE,
+                                       type = MediaType.None,
+                                       slideShowType = SlideShowType.None,
+                                       keyword = "") => {
     return await UseFetchAPI({
-        api: `${slideShowRoute}?Fetch=${fetch}&Page=${page}&Type=${type}&Keyword=${keyword}&SlideShowType=${slideShowType}`,
+        api: `${slideShowRoute}`,
+        params: {
+            fetch, page, type, keyword, slideShowType
+        }
     })
 }
 
-export const deleteSlideImageInSpecificSlideShowService = async (ids, mediaType = MediaType.None, slideShowType = SlideShowType.None) => {
+const deleteSlideImageInSpecificSlideShowService = async (
+    ids,
+    mediaType = MediaType.None,
+    slideShowType = SlideShowType.None) => {
     return await UseFetchAPI({
         api: `${slideShowRoute}`,
         method: "DELETE",
@@ -30,15 +39,20 @@ export const deleteSlideImageInSpecificSlideShowService = async (ids, mediaType 
     });
 }
 
-export const getTotalSlideImageInSpecificSlideShowService = async (type = MediaType.None, slideShowType = SlideShowType.None) => {
+const getTotalSlideImageInSpecificSlideShowService = async (
+    type = MediaType.None,
+    slideShowType = SlideShowType.None) => {
     return await UseFetchAPI({
-        api: `${slideShowRoute}/total?Type=${type}&SlideShowType=${slideShowType}`,
+        api: `${slideShowRoute}/total`,
+        params: {
+            type, slideShowType
+        }
     });
 }
 
-export const addSlideImageInSpecificSlideShowService = async (addedSlideImage,
-                                                              type = MediaType.None,
-                                                              slideShowType = SlideShowType.None) => {
+const addSlideImageInSpecificSlideShowService = async (addedSlideImage,
+                                                       type = MediaType.None,
+                                                       slideShowType = SlideShowType.None) => {
     const formData = new FormData();
     formData.append("type", type);
     formData.append("slideShowType", slideShowType);
@@ -53,5 +67,13 @@ export const addSlideImageInSpecificSlideShowService = async (addedSlideImage,
             "Content-Type": "multipart/form-data",
         }
     })
+}
+
+export const slideShowService = {
+    getSlideShowByIdService,
+    getSlideShowListService,
+    deleteSlideImageInSpecificSlideShowService,
+    getTotalSlideImageInSpecificSlideShowService,
+    addSlideImageInSpecificSlideShowService
 }
 

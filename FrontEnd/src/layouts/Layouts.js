@@ -1,16 +1,17 @@
 import {Header, Footer, Body, Sidebar, AdminHeader} from "~/components";
 import {useAdminContext} from "~/context/AdminContext";
 import clsx from "clsx";
+import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 
 function Layouts() {
     const {currentLocation} = useAdminContext();
 
-    if (currentLocation === "/administration/login") {
+    if (currentLocation === `${AppRoutesEnum.AdminRoute}/login`) {
         return <Body />; 
     }
     return (
         <>
-            {!currentLocation.startsWith('/administration') ? (
+            {!currentLocation.startsWith(AppRoutesEnum.AdminRoute) ? (
                 <>
                     <Header />
                     <Body />

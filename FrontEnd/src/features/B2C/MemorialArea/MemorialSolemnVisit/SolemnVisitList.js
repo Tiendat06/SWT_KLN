@@ -1,8 +1,8 @@
 import {useCallback, useEffect, useState} from "react";
-import {getSolemnVisitListService} from "~/services/SolemnVisitService";
+import {solemnVisitService} from "~/services/SolemnVisitService";
 import clsx from "clsx";
 import styles from '~/styles/Pages/B2C/Memorial/memorialSolemnVisit.module.scss';
-import { KLNReactPaginate, KLNSkeletonWithSpinner} from "~/components";
+import {KLNReactPaginate, KLNSkeletonWithSpinner} from "~/components";
 
 const SolemnVisitList = () => {
     const [solemnVisitList, setSolemnVisitList] = useState([]);
@@ -14,7 +14,7 @@ const SolemnVisitList = () => {
     useEffect(() => {
         const getSolemnVisitList = async () => {
             setIsLoading(true);
-            const data = await getSolemnVisitListService(ITEMS_PER_PAGE, currentPage);
+            const data = await solemnVisitService.getSolemnVisitListService(ITEMS_PER_PAGE, currentPage);
             setSolemnVisitList(data?.data?.items);
             setPageCount(Math.ceil(data?.data?.totalCount / ITEMS_PER_PAGE));
             setIsLoading(false);
@@ -45,8 +45,8 @@ const SolemnVisitList = () => {
                                     <div className="col-lg-6 col-md-6 col-sm-6 d-flex justify-content-center">
                                         <img
                                             style={{
-                                            width: "70%",
-                                        }} src={solemnVisit?.portraitImage} alt=""/>
+                                                width: "70%",
+                                            }} src={solemnVisit?.portraitImage} alt=""/>
                                     </div>
                                     <div className="col-lg-6 col-md-6 col-sm-6 h-100">
                                         <img style={{

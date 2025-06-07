@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import { Link } from "react-router-dom";
-import { Card } from "primereact/card";
+import {Link} from "react-router-dom";
+import {Card} from "primereact/card";
 import clsx from "clsx";
 import styles from "~/styles/Pages/B2C/Memorial/ExhibitSection.module.scss";
-import {getSlideShowListService,} from "~/services/SlideShowService";
+import {slideShowService} from "~/services/SlideShowService";
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
 
@@ -12,8 +12,8 @@ const ExhibitSection = () => {
 
     useEffect(() => {
         const getExhibit = async () => {
-            const exhibitionHouseData = await getSlideShowListService(1, 1, MediaType.TDTMemorial, SlideShowType.ExhibitionHouse);
-            const artifactData = await getSlideShowListService(1, 1, MediaType.TDTMemorial, SlideShowType.Artifact);
+            const exhibitionHouseData = await slideShowService.getSlideShowListService(1, 1, MediaType.TDTMemorial, SlideShowType.ExhibitionHouse);
+            const artifactData = await slideShowService.getSlideShowListService(1, 1, MediaType.TDTMemorial, SlideShowType.Artifact);
             const artifacts = artifactData?.data?.items[0];
             const exhibitionHouses = exhibitionHouseData?.data?.items[0];
             artifacts.urlLink = '/memorial-artifact';
@@ -32,11 +32,12 @@ const ExhibitSection = () => {
                         {/* Header (Tiêu đề + Xem thêm) */}
                         <div className={clsx(styles["exhibit-header"])}>
                             <h3 className={clsx(styles["exhibit-title"])}>{item?.title}</h3>
-                            <Link to={`${item.urlLink}/${item.slideShowId}`} className={clsx(styles["exhibit-link"])}>Xem thêm</Link>
+                            <Link to={`${item.urlLink}/${item.slideShowId}`} className={clsx(styles["exhibit-link"])}>Xem
+                                thêm</Link>
                         </div>
 
                         {/* Ảnh chính */}
-                        <img src={item?.image} alt={item?.title} className={clsx(styles["exhibit-image"])} />
+                        <img src={item?.image} alt={item?.title} className={clsx(styles["exhibit-image"])}/>
                         <p className={clsx(styles["exhibit-description"])}>{item?.description}</p>
 
                         {/* Danh sách hình ảnh hiện vật */}
@@ -49,7 +50,7 @@ const ExhibitSection = () => {
                                         width: 153,
                                         height: 93,
                                         objectFit: "cover"
-                                    }} src={exhibit?.imageLink} alt="Hình ảnh" />
+                                    }} src={exhibit?.imageLink} alt="Hình ảnh"/>
                                     <p style={{
                                         marginLeft: 10
                                     }}>{exhibit?.capture}</p>

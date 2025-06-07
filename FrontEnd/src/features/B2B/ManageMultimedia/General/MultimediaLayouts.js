@@ -8,16 +8,17 @@ import {Link} from "react-router-dom";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import {useAdminContext} from "~/context/AdminContext";
 import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
-import {getTotalSlideImageInSpecificSlideShowService} from "~/services/SlideShowService";
+import {slideShowService} from "~/services/SlideShowService";
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
-import {getTotalMusicService} from "~/services/MusicService";
-import {getTotalVideoService} from "~/services/VideoService";
+import {musicService} from "~/services/MusicService";
+import {videoService} from "~/services/VideoService";
 
 const MultimediaLayouts = () => {
     const {tabView, setTabView, setDeleteAction} = useAdminContext();
     const [tabViewData, setTabViewData] = useState([]);
-    const {setVisible, isUpdated
+    const {
+        setVisible, isUpdated
     } = useManageMultimediaContext();
 
     const showModal = useCallback(() => {
@@ -31,22 +32,38 @@ const MultimediaLayouts = () => {
 
     useEffect(() => {
         const getTotalCount = async () => {
-            const totalSlideImageData = await getTotalSlideImageInSpecificSlideShowService(MediaType.PresidentTDT, SlideShowType.TDTArtistic)
-            const totalMusicData = await getTotalMusicService(MediaType.PresidentTDT);
-            const totalVideoData = await getTotalVideoService(MediaType.PresidentTDT);
+            const totalSlideImageData = await slideShowService.getTotalSlideImageInSpecificSlideShowService(MediaType.PresidentTDT, SlideShowType.TDTArtistic)
+            const totalMusicData = await musicService.getTotalMusicService(MediaType.PresidentTDT);
+            const totalVideoData = await videoService.getTotalVideoService(MediaType.PresidentTDT);
 
             setTabViewData([
-                {id: 1, tabView: TabViewEnum.ManageMultimediaTabImage, title: 'Ảnh', totalCount: totalSlideImageData.data?.totalSlideImage},
-                {id: 2, tabView: TabViewEnum.ManageMultimediaTabVideo, title: 'Video', totalCount: totalMusicData.data?.totalMusic},
-                {id: 3, tabView: TabViewEnum.ManageMultimediaTabAudio, title: 'Nhạc', totalCount: totalVideoData.data?.totalVideo},
+                {
+                    id: 1,
+                    tabView: TabViewEnum.ManageMultimediaTabImage,
+                    title: 'Ảnh',
+                    totalCount: totalSlideImageData.data?.totalSlideImage
+                },
+                {
+                    id: 2,
+                    tabView: TabViewEnum.ManageMultimediaTabVideo,
+                    title: 'Video',
+                    totalCount: totalMusicData.data?.totalMusic
+                },
+                {
+                    id: 3,
+                    tabView: TabViewEnum.ManageMultimediaTabAudio,
+                    title: 'Nhạc',
+                    totalCount: totalVideoData.data?.totalVideo
+                },
             ]);
         }
         getTotalCount();
     }, [isUpdated]);
 
     const items = [
-        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-multimedia`}>Tài liệu đa phương tiện</Link> },
-        { template: () => {
+        {template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-multimedia`}>Tài liệu đa phương tiện</Link>},
+        {
+            template: () => {
                 return (
                     <>
                         {tabView === TabViewEnum.ManageMultimediaTabImage && (
@@ -80,7 +97,7 @@ const MultimediaLayouts = () => {
                     <>Danh sách nhạc</>
                 )}
             </h2>
-            <KLNBreadCrumb items={items} />
+            <KLNBreadCrumb items={items}/>
             <div className="d-flex flex-wrap justify-content-between align-items-center">
                 <KLNTabView
                     onClickTabView={() => setDeleteAction(false)}
@@ -127,16 +144,16 @@ const MultimediaLayouts = () => {
                         marginRight: 15,
                         marginBottom: 0
                     }}>Số luợng hiển thị</p>
-                    <KLNCascadeSelect />
+                    <KLNCascadeSelect/>
                 </div>
                 {tabView === TabViewEnum.ManageMultimediaTabImage && (
-                    <ImageTable />
+                    <ImageTable/>
                 )}
                 {tabView === TabViewEnum.ManageMultimediaTabVideo && (
-                    <VideoTable />
+                    <VideoTable/>
                 )}
                 {tabView === TabViewEnum.ManageMultimediaTabAudio && (
-                    <AudioTable />
+                    <AudioTable/>
                 )}
             </div>
         </>

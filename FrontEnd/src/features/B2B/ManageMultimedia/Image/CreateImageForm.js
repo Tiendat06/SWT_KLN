@@ -12,7 +12,7 @@ import {Calendar} from 'primereact/calendar';
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import TabViewEnum from "~/enum/TabView/TabViewEnum";
 import {useAdminContext} from "~/context/AdminContext";
-import {addSlideImageInSpecificSlideShowService} from "~/services/SlideShowService";
+import {slideShowService} from "~/services/SlideShowService";
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
 
@@ -28,7 +28,7 @@ const CreateImageForm = () => {
 
     const handleAddImage = useCallback(() => {
         const addSlideImage = async () => {
-            const addedSlideImageData = await addSlideImageInSpecificSlideShowService(addedSlideImage, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
+            const addedSlideImageData = await slideShowService.addSlideImageInSpecificSlideShowService(addedSlideImage, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
             const status = addedSlideImageData.status;
             if (status === 200)
                 showToast({

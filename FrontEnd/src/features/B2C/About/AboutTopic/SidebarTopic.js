@@ -3,7 +3,7 @@ import clsx from "clsx";
 import styles from "~/styles/Pages/B2C/About/aboutSidebarBooks.module.scss";
 import {KLNReactDotPaginate} from "~/components";
 import {useAboutTopicContext} from "~/context/B2C/About/AboutTopicContext";
-import {getTopicByIdService, getTopicListService} from "~/services/TopicService";
+import {topicService} from "~/services/TopicService";
 import {useNavigate} from "react-router-dom";
 import MediaType from "~/enum/MediaType/MediaType";
 
@@ -24,7 +24,7 @@ const SidebarTopic = () => {
 
     useEffect(() => {
         const getDefaultTopic = async () => {
-            const defaultData = await getTopicByIdService(topicId);
+            const defaultData = await topicService.getTopicByIdService(topicId);
             setSelectedTopic(defaultData?.data);
         }
         getDefaultTopic();
@@ -32,7 +32,7 @@ const SidebarTopic = () => {
 
     useEffect(() => {
         const getTopicList = async () => {
-            const data = await getTopicListService(ITEMS_PER_PAGE, currentPage, MediaType.PresidentTDT, topicType);
+            const data = await topicService.getTopicListService(ITEMS_PER_PAGE, currentPage, MediaType.PresidentTDT, topicType);
             onClickTopic(data?.data?.items[0]);
             setTopicList(data?.data?.items);
             setPageCount(Math.ceil(data?.data?.totalCount / ITEMS_PER_PAGE));

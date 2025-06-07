@@ -1,7 +1,7 @@
 import KLNTitle from "~/components/KLNTitle/KLNTitle";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getBlogByIdService} from "~/services/BlogService";
+import {blogService} from "~/services/BlogService";
 import {Helmet} from "react-helmet-async";
 import { capitalCase } from 'change-case';
 import {BLOG_TDT_TITLE} from "~/utils/Constansts";
@@ -12,7 +12,7 @@ const BlogContent = () => {
 
     useEffect(() => {
         const getBlogById = async () => {
-            const data = await getBlogByIdService(blogId);
+            const data = await blogService.getBlogByIdService(blogId);
             setBlog(data?.data);
         }
         getBlogById();

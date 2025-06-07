@@ -3,7 +3,7 @@ import styles from "~/styles/Pages/B2C/About/aboutArt.module.scss";
 import SlideImage from "~/components/KLNSlideImage/KLNSlideImage";
 import {useAboutArtContext} from "~/context/B2C/About/AboutArtContext";
 import {useLayoutEffect} from "react";
-import {getSlideShowByIdService} from "~/services/SlideShowService";
+import {slideShowService} from "~/services/SlideShowService";
 
 function SlideShow(){
     const {
@@ -18,7 +18,7 @@ function SlideShow(){
     useLayoutEffect(() => {
         const getSlideShowById = async () => {
             try {
-                const data = await getSlideShowByIdService(slideShowId);
+                const data = await slideShowService.getSlideShowByIdService(slideShowId);
                 const slideShowData = data?.data;
                 const slideImageData = data?.data?.slideImage;
                 setSlideShow(slideShowData);

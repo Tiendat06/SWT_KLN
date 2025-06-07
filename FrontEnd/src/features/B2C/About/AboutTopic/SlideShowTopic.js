@@ -3,7 +3,7 @@ import styles from "~/styles/Pages/B2C/About/aboutTopic.module.scss";
 import SlideImage from "~/components/KLNSlideImage/KLNSlideImage";
 import {useAboutTopicContext} from "~/context/B2C/About/AboutTopicContext";
 import {useEffect} from "react";
-import {getTopicByIdService} from "~/services/TopicService";
+import {topicService} from "~/services/TopicService";
 import {Button} from "primereact/button";
 import TopicType from "~/enum/Topic/TopicType";
 
@@ -19,7 +19,7 @@ function SlideShowTopic() {
 
     useEffect(() => {
         const getTopic = async () => {
-            const data = await getTopicByIdService(topicId);
+            const data = await topicService.getTopicByIdService(topicId);
             let topic;
             if (topicType === TopicType.ImageType)
                 topic = data?.data?.images

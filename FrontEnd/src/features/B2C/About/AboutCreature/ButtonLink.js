@@ -1,7 +1,7 @@
 import {KLNButton} from "~/components";
 import {useEffect, useState} from "react";
-import {getBookListService} from "~/services/BookService";
-import {getMagazineListService} from "~/services/MagazineService";
+import {bookService} from "~/services/BookService";
+import {magazineService} from "~/services/MagazineService";
 
 const ButtonLink = ({isBookNavigation = true}) => {
     const [itemsId, setItemsId] = useState(null);
@@ -10,11 +10,11 @@ const ButtonLink = ({isBookNavigation = true}) => {
             let data;
             let id;
             if (isBookNavigation){
-                data = await getBookListService(1, 1);
+                data = await bookService.getBookListService(1, 1);
                 id = data?.data?.items[0]?.bookId
             }
             else{
-                data = await getMagazineListService(1, 1);
+                data = await magazineService.getMagazineListService(1, 1);
                 id = data?.data?.items[0]?.magazineId
             }
             setItemsId(id);
