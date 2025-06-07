@@ -2,9 +2,10 @@ import UseFetchAPI from "~/hooks/UseFetchAPI";
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
 
+const slideShowRoute = 'api/SlideShow';
 export const getSlideShowByIdService = async (id) => {
     return await UseFetchAPI({
-        api: `api/SlideShow/${id}`,
+        api: `${slideShowRoute}/${id}`,
     })
 }
 
@@ -13,13 +14,13 @@ export const getSlideShowListService = async (fetch, page,
                                               slideShowType = SlideShowType.None,
                                               keyword = "") => {
     return await UseFetchAPI({
-        api: `api/SlideShow?Fetch=${fetch}&Page=${page}&Type=${type}&Keyword=${keyword}&SlideShowType=${slideShowType}`,
+        api: `${slideShowRoute}?Fetch=${fetch}&Page=${page}&Type=${type}&Keyword=${keyword}&SlideShowType=${slideShowType}`,
     })
 }
 
 export const deleteSlideImageInSpecificSlideShowService = async (ids, mediaType = MediaType.None, slideShowType = SlideShowType.None) => {
     return await UseFetchAPI({
-        api: `api/SlideShow`,
+        api: `${slideShowRoute}`,
         method: "DELETE",
         body: JSON.stringify({
             ids,
@@ -31,7 +32,7 @@ export const deleteSlideImageInSpecificSlideShowService = async (ids, mediaType 
 
 export const getTotalSlideImageInSpecificSlideShowService = async (type = MediaType.None, slideShowType = SlideShowType.None) => {
     return await UseFetchAPI({
-        api: `api/SlideShow/total?Type=${type}&SlideShowType=${slideShowType}`,
+        api: `${slideShowRoute}/total?Type=${type}&SlideShowType=${slideShowType}`,
     });
 }
 
@@ -45,7 +46,7 @@ export const addSlideImageInSpecificSlideShowService = async (addedSlideImage,
     formData.append("capture", addedSlideImage.description);
 
     return await UseFetchAPI({
-        api: `api/SlideShow`,
+        api: `${slideShowRoute}`,
         method: "PUT",
         body: formData,
         headers: {

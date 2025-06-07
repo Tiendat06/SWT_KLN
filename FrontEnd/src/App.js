@@ -5,6 +5,7 @@ import 'primeicons/primeicons.css';
 import clsx from "clsx";
 import {useAdminContext} from "~/context/AdminContext";
 import KLNToast from "./components/KLNToast/KLNToast";
+import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 
 const App = () => {
     const {currentLocation} = useAdminContext();
@@ -12,7 +13,7 @@ const App = () => {
     return (
         <>
             <div className={
-                clsx(!currentLocation.startsWith('/administration') ?
+                clsx(!currentLocation.startsWith(AppRoutesEnum.AdminRoute) ?
                 "app" :
                 "admin-app"
             )}>

@@ -1,7 +1,8 @@
 import UseFetchAPI from "~/hooks/UseFetchAPI";
 
+const slideShowTypeRoute = 'api/SlideShowType';
 export const getSlideShowTypeListService = async (fetch, page) => {
     return await UseFetchAPI({
-        api: `api/SlideShowType?Fetch=${fetch}&Page=${page}`,
+        api: `${slideShowTypeRoute}?Fetch=${fetch}&Page=${page}`,
     })
 }
