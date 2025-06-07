@@ -4,10 +4,11 @@ import styles from '~/styles/Components/KLNReactPaginate/klnReactPaginate.module
 import {memo} from "react";
 import {BsThreeDots} from "react-icons/bs";
 
-function KLNReactPaginate({ handlePageClick, pageCount }) {
+function KLNReactPaginate({ handlePageClick, pageCount, ...props }) {
 
     return (
         <ReactPaginate
+            {...props}
             breakLabel={<BsThreeDots className={clsx(styles['break-icon'])} size={18} />}
             breakLinkClassName={'break-link'}
             breakClassName={clsx(styles["break-me"])}

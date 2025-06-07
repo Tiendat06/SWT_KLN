@@ -1,6 +1,4 @@
-import {DataTable} from "primereact/datatable";
-import {Column} from "primereact/column";
-import {KLNReactPaginate, KLNTableAction} from "~/components";
+import {KLNColumn, KLNDataTable, KLNReactPaginate, KLNTableAction} from "~/components";
 import {useCallback, useLayoutEffect, useState} from "react";
 import {getVideoListService} from "~/services/VideoService";
 import {useAdminContext} from "~/context/AdminContext";
@@ -19,7 +17,7 @@ const VideoTable = () => {
     const {
         selectedPageOption, setDeleteAction
     } = useAdminContext();
-    const {visible, setVisible, isUpdated, dispatch, videoList} = useManageMultimediaContext();
+    const {visible, setVisible, isLoading, setIsLoading, isUpdated, dispatch, videoList} = useManageMultimediaContext();
 
     const handleBtnDeleteMany = useCallback(async () => {
         // api
@@ -38,15 +36,17 @@ const VideoTable = () => {
 
     useLayoutEffect(() => {
         const getVideoList = async () => {
+            setIsLoading(true);
             const data = await getVideoListService(selectedPageOption.code, currentPage, MediaType.PresidentTDT);
             const videoData = data?.data?.items;
             dispatch(getVideoAction(videoData));
             setPageCount(Math.ceil(data?.data?.totalCount / selectedPageOption.code));
+            setIsLoading(false);
         }
         getVideoList();
     }, [currentPage, selectedPageOption, isUpdated]);
 
-    const handlePageClick = useCallback( (event) => {
+    const handlePageClick = useCallback((event) => {
         setCurrentPage(event.selected + 1);
     }, []);
 
@@ -57,10 +57,10 @@ const VideoTable = () => {
             }}
             src={video?.videoImageLink}
             alt={video?.videoTitle}
-            className="w-6rem shadow-2 border-round" />;
+            className="w-6rem shadow-2 border-round"/>;
     };
 
-    const indexTemplate = (rowData, { rowIndex }) => {
+    const indexTemplate = (rowData, {rowIndex}) => {
         return <span>{rowIndex + 1}</span>;
     }
 
@@ -69,18 +69,20 @@ const VideoTable = () => {
             <div style={{
                 borderRadius: 10
             }} className="card overflow-hidden mb-5">
-                <DataTable
+                <KLNDataTable
+                    loading={isLoading}
                     value={videoList}
-                    tableStyle={{ minWidth: '60rem' }}
+                    tableStyle={{minWidth: '60rem'}}
                     selectionMode="multiple"
                     selection={selectedItems}
                     onSelectionChange={(e) => setSelectedItems(e.value)}
                 >
-                    <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-                    <Column body={indexTemplate} header="#" headerStyle={{ width: '3rem' }}></Column>
-                    <Column headerStyle={{width: '8rem'}} bodyStyle={{width: '8rem', textAlign: 'center'}} header="Thumnails" body={imageBodyTemplate}></Column>
-                    <Column field="videoTitle" header="Tiêu đề"></Column>
-                    <Column headerStyle={{width: '10rem'}} bodyStyle={{
+                    <KLNColumn selectionMode="multiple" headerStyle={{width: '3rem'}}></KLNColumn>
+                    <KLNColumn body={indexTemplate} header="#" headerStyle={{width: '3rem'}}></KLNColumn>
+                    <KLNColumn headerStyle={{width: '8rem'}} bodyStyle={{width: '8rem', textAlign: 'center'}}
+                               header="Thumnails" body={imageBodyTemplate}></KLNColumn>
+                    <KLNColumn field="videoTitle" header="Tiêu đề"></KLNColumn>
+                    <KLNColumn headerStyle={{width: '10rem'}} bodyStyle={{
                         width: '10rem',
                         display: 'flex',
                         justifyContent: 'space-around',
@@ -88,14 +90,14 @@ const VideoTable = () => {
                     }} header="Thao tác" body={(rowData) => (<KLNTableAction
                         editActionLink={`${AppRoutesEnum.AdminRoute}/manage-multimedia/video/${rowData.videoId}`}
                         onClickDelete={() => showModal(rowData)}
-                    />)}></Column>
-                </DataTable>
+                    />)}></KLNColumn>
+                </KLNDataTable>
             </div>
             <KLNReactPaginate
                 pageCount={pageCount}
                 handlePageClick={handlePageClick}
             />
-            <DeleteVideo />
+            <DeleteVideo/>
             <DeleteMany
                 visible={visible}
                 setVisible={setVisible}
