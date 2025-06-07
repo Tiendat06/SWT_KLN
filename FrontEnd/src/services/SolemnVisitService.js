@@ -1,7 +1,8 @@
 import UseFetchAPI from "~/hooks/UseFetchAPI";
 
+const solemnVisitRoute = 'api/SolemnVisit';
 export const getSolemnVisitListService = async (fetch, page) => {
     return await UseFetchAPI({
-        api: `api/SolemnVisit?Fetch=${fetch}&Page=${page}`,
+        api: `${solemnVisitRoute}?Fetch=${fetch}&Page=${page}`,
     })
 }
