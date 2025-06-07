@@ -3,12 +3,12 @@ import styles from "~/styles/Pages/B2C/About/aboutMultimediaDocuments.module.scs
 import {anh, nhac, phim, videoclip} from "~/assets/img";
 import {Link} from "react-router-dom";
 import {useLayoutEffect, useState} from "react";
-import {getSlideShowListService} from "~/services/SlideShowService";
+import {slideShowService} from "~/services/SlideShowService";
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
 import {useAboutMultimediaDocumentContext} from "~/context/B2C/About/AboutMultimediaDocumentContext";
-import {getVideoListService} from "~/services/VideoService";
-import {getMusicListService} from "~/services/MusicService";
+import {videoService} from "~/services/VideoService";
+import {musicService} from "~/services/MusicService";
 
 const MultimediaCategory = () => {
     const [multimedia, setMultimedia] = useState([]);
@@ -20,9 +20,9 @@ const MultimediaCategory = () => {
 
     useLayoutEffect(() => {
         const getSlideShowList = async () => {
-            const artData = await getSlideShowListService(1, 1, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
-            const videoData = await getVideoListService(4, 1, MediaType.PresidentTDT);
-            const musicData = await getMusicListService(4, 1, MediaType.PresidentTDT);
+            const artData = await slideShowService.getSlideShowListService(1, 1, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
+            const videoData = await videoService.getVideoListService(4, 1, MediaType.PresidentTDT);
+            const musicData = await musicService.getMusicListService(4, 1, MediaType.PresidentTDT);
             const slideShowId = artData?.data?.items[0].slideShowId;
             const videoId = videoData?.data?.items[0]?.videoId;
             const musicId = musicData?.data?.items[0]?.musicId;
@@ -46,7 +46,8 @@ const MultimediaCategory = () => {
         <>
             <div className={clsx(styles["multimedia-grid"])}>
                 {multimedia.map((item, index) => (
-                    <Link to={item.urlLink} key={`multimedia-category-${index}`} className={clsx(styles["multimedia-card"])}>
+                    <Link to={item.urlLink} key={`multimedia-category-${index}`}
+                          className={clsx(styles["multimedia-card"])}>
                         <img
                             src={item.imgSrc}
                             alt={item.title}

@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import styles from '~/styles/Pages/B2C/About/aboutVideoFilm.module.scss';
 import KLNVideoClip from "~/components/KLNVideoClip/KLNVideoClip";
 import {useLayoutEffect} from "react";
-import {getVideoListService} from "~/services/VideoService";
+import {videoService} from "~/services/VideoService";
 import {useAboutVideoContext} from "~/context/B2C/About/AboutVideoContext";
 
 function VideoClipList(){
@@ -14,7 +14,7 @@ function VideoClipList(){
 
     useLayoutEffect(() => {
         const getVideoList = async () => {
-            const data = await getVideoListService();
+            const data = await videoService.getVideoListService();
             setVideoList(data?.data?.items);
         }
         getVideoList();

@@ -1,7 +1,7 @@
 import {KLNColumn, KLNDataTable, KLNReactPaginate, KLNTableAction} from "~/components";
 import {useCallback, useLayoutEffect, useState} from "react";
 import {useAdminContext} from "~/context/AdminContext";
-import {getMusicListService} from "~/services/MusicService";
+import {musicService} from "~/services/MusicService";
 import MediaType from "~/enum/MediaType/MediaType";
 import DeleteAudio from "~/features/B2B/ManageMultimedia/Audio/DeleteAudio";
 import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
@@ -36,7 +36,7 @@ const AudioTable = () => {
     useLayoutEffect(() => {
         const getAudioList = async () => {
             setIsLoading(true);
-            const data = await getMusicListService(selectedPageOption.code, currentPage, MediaType.PresidentTDT);
+            const data = await musicService.getMusicListService(selectedPageOption.code, currentPage, MediaType.PresidentTDT);
             const audioData = data?.data?.items;
             dispatch(getAudioAction(audioData));
             setPageCount(Math.ceil(data?.data?.totalCount / selectedPageOption.code))
@@ -80,7 +80,7 @@ const AudioTable = () => {
                         <KLNColumn selectionMode="multiple" headerStyle={{width: '3rem'}}></KLNColumn>
                         <KLNColumn body={indexTemplate} header="#" headerStyle={{width: '3rem'}}></KLNColumn>
                         <KLNColumn headerStyle={{width: '8rem'}} bodyStyle={{width: '8rem', textAlign: 'center'}}
-                                header="Thumnails" body={imageBodyTemplate}></KLNColumn>
+                                   header="Thumnails" body={imageBodyTemplate}></KLNColumn>
                         <KLNColumn field="musicTitle" header="Tiêu đề"></KLNColumn>
                         <KLNColumn field="musicAuthor" header="Nhạc sĩ"></KLNColumn>
                         <KLNColumn headerStyle={{width: '10rem'}} bodyStyle={{

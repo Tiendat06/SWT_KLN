@@ -7,14 +7,14 @@ import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import {useEffect, useState} from "react";
-import {getTopicListService} from "~/services/TopicService";
+import {topicService} from "~/services/TopicService";
 
 function TDTHandiwork() {
     const [handiworkList, setHandiworkList] = useState([]);
 
     useEffect(() => {
         const GetHandiworkList = async () => {
-            const data = await getTopicListService(0, 1);
+            const data = await topicService.getTopicListService(0, 1);
             let handiwork = data?.data?.items;
             handiwork = handiwork.filter(x => x.images.length > 0)
             setHandiworkList(handiwork);
@@ -32,7 +32,8 @@ function TDTHandiwork() {
         return (
             <>
                 <Link
-                    to={`/about-topic/${topic?.topicId}`} key={topic?.topicId} className={clsx(styles["about-handiwork__card"])}>
+                    to={`/about-topic/${topic?.topicId}`} key={topic?.topicId}
+                    className={clsx(styles["about-handiwork__card"])}>
                     <div className={clsx(styles["about-handiwork__card-img"])}>
                         <img className={clsx(styles["about-handiwork__card-img-item"])}
                              src={topic?.images[0]?.imageLink} alt=""/>

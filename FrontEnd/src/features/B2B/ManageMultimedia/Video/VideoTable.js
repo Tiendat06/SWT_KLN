@@ -1,6 +1,6 @@
 import {KLNColumn, KLNDataTable, KLNReactPaginate, KLNTableAction} from "~/components";
 import {useCallback, useLayoutEffect, useState} from "react";
-import {getVideoListService} from "~/services/VideoService";
+import {videoService} from "~/services/VideoService";
 import {useAdminContext} from "~/context/AdminContext";
 import MediaType from "~/enum/MediaType/MediaType";
 import DeleteVideo from "~/features/B2B/ManageMultimedia/Video/DeleteVideo";
@@ -37,7 +37,7 @@ const VideoTable = () => {
     useLayoutEffect(() => {
         const getVideoList = async () => {
             setIsLoading(true);
-            const data = await getVideoListService(selectedPageOption.code, currentPage, MediaType.PresidentTDT);
+            const data = await videoService.getVideoListService(selectedPageOption.code, currentPage, MediaType.PresidentTDT);
             const videoData = data?.data?.items;
             dispatch(getVideoAction(videoData));
             setPageCount(Math.ceil(data?.data?.totalCount / selectedPageOption.code));

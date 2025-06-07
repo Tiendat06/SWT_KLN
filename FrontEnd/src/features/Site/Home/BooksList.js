@@ -3,7 +3,7 @@ import styles from "~/styles/Pages/Site/site.module.scss";
 import {plus_icon_1,} from "~/assets/img";
 import {siteJRoutes} from '~/routes/appRoutes';
 import {Link} from "react-router-dom";
-import {getMagazineListService} from "~/services/MagazineService";
+import {magazineService} from "~/services/MagazineService";
 import {useEffect, useState} from "react";
 
 function BooksList() {
@@ -11,7 +11,7 @@ function BooksList() {
     const [bookList, setBookList] = useState([]);
     useEffect(() => {
         const GetMagazineList = async () => {
-            const data = await getMagazineListService(3, 1);
+            const data = await magazineService.getMagazineListService(3, 1);
             setBookList(data?.data?.items);
         }
         GetMagazineList();

@@ -1,8 +1,8 @@
 import {useAboutBooksMagazinesContext} from "~/context/B2C/About/AboutBooksMagazinesContext";
 import {ListOfBooks, ListOfMagazines} from "~/features/B2C/About";
 import {useEffect} from "react";
-import {getBookByIdService} from "~/services/BookService";
-import {getMagazineByIdService} from "~/services/MagazineService";
+import {bookService} from "~/services/BookService";
+import {magazineService} from "~/services/MagazineService";
 
 const ItemContent = () => {
     const {
@@ -13,8 +13,8 @@ const ItemContent = () => {
 
     useEffect(() => {
         const getDefaultItems = async () => {
-            const defaultMagazineData = await getMagazineByIdService(itemId);
-            const defaultBookData = await getBookByIdService(itemId);
+            const defaultMagazineData = await magazineService.getMagazineByIdService(itemId);
+            const defaultBookData = await bookService.getBookByIdService(itemId);
 
             if (defaultMagazineData?.data !== undefined){
                 setSelectedBook(null);

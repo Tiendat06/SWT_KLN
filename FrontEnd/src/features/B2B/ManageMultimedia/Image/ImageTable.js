@@ -1,5 +1,7 @@
 import {useCallback, useEffect, useState} from "react";
-import {deleteSlideImageInSpecificSlideShowService, getSlideShowListService} from "~/services/SlideShowService";
+import {
+    slideShowService
+} from "~/services/SlideShowService";
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
 import {KLNColumn, KLNReactPaginate, KLNTableAction} from "~/components";
@@ -34,7 +36,7 @@ const ImageTable = () => {
 
     const handleDeleteMany = useCallback(async () => {
         // api
-        const deleteSlideImages = await deleteSlideImageInSpecificSlideShowService(selectedItems, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
+        const deleteSlideImages = await slideShowService.deleteSlideImageInSpecificSlideShowService(selectedItems, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
         if (deleteSlideImages)
             dispatch(deleteImageAction(selectedItems));
         setVisible(false);
@@ -52,7 +54,7 @@ const ImageTable = () => {
     useEffect(() => {
         const getSlideShow = async () => {
             setIsLoading(true);
-            const data = await getSlideShowListService(1, 1, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
+            const data = await slideShowService.getSlideShowListService(1, 1, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
             const slideShowData = data?.data?.items[0];
             const startIndex = (currentPage - 1) * selectedPageOption.code;
             const endIndex = startIndex + selectedPageOption.code;
@@ -111,13 +113,14 @@ const ImageTable = () => {
                         tableStyle={{minWidth: '60rem'}}
                         selectionMode="multiple"
                         selection={selectedItems}
-                        loadingIcon={<i className="pi pi-spin pi-spinner" style={{ fontSize: '2rem', color: '#3f51b5' }} />}
+                        loadingIcon={<i className="pi pi-spin pi-spinner"
+                                        style={{fontSize: '2rem', color: '#3f51b5'}}/>}
                         onSelectionChange={(e) => setSelectedItems(e.value)}
                     >
                         <KLNColumn selectionMode="multiple" headerStyle={{width: '3rem'}}></KLNColumn>
                         <KLNColumn body={indexTemplate} header="#" headerStyle={{width: '3rem'}}></KLNColumn>
                         <KLNColumn headerStyle={{width: '8rem'}} bodyStyle={{width: '8rem', textAlign: 'center'}}
-                                header="Thumnails" body={imageBodyTemplate}></KLNColumn>
+                                   header="Thumnails" body={imageBodyTemplate}></KLNColumn>
                         <KLNColumn field="capture" header="Nội dung"></KLNColumn>
                         <KLNColumn headerStyle={{width: '10rem'}} bodyStyle={{
                             width: '10rem',
