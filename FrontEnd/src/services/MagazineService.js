@@ -1,9 +1,13 @@
 import UseFetchAPI from "~/hooks/UseFetchAPI";
 import MediaType from "~/enum/MediaType/MediaType";
+import {DEFAULT_FETCH, DEFAULT_PAGE} from "~/utils/Constansts";
 
 const magazineRoute = 'api/Magazine';
 
-const getMagazineListService = async (fetch, page, type = MediaType.None, keyword = "") => {
+const getMagazineListService = async (fetch = DEFAULT_FETCH,
+                                      page = DEFAULT_PAGE,
+                                      type = MediaType.None,
+                                      keyword = "") => {
     return await UseFetchAPI({
         api: `${magazineRoute}`,
         params: {

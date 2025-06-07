@@ -1,5 +1,6 @@
 import UseFetchAPI from "~/hooks/UseFetchAPI";
 import MediaType from "~/enum/MediaType/MediaType";
+import {DEFAULT_FETCH, DEFAULT_PAGE} from "~/utils/Constansts";
 
 const blogRoute = 'api/Blog';
 
@@ -9,7 +10,10 @@ const getBlogByIdService = async (id) => {
     });
 }
 
-const getBlogListService = async (fetch, page, type = MediaType.None, keyword = "") => {
+const getBlogListService = async (fetch = DEFAULT_FETCH,
+                                  page = DEFAULT_PAGE,
+                                  type = MediaType.None,
+                                  keyword = "") => {
     return await UseFetchAPI({
         api: `${blogRoute}`,
         params: {

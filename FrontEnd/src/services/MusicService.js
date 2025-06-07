@@ -1,9 +1,13 @@
 import UseFetchAPI from "~/hooks/UseFetchAPI";
 import MediaType from "~/enum/MediaType/MediaType";
+import {DEFAULT_FETCH, DEFAULT_PAGE} from "~/utils/Constansts";
 
 const musicRoute = "api/Music";
 
-const getMusicListService = async (fetch, page, type = MediaType.None, keyword = "") => {
+const getMusicListService = async (fetch = DEFAULT_FETCH,
+                                   page = DEFAULT_PAGE,
+                                   type = MediaType.None,
+                                   keyword = "") => {
     return await UseFetchAPI({
         api: `${musicRoute}`,
         params: {

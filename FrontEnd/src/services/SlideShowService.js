@@ -1,6 +1,7 @@
 import UseFetchAPI from "~/hooks/UseFetchAPI";
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
+import {DEFAULT_FETCH, DEFAULT_PAGE} from "~/utils/Constansts";
 
 const slideShowRoute = 'api/SlideShow';
 
@@ -10,8 +11,8 @@ const getSlideShowByIdService = async (id) => {
     })
 }
 
-const getSlideShowListService = async (fetch,
-                                       page,
+const getSlideShowListService = async (fetch = DEFAULT_FETCH,
+                                       page = DEFAULT_PAGE,
                                        type = MediaType.None,
                                        slideShowType = SlideShowType.None,
                                        keyword = "") => {
