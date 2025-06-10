@@ -18,6 +18,15 @@ namespace Application
         public List<GetSlideImageRequest> SlideImage { get; set; }
     }
 
+    public class AddSlideImageRequest
+    {
+        public Guid? SlideShowId { get; set; }
+        public int MediaTypeId { get; set; }
+        public int SlideShowTypeId { get; set; }
+        public string? Capture { get; set; }
+        public IFormFile SlideImage { get; set; }
+    }
+
     public class AddSlideShowRequestValidator : AbstractValidator<AddSlideShowRequest>
     {
         public AddSlideShowRequestValidator(IStringLocalizer<KLNSharedResources> localizer)

@@ -52,5 +52,15 @@ namespace KLN.Shared.CrossCuttingConcerns.Utils
             var result = _cloudinary.DeleteResources(deleteParams) ?? throw new InvalidOperationException("Delete file from Cloudinary failed !");
             return (JObject)result.JsonObj;
         }
+
+        public string ExtractPublicIdFromUrl(string imageUrl)
+        {
+            var uri = new Uri(imageUrl);
+            var segments = uri.AbsolutePath.Split('/');
+            var fileName = Path.GetFileNameWithoutExtension(segments.Last());
+            var folder = segments[^2]; // second last segment
+            return $"{folder}/{fileName}";
+        }
+
     }
 }

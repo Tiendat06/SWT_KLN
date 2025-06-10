@@ -70,5 +70,24 @@ namespace Infrastructure.Repositories
             video.IsDeleted = true;
             await Task.CompletedTask;
         }
+        public async Task<List<Video>> GetVideoByIdsAsync(List<Guid> ids)
+        {
+            return await _context.Videos
+                .AsNoTracking()
+                .Where(video => ids.Contains(video.VideoId!.Value) && video.IsDeleted == false)
+                .ToListAsync();
+        }
+
+        public async Task SoftDeleteMultipleVideoByIdsAsync(List<Guid> ids)
+        {
+            var videos = await _context.Videos
+                .Where(video => ids.Contains(video.VideoId!.Value) && video.IsDeleted == false)
+                .ToListAsync();
+            foreach (var video in videos)
+            {
+                video.IsDeleted = true;
+            }
+            await _context.SaveChangesAsync();
+        }
     }
 }

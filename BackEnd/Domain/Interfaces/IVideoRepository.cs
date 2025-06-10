@@ -15,5 +15,7 @@ namespace Domain.Interfaces
         Task CreateVideoAsync(Video video);
         Task HardDeleteVideoAsync(Guid id);
         Task SoftDeleteVideoAsync(Video video);
+        Task<List<Video>> GetVideoByIdsAsync(List<Guid> ids);
+        Task SoftDeleteMultipleVideoByIdsAsync(List<Guid> ids);
     }
 }
