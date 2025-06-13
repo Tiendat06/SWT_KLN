@@ -1,4 +1,6 @@
-import {BlogContent, Home, ManageImage, LoginPage} from "~/pages"
+import {BlogContent, Home, ManageImage, LoginPage, ManageVideo} from "~/pages"
+import CreateVideo from "~/pages/B2B/ManageVideo/CreateVideo"; 
+
 
 const siteJRoutes = [
     {path: "/", element: <Home/>},
@@ -7,10 +9,18 @@ const siteJRoutes = [
     { path: "/administration/login", element: <LoginPage /> }, 
 ];
 
+const siteTRoutes = [
+      { path: "/administration/manage-video", element: <ManageVideo /> }, 
+      { path: "/administration/manage-multimedia/create-video", element: <CreateVideo /> },
+]
+
 const siteRoutes = [
     ...siteJRoutes,
+    ...siteTRoutes,
 ];
 
-export {siteJRoutes};
+export {siteJRoutes, siteTRoutes};
 
 export default siteRoutes;
+
+

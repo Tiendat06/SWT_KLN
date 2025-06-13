@@ -3,10 +3,6 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import styles from "~/styles/Pages/B2B/MediaDocument/login.module.scss";
 import illustration from "~/assets/img/admin/login/admin_loginPage.png";
-import {Link} from "react-router-dom";
-import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
-import {Helmet} from "react-helmet-async";
-import {LOGIN_PAGE_TITLE} from "~/utils/Constansts";
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
@@ -19,18 +15,19 @@ const LoginPage = () => {
     };
 
     return (
-        <>
-            <Helmet>
-                <title>{LOGIN_PAGE_TITLE}</title>
-            </Helmet>
-            <div className={styles["login"]}>
-                <div className={styles["login__header"]}>
-                    <Link to={AppRoutesEnum.CustomerRoute}>
-                        <h1 className={styles["login__logo"]}>KLN.</h1>
-                        <p className={styles["login__tagline"]}>Đại Học Tôn Đức Thắng</p>
-                    </Link>
+        <div className={styles["login"]}>
+            <div className={styles["login__header"]}>
+                <h1 className={styles["login__logo"]}>KLN.</h1>
+                <p className={styles["login__tagline"]}>Đại Học Tôn Đức Thắng</p>
+            </div>
+            <div className={styles["login__background"]}>
+                <div className={styles["login__left"]}>
+                    <img
+                        src={illustration}
+                        alt="Illustration"
+                        className={styles["login__image"]}
+                    />
                 </div>
-
                 <div className={styles["login__right"]}>
                     <div className={styles["login__form"]}>
                         <h2 className={styles["login__form-title"]}>Chào mừng trở lại!</h2>
@@ -86,7 +83,7 @@ const LoginPage = () => {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

@@ -1,0 +1,58 @@
+@use "../../../GlobalStyles/index" as *;
+@use "../../../Utils/mixins" as *;
+@use "../../../Utils/variables" as *;
+
+.create-video {
+  &__add--video {
+    height: 350px;
+    background: $app-color-TD-26;
+    border-radius: 20px;
+    border: 2px dashed $app-color-5;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__preview--video {
+    &__src {
+      background-color: $app-color-TD-27;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+
+    &__content {
+      padding: 10px 15px 0 15px;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+
+    p {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      font-size: 12px;
+      margin-bottom: 0;
+    }
+  }
+}
+
+:global(.p-card-body) {
+  width: 100%;
+}
+
+:global(.card-details .p-card-content) {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+:global(.p-datepicker-trigger) {
+  background: $app-color-5;
+}

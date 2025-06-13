@@ -54,3 +54,15 @@ export const addSlideImageInSpecificSlideShowService = async (addedSlideImage,
     })
 }
 
+export const addVideoToSpecificSlideShowService = async (formData) => {
+    return await UseFetchAPI({
+        api: `api/SlideShow/video`,
+        method: "PUT",
+        body: formData,
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    });
+};
+
+
