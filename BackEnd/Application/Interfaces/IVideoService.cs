@@ -9,5 +9,6 @@ namespace Application.Interfaces
         Task<bool> DeleteVideoAsync(Guid id);
         Task<GetVideoResponse> UpdateVideoAsync(Guid id, UpdateVideoRequest updateVideoRequest);
         Task<GetTotalVideoResponse> GetTotalVideoAsync(GetTotalVideoRequest input);
+        Task<bool> DeleteMultipleVideoAsync(List<Guid> ids);
     }
 }

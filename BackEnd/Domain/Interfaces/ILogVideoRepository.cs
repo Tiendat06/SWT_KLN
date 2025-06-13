@@ -10,5 +10,6 @@ namespace Domain.Interfaces
         Task CreateLogVideoAsync(LogVideo logVideo);
         Task HardDeleteLogVideoAsync(int id);
         Task SoftDeleteLogVideoAsync(LogVideo logVideo);
+        Task CreateLogVideoRangeAsync(IEnumerable<LogVideo> logVideos);
     }
 }

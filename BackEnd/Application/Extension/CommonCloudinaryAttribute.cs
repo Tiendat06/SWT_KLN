@@ -28,5 +28,6 @@
         // slide show
         public static readonly string assetFolderSlideShow = "KLN/SlideShow";
         public static readonly string assetFolderSlideImage = $"{assetFolderSlideShow}/SlideShow";
+        public static readonly string assetFolderSlideShowImage = $"{assetFolderSlideShow}/SlideShow";
     }
 }

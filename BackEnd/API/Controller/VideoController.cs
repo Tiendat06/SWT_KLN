@@ -70,5 +70,14 @@ namespace API.Controller
             var result = await _videoService.GetTotalVideoAsync(input);
             return ApiSuccess(result);
         }
+
+        // DELETE: api/Video/ids
+        [HttpDelete("ids")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
+        public async Task<IActionResult> DeleteMultipleVideo([FromForm] List<Guid> ids)
+        {
+            var result = await _videoService.DeleteMultipleVideoAsync(ids);
+            return ApiSuccess(result);
+        }
     }
 }

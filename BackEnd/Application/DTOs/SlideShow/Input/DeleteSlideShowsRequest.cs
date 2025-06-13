@@ -10,4 +10,10 @@ namespace Application
     {
         public List<Guid> Ids { get; set; } = new List<Guid>();
     }
+
+    public class DeleteSlideImageRequest
+    {
+        public Guid SlideShowId { get; set; }
+        public List<int> Ids { get; set; }
+    }
 }

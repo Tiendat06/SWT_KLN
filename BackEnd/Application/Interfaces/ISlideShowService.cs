@@ -9,5 +9,8 @@ namespace Application.Interfaces
         Task<GetSlideShowResponse> UpdateSlideShowAsync(Guid id, UpdateSlideShowRequest updateSlideShowRequest);
         Task<bool> DeleteSlideShowsAsync(DeleteSlideShowsRequest deleteSlideShowsRequest);
         Task<GetTotalSlideImageResponse> CountSlideImagePerSlideShowAsync(GetSlideShowRequest input);
+        Task<GetSlideImageResponse> AddSlideImageAsync(AddSlideImageRequest addSlideImageRequest);
+        Task<GetSlideImageResponse> UpdateSlideImageAsync(UpdateSlideImageRequest updateSlideImageRequest);
+        Task<bool> DeleteSlideImageAsync(DeleteSlideImageRequest request);
     }
 }

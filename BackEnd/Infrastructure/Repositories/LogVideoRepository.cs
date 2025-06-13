@@ -49,5 +49,11 @@ namespace Infrastructure.Repositories
             logVideo.Flag = true;
             await Task.CompletedTask;
         }
+
+        public async Task CreateLogVideoRangeAsync(IEnumerable<LogVideo> logVideos)
+        {
+            await _context.LogVideos.AddRangeAsync(logVideos);
+            await _context.SaveChangesAsync();
+        }
     }
 }
