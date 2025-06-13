@@ -1,9 +1,15 @@
 import UseFetchAPI from "~/hooks/UseFetchAPI";
 
-export const loginService = async (email, password) => {
+const authRoute = 'api/Auth';
+
+const loginService = async (email, password) => {
     return await UseFetchAPI({
-        api: "api/Auth/Login",
+        api: `${authRoute}/Login`,
         method: "POST",
-        body: { email, password }
+        body: {email, password}
     });
 };
+
+export const authService = {
+    loginService,
+}

@@ -9,6 +9,8 @@
 * Contains reusable components that are shared between different parts of the application. These components are often small building blocks that help build the interface.
 ### `/context`
 * This is where global state is managed using the Context API or Redux-related logic. This directory is especially useful when you need to share state between multiple components in your application.
+### `/enum`
+* This is where enum data is managed.
 ### `/features`
 * Organize modules by feature, grouping related components, styles, and logic together. This organization helps clearly separate each function in the application.
 ### `/hooks`

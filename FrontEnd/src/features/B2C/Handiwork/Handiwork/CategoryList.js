@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import styles from "~/styles/Pages/B2C/Handiwork/handiwork.module.scss";
 import {useEffect, useState} from "react";
-import {getBlogListService} from "~/services/BlogService";
+import {blogService} from "~/services/BlogService";
 import MediaType from "~/enum/MediaType/MediaType";
 import {Link} from "react-router-dom";
 import {useHandiworkContext} from "~/context/B2C/Handiwork/HandiworkContext";
@@ -11,7 +11,7 @@ const CategoryList = () => {
 
     useEffect(() => {
         const getBlogList = async () => {
-            const data = await getBlogListService(0, 1, MediaType.TDTHandiwork);
+            const data = await blogService.getBlogListService(0, 1, MediaType.TDTHandiwork);
             setBlogList(data?.data?.items);
         }
         getBlogList();
@@ -21,7 +21,7 @@ const CategoryList = () => {
     return (
       <>
           {blogList?.map((item, index) => (
-              <li className={clsx(styles["handiwork-category__item"],
+              <li key={`category-list-${item.blogId}-${index}`} className={clsx(styles["handiwork-category__item"],
                   (item?.blogId === blogId && styles["handiwork-category__item--choose"])
               )}>
                   <Link to={`/handiwork/${item.blogId}`}>

@@ -13,6 +13,7 @@
         // magazine
         public static readonly string assetFolderMagazine = "KLN/magazine";
         public static readonly string assetFolderMagazineImage = $"{assetFolderMagazine}/image";
+        public static readonly string assetFolderMagazinePDF = $"{assetFolderMagazine}/PDF";
 
         // music
         public static readonly string assetFolderMusic = "KLN/music";
@@ -27,5 +28,6 @@
         // slide show
         public static readonly string assetFolderSlideShow = "KLN/SlideShow";
         public static readonly string assetFolderSlideImage = $"{assetFolderSlideShow}/SlideShow";
+        public static readonly string assetFolderSlideShowImage = $"{assetFolderSlideShow}/SlideShow";
     }
 }

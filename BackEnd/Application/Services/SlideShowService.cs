@@ -266,20 +266,228 @@ namespace Application.Services
                         SlideShowId = slideShowEntity.SlideShowId,
                         Process = ProcessMethod.DELETE,
                     }).ToList();
-                    
+
                     await _logSlideShowRepository.CreateLogSlideShowsAsync(newLogSlideShows);
 
                     await _slideShowRepository.SoftDeleteSlideShowsAsync(slideShowEntities.ToList());
 
                     await uow.SaveChangesAsync();
                     await uow.CommitTransactionAsync();
-                    
+
                     return true;
                 }
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
                     throw new InvalidOperationException(_localizer["DeleteSlideShowFailed"]);
+                }
+            }
+        }
+
+        public async Task<GetSlideImageResponse> AddSlideImageAsync(AddSlideImageRequest addSlideImageRequest)
+        {
+            using (var uow = await _unitOfWork.BeginTransactionAsync())
+            {
+                try
+                {
+                    var allowedContentTypes = new[] { CommonFileType.JPEG, CommonFileType.PNG };
+                    if (!FileOperations.CheckFileType(allowedContentTypes, addSlideImageRequest.SlideImage))
+                    {
+                        throw new ArgumentException(CommonExtensions.GetValidateMessage(
+                            _localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}"));
+                    }
+
+                    // Save image to local temporary folder
+                    var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
+                    var filePath = await FileOperations.SaveFileToLocal(folderPath, addSlideImageRequest.SlideImage);
+
+                    // Upload to Cloudinary
+                    var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
+                    var publicId = $"{nameof(Domain.Entities.SlideShow)}_{addSlideImageRequest.SlideShowId}_{Guid.NewGuid()}";
+
+                    var resultUpload = cloudinaryOperations.UploadFileFromLocalToCloudinary(
+                        filePath, CommonCloudinaryAttribute.assetFolderSlideShowImage, publicId)
+                        ?? throw new InvalidOperationException(_localizer["UploadSlideImageCloudinaryFailed"]);
+
+                    var secureUrl = resultUpload["secure_url"]?.ToString()
+                        ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
+
+                    // Remove local temp file
+                    FileOperations.DeleteFileFromLocal(filePath, folderPath);
+
+                    // Get the SlideShow entity
+                    var slideShow = await _slideShowRepository.GetSlideShowByIdAsync(addSlideImageRequest.SlideShowId!.Value)
+                        ?? throw new InvalidOperationException(_localizer["SlideShowNotFound"]);
+
+                    // Track the entity for update
+                    await uow.TrackEntity(slideShow);
+
+                    // Deserialize the SlideImage JSON field
+                    var slideImageList = string.IsNullOrWhiteSpace(slideShow.SlideImage)
+                        ? new List<GetSlideImageResponse>()
+                        : JsonSerializer.Deserialize<List<GetSlideImageResponse>>(slideShow.SlideImage!)!;
+
+                    var newId = slideImageList.Any() ? slideImageList.Max(x => x.Id) + 1 : 1;
+
+                    var newSlideImage = new GetSlideImageResponse
+                    {
+                        Id = newId,
+                        Capture = addSlideImageRequest.Capture,
+                        ImageLink = secureUrl
+                    };
+
+                    slideImageList.Add(newSlideImage);
+
+                    // Update SlideImage field in the tracked entity
+                    slideShow.SlideImage = JsonSerializer.Serialize(slideImageList);
+
+                    await uow.SaveChangesAsync();
+                    await uow.CommitTransactionAsync();
+
+                    return new GetSlideImageResponse
+                    {
+                        Id = newSlideImage.Id,
+                        Capture = newSlideImage.Capture,
+                        ImageLink = newSlideImage.ImageLink
+                    };
+                }
+                catch (Exception)
+                {
+                    await uow.RollbackTransactionAsync();
+                    throw new InvalidOperationException(_localizer["AddSlideImageFailed"]);
+                }
+            }
+        }
+
+        public async Task<GetSlideImageResponse> UpdateSlideImageAsync(UpdateSlideImageRequest request)
+        {
+            using (var uow = await _unitOfWork.BeginTransactionAsync())
+            {
+                try
+                {
+                    var slideShow = await _slideShowRepository.GetSlideShowByIdAsync(request.SlideShowId)
+                                      ?? throw new InvalidOperationException(_localizer["SlideShowNotFound"]);
+
+                    await uow.TrackEntity(slideShow);
+
+                    // Deserialize JSON from SlideShow.SlideImage
+                    var slideImageList = string.IsNullOrWhiteSpace(slideShow.SlideImage)
+                        ? new List<GetSlideImageResponse>()
+                        : JsonSerializer.Deserialize<List<GetSlideImageResponse>>(slideShow.SlideImage!)!;
+
+                    var targetImage = slideImageList.FirstOrDefault(x => x.Id == request.Id)
+                                      ?? throw new KeyNotFoundException(_localizer["SlideImageNotFound"]);
+
+                    // Upload new image if provided
+                    if (request.SlideImage != null)
+                    {
+                        var allowedContentTypes = new[] { CommonFileType.JPEG, CommonFileType.PNG };
+                        if (!FileOperations.CheckFileType(allowedContentTypes, request.SlideImage))
+                        {
+                            throw new ArgumentException(CommonExtensions.GetValidateMessage(
+                                _localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}"));
+                        }
+
+                        var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
+                        var filePath = await FileOperations.SaveFileToLocal(folderPath, request.SlideImage);
+
+                        var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
+                        var publicId = $"SlideShow_{request.SlideShowId}_{Guid.NewGuid()}";
+
+                        var resultUpload = cloudinaryOperations.UploadFileFromLocalToCloudinary(
+                            filePath, CommonCloudinaryAttribute.assetFolderSlideShowImage, publicId)
+                            ?? throw new InvalidOperationException(_localizer["UploadSlideImageCloudinaryFailed"]);
+
+                        var secureUrl = resultUpload["secure_url"]?.ToString()
+                            ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
+
+                        // Remove old image from Cloudinary
+                        if (!string.IsNullOrEmpty(targetImage.ImageLink))
+                        {
+                            var oldPublicId = cloudinaryOperations.ExtractPublicIdFromUrl(targetImage.ImageLink);
+                            cloudinaryOperations.DeleteFileFromCloudinary(oldPublicId);
+                        }
+
+                        FileOperations.DeleteFileFromLocal(filePath, folderPath);
+
+                        // Update ImageLink
+                        targetImage.ImageLink = secureUrl;
+                    }
+
+                    // Update Capture if provided
+                    if (!string.IsNullOrWhiteSpace(request.Capture))
+                    {
+                        targetImage.Capture = request.Capture;
+                    }
+
+                    // Save updated list back to JSON string
+                    slideShow.SlideImage = JsonSerializer.Serialize(slideImageList);
+
+                    await uow.SaveChangesAsync();
+                    await uow.CommitTransactionAsync();
+
+                    return targetImage;
+                }
+                catch (Exception)
+                {
+                    await uow.RollbackTransactionAsync();
+                    throw new InvalidOperationException(_localizer["UpdateSlideImageFailed"]);
+                }
+            }
+        }
+        public async Task<bool> DeleteSlideImageAsync(DeleteSlideImageRequest request)
+        {
+            using (var uow = await _unitOfWork.BeginTransactionAsync())
+            {
+                try
+                {
+                    // Get SlideShow entity
+                    var slideShow = await _slideShowRepository.GetSlideShowByIdAsync(request.SlideShowId)
+                                      ?? throw new InvalidOperationException(_localizer["SlideShowNotFound"]);
+
+                    // Track entity for update
+                    await uow.TrackEntity(slideShow);
+
+                    // Deserialize SlideImage JSON field
+                    var slideImageList = string.IsNullOrWhiteSpace(slideShow.SlideImage)
+                        ? new List<GetSlideImageResponse>()
+                        : JsonSerializer.Deserialize<List<GetSlideImageResponse>>(slideShow.SlideImage!)!;
+
+                    // Find matching images by ID
+                    var imagesToDelete = slideImageList.Where(x => request.Ids.Contains(x.Id)).ToList();
+                    if (!imagesToDelete.Any())
+                    {
+                        throw new KeyNotFoundException(_localizer["SlideImageNotFound"]);
+                    }
+
+                    var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
+
+                    // Delete images from Cloudinary
+                    foreach (var image in imagesToDelete)
+                    {
+                        if (!string.IsNullOrEmpty(image.ImageLink))
+                        {
+                            var publicId = cloudinaryOperations.ExtractPublicIdFromUrl(image.ImageLink);
+                            cloudinaryOperations.DeleteFileFromCloudinary(publicId);
+                        }
+                    }
+
+                    // Remove deleted images from list
+                    slideImageList = slideImageList.Where(x => !request.Ids.Contains(x.Id)).ToList();
+
+                    // Update SlideShow entity with new SlideImage JSON
+                    slideShow.SlideImage = JsonSerializer.Serialize(slideImageList);
+
+                    // Commit changes
+                    await uow.SaveChangesAsync();
+                    await uow.CommitTransactionAsync();
+
+                    return true;
+                }
+                catch (Exception)
+                {
+                    await uow.RollbackTransactionAsync();
+                    return false;
                 }
             }
         }

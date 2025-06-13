@@ -4,6 +4,8 @@ import { InputIcon } from 'primereact/inputicon';
 import {logout_icon} from '~/assets/img';
 import styles from '~/styles/Layouts/adminHeader.module.scss';
 import clsx from "clsx";
+import {Link} from "react-router-dom";
+import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 
 const AdminHeader = () => {
 
@@ -20,10 +22,12 @@ const AdminHeader = () => {
 
                 <div className={clsx(styles["admin-header__settings"], 'col-lg-1 col-md-1 col-sm-1 d-flex justify-content-center')}>
                     <div className={clsx(styles["admin-header__settings--inner"], 'd-flex justify-content-center align-items-center')}>
-                        <img style={{
-                            width: 15,
-                            height: 15,
-                        }} src={logout_icon} alt=""/>
+                        <Link to={AppRoutesEnum.CustomerRoute}>
+                            <img style={{
+                                width: 15,
+                                height: 15,
+                            }} src={logout_icon} alt=""/>
+                        </Link>
                     </div>
                 </div>
             </div>

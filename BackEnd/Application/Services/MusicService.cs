@@ -59,16 +59,20 @@ namespace Application.Services
                     var assetFolderAudioMP3 = CommonCloudinaryAttribute.assetFolderMusicAudioMP3;
                     var assetFolderAudioWMA = CommonCloudinaryAttribute.assetFolderMusicAudioWMA;
                     var publicId = $"{nameof(Music)}_{newGuid}";
-                    var allowedContentTypesImage = new[] { CommonFileType.JPEG, CommonFileType.PNG };
+                    var allowedContentTypesAudio = new[] { CommonFileType.MP3, CommonFileType.WAV, CommonFileType.OGG };
+                    var allowedContentTypesImage = new[] { CommonFileType.JPEG, CommonFileType.PNG, CommonFileType.JPG, CommonFileType.GIF, CommonFileType.BMP, CommonFileType.WEBP, CommonFileType.SVG, CommonFileType.TIFF };
 
                     // upload Image
                     // check file type
-                    //var isAllowedImage = FileOperations.CheckFileType(allowedContentTypesImage, addMusicRequest.ImageLink);
+                    var isAllowedImage = FileOperations.CheckFileType(allowedContentTypesImage, addMusicRequest.ImageLink) == false ? 
+                        throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}, {CommonFileType.JPG}, {CommonFileType.GIF}, {CommonFileType.BMP}, {CommonFileType.WEBP}, {CommonFileType.SVG}, {CommonFileType.TIFF}")) : true;
+                    var isAllowedAudio = FileOperations.CheckFileType(allowedContentTypesAudio, addMusicRequest.AudioLink) == false ? 
+                        throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], $"{CommonFileType.MP3}, {CommonFileType.WAV}, {CommonFileType.OGG}")) : true;
 
                     //add file to local
                     var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
-                    var filePathImage = await FileOperations.SaveMultipleFileToLocal(folderPath, addMusicRequest.ImageLink);
-                    var filePathAudio = await FileOperations.SaveMultipleFileToLocal(folderPath, addMusicRequest.AudioLink);
+                    var filePathImage = await FileOperations.SaveFileToLocal(folderPath, addMusicRequest.ImageLink);
+                    var filePathAudio = await FileOperations.SaveFileToLocal(folderPath, addMusicRequest.AudioLink);
                     //Console.WriteLine($"Saved image to: {filePathImage}");
                     //Console.WriteLine($"Saved audio to: {filePathAudio}");
 
@@ -76,7 +80,7 @@ namespace Application.Services
                     var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
                     var resultImage = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePathImage, assetFolderImage, publicId) ?? throw new InvalidOperationException(_localizer["UploadImageCloudinaryFailed"]);
                     var musicImage = resultImage["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
-                    var resultAudio = cloudinaryOperations.UploadMusicFileToCloudinary(filePathAudio, assetFolderAudioMP3, publicId) ?? throw new InvalidOperationException(_localizer["UploadAudioCloudinaryFailed"]);
+                    var resultAudio = cloudinaryOperations.UploadRawFileToCloudinary(filePathAudio, assetFolderAudioMP3, publicId) ?? throw new InvalidOperationException(_localizer["UploadAudioCloudinaryFailed"]);
                     //Console.WriteLine($"Result Audio: {resultAudio}");
                     var musicAudio = resultAudio["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
 
@@ -125,13 +129,18 @@ namespace Application.Services
                     if (updateMusicRequest.ImageLink != null)
                     {
                         // Check file type
-                        var allowedContentTypesImage = new[] { CommonFileType.JPEG, CommonFileType.PNG };
-                        var isAllowedImage = FileOperations.CheckFileType(allowedContentTypesImage, updateMusicRequest.ImageLink) == false 
-                                ? throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}")) : true;
+                        var allowedContentTypesAudio = new[] { CommonFileType.MP3, CommonFileType.WAV, CommonFileType.OGG };
+                        var allowedContentTypesImage = new[] { CommonFileType.JPEG, CommonFileType.PNG, CommonFileType.JPG, CommonFileType.GIF, CommonFileType.BMP, CommonFileType.WEBP, CommonFileType.SVG, CommonFileType.TIFF };
+
+                        // check file type
+                        var isAllowedImage = FileOperations.CheckFileType(allowedContentTypesImage, updateMusicRequest.ImageLink) == false ?
+                            throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}, {CommonFileType.JPG}, {CommonFileType.GIF}, {CommonFileType.BMP}, {CommonFileType.WEBP}, {CommonFileType.SVG}, {CommonFileType.TIFF}")) : true;
+                        var isAllowedAudio = FileOperations.CheckFileType(allowedContentTypesAudio, updateMusicRequest.AudioLink) == false ?
+                            throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], $"{CommonFileType.MP3}, {CommonFileType.WAV}, {CommonFileType.OGG}")) : true;
 
                         // Add file to local
                         var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
-                        var filePathImage = await FileOperations.SaveMultipleFileToLocal(folderPath, updateMusicRequest.ImageLink);
+                        var filePathImage = await FileOperations.SaveFileToLocal(folderPath, updateMusicRequest.ImageLink);
                         //var filePathAudio = await FileOperations.SaveMultipleFileToLocal(folderPath, updateMusicRequest.AudioLink);
                         Console.WriteLine($"Saved updated image to: {filePathImage}");
 
@@ -154,13 +163,13 @@ namespace Application.Services
                     {
                         // Add file to local
                         var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
-                        var filePathAudio = await FileOperations.SaveMultipleFileToLocal(folderPath, updateMusicRequest.AudioLink);
+                        var filePathAudio = await FileOperations.SaveFileToLocal(folderPath, updateMusicRequest.AudioLink);
                         Console.WriteLine($"Saved updated audio to: {filePathAudio}");
 
                         // Upload to cloudinary
                         var assetFolderAudioMP3 = CommonCloudinaryAttribute.assetFolderMusicAudioMP3;
                         var publicId = $"{nameof(Music)}_{id}";
-                        var resultAudio = cloudinaryOperations.UploadMusicFileToCloudinary(filePathAudio, assetFolderAudioMP3, publicId) ?? throw new InvalidOperationException(_localizer["UploadAudioCloudinaryFailed"]);
+                        var resultAudio = cloudinaryOperations.UploadRawFileToCloudinary(filePathAudio, assetFolderAudioMP3, publicId) ?? throw new InvalidOperationException(_localizer["UploadAudioCloudinaryFailed"]);
                         Console.WriteLine($"Result Audio: {resultAudio}");
                         var musicAudio = resultAudio["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
 

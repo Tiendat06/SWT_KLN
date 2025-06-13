@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useHandiworkContext} from "~/context/B2C/Handiwork/HandiworkContext";
-import {getBlogByIdService} from "~/services/BlogService";
+import {blogService} from "~/services/BlogService";
 import clsx from "clsx";
 
 const HandiworkContent = () => {
@@ -9,7 +9,7 @@ const HandiworkContent = () => {
 
     useEffect(() => {
         const getBlogById = async () => {
-            const data = await getBlogByIdService(blogId);
+            const data = await blogService.getBlogByIdService(blogId);
             setBlog(data?.data);
         }
         getBlogById();

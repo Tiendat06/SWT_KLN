@@ -1,16 +1,16 @@
-class TopicType{
+const TopicType = Object.freeze({
     /**
      * Không phân loại
      * */
-    None = 0;
+    None: 0,
     /**
      * Ảnh
      * */
-    ImageType = 1;
+    ImageType: 1,
     /**
      * Video
      * */
-    VideoType = 2;
-}
+    VideoType: 2,
+});
 
-export default new TopicType();
+export default TopicType;

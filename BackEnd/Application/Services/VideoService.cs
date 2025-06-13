@@ -237,6 +237,54 @@ namespace Application.Services
             }
         }
 
+        public async Task<bool> DeleteMultipleVideoAsync(List<Guid> ids)
+        {
+            using (var uow = await _unitOfWork.BeginTransactionAsync())
+            {
+                try
+                {
+                    // Fetch all music entities once for logging
+                    Console.WriteLine($"ids: {ids}");
+                    var videoEntities = await _videoRepository.GetVideoByIdsAsync(ids);
+                    Console.WriteLine($"Fetched {videoEntities?.Count() ?? 0} video records for deletion.");
+                    if (videoEntities == null || !videoEntities.Any())
+                    {
+                        throw new KeyNotFoundException(_localizer["NoVideRecordsFound"]);
+                    }
+
+                    // Create deletion log entries
+                    var logEntries = videoEntities.Select(video => new LogVideo
+                    {
+                        LogVideoId = 0,
+                        Title = video.Title,
+                        ImageLink = video.ImageLink,
+                        CreateDate = video.CreateDate,
+                        UserId = video.UserId,
+                        VideoLink = video.VideoLink,
+                        VideoId = video.VideoId,
+                        Process = ProcessMethod.DELETE,
+                    }).ToList();
+
+                    await _logVideoRepository.CreateLogVideoRangeAsync(logEntries);
+
+                    // Perform soft deletion directly in repository by IDs
+                    await _videoRepository.SoftDeleteMultipleVideoByIdsAsync(ids);
+
+                    // Save and commit
+                    await uow.SaveChangesAsync();
+                    await uow.CommitTransactionAsync();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Delete multiple video error: {ex.Message}");
+                    await uow.RollbackTransactionAsync();
+                    throw new InvalidOperationException(_localizer["DeleteVideoFailed"]);
+                }
+            }
+        }
+
         public async Task<string> UploadVideoToYouTube(string filePath, string title)
         {
             // --- Xác thực ---

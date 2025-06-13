@@ -11,6 +11,7 @@ namespace Application.Mapper.Books.Input
                 BookId = guid,
                 Title = addBookRequest.Title,
                 BookContent = bookContent,
+                Description = addBookRequest.Description,
                 Publisher = addBookRequest.Publisher,
                 Author = addBookRequest.Author,
                 YearPublic = addBookRequest.YearPublic,

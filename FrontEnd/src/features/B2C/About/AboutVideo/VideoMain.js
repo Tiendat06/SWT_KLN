@@ -2,7 +2,7 @@ import {clsx} from "clsx";
 import styles from "~/styles/Pages/B2C/About/aboutVideoFilm.module.scss";
 import {useAboutVideoContext} from "~/context/B2C/About/AboutVideoContext";
 import {useEffect} from "react";
-import {getVideoByIdService} from "~/services/VideoService";
+import {videoService} from "~/services/VideoService";
 
 const VideoMain = () => {
     const {
@@ -13,7 +13,7 @@ const VideoMain = () => {
 
     useEffect(() => {
         const getDefaultData = async () => {
-            const data = await getVideoByIdService(videoId);
+            const data = await videoService.getVideoByIdService(videoId);
             setSelectedVideo(data?.data);
             setIsLoading(!isLoading);
         }

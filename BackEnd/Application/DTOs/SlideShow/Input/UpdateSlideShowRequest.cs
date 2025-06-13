@@ -18,6 +18,22 @@ namespace Application
         public List<GetSlideImageRequest> SlideImage { get; set; }
     }
 
+    public class UpdateSlideImageRequest
+    {
+        public Guid SlideShowId { get; set; }
+        public int Id { get; set; }
+        public string? Capture { get; set; }
+        public IFormFile? SlideImage { get; set; }
+    }
+
+    //public class UpdateSlideImageRequest
+    //{
+    //    public Guid SlideShowId { get; set; }
+    //    public int SlideImageId { get; set; }
+    //    public string? Capture { get; set; }
+    //    public IFormFile? NewSlideImage { get; set; }
+    //}
+
 
     public class UpdateSlideShowRequestValidator : AbstractValidator<UpdateSlideShowRequest>
     {

@@ -1,20 +1,38 @@
 import UseFetchAPI from "~/hooks/UseFetchAPI";
 import MediaType from "~/enum/MediaType/MediaType";
+import {DEFAULT_FETCH, DEFAULT_PAGE} from "~/utils/Constansts";
 
-export const getMusicListService = async (fetch, page, type = MediaType.None, keyword = "") => {
+const musicRoute = "api/Music";
+
+const getMusicListService = async (fetch = DEFAULT_FETCH,
+                                   page = DEFAULT_PAGE,
+                                   type = MediaType.None,
+                                   keyword = "") => {
     return await UseFetchAPI({
-        api: `api/Music?Fetch=${fetch}&Page=${page}&Type=${type}&Keyword=${keyword}`,
+        api: `${musicRoute}`,
+        params: {
+            fetch, page, type, keyword,
+        }
     })
 }
 
-export const getMusicByIdService = async (id) => {
+const getMusicByIdService = async (id) => {
     return await UseFetchAPI({
-        api: `api/Music/${id}`,
+        api: `${musicRoute}/${id}`,
     })
 }
 
-export const getTotalMusicService = async (type = MediaType.None) => {
+const getTotalMusicService = async (type = MediaType.None) => {
     return await UseFetchAPI({
-        api: `api/Music/total?Type=${type}`,
+        api: `${musicRoute}/total`,
+        params: {
+            type
+        }
     })
+}
+
+export const musicService = {
+    getMusicListService,
+    getMusicByIdService,
+    getTotalMusicService
 }

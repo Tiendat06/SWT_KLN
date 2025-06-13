@@ -2,12 +2,12 @@ import {useAppContext} from "~/context/AppContext";
 import {Toast} from "primereact/toast";
 import React from "react";
 
-const KLNToast = () => {
+const KLNToast = ({...props}) => {
     const {toast} = useAppContext();
 
     return (
         <>
-            <Toast ref={toast} />
+            <Toast {...props} ref={toast}/>
         </>
     )
 }
