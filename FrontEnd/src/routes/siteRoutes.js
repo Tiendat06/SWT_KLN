@@ -1,7 +1,7 @@
 import {BlogContent, Home, ManageImage, LoginPage, ManageVideo} from "~/pages"
 import CreateVideo from "~/pages/B2B/ManageVideo/CreateVideo"; 
 
-import {BlogContent, Home} from "~/pages"
+// import {BlogContent, Home} from "~/pages"
 
 
 
