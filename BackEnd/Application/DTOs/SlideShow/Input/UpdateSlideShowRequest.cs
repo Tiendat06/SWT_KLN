@@ -59,4 +59,17 @@ namespace Application
                 .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MediaTypeId"]));
         }
     }
+    public class UpdateSlideImageRequestValidator : AbstractValidator<UpdateSlideImageRequest>
+    {
+        public UpdateSlideImageRequestValidator(IStringLocalizer<KLNSharedResources> localizer)
+        {
+            RuleFor(x => x.SlideShowId)
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideShowId"]))
+                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideShowId"]));
+
+            RuleFor(x => x.SlideImage)
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideImage"]))
+                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideImage"]));
+        }
+    }
 }

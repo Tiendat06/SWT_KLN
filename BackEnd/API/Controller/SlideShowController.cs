@@ -74,17 +74,8 @@ namespace API.Controller
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetSlideImageResponse>))]
         public async Task<IActionResult> AddSlideImage([FromForm] AddSlideImageRequest addSlideImageRequest)
         {
-            //var addSlideImage = new AddSlideImageRequest
-            //{
-            //    SlideShowId = addSlideImageRequest.SlideShowId,
-            //    MediaTypeId = addSlideImageRequest.MediaTypeId,
-            //    SlideShowTypeId = addSlideImageRequest.SlideShowTypeId,
-            //    Capture = addSlideImageRequest.Capture,
-            //    SlideImage = addSlideImageRequest.SlideImage
-            //};
-            // Assuming there's a method in the service to handle adding slide images
-            await _slideShowService.AddSlideImageAsync(addSlideImageRequest);
-            return ApiSuccess(HttpStatusCode.Created, "Slide image added successfully.");
+            var slideImage = await _slideShowValidator.CreateSlideImageAsyncValidator(addSlideImageRequest);
+            return ApiSuccess(slideImage, HttpStatusCode.Created);
         }
 
         // PUT: api/SlideImage/5
@@ -92,9 +83,8 @@ namespace API.Controller
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetSlideImageResponse>))]
         public async Task<IActionResult> UpdateSlideImage([FromForm] UpdateSlideImageRequest updateSlideImageRequest)
         {
-            // Assuming there's a method in the service to handle updating slide images
-            var updatedSlideImage = await _slideShowService.UpdateSlideImageAsync(updateSlideImageRequest);
-            return ApiSuccess(updatedSlideImage);
+            var slideImage = await _slideShowValidator.UpdateSlideImageAsyncValidator(updateSlideImageRequest);
+            return ApiSuccess(slideImage);
         }
 
         // DELETE: api/SlideImage/ids
@@ -102,7 +92,6 @@ namespace API.Controller
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
         public async Task<IActionResult> DeleteSlideImages([FromForm] DeleteSlideImageRequest deleteSlideImagesRequest)
         {
-            // Assuming there's a method in the service to handle deleting slide images
             var isDeleted = await _slideShowService.DeleteSlideImageAsync(deleteSlideImagesRequest);
             return ApiSuccess(isDeleted);
         }

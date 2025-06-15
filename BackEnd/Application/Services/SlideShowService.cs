@@ -474,11 +474,8 @@ namespace Application.Services
 
                     // Remove deleted images from list
                     slideImageList = slideImageList.Where(x => !request.Ids.Contains(x.Id)).ToList();
-
-                    // Update SlideShow entity with new SlideImage JSON
                     slideShow.SlideImage = JsonSerializer.Serialize(slideImageList);
 
-                    // Commit changes
                     await uow.SaveChangesAsync();
                     await uow.CommitTransactionAsync();
 

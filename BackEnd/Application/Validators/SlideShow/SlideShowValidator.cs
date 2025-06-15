@@ -38,5 +38,29 @@ namespace Application.Validators
             }
             return await _SlideShowService.UpdateSlideShowAsync(id, updateSlideShowRequest);
         }
+
+        public async Task<GetSlideImageResponse> CreateSlideImageAsyncValidator(AddSlideImageRequest addSlideImageRequest)
+        {
+            var validator = new AddSlideImageRequestValidator(_localizer);
+            ValidationResult result = await validator.ValidateAsync(addSlideImageRequest);
+            if (!result.IsValid)
+            {
+                var error = result.Errors.FirstOrDefault();
+                throw new ArgumentException(error + "");
+            }
+            return await _SlideShowService.AddSlideImageAsync(addSlideImageRequest);
+        }
+
+        public async Task<GetSlideImageResponse> UpdateSlideImageAsyncValidator(UpdateSlideImageRequest updateSlideImageRequest)
+        {
+            var validator = new UpdateSlideImageRequestValidator(_localizer);
+            ValidationResult result = await validator.ValidateAsync(updateSlideImageRequest);
+            if (!result.IsValid)
+            {
+                var error = result.Errors.FirstOrDefault();
+                throw new ArgumentException(error + "");
+            }
+            return await _SlideShowService.UpdateSlideImageAsync(updateSlideImageRequest);
+        }
     }
 }
