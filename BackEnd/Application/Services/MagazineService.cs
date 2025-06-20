@@ -49,6 +49,13 @@ namespace Application.Services
 
                     // update Magazine
                     magazineEntity.Title = updateMagazineRequest.Title;
+                    magazineEntity.MediaTypeId = updateMagazineRequest.MediaTypeId;
+
+                    // check description
+                    if (updateMagazineRequest.Description != null)
+                    {
+                        magazineEntity.Description = updateMagazineRequest.Description;
+                    }
                     var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
 
                     //upload new content to cloudinary
