@@ -1,9 +1,9 @@
-import { Carousel } from 'primereact/carousel';
+import {Carousel} from 'primereact/carousel';
 import {banner_1, banner_2, banner_3, banner_4} from '~/assets/img';
 import styles from '~/styles/Components/KLNSlideBanner/klnSlideBanner.module.scss';
 import clsx from "clsx";
 
-function KLNSlideBanner() {
+function KLNSlideBanner({...props}) {
     const bannerList = [
         {id: 1, imageLink: banner_1, imageName: 'banner 1'},
         {id: 2, imageLink: banner_2, imageName: 'banner 2'},
@@ -15,7 +15,7 @@ function KLNSlideBanner() {
         return (
             <>
                 <div className={clsx(styles['banner'])}>
-                    <img className={clsx(styles['banner-img'])} src={banner.imageLink} alt={banner.imageLink} />
+                    <img className={clsx(styles['banner-img'])} src={banner.imageLink} alt={banner.imageLink}/>
                 </div>
             </>
         )
@@ -23,15 +23,17 @@ function KLNSlideBanner() {
 
     return (
         <>
-            <Carousel value={bannerList}
-                      numVisible={1}
-                      numScroll={1}
-                      className="custom-carousel"
-                      circular
-                      autoplayInterval={3000}
-                      showNavigators={false}
-                      showIndicators={false}
-                      itemTemplate={bannerTemplate} />
+            <Carousel
+                {...props}
+                value={bannerList}
+                numVisible={1}
+                numScroll={1}
+                className="custom-carousel"
+                circular
+                autoplayInterval={3000}
+                showNavigators={false}
+                showIndicators={false}
+                itemTemplate={bannerTemplate}/>
         </>
     )
 }

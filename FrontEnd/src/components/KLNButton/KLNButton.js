@@ -18,6 +18,7 @@ const KLNButton = ({
                        onHandleFileChange = () => {
                        },
                        acceptedFileType = 'image/*',
+                       ...props
                    }) => {
     const buttonStyle = {
         1: styles['button-1'],
@@ -33,7 +34,7 @@ const KLNButton = ({
             {!hasFileInput ?
                 (
                     <Link to={urlLink}>
-                        <button style={style} className={clsx(buttonStyle, btnClassName)}
+                        <button {...props} style={style} className={clsx(buttonStyle, btnClassName)}
                                 onClick={onClick}>
                             {children}
                             {icon && <FontAwesomeIcon style={iconStyle} icon={icon}/>}

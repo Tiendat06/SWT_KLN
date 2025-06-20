@@ -4,6 +4,7 @@ import {useEffect} from "react";
 const KLNBreadCrumb
     = ({
            items = [],
+           ...props
        }) => {
 
     useEffect(() => {
@@ -14,10 +15,11 @@ const KLNBreadCrumb
 
     return (
         <>
-            <BreadCrumb style={{
+            <BreadCrumb {...props} style={{
                 backgroundColor: "transparent",
                 border: "none",
-            }} model={items} className="custom-breadcrumb" />
+                ...props.style
+            }} model={items} className={`custom-breadcrumb ${props.className}`}/>
         </>
     )
 }

@@ -11,8 +11,9 @@ namespace Application
     {
         public string Title { get; set; }
         public int MediaTypeId { get; set; }
+        public string Description { get; set; }
         public IFormFile? Image { get; set; }
-        public string? MagazineContent { get; set; }
+        public IFormFile? MagazineContent { get; set; }
         public Guid UserId { get; set; }
     }
     public class UpdateMagazineRequestValidator : AbstractValidator<UpdateMagazineRequest>

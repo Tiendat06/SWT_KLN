@@ -4,14 +4,14 @@ import {Link} from "react-router-dom";
 import {aboutJRoutes} from '~/routes/appRoutes';
 import {Carousel} from "primereact/carousel";
 import {next_icon_1, previous_icon_1} from '~/assets/img';
-import {getBookListService} from "~/services/BookService";
+import {bookService} from "~/services/BookService";
 import {useEffect, useState} from "react";
 
 function TDTMasterpiece() {
     const [masterPieceList, setMasterPieceList] = useState([]);
     useEffect(() => {
         const GetMasterPieceList = async () =>  {
-            let data = await getBookListService(0, 1);
+            let data = await bookService.getBookListService(0, 1);
             setMasterPieceList(data?.data?.items);
         }
         GetMasterPieceList();

@@ -3,7 +3,7 @@ import styles from '~/styles/Pages/B2C/About/aboutMusic.module.scss';
 import {Fragment, useLayoutEffect, useRef, useState} from "react";
 import {useAboutAudioContext} from "~/context/B2C/About/AboutAudioContext";
 import {FormatTime} from "~/utils";
-import {getMusicListService} from "~/services/MusicService";
+import {musicService} from "~/services/MusicService";
 import {Link} from "react-router-dom";
 
 function AudioList() {
@@ -18,7 +18,7 @@ function AudioList() {
 
     useLayoutEffect(() => {
         const getAudioList = async () => {
-            const data = await getMusicListService();
+            const data = await musicService.getMusicListService();
             setAudioList(data?.data?.items);
         }
         getAudioList();

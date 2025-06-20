@@ -3,7 +3,7 @@ import clsx from "clsx";
 import styles from "~/styles/Layouts/header.module.scss";
 import {KLNDropdown} from "~/components";
 import {useEffect, useState} from "react";
-import {getBlogListService} from "~/services/BlogService";
+import {blogService} from "~/services/BlogService";
 import MediaType from "~/enum/MediaType/MediaType";
 
 const MemorialTDTLink = () => {
@@ -13,7 +13,7 @@ const MemorialTDTLink = () => {
     useEffect(() => {
         const GetBlogList = async () => {
             setMemorialTDTDropdownItems([]);
-            const data = await getBlogListService(4, 1, MediaType.TDTMemorial);
+            const data = await blogService.getBlogListService(4, 1, MediaType.TDTMemorial);
             let items = data?.data?.items;
             setMemorialTDTDropdownItems((prevItems) => [
                 ...items.map((item) => ({

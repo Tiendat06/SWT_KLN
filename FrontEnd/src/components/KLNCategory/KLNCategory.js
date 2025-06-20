@@ -3,12 +3,12 @@ import clsx from "clsx";
 import {Link} from "react-router-dom";
 
 const KLNCategory = ({
-        title = '',
-        categoryList = [],
-        choosingItemId = '',
-        totalPage = 0,
-        children
-    }) => {
+                         title = '',
+                         categoryList = [],
+                         choosingItemId = '',
+                         totalPage = 0,
+                         children
+                     }) => {
 
     return (
         <>
@@ -19,7 +19,7 @@ const KLNCategory = ({
                     </div>
                     <div className={clsx(styles["custom-category__list"])}>
                         {categoryList?.map((item, index) => (
-                            <li key={`custom-category-${item?.slideShowId}`}
+                            <li key={`custom-category-${item?.slideShowId}-${index}`}
                                 className={clsx(styles["custom-category__item"],
                                     ((choosingItemId === item?.slideShowId) && styles["custom-category__item--choose"]))}>
                                 <Link to={`/memorial-exhibition/${item?.slideShowId}`}>

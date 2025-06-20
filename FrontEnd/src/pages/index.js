@@ -27,7 +27,10 @@ import ManageTopic from "~/pages/B2B/ManageTopic/ManageTopic";
 import LoginPage from "~/pages/B2B/Login/Login";
 import CreateMultimediaImage from "~/pages/B2B/ManageMultimedia/CreateMultimediaImage";
 
-export {Home, BlogContent};
+import ManageVideo from "~/pages/B2B/ManageVideo/ManageVideo";
+import CreateVideo from "~/pages/B2B/ManageVideo/CreateVideo";
+
+export { Home, BlogContent };
 
 export {
     MemorialArea, MemorialStiltHouse, MemorialTomb,
@@ -40,7 +43,7 @@ export {
     AboutBooksMagazines, AboutTopic, AboutMultimediaDocuments, AboutArt, AboutVideo, AboutMusic
 };
 
-export {Handiwork};
+export { Handiwork };
 
 export {
     ManageImage,
@@ -50,4 +53,9 @@ export {
     ManageTopic,
 };
 
-export {LoginPage}
+export { LoginPage };
+
+export {
+    ManageVideo,
+    CreateVideo
+};

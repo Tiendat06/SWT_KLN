@@ -1,20 +1,38 @@
 import UseFetchAPI from "~/hooks/UseFetchAPI";
 import MediaType from "~/enum/MediaType/MediaType";
+import {DEFAULT_FETCH, DEFAULT_PAGE} from "~/utils/Constansts";
 
-export const getVideoListService = async (fetch, page, type = MediaType.None, keyword = "") => {
+const videoRoute = 'api/Video';
+
+const getVideoListService = async (fetch = DEFAULT_FETCH,
+                                   page = DEFAULT_PAGE,
+                                   type = MediaType.None,
+                                   keyword = "") => {
     return await UseFetchAPI({
-        api: `api/Video?Fetch=${fetch}&Page=${page}&Type=${type}&Keyword=${keyword}`,
+        api: `${videoRoute}`,
+        params: {
+            fetch, page, type, keyword
+        }
     })
 }
 
-export const getVideoByIdService = async (id) => {
+const getVideoByIdService = async (id) => {
     return await UseFetchAPI({
-        api: `api/Video/${id}`,
+        api: `${videoRoute}/${id}`,
     })
 }
 
-export const getTotalVideoService = async (type = MediaType.None) => {
+const getTotalVideoService = async (type = MediaType.None) => {
     return await UseFetchAPI({
-        api: `api/Video/total?Type=${type}`,
+        api: `${videoRoute}/total`,
+        params: {
+            type
+        }
     })
+}
+
+export const videoService = {
+    getVideoListService,
+    getVideoByIdService,
+    getTotalVideoService
 }

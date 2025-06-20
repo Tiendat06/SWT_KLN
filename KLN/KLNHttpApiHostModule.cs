@@ -1,24 +1,25 @@
 ﻿using Application.Interfaces;
 using Application.Services;
 using Application.Validators;
-using Domain.Interfaces;
+using CloudinaryDotNet;
 using Domain;
-using Infrastructure.Repositories;
+using Domain.Interfaces;
+using Domain.Localization;
+using DotNetEnv;
 using Infrastructure;
 using Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Domain.Localization;
-using Microsoft.Extensions.Localization;
+using Infrastructure.Repositories;
 using KLN.Shared.CrossCuttingConcerns.Exceptions;
-using Microsoft.AspNetCore.Mvc;
-using CloudinaryDotNet;
-using DotNetEnv;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 namespace KLN
 {
@@ -196,6 +197,19 @@ namespace KLN
         {
             builder.Services.AddDbContext<DatabaseManager>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+        }
+
+        public void RequestConfiguraton(WebApplicationBuilder builder)
+        {
+            builder.Services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 5_368_709_120; // 5 GB
+            });
+
+            builder.WebHost.ConfigureKestrel(serverOptions =>
+            {
+                serverOptions.Limits.MaxRequestBodySize = 5_368_709_120; // 5 GB
+            });
         }
 
         public void ScopeConfiguration(WebApplicationBuilder builder)

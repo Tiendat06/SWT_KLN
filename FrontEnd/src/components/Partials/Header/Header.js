@@ -4,7 +4,7 @@ import styles from "~/styles/Layouts/header.module.scss";
 import {tdtu_logo, search_icon, user_icon, vn_icon} from "~/assets/img";
 import {siteJRoutes,} from "~/routes/appRoutes";
 import {useEffect, useState} from "react";
-import {getBlogListService} from "~/services/BlogService";
+import {blogService} from "~/services/BlogService";
 import MediaType from "~/enum/MediaType/MediaType";
 import {MemorialTDTLink, PresidentTDTLink} from "~/features/Site";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
@@ -13,7 +13,7 @@ function Header() {
     const [blogId, setBlogId] = useState(null);
     useEffect(() => {
         const getBlogById = async () => {
-            const data = await getBlogListService(1, 1, MediaType.TDTHandiwork);
+            const data = await blogService.getBlogListService(1, 1, MediaType.TDTHandiwork);
             setBlogId(data?.data?.items[0]?.blogId);
         }
         getBlogById();

@@ -7,6 +7,9 @@ httpApi.EnvConfiguration(builder);
 // add cors
 httpApi.CorsConfiguration(builder);
 
+// add formdata config
+httpApi.RequestConfiguraton(builder);
+
 //// add localization
 var localizationOptions = httpApi.LocalizationConfiguration(builder);
 
@@ -23,3 +26,4 @@ httpApi.SwaggerConfiguration(builder);
 httpApi.ControllerConfiguration(builder);
 
 httpApi.OnBuildingConfiguration(builder, localizationOptions);
+//

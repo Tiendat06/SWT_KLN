@@ -52,7 +52,7 @@ async function UseFetchAPI(
         }
         return response.json();
     } catch (e) {
-        console.log(e.message);
+        // console.log(e.message);
         return {
             status: 500,
             message: 'Có một lỗi nội bộ đã xảy ra trong quá trình thực hiện.',

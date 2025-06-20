@@ -3,14 +3,14 @@ import styles from '~/styles/Pages/Site/site.module.scss';
 import {plus_icon_1, sentence_home_1} from "~/assets/img";
 import {Link} from "react-router-dom";
 import {Fragment, useEffect, useState} from "react";
-import {getBlogListService} from "~/services/BlogService";
+import {blogService} from "~/services/BlogService";
 import MediaType from "~/enum/MediaType/MediaType";
 
 function NewsList() {
     const [blogListData, setBlogListData] = useState([]);
     useEffect(() => {
         const GetBlogListData = async () => {
-            const data = await getBlogListService(4, 1);
+            const data = await blogService.getBlogListService(4, 1);
             setBlogListData(data?.data?.items);
         }
         GetBlogListData();

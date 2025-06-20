@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import styles from "~/styles/Pages/B2C/About/aboutSidebarBooks.module.scss";
 import {useCallback, useEffect, useState} from "react";
-import {getBookListService} from "~/services/BookService";
+import {bookService} from "~/services/BookService";
 import {useAboutBooksMagazinesContext} from "~/context/B2C/About/AboutBooksMagazinesContext";
 import {KLNReactDotPaginate} from "~/components";
 import {useNavigate} from "react-router-dom";
@@ -17,7 +17,7 @@ function SidebarBook() {
 
     useEffect(() => {
         const getBookList = async () => {
-            const data = await getBookListService(ITEMS_PER_PAGE, currentPage);
+            const data = await bookService.getBookListService(ITEMS_PER_PAGE, currentPage);
             setBookList(data?.data?.items);
             setPageCount(Math.ceil(data?.data?.totalCount / ITEMS_PER_PAGE));
         }

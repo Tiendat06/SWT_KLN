@@ -95,6 +95,44 @@ ol li {
   color: inherit !important;
 }
 
+.p-datatable .p-datatable-loading-overlay {
+  display: none !important;
+}
+
+/* skeleton */
+.p-skeleton {
+  background-color: #f0f0f0 !important;  /* màu nền của antd Skeleton */
+  border-radius: 4px;                     /* bo góc nhẹ như antd */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hiệu ứng shimmer gradient sáng hơn, nhẹ nhàng */
+.p-skeleton::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -150%;
+  height: 100%;
+  width: 150%;
+  background: linear-gradient(
+                  90deg,
+                  transparent,
+                  rgba(255, 255, 255, 0.6),
+                  transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+/* Animation shimmer */
+@keyframes shimmer {
+  0% {
+    left: -150%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
 /* breadcrumb */
 .p-breadcrumb-list{
   padding-left: 0;

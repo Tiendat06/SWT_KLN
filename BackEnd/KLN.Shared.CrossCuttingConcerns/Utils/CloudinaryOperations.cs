@@ -24,7 +24,7 @@ namespace KLN.Shared.CrossCuttingConcerns.Utils
             return (JObject)result.JsonObj;
         }
 
-        public JObject UploadMusicFileToCloudinary(string filePath, string folder, string publicId)
+        public JObject UploadRawFileToCloudinary(string filePath, string folder, string publicId)
         {
             var uploadParams = new RawUploadParams()
             {
@@ -38,7 +38,7 @@ namespace KLN.Shared.CrossCuttingConcerns.Utils
             var result = _cloudinary.Upload(uploadParams, "raw");
             if (result == null)
             {
-                throw new InvalidOperationException("Upload music file to Cloudinary failed!");
+                throw new InvalidOperationException("Upload raw file to Cloudinary failed!");
             }
             return (JObject)result.JsonObj;
         }

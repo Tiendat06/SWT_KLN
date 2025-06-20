@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import styles from "~/styles/Pages/B2C/About/aboutSidebarBooks.module.scss";
 import {useCallback, useEffect, useState} from "react";
-import {getMagazineListService} from "~/services/MagazineService";
+import {magazineService} from "~/services/MagazineService";
 import {useAboutBooksMagazinesContext} from "~/context/B2C/About/AboutBooksMagazinesContext";
 import {KLNReactDotPaginate} from "~/components";
 import {useNavigate} from "react-router-dom";
@@ -16,7 +16,7 @@ function SlidebarMagazines() {
     const {itemId} = useAboutBooksMagazinesContext();
     useEffect(() => {
         const getListMagazine = async () => {
-            const data = await getMagazineListService(ITEMS_PER_PAGE, currentPage);
+            const data = await magazineService.getMagazineListService(ITEMS_PER_PAGE, currentPage);
             setMagazineList(data?.data?.items);
             setPageCount(Math.ceil(data?.data?.totalCount / ITEMS_PER_PAGE));
         }
@@ -41,8 +41,8 @@ function SlidebarMagazines() {
                             key={`magazine-sidebar-${magazine?.magazineId}`}
                             className={clsx(styles.ListOfBooks__listItem,
                                 {
-                                [styles["ListOfBooks__listItem--active"]]: magazine?.magazineId === itemId,
-                            }
+                                    [styles["ListOfBooks__listItem--active"]]: magazine?.magazineId === itemId,
+                                }
                             )}
                             onClick={() => onClickMagazine(magazine)}
                             title={magazine?.title}
