@@ -23,6 +23,9 @@ namespace Domain.Entities
         [Column("magazineContent", TypeName = "nvarchar")]
         public string? MagazineContent { get; set; } = string.Empty;
 
+        [Column("description", TypeName = "nvarchar")]
+        public string? Description { get; set; } = string.Empty;
+
         [Column("isDeleted", TypeName = "bit")]
         public bool? IsDeleted { get; set; } = false;
 
