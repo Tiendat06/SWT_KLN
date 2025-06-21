@@ -20,6 +20,7 @@ import { useAdminContext } from "~/context/AdminContext";
 import { addVideoToSpecificSlideShowService } from "~/services/SlideShowService";
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
+import HttpStatusEnum from "~/enum/Http/HttpStatusEnum";
 
 const CreateVideoForm = () => {
     const [addedVideo, setAddedVideo] = useState({
@@ -41,7 +42,7 @@ const CreateVideoForm = () => {
             const addedVideoData = await addVideoToSpecificSlideShowService(formData);
             const status = addedVideoData.status;
 
-            if (status === 200)
+            if (status === HttpStatusEnum.Ok)
                 showToast({
                     toastRef: toast,
                     severity: "success",

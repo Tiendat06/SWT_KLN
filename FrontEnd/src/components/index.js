@@ -24,6 +24,7 @@ import KLNColumn from "~/components/KLNTable/KLNColumn";
 import KLNDataTable from "~/components/KLNTable/KLNDataTable";
 import KLNSkeletonWithSpinner from "~/components/KLNSkeleton/KLNSkeletonWithSpinner/KLNSkeletonWithSpinner";
 import KLNImageWithSkeleton from "~/components/KLNSkeleton/KLNImageWithSkeleton/KLNImageWithSkeleton";
+import KLNProgressSpinner from "~/components/KLNProgressSpinner/KLNProgressSpinner";
 
 export {
     Header, Footer, Body, Sidebar, AdminHeader,
@@ -33,6 +34,7 @@ export {
     KLNReactDotPaginate, KLNDropdown,
     KLNTabView, KLNCascadeSelect, KLNTableAction,
     KLNBreadCrumb, KLNModal, KLNToast, KLNColumn,
-    KLNDataTable, KLNSkeletonWithSpinner, KLNImageWithSkeleton
+    KLNDataTable, KLNSkeletonWithSpinner, KLNImageWithSkeleton,
+    KLNProgressSpinner
 }
 

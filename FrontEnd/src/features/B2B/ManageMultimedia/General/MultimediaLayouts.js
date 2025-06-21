@@ -107,7 +107,7 @@ const MultimediaLayouts = () => {
                     <KLNButton
                         style={{
                             marginRight: 20,
-                            fontWeight: "normal"
+                            fontWeight: "bold"
                         }}
                         options={4}
                         icon={faTrash}
@@ -127,13 +127,13 @@ const MultimediaLayouts = () => {
                                         ? `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-audio`
                                         : ''
                         }
-                        options={5}
+                        options={1}
                         icon={faSquarePlus}
                         iconStyle={{
                             marginLeft: 10,
                             fontWeight: "normal"
                         }}
-                    >Thêm mới</KLNButton>
+                    >Thêm</KLNButton>
                 </div>
             </div>
             <div style={{

@@ -16,12 +16,13 @@ import {
 import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
 import {DeleteMany} from "~/features/B2B/ManageMultimedia";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
-import KLNDataTable from "../../../../components/KLNTable/KLNDataTable";
+import KLNDataTable from "~/components/KLNTable/KLNDataTable";
 
 const ImageTable = () => {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedItems, setSelectedItems] = useState([]);
+    const [slideShowId, setSlideShowId] = useState(null);
     const {selectedPageOption, setDeleteAction} = useAdminContext();
     const {
         visible,
@@ -36,11 +37,13 @@ const ImageTable = () => {
 
     const handleDeleteMany = useCallback(async () => {
         // api
-        const deleteSlideImages = await slideShowService.deleteSlideImageInSpecificSlideShowService(selectedItems, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
+        setIsLoading(true);
+        const deleteSlideImages = await slideShowService.deleteSlideImageInSpecificSlideShowBySlideShowIdService(selectedItems.map(item => item.id), slideShowId);
         if (deleteSlideImages)
             dispatch(deleteImageAction(selectedItems));
         setVisible(false);
-    }, [selectedItems]);
+        setIsLoading(false);
+    }, [selectedItems, slideShowId]);
 
     const hideModal = useCallback(() => {
         setVisible(false);
@@ -56,6 +59,7 @@ const ImageTable = () => {
             setIsLoading(true);
             const data = await slideShowService.getSlideShowListService(1, 1, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
             const slideShowData = data?.data?.items[0];
+            setSlideShowId(slideShowData.slideShowId);
             const startIndex = (currentPage - 1) * selectedPageOption.code;
             const endIndex = startIndex + selectedPageOption.code;
 
@@ -137,8 +141,9 @@ const ImageTable = () => {
                     pageCount={pageCount}
                     handlePageClick={handlePageClick}
                 />
-                <DeleteImage/>
+                <DeleteImage slideShowId={slideShowId}/>
                 <DeleteMany
+                    isLoading={isLoading}
                     visible={visible}
                     setVisible={setVisible}
                     btnSaveOnClick={handleDeleteMany}

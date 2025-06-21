@@ -20,7 +20,7 @@ async function UseFetchAPI(
 
     const options = {
         method,
-        newHeaders,
+        headers: newHeaders,
         credentials,
     };
 

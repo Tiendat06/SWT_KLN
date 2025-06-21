@@ -3,14 +3,18 @@ import React, {memo} from "react";
 // import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
 
 const DeleteMany = ({
+                        isLoading,
                         visible, setVisible,
-                        btnSaveOnClick = () => {},
-                        btnCancelOnClick = () => {}
+                        btnSaveOnClick = () => {
+                        },
+                        btnCancelOnClick = () => {
+                        }
                     }) => {
     // const {visible, setVisible} = useManageMultimediaContext();
     return (
         <>
             <KLNModal
+                isLoading={isLoading}
                 visible={visible}
                 setVisible={setVisible}
                 position={'top'}

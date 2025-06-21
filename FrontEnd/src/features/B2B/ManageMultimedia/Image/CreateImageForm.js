@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Card} from 'primereact/card';
 import clsx from "clsx";
 import styles from '~/styles/Pages/B2B/MediaDocument/createImage.module.scss';
@@ -15,10 +15,14 @@ import {useAdminContext} from "~/context/AdminContext";
 import {slideShowService} from "~/services/SlideShowService";
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
+import HttpStatusEnum from "~/enum/Http/HttpStatusEnum";
+import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
 
 const CreateImageForm = () => {
 
+    const {isLoading, setIsLoading} = useManageMultimediaContext();
     const [addedSlideImage, setAddedSlideImage] = useState({
+        slideShowId: null,
         imageFile: {},
         description: '',
     });
@@ -26,17 +30,39 @@ const CreateImageForm = () => {
     const {toast} = useAppContext();
     const {setTabView} = useAdminContext();
 
+    useEffect(() => {
+        const getSlideShow = async () => {
+            setIsLoading(true);
+            const data = await slideShowService.getSlideShowListService(1, 1, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
+            const slideShowData = data?.data?.items[0];
+            setAddedSlideImage({
+                ...addedSlideImage,
+                slideShowId: slideShowData.slideShowId,
+            })
+            setIsLoading(false);
+        }
+        getSlideShow();
+    }, []);
+
     const handleAddImage = useCallback(() => {
         const addSlideImage = async () => {
+            setIsLoading(true);
             const addedSlideImageData = await slideShowService.addSlideImageInSpecificSlideShowService(addedSlideImage, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
             const status = addedSlideImageData.status;
-            if (status === 200)
+            if (status === HttpStatusEnum.Ok || status === HttpStatusEnum.Created){
                 showToast({
                     toastRef: toast,
                     severity: 'success',
                     summary: "Thêm hình ảnh",
                     detail: "Thêm hình ảnh thành công."
                 });
+                setPreviewImage(null);
+                setAddedSlideImage({
+                    slideShowId: null,
+                    imageFile: {},
+                    description: '',
+                });
+            }
             else
                 showToast({
                     toastRef: toast,
@@ -44,6 +70,7 @@ const CreateImageForm = () => {
                     summary: "Thêm hình ảnh",
                     detail: addedSlideImageData?.message,
                 })
+            setIsLoading(false);
         }
         addSlideImage();
     }, [addedSlideImage]);
@@ -197,6 +224,7 @@ const CreateImageForm = () => {
                                 fontWeight: 'bold'
                             }} className="w-100 mb-2" htmlFor="username">Mô tả</label>
                             <InputTextarea
+                                value={addedSlideImage.description}
                                 onChange={onChangeDescription}
                                 className="w-100" placeholder="Nhập nội dung" rows={5} cols={30}/>
                         </div>
@@ -212,11 +240,13 @@ const CreateImageForm = () => {
                 </div>
                 <div className="d-flex flex-wrap justify-content-center w-100">
                     <KLNButton
+                        isLoading={isLoading}
                         btnClassName="mt-4 mr-5"
-                        options={5}
+                        options={1}
                         onClick={handleAddImage}
                     >Lưu</KLNButton>
                     <KLNButton
+                        options={7}
                         btnClassName="mt-4 ml-5"
                         onClick={() => setTabView(TabViewEnum.ManageMultimediaTabImage)}
                         urlLink={`${AppRoutesEnum.AdminRoute}/manage-multimedia`}

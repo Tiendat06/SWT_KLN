@@ -20,8 +20,10 @@ const AudioTable = () => {
 
     const handleDeleteMany = useCallback(async () => {
         // api
+        setIsLoading(true);
         dispatch(deleteAudioAction(selectedItems));
         setVisible(false);
+        setIsLoading(false);
     }, [selectedItems]);
 
     const hideModal = useCallback(() => {
@@ -100,6 +102,7 @@ const AudioTable = () => {
                 />
                 <DeleteAudio/>
                 <DeleteMany
+                    isLoading={isLoading}
                     visible={visible}
                     setVisible={setVisible}
                     btnSaveOnClick={handleDeleteMany}
