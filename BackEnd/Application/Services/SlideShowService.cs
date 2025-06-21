@@ -303,7 +303,7 @@ namespace Application.Services
 
                     // Upload to Cloudinary
                     var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
-                    var publicId = $"{nameof(Domain.Entities.SlideShow)}_{addSlideImageRequest.SlideShowId}_{Guid.NewGuid()}";
+                    var publicId = $"{nameof(SlideShow)}_{addSlideImageRequest.SlideShowId}_{Guid.NewGuid()}";
 
                     var resultUpload = cloudinaryOperations.UploadFileFromLocalToCloudinary(
                         filePath, CommonCloudinaryAttribute.assetFolderSlideShowImage, publicId)
@@ -392,7 +392,7 @@ namespace Application.Services
                         var filePath = await FileOperations.SaveFileToLocal(folderPath, request.SlideImage);
 
                         var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
-                        var publicId = $"SlideShow_{request.SlideShowId}_{Guid.NewGuid()}";
+                        var publicId = $"{nameof(SlideShow)}_{request.SlideShowId}_{Guid.NewGuid()}";
 
                         var resultUpload = cloudinaryOperations.UploadFileFromLocalToCloudinary(
                             filePath, CommonCloudinaryAttribute.assetFolderSlideShowImage, publicId)

@@ -29,12 +29,25 @@ const deleteSlideImageInSpecificSlideShowService = async (
     mediaType = MediaType.None,
     slideShowType = SlideShowType.None) => {
     return await UseFetchAPI({
-        api: `${slideShowRoute}`,
+        api: `${slideShowRoute}/SlideImage`,
         method: "DELETE",
         body: JSON.stringify({
             ids,
             mediaType,
             slideShowType
+        })
+    });
+}
+
+const deleteSlideImageInSpecificSlideShowBySlideShowIdService = async (
+    ids,
+    slideShowId) => {
+    return await UseFetchAPI({
+        api: `${slideShowRoute}/SlideImage`,
+        method: "DELETE",
+        body: JSON.stringify({
+            ids,
+            slideShowId
         })
     });
 }
@@ -54,18 +67,17 @@ const addSlideImageInSpecificSlideShowService = async (addedSlideImage,
                                                        type = MediaType.None,
                                                        slideShowType = SlideShowType.None) => {
     const formData = new FormData();
-    formData.append("type", type);
-    formData.append("slideShowType", slideShowType);
-    formData.append("imageFile", addedSlideImage.imageFile);
+    formData.append("slideShowId", addedSlideImage.slideShowId);
+    formData.append("mediaTypeId", type);
+    formData.append("slideShowTypeId", slideShowType);
+    formData.append("slideImage", addedSlideImage.imageFile);
     formData.append("capture", addedSlideImage.description);
 
     return await UseFetchAPI({
-        api: `${slideShowRoute}`,
-        method: "PUT",
+        api: `${slideShowRoute}/SlideImage`,
+        method: "POST",
         body: formData,
-        headers: {
-            "Content-Type": "multipart/form-data",
-        }
+        headers: null
     })
 }
 
@@ -86,6 +98,7 @@ export const slideShowService = {
     getSlideShowByIdService,
     getSlideShowListService,
     deleteSlideImageInSpecificSlideShowService,
+    deleteSlideImageInSpecificSlideShowBySlideShowIdService,
     getTotalSlideImageInSpecificSlideShowService,
     addSlideImageInSpecificSlideShowService
 }

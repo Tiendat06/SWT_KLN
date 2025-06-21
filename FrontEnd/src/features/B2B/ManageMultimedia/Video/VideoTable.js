@@ -21,8 +21,10 @@ const VideoTable = () => {
 
     const handleBtnDeleteMany = useCallback(async () => {
         // api
+        setIsLoading(true);
         dispatch(deleteVideoAction(selectedItems))
         setVisible(false);
+        setIsLoading(false);
     }, [selectedItems]);
 
     const showModal = useCallback((videoItem) => {
@@ -99,6 +101,7 @@ const VideoTable = () => {
             />
             <DeleteVideo/>
             <DeleteMany
+                isLoading={isLoading}
                 visible={visible}
                 setVisible={setVisible}
                 btnSaveOnClick={handleBtnDeleteMany}

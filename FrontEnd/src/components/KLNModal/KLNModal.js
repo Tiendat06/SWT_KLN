@@ -18,12 +18,13 @@ const KLNModal = ({
                       },
                       btnCancelOnClick = () => {
                       },
+                      isLoading = false,
                       ...props
                   }) => {
 
     const footerContent = (
         <div style={footerStyle}>
-            <KLNButton style={buttonSaveStyle} onClick={btnSaveOnClick}>
+            <KLNButton isLoading={isLoading} style={buttonSaveStyle} onClick={btnSaveOnClick}>
                 {labelSave}
             </KLNButton>
             <KLNButton style={buttonCancelStyle} onClick={btnCancelOnClick}>
@@ -34,10 +35,11 @@ const KLNModal = ({
 
     return (
         <>
-            <Dialog {...props} header={modalHeader} visible={visible} position={position} style={{width: '50vw'}} onHide={() => {
-                if (!visible) return;
-                setVisible(false);
-            }} footer={footerContent} draggable={false} resizable={false}>
+            <Dialog {...props} header={modalHeader} visible={visible} position={position} style={{width: '50vw'}}
+                    onHide={() => {
+                        if (!visible) return;
+                        setVisible(false);
+                    }} footer={footerContent} draggable={false} resizable={false}>
                 {children}
             </Dialog>
         </>

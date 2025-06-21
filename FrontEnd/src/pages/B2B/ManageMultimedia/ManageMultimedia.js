@@ -18,7 +18,7 @@ const ManageMultimedia = () => {
             <Helmet>
                 <title>{MULTIMEDIA_TITLE}</title>
             </Helmet>
-            <MultimediaLayouts defaultTabView={TabViewEnum.ManageMultimediaTabImage} />
+            <MultimediaLayouts />
         </ManageMultimediaProvider>
     );
 };

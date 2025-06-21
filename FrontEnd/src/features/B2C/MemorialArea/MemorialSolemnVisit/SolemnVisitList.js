@@ -31,7 +31,9 @@ const SolemnVisitList = () => {
             {isLoading ? <KLNSkeletonWithSpinner height="500px" parentHeight="500px" animation="wave"/> :
                 <>
                     {solemnVisitList?.map((solemnVisit, index) => (
-                        <div key={`solem-visit-${solemnVisit.solemnVisitId}-${index}`}
+                        <div style={{
+                            height: isLoading ? 750 : null
+                        }} key={`solem-visit-${solemnVisit.solemnVisitId}-${index}`}
                              className={clsx(styles['solemn-visit'],
                                  "d-flex flex-wrap justify-content-center mt-5")}>
                             <h1 className={clsx(styles["solemn-visit__title"], "col-lg-12 col-md-12 col-sm-12 text-center mb-0")}>{solemnVisit?.solemnVisitName}</h1>

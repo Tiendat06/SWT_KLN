@@ -1,0 +1,11 @@
+@use "../../GlobalStyles/index" as *;
+@use "../../Utils/mixins" as *;
+@use "../../Utils/variables" as *;
+
+.custom-light :global(.p-progress-spinner-circle) {
+  stroke: $app-color-13 !important;
+}
+
+.custom-red :global(.p-progress-spinner-circle) {
+  stroke: $app-color-3 !important;
+}

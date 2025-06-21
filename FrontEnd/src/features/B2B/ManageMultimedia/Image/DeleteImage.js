@@ -3,20 +3,26 @@ import React, {useCallback} from "react";
 import {useAdminContext} from "~/context/AdminContext";
 import {deleteImageAction} from '~/store/B2B/ManageMultimedia/actions';
 import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
+import {slideShowService} from "~/services/SlideShowService";
 
-const DeleteImage = () => {
+const DeleteImage = ({slideShowId}) => {
     const {deleteAction, setDeleteAction} = useAdminContext();
-    const {image, dispatch} = useManageMultimediaContext();
+    const {image, dispatch, isLoading, setIsLoading} = useManageMultimediaContext();
 
-    const onClickDeleteItem = useCallback(() => {
+    const onClickDeleteItem = useCallback(async () => {
         // api
-        dispatch(deleteImageAction([image]));
+        setIsLoading(true);
+        const deleteSlideImages = await slideShowService.deleteSlideImageInSpecificSlideShowBySlideShowIdService([image.id], slideShowId);
+        if (deleteSlideImages)
+            dispatch(deleteImageAction([image]));
         setDeleteAction(false);
+        setIsLoading(false);
     }, [image]);
 
     return (
         <>
             <KLNModal
+                isLoading={isLoading}
                 visible={deleteAction}
                 setVisible={setDeleteAction}
                 position={'top'}
