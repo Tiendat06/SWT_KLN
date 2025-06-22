@@ -1,9 +1,12 @@
 import {CreateMultimediaImage, ManageMultimedia} from "~/pages";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
+import CreateVideo from "../../pages/B2B/ManageVideo/CreateVideo";
 
+const multiMediaRoutes = '/manage-multimedia';
 const manageMultimediaJRoutes = [
-    {path: `${AppRoutesEnum.AdminRoute}/manage-multimedia`, element: <ManageMultimedia/>},
-    {path: `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-image`, element: <CreateMultimediaImage/>},
+    {path: `${AppRoutesEnum.AdminRoute}${multiMediaRoutes}`, element: <ManageMultimedia/>},
+    {path: `${AppRoutesEnum.AdminRoute}${multiMediaRoutes}/create-image`, element: <CreateMultimediaImage/>},
+    {path: `${AppRoutesEnum.AdminRoute}${multiMediaRoutes}/create-video`, element: <CreateVideo/>},
 ];
 
 const manageMultimediaRoutes = [

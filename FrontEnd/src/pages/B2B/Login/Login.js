@@ -10,8 +10,8 @@ const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleLogin = () => {
-        console.log("Email:", email);
-        console.log("Password:", password);
+        // console.log("Email:", email);
+        // console.log("Password:", password);
     };
 
     return (

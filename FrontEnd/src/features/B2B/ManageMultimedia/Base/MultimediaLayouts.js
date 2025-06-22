@@ -1,5 +1,5 @@
 import TabViewEnum from "~/enum/TabView/TabViewEnum";
-import {KLNBreadCrumb, KLNButton, KLNTabView, KLNCascadeSelect} from "~/components";
+import {KLNBreadCrumb, KLNButton, KLNTabView, KLNCascadeSelect, KLNAdminTitle} from "~/components";
 import {faSquarePlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 import {ImageTable, AudioTable, VideoTable} from '~/features/B2B/ManageMultimedia';
@@ -83,10 +83,7 @@ const MultimediaLayouts = () => {
 
     return (
         <>
-            <h2 style={{
-                marginLeft: 15,
-                fontWeight: "bold",
-            }}>
+            <KLNAdminTitle>
                 {tabView === TabViewEnum.ManageMultimediaTabImage && (
                     <>Danh sách ảnh</>
                 )}
@@ -96,7 +93,7 @@ const MultimediaLayouts = () => {
                 {tabView === TabViewEnum.ManageMultimediaTabAudio && (
                     <>Danh sách nhạc</>
                 )}
-            </h2>
+            </KLNAdminTitle>
             <KLNBreadCrumb items={items}/>
             <div className="d-flex flex-wrap justify-content-between align-items-center">
                 <KLNTabView

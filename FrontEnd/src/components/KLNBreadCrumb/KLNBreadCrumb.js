@@ -1,5 +1,5 @@
 import {BreadCrumb} from "primereact/breadcrumb";
-import {useEffect} from "react";
+import styles from "~/styles/Components/KLNBreadCrumb/klnBreadCrumb.module.scss";
 
 const KLNBreadCrumb
     = ({
@@ -7,19 +7,17 @@ const KLNBreadCrumb
            ...props
        }) => {
 
-    useEffect(() => {
-        document.querySelectorAll('.p-menuitem-separator').forEach((el) => {
-            el.innerHTML = '/';
-        });
-    }, []);
-
     return (
         <>
-            <BreadCrumb {...props} style={{
-                backgroundColor: "transparent",
-                border: "none",
-                ...props.style
-            }} model={items} className={`custom-breadcrumb ${props.className}`}/>
+            <BreadCrumb
+                {...props}
+                style={{
+                    backgroundColor: "transparent",
+                    border: "none",
+                    ...props.style
+                }}
+                model={items}
+                className={`custom-breadcrumb ${props.className}`}/>
         </>
     )
 }
