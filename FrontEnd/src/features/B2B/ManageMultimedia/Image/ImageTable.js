@@ -29,7 +29,6 @@ const ImageTable = () => {
         setIsLoading,
         imageList,
         slideShow,
-        isUpdated,
         dispatch
     } = useManageMultimediaContext();
 
@@ -70,7 +69,7 @@ const ImageTable = () => {
             setIsLoading(false);
         }
         getSlideShow();
-    }, [currentPage, selectedPageOption, isUpdated]);
+    }, [currentPage, selectedPageOption/*, isUpdated*/]);
 
     useEffect(() => {
         paginateSlideImages(imageList);

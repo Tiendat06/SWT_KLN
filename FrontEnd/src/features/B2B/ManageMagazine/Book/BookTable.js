@@ -2,13 +2,11 @@ import {useCallback, useLayoutEffect, useState} from "react";
 import {useManageMagazineContext} from "~/context/B2B/ManageMagazine/ManageMagazine";
 import {useAdminContext} from "~/context/AdminContext";
 import {bookService} from "~/services/BookService";
-import KLNDataTable from "../../../../components/KLNTable/KLNDataTable";
+import KLNDataTable from "~/components/KLNTable/KLNDataTable";
 import {KLNColumn, KLNReactPaginate, KLNTableAction} from "~/components";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
-import DeleteImage from "~/features/B2B/ManageMultimedia/Image/DeleteImage";
 import {DeleteMany} from "~/features/B2B/ManageMultimedia";
-import {setImageAction} from "~/store/B2B/ManageMultimedia/actions";
-import {getMagazineAction} from "~/store/B2B/ManageMagazine/actions";
+import {deleteBookAction, getBookAction} from "~/store/B2B/ManageMagazine/actions";
 
 const BookTable = () => {
     const [selectedItems, setSelectedItems] = useState([]);
@@ -21,8 +19,7 @@ const BookTable = () => {
         setVisible,
         isLoading,
         setIsLoading,
-        // isUpdated,
-        book, bookList,
+        bookList,
         dispatch
     } = useManageMagazineContext();
 
@@ -31,7 +28,7 @@ const BookTable = () => {
         setIsLoading(true);
         // const deleteSlideImages = await slideShowService.deleteSlideImageInSpecificSlideShowBySlideShowIdService(selectedItems.map(item => item.id), slideShowId);
         // if (deleteSlideImages)
-        // dispatch();
+        dispatch(deleteBookAction(selectedItems));
         setVisible(false);
         setIsLoading(false);
     }, [selectedItems]);
@@ -40,7 +37,7 @@ const BookTable = () => {
         setVisible(false);
     }, []);
 
-    const showModal = useCallback((imageItem) => {
+    const showModal = useCallback(() => {
         setDeleteAction(true);
     }, []);
 
@@ -48,7 +45,7 @@ const BookTable = () => {
         const getBookList = async () => {
             setIsLoading(true);
             const bookListData = await bookService.getBookListService(selectedPageOption.code, currentPage);
-            dispatch(getMagazineAction(bookListData?.data?.items));
+            dispatch(getBookAction(bookListData?.data?.items));
             setPageCount(Math.ceil((bookListData?.data?.totalCount || 0) / selectedPageOption.code));
             setIsLoading(false);
         }

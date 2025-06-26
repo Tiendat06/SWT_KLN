@@ -17,7 +17,14 @@ const VideoTable = () => {
     const {
         selectedPageOption, setDeleteAction
     } = useAdminContext();
-    const {visible, setVisible, isLoading, setIsLoading, isUpdated, dispatch, videoList} = useManageMultimediaContext();
+    const {
+        visible,
+        setVisible,
+        isLoading,
+        setIsLoading,
+        dispatch,
+        videoList
+    } = useManageMultimediaContext();
 
     const handleBtnDeleteMany = useCallback(async () => {
         // api
@@ -46,7 +53,7 @@ const VideoTable = () => {
             setIsLoading(false);
         }
         getVideoList();
-    }, [currentPage, selectedPageOption, isUpdated]);
+    }, [currentPage, selectedPageOption/*, isUpdated*/]);
 
     const handlePageClick = useCallback((event) => {
         setCurrentPage(event.selected + 1);

@@ -8,7 +8,7 @@ import {
 } from "./constansts";
 
 export const initialState = {
-    isUpdated: false,
+    // isUpdated: false,
 
     slideShow: {},
 
@@ -51,7 +51,7 @@ const reducer = (state, action) => {
             newDeletedImageList = newDeletedImageList.filter(x => !deletedImageList.some(deletedImage => deletedImage.id === x.id));
             newState = {
                 ...state,
-                isUpdated: !state.isUpdated,
+                // isUpdated: !state.isUpdated,
                 slideShow: {
                     ...state.slideShow,
                     slideImage: newDeletedImageList,
@@ -61,7 +61,7 @@ const reducer = (state, action) => {
             break;
         case ADD_IMAGE:
             newState = {
-                isUpdated: !state.isUpdated,
+                // isUpdated: !state.isUpdated,
             }
             break;
         // video
@@ -83,7 +83,7 @@ const reducer = (state, action) => {
             newDeletedVideoList = newDeletedVideoList.filter(x => !deletedVideoList.some(deletedVideo => deletedVideo.videoId === x.videoId));
             newState = {
                 ...state,
-                isUpdated: !state.isUpdated,
+                // isUpdated: !state.isUpdated,
                 videoList: newDeletedVideoList,
             }
             break;
@@ -105,7 +105,7 @@ const reducer = (state, action) => {
             newDeletedAudioList = newDeletedAudioList.filter(x => !deletedAudioList.some(deletedAudio => deletedAudio.musicId === x.musicId));
             newState = {
                 ...state,
-                isUpdated: !state.isUpdated,
+                // isUpdated: !state.isUpdated,
                 audioList: newDeletedAudioList,
             }
             break;

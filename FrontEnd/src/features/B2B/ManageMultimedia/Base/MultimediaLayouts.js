@@ -13,6 +13,7 @@ import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
 import {musicService} from "~/services/MusicService";
 import {videoService} from "~/services/VideoService";
+import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 
 const MultimediaLayouts = () => {
     const {tabView, setTabView, setDeleteAction} = useAdminContext();
@@ -106,7 +107,7 @@ const MultimediaLayouts = () => {
                             marginRight: 20,
                             fontWeight: "bold"
                         }}
-                        options={4}
+                        options={KLNButtonEnum.secondDangerBtn}
                         icon={faTrash}
                         iconStyle={{
                             marginLeft: 10,
@@ -124,7 +125,7 @@ const MultimediaLayouts = () => {
                                         ? `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-audio`
                                         : ''
                         }
-                        options={1}
+                        options={KLNButtonEnum.dangerBtn}
                         icon={faSquarePlus}
                         iconStyle={{
                             marginLeft: 10,

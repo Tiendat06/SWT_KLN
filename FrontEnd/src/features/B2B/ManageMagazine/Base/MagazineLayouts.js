@@ -8,13 +8,9 @@ import {Link} from "react-router-dom";
 import {faSquarePlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 import {BookTable, MagazineTable} from "~/features/B2B/ManageMagazine";
-import {slideShowService} from "~/services/SlideShowService";
-import MediaType from "~/enum/MediaType/MediaType";
-import SlideShowType from "~/enum/SlideShowType/SlideShowType";
-import {musicService} from "~/services/MusicService";
-import {videoService} from "~/services/VideoService";
 import {bookService} from "~/services/BookService";
 import {magazineService} from "~/services/MagazineService";
+import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 
 const MagazineLayouts = () => {
     const {tabView, setTabView, setDeleteAction, isUpdated} = useAdminContext();
@@ -87,7 +83,7 @@ const MagazineLayouts = () => {
                             marginRight: 20,
                             fontWeight: "bold"
                         }}
-                        options={4}
+                        options={KLNButtonEnum.secondDangerBtn}
                         icon={faTrash}
                         iconStyle={{
                             marginLeft: 10,
@@ -103,7 +99,7 @@ const MagazineLayouts = () => {
                                     ? `${AppRoutesEnum.AdminRoute}/manage-magazine/create-magazine`
                                     : ''
                         }
-                        options={1}
+                        options={KLNButtonEnum.dangerBtn}
                         icon={faSquarePlus}
                         iconStyle={{
                             marginLeft: 10,

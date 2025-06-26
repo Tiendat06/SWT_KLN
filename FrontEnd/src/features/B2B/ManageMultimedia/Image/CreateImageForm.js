@@ -17,6 +17,7 @@ import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
 import HttpStatusEnum from "~/enum/Http/HttpStatusEnum";
 import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
+import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 
 const CreateImageForm = () => {
 
@@ -179,7 +180,7 @@ const CreateImageForm = () => {
                                     jpg,
                                     png,...</p>
                                 <KLNButton
-                                    options={6}
+                                    options={KLNButtonEnum.blackBtn}
                                     hasFileInput={true}
                                     onHandleFileChange={handleUpload}
                                     style={{
@@ -242,11 +243,11 @@ const CreateImageForm = () => {
                     <KLNButton
                         isLoading={isLoading}
                         btnClassName="mt-4 mr-5"
-                        options={1}
+                        options={KLNButtonEnum.dangerBtn}
                         onClick={handleAddImage}
                     >Lưu</KLNButton>
                     <KLNButton
-                        options={7}
+                        options={KLNButtonEnum.whiteBtn}
                         btnClassName="mt-4 ml-5"
                         onClick={() => setTabView(TabViewEnum.ManageMultimediaTabImage)}
                         urlLink={`${AppRoutesEnum.AdminRoute}/manage-multimedia`}
