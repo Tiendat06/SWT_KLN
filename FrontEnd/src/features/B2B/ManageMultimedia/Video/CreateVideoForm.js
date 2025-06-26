@@ -21,6 +21,7 @@ import { addVideoToSpecificSlideShowService } from "~/services/SlideShowService"
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
 import HttpStatusEnum from "~/enum/Http/HttpStatusEnum";
+import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 
 const CreateVideoForm = () => {
     const [addedVideo, setAddedVideo] = useState({
@@ -232,7 +233,7 @@ const CreateVideoForm = () => {
             <div className="d-flex flex-wrap justify-content-center w-100">
                 <KLNButton
                     btnClassName="mt-4 mr-5"
-                    options={5}
+                    options={KLNButtonEnum.successBtn}
                     onClick={handleAddVideo}
                 >
                     Lưu

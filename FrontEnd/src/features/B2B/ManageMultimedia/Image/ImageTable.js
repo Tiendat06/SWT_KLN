@@ -1,7 +1,5 @@
-import {useCallback, useEffect, useState} from "react";
-import {
-    slideShowService
-} from "~/services/SlideShowService";
+import {useCallback, useEffect, useLayoutEffect, useState} from "react";
+import {slideShowService} from "~/services/SlideShowService";
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
 import {KLNColumn, KLNReactPaginate, KLNTableAction} from "~/components";
@@ -31,7 +29,6 @@ const ImageTable = () => {
         setIsLoading,
         imageList,
         slideShow,
-        isUpdated,
         dispatch
     } = useManageMultimediaContext();
 
@@ -54,7 +51,7 @@ const ImageTable = () => {
         dispatch(setImageAction(imageItem));
     }, []);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const getSlideShow = async () => {
             setIsLoading(true);
             const data = await slideShowService.getSlideShowListService(1, 1, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
@@ -72,11 +69,11 @@ const ImageTable = () => {
             setIsLoading(false);
         }
         getSlideShow();
-    }, [selectedPageOption, isUpdated]);
+    }, [currentPage, selectedPageOption/*, isUpdated*/]);
 
     useEffect(() => {
         paginateSlideImages(imageList);
-    }, [currentPage, selectedPageOption]);
+    }, [currentPage, selectedPageOption, imageList]);
 
     const paginateSlideImages = (images) => {
         const startIndex = (currentPage - 1) * selectedPageOption.code;

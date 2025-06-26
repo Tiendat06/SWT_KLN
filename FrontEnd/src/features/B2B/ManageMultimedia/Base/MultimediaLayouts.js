@@ -1,5 +1,5 @@
 import TabViewEnum from "~/enum/TabView/TabViewEnum";
-import {KLNBreadCrumb, KLNButton, KLNTabView, KLNCascadeSelect} from "~/components";
+import {KLNBreadCrumb, KLNButton, KLNTabView, KLNCascadeSelect, KLNAdminTitle} from "~/components";
 import {faSquarePlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 import {ImageTable, AudioTable, VideoTable} from '~/features/B2B/ManageMultimedia';
@@ -13,6 +13,7 @@ import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
 import {musicService} from "~/services/MusicService";
 import {videoService} from "~/services/VideoService";
+import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 
 const MultimediaLayouts = () => {
     const {tabView, setTabView, setDeleteAction} = useAdminContext();
@@ -83,10 +84,7 @@ const MultimediaLayouts = () => {
 
     return (
         <>
-            <h2 style={{
-                marginLeft: 15,
-                fontWeight: "bold",
-            }}>
+            <KLNAdminTitle>
                 {tabView === TabViewEnum.ManageMultimediaTabImage && (
                     <>Danh sách ảnh</>
                 )}
@@ -96,7 +94,7 @@ const MultimediaLayouts = () => {
                 {tabView === TabViewEnum.ManageMultimediaTabAudio && (
                     <>Danh sách nhạc</>
                 )}
-            </h2>
+            </KLNAdminTitle>
             <KLNBreadCrumb items={items}/>
             <div className="d-flex flex-wrap justify-content-between align-items-center">
                 <KLNTabView
@@ -109,7 +107,7 @@ const MultimediaLayouts = () => {
                             marginRight: 20,
                             fontWeight: "bold"
                         }}
-                        options={4}
+                        options={KLNButtonEnum.secondDangerBtn}
                         icon={faTrash}
                         iconStyle={{
                             marginLeft: 10,
@@ -127,7 +125,7 @@ const MultimediaLayouts = () => {
                                         ? `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-audio`
                                         : ''
                         }
-                        options={1}
+                        options={KLNButtonEnum.dangerBtn}
                         icon={faSquarePlus}
                         iconStyle={{
                             marginLeft: 10,

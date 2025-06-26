@@ -1,45 +1,27 @@
 import {KLNModal} from "~/components";
-import React, {useCallback} from "react";
-import {useAdminContext} from "~/context/AdminContext";
-import {deleteImageAction} from '~/store/B2B/ManageMultimedia/actions';
-import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
-import {slideShowService} from "~/services/SlideShowService";
+import React, {memo} from "react";
 import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 import {check_icon} from "~/assets/img";
 
-const DeleteImage = ({slideShowId}) => {
-    const {deleteAction, setDeleteAction} = useAdminContext();
-    const {image, dispatch, isLoading, setIsLoading} = useManageMultimediaContext();
-
-    const onClickDeleteItem = useCallback(async () => {
-        // api
-        setIsLoading(true);
-        const deleteSlideImages = await slideShowService.deleteSlideImageInSpecificSlideShowBySlideShowIdService([image.id], slideShowId);
-        if (deleteSlideImages)
-            dispatch(deleteImageAction([image]));
-        setDeleteAction(false);
-        setIsLoading(false);
-    }, [image]);
+const DeleteMany = ({
+                        isLoading,
+                        visible, setVisible,
+                        btnSaveOnClick = () => {
+                        },
+                        btnCancelOnClick = () => {
+                        }
+                    }) => {
 
     return (
         <>
             <KLNModal
                 size="sm"
-                visible={deleteAction}
-                setVisible={setDeleteAction}
+                isLoading={isLoading}
+                visible={visible}
+                setVisible={setVisible}
                 position={'middle'}
                 labelSave='Xác nhận'
                 labelCancel='Bỏ qua'
-                headerStyle={{
-                    padding: "5px 10px 0 10px"
-                }}
-                contentStyle={{
-                    paddingBottom: 10
-                }}
-                btnSaveOnClick={onClickDeleteItem}
-                btnCancelOnClick={() => setDeleteAction(false)}
-                buttonSaveOptions={KLNButtonEnum.blackBtn}
-                buttonCloseOptions={KLNButtonEnum.whiteBtn}
                 footerStyle={{
                     display: 'flex',
                     justifyContent: 'center',
@@ -47,6 +29,16 @@ const DeleteImage = ({slideShowId}) => {
                 buttonSaveStyle={{
                     marginLeft: 20,
                 }}
+                headerStyle={{
+                    padding: "5px 10px 0 10px"
+                }}
+                contentStyle={{
+                    paddingBottom: 10
+                }}
+                btnSaveOnClick={btnSaveOnClick}
+                btnCancelOnClick={btnCancelOnClick}
+                buttonSaveOptions={KLNButtonEnum.blackBtn}
+                buttonCloseOptions={KLNButtonEnum.whiteBtn}
             >
                 <div className="">
                     <div className="d-flex">
@@ -68,4 +60,4 @@ const DeleteImage = ({slideShowId}) => {
     );
 }
 
-export default DeleteImage;
+export default memo(DeleteMany);

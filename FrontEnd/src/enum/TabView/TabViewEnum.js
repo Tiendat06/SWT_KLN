@@ -13,6 +13,16 @@ const TabViewEnum = Object.freeze({
      * Audio tab in manage multimedia
      * */
     ManageMultimediaTabAudio: 2,
+
+    /**
+     * Book tab in manage magazine
+     * */
+    ManageMagazineTabBook: 3,
+
+    /**
+     * Magazine tab in manage magazine
+     * */
+    ManageMagazineTabMagazine: 4,
 });
 
 export default TabViewEnum;
