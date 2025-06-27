@@ -19,6 +19,7 @@ import KLNCascadeSelect from "~/components/KLNCascadeSelect/KLNCascadeSelect";
 import KLNTableAction from "~/components/KLNTableAction/KLNTableAction";
 import KLNBreadCrumb from "~/components/KLNBreadCrumb/KLNBreadCrumb";
 import KLNModal from "~/components/KLNModal/KLNModal";
+import TopicModal from "~/components/KLNModal/TopicModal";
 import KLNToast from "~/components/KLNToast/KLNToast";
 import KLNColumn from "~/components/KLNTable/KLNColumn";
 import KLNDataTable from "~/components/KLNTable/KLNDataTable";
@@ -32,7 +33,7 @@ export {
     KLNTitle, KLNAudio, KLNCategory,
     KLNReactDotPaginate, KLNDropdown,
     KLNTabView, KLNCascadeSelect, KLNTableAction,
-    KLNBreadCrumb, KLNModal, KLNToast, KLNColumn,
+    KLNBreadCrumb, KLNModal, TopicModal, KLNToast, KLNColumn,
     KLNDataTable, KLNSkeletonWithSpinner, KLNImageWithSkeleton
 }
 

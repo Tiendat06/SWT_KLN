@@ -13,6 +13,16 @@ const TabViewEnum = Object.freeze({
      * Audio tab in manage multimedia
      * */
     ManageMultimediaTabAudio: 2,
+
+    /**
+     * Image tab in topic detail
+     * */
+    TopicDetailTabImage: 3,
+
+    /**
+     * Video tab in topic detail
+     * */
+    TopicDetailTabVideo: 4,
 });
 
 export default TabViewEnum;
