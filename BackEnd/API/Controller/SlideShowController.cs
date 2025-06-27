@@ -70,7 +70,7 @@ namespace API.Controller
         }
 
         // POST: api/SlideImage
-        [HttpPost("SlideImage/{id}")]
+        [HttpPost("SlideImage")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetSlideImageResponse>))]
         public async Task<IActionResult> AddSlideImage([FromForm] AddSlideImageRequest addSlideImageRequest)
         {
@@ -79,7 +79,7 @@ namespace API.Controller
         }
 
         // PUT: api/SlideImage/5
-        [HttpPut("SlideImage/{id}")]
+        [HttpPut("SlideImage")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetSlideImageResponse>))]
         public async Task<IActionResult> UpdateSlideImage([FromForm] UpdateSlideImageRequest updateSlideImageRequest)
         {
@@ -88,9 +88,10 @@ namespace API.Controller
         }
 
         // DELETE: api/SlideImage/ids
-        [HttpDelete("SlideImage/{ids}")]
+        [HttpDelete("SlideImage")]
+        [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
-        public async Task<IActionResult> DeleteSlideImages([FromForm] DeleteSlideImageRequest deleteSlideImagesRequest)
+        public async Task<IActionResult> DeleteSlideImages([FromBody] DeleteSlideImageRequest deleteSlideImagesRequest)
         {
             var isDeleted = await _slideShowService.DeleteSlideImageAsync(deleteSlideImagesRequest);
             return ApiSuccess(isDeleted);

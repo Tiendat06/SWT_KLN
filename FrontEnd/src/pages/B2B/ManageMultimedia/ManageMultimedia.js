@@ -5,20 +5,27 @@ import { MULTIMEDIA_TITLE } from "~/utils/Constansts";
 import { useEffect } from "react";
 import { useAdminContext } from "~/context/AdminContext";
 import TabViewEnum from "~/enum/TabView/TabViewEnum"; 
+import {getLocalStorage} from "~/utils/Storage";
 
 const ManageMultimedia = () => {
-    const { setTabView } = useAdminContext();
+    const { tabView, setTabView } = useAdminContext();
 
     useEffect(() => {
-        setTabView(TabViewEnum.ManageMultimediaTabImage);
-    }, [setTabView]);
+        if (getLocalStorage('tabView') === null
+            || getLocalStorage('tabView') === undefined
+            || (tabView !== TabViewEnum.ManageMultimediaTabImage
+            && tabView !== TabViewEnum.ManageMultimediaTabVideo
+            && tabView !== TabViewEnum.ManageMultimediaTabAudio)
+        )
+            setTabView(TabViewEnum.ManageMultimediaTabImage);
+    }, [tabView, setTabView]);
 
     return (
         <ManageMultimediaProvider>
             <Helmet>
                 <title>{MULTIMEDIA_TITLE}</title>
             </Helmet>
-            <MultimediaLayouts defaultTabView={TabViewEnum.ManageMultimediaTabImage} />
+            <MultimediaLayouts />
         </ManageMultimediaProvider>
     );
 };

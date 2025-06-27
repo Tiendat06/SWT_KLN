@@ -14,18 +14,18 @@ const CreateVideo = () => {
     const { setTabView } = useAdminContext();
 
     const items = [
-        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-video`}>Tài liệu đa phương tiện</Link> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-multimedia`}>Tài liệu đa phương tiện</Link> },
         {
             template: () => (
                 <Link
-                    onClick={() => setTabView(TabViewEnum.ManageMultimediaTabImage)}
-                    to={`${AppRoutesEnum.AdminRoute}/manage-video`}
+                    onClick={() => setTabView(TabViewEnum.ManageMultimediaTabVideo)}
+                    to={`${AppRoutesEnum.AdminRoute}/manage-multimedia`}
                 >
                     Danh sách video
                 </Link>
             ),
         },
-        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-multimediavideo/create-video`}>Thêm video</Link> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-multimedia/create-video`}>Thêm video</Link> },
     ];
 
     return (

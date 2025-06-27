@@ -1,9 +1,11 @@
 import {Dialog} from 'primereact/dialog';
 import {memo} from "react";
 import {KLNButton} from "~/components";
+import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 
 const KLNModal = ({
                       visible = false,
+                      size = 'md',
                       setVisible = () => {
                       },
                       position = 'center',
@@ -11,6 +13,7 @@ const KLNModal = ({
                       labelCancel = 'Cancel',
                       labelSave = 'Save',
                       modalHeader = '',
+                      modalHeaderStyle = {},
                       footerStyle = {},
                       buttonSaveStyle = {},
                       buttonCancelStyle = {},
@@ -18,26 +21,46 @@ const KLNModal = ({
                       },
                       btnCancelOnClick = () => {
                       },
+                      isLoading = false,
+                      buttonSaveOptions = KLNButtonEnum.dangerBtn,
+                      buttonCloseOptions = KLNButtonEnum.dangerBtn,
                       ...props
                   }) => {
 
     const footerContent = (
         <div style={footerStyle}>
-            <KLNButton style={buttonSaveStyle} onClick={btnSaveOnClick}>
-                {labelSave}
-            </KLNButton>
-            <KLNButton style={buttonCancelStyle} onClick={btnCancelOnClick}>
+            <KLNButton options={buttonCloseOptions} style={buttonCancelStyle} onClick={btnCancelOnClick}>
                 {labelCancel}
+            </KLNButton>
+            <KLNButton options={buttonSaveOptions} isLoading={isLoading} style={buttonSaveStyle}
+                       onClick={btnSaveOnClick}>
+                {labelSave}
             </KLNButton>
         </div>
     );
 
+    const dialogSize = {
+        'sm': '30vw',
+        'md': '50vw',
+        'lg': '70vw',
+        'xl': '90vw',
+    }[size] || '50vw';
+
     return (
         <>
-            <Dialog {...props} header={modalHeader} visible={visible} position={position} style={{width: '50vw'}} onHide={() => {
-                if (!visible) return;
-                setVisible(false);
-            }} footer={footerContent} draggable={false} resizable={false}>
+            <Dialog {...props}
+                    header={modalHeader}
+                    visible={visible}
+                    position={position}
+                    style={{width: dialogSize, ...props.style}}
+                    onHide={() => {
+                        if (!visible) return;
+                        setVisible(false);
+                    }}
+                    footer={footerContent}
+                    draggable={false}
+                    resizable={false}
+            >
                 {children}
             </Dialog>
         </>

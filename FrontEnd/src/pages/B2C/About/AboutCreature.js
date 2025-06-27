@@ -5,6 +5,7 @@ import {tac_pham_2, tac_pham_3, tac_pham_4} from "~/assets/img";
 import {KLNButton} from "~/components";
 import {Helmet} from "react-helmet-async";
 import {CREATURE_TDT_TITLE} from "~/utils/Constansts";
+import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 
 const AboutCreature = () => {
     return (
@@ -53,7 +54,7 @@ const AboutCreature = () => {
                             Tài liệu đa phương tiện
                         </h5>
                         <div className={clsx(styles["about-creature__item-btn"])}>
-                            <KLNButton urlLink={`/about-multimedia-documents`} options={2}>Xem chi tiết</KLNButton>
+                            <KLNButton urlLink={`/about-multimedia-documents`} options={KLNButtonEnum.secondaryBtn}>Xem chi tiết</KLNButton>
                         </div>
                     </div>
                 </li>

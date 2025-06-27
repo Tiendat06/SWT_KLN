@@ -16,12 +16,21 @@ const AudioTable = () => {
     const {
         selectedPageOption, setDeleteAction
     } = useAdminContext();
-    const {visible, setVisible, isLoading, setIsLoading, audioList, isUpdated, dispatch} = useManageMultimediaContext();
+    const {
+        visible,
+        setVisible,
+        isLoading,
+        setIsLoading,
+        audioList,
+        dispatch
+    } = useManageMultimediaContext();
 
     const handleDeleteMany = useCallback(async () => {
         // api
+        setIsLoading(true);
         dispatch(deleteAudioAction(selectedItems));
         setVisible(false);
+        setIsLoading(false);
     }, [selectedItems]);
 
     const hideModal = useCallback(() => {
@@ -43,7 +52,7 @@ const AudioTable = () => {
             setIsLoading(false);
         }
         getAudioList();
-    }, [currentPage, selectedPageOption, isUpdated]);
+    }, [currentPage, selectedPageOption/*, isUpdated*/]);
 
     const handlePageClick = useCallback((event) => {
         setCurrentPage(event.selected + 1);
@@ -100,6 +109,7 @@ const AudioTable = () => {
                 />
                 <DeleteAudio/>
                 <DeleteMany
+                    isLoading={isLoading}
                     visible={visible}
                     setVisible={setVisible}
                     btnSaveOnClick={handleDeleteMany}

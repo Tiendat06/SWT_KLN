@@ -23,6 +23,14 @@ const TabViewEnum = Object.freeze({
      * Video tab in topic detail
      * */
     TopicDetailTabVideo: 4,
+    /* * Book tab in manage magazine
+     * */
+    ManageMagazineTabBook: 5,
+
+    /**
+     * Magazine tab in manage magazine
+     * */
+    ManageMagazineTabMagazine: 6,
 });
 
 export default TabViewEnum;

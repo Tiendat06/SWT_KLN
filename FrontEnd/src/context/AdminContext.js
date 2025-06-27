@@ -1,5 +1,6 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
+import {setLocalStorage} from "~/utils/Storage";
 
 const AdminContext = createContext();
 
@@ -13,11 +14,11 @@ export const AdminProvider = ({ children }) => {
     const [selectedPageOption, setSelectedPageOption] = useState({ name: '5', code: 5 });
 
     useEffect(() => {
-        localStorage.setItem('sideBarCategory', Number(sideBarCategory));
+        setLocalStorage('sideBarCategory', Number(sideBarCategory));
     }, [sideBarCategory]);
 
     useEffect(() => {
-        localStorage.setItem('tabView', Number(tabView));
+        setLocalStorage('tabView', Number(tabView));
     }, [tabView]);
 
     useEffect(() => {

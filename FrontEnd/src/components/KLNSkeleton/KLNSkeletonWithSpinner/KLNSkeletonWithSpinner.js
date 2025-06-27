@@ -18,7 +18,7 @@ const KLNSkeletonWithSpinner = ({width = "100%", parentHeight = "100%", height =
                     zIndex: 10,
                 }}
             >
-                <ProgressSpinner style={{width: '50px', height: '50px'}} strokeWidth="8" fill="var(--surface-ground)"
+                <ProgressSpinner style={{width: '50px', height: '50px'}} strokeWidth="2" fill="var(--surface-ground)"
                                  animationDuration=".5s"/>
             </div>
         </div>
