@@ -27,9 +27,6 @@ import ManageTopic from "~/pages/B2B/ManageTopic/ManageTopic";
 import LoginPage from "~/pages/B2B/Login/Login";
 import CreateMultimedia from "~/pages/B2B/ManageMultimedia/CreateMultimedia";
 
-import ManageVideo from "~/pages/B2B/ManageVideo/ManageVideo";
-import CreateVideo from "~/pages/B2B/ManageVideo/CreateVideo";
-
 export { Home, BlogContent };
 
 export {
@@ -54,8 +51,3 @@ export {
 };
 
 export { LoginPage };
-
-export {
-    ManageVideo,
-    CreateVideo
-};

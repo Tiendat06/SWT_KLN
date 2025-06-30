@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import styles from "~/styles/Pages/B2B/MediaDocument/login.module.scss";
+import styles from "~/styles/Pages/B2B/Auth/login.module.scss";
 import illustration from "~/assets/img/admin/login/admin_loginPage.png";
 
 const LoginPage = () => {
