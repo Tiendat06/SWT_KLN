@@ -2,18 +2,3 @@
 @use "../../../Utils/mixins" as *;
 @use "../../../Utils/variables" as *;
 
-.action-trash{
-  background-color: $app-color-19;
-  padding: 10px 15px;
-  border-radius: 10px;
-  color: $app-color-3;
-}
-
-.action-edit {
-  background-color: $app-color-21;
-  padding: 10px 15px;
-  border-radius: 10px;
-  svg {
-    color: $app-color-22;
-  }
-}

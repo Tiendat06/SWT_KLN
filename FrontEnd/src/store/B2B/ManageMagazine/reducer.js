@@ -13,6 +13,8 @@ export const initialState = {
 
     book: {},
     bookList: [],
+
+    isUpdated: false,
 }
 
 const reducer = (state, action) => {

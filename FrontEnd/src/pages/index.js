@@ -26,7 +26,7 @@ import ManageMagazine from "~/pages/B2B/ManageMagazine/ManageMagazine";
 import ManageTopic from "~/pages/B2B/ManageTopic/ManageTopic";
 import TopicDetail from "~/pages/B2B/ManageTopic/TopicDetail";
 import LoginPage from "~/pages/B2B/Login/Login";
-import CreateMultimediaImage from "~/pages/B2B/ManageMultimedia/CreateMultimediaImage";
+import CreateMultimedia from "~/pages/B2B/ManageMultimedia/CreateMultimedia";
 
 import ManageVideo from "~/pages/B2B/ManageVideo/ManageVideo";
 import CreateVideo from "~/pages/B2B/ManageVideo/CreateVideo";
@@ -49,7 +49,7 @@ export { Handiwork };
 export {
     ManageImage,
     ManageMultimedia,
-    CreateMultimediaImage,
+    CreateMultimedia,
     ManageMagazine,
     ManageTopic,
     TopicDetail

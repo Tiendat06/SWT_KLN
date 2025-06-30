@@ -17,3 +17,5 @@ export const MANAGE_VIDEO_TITLE = 'Quản lý video về bác Tôn';
 export const MANAGE_TOPIC_TITLE = 'Quản lý chuyên đề hay về Bác';
 export const ADD_TOPIC_TITLE = 'Thêm chuyên đề';
 export const ADD_TOPIC_IMAGE_TITLE = 'Thêm ảnh chuyên đề';
+export const ADD_MULTIMEDIA_VIDEO_TITLE = 'Thêm video về bác Tôn';
+export const ADD_MULTIMEDIA_AUDIO_TITLE = 'Thêm nhạc về bác Tôn';
