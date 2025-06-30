@@ -8,12 +8,13 @@ import {useManageMagazineContext} from "~/context/B2B/ManageMagazine/ManageMagaz
 
 const DeleteBook = () => {
     const {deleteAction, setDeleteAction} = useAdminContext();
-    const {book, dispatch} = useManageMagazineContext()
+    const {book, dispatch, setSelectedItems} = useManageMagazineContext()
 
     const onClickDeleteItem = useCallback(() => {
         // api
         dispatch(deleteAudioAction([book]));
         setDeleteAction(false);
+        setSelectedItems([]);
     }, [book]);
 
     return (

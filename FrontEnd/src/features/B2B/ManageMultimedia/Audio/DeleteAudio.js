@@ -8,12 +8,13 @@ import {check_icon} from "~/assets/img";
 
 const DeleteAudio = () => {
     const {deleteAction, setDeleteAction} = useAdminContext();
-    const {audio, dispatch} = useManageMultimediaContext()
+    const {audio, dispatch, setSelectedItems} = useManageMultimediaContext()
 
     const onClickDeleteItem = useCallback(() => {
         // api
         dispatch(deleteAudioAction([audio]));
         setDeleteAction(false);
+        setSelectedItems([]);
     }, [audio]);
 
     return (

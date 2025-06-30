@@ -15,3 +15,5 @@ export const ADD_MULTIMEDIA_IMAGE_TITLE = 'Thêm hình ảnh nghê thuật về 
 export const ADD_MULTIMEDIA_VIDEO_TITLE = 'Thêm video về bác Tôn';
 export const ADD_MULTIMEDIA_AUDIO_TITLE = 'Thêm nhạc về bác Tôn';
 export const MANAGE_VIDEO_TITLE = 'Quản lý video về bác Tôn';
+
+export const TEST_USER_ID = 'd3bf776b-d5f7-4662-90d2-c273bfb779d2';

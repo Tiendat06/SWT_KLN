@@ -5,19 +5,20 @@ import {useAdminContext} from "~/context/AdminContext";
 import MediaType from "~/enum/MediaType/MediaType";
 import HttpStatusEnum from "~/enum/Http/HttpStatusEnum";
 import {showToast} from "~/utils/Toast";
-import {ALLOW_N_FILE, BROWSER_CANNOT_READ_FILE, getValidateMessage, INVALID_FILE} from "~/utils/ErrorMessage";
+import {BROWSER_CANNOT_READ_FILE, INVALID_FILE} from "~/utils/ErrorMessage";
 import {Card} from "primereact/card";
 import clsx from "clsx";
-import styles from "~/styles/Pages/B2B/MediaDocument/createImage.module.scss";
-import {solar_upload_icon_1} from "~/assets/img";
-import {KLNButton} from "~/components";
+import styles from "~/styles/Pages/B2B/ManageMultimedia/createAudioForm.module.scss";
+import {KLNButton, KLNUploadFile} from "~/components";
 import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
-import {Calendar} from "primereact/calendar";
 import TabViewEnum from "~/enum/TabView/TabViewEnum";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import {musicService} from "~/services/MusicService";
-import {InputText} from "primereact/inputtext";
 import KLNFormItem from "~/components/KLNFormItem/KLNFormItem";
+import AddSolidIcon from "~/assets/icon/AddSolidIcon";
+import PlayBrokenIcon from "~/assets/icon/PlayBrokenIcon";
+import TrashBrokenIcon from "~/assets/icon/TrashBrokenIcon";
+import {TEST_USER_ID} from "~/utils/Constansts";
 
 const audioInput = {
     title: '',
@@ -25,22 +26,23 @@ const audioInput = {
     author: '',
     imageFile: {},
     audioFile: {},
-    userId: '',
+    userId: TEST_USER_ID,
 }
 
 const CreateAudioForm = () => {
     const {isLoading, setIsLoading} = useManageMultimediaContext();
     const [addedAudio, setAddedAudio] = useState(audioInput);
     const [previewImage, setPreviewImage] = useState(null);
+    const [previewAudio, setPreviewAudio] = useState(null);
     const {toast} = useAppContext();
     const {setTabView} = useAdminContext();
 
     const handleAddImage = useCallback(() => {
-        const addSlideImage = async () => {
+        const addAudio = async () => {
             setIsLoading(true);
             const addedAudioData = await musicService.addMusicService(addedAudio);
             const status = addedAudioData.status ?? 400;
-            if (status === HttpStatusEnum.Ok || status === HttpStatusEnum.Created){
+            if (status === HttpStatusEnum.Ok || status === HttpStatusEnum.Created) {
                 showToast({
                     toastRef: toast,
                     severity: 'success',
@@ -49,8 +51,7 @@ const CreateAudioForm = () => {
                 });
                 setPreviewImage(null);
                 setAddedAudio(audioInput);
-            }
-            else
+            } else
                 showToast({
                     toastRef: toast,
                     severity: 'error',
@@ -59,58 +60,32 @@ const CreateAudioForm = () => {
                 })
             setIsLoading(false);
         }
-        addSlideImage();
+        addAudio();
     }, [addedAudio]);
 
-    const handleFile = (files) => {
-        const isImage = files[0].type.startsWith("audio/");
+    const handleFile = (files, fileType) => {
+        const isFile = files[0].type.startsWith(fileType);
         const isSizeOk = files[0].size <= 4000 * 1024 * 1024;
-        if (isImage && isSizeOk) {
+        if (isFile && isSizeOk) {
             setAddedAudio({
                 ...addedAudio,
                 audioFile: files[0]
             });
-            setPreviewImage(URL.createObjectURL(files[0]));
+            setPreviewAudio(files[0]);
         } else {
             showToast({
                 toastRef: toast,
                 severity: 'error',
-                summary: 'Tải nhạc lỗi',
+                summary: 'Tải file lỗi',
                 detail: INVALID_FILE
             });
         }
     };
 
-    const handleDrop = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const files = e.dataTransfer.files;
-
-        if (files.length > 0 && files.length <= 1) {
-            handleFile(files);
-        } else if (files.length === 0) {
-            showToast({
-                toastRef: toast,
-                severity: 'error',
-                summary: 'Tải nhạc lỗi',
-                detail: BROWSER_CANNOT_READ_FILE
-            });
-        } else {
-            showToast({
-                toastRef: toast,
-                severity: 'error',
-                summary: 'Tải nhạc lỗi',
-                detail: getValidateMessage(ALLOW_N_FILE, {
-                    imageCount: 1
-                })
-            });
-        }
-    };
-
-    const handleUpload = (e) => {
+    const handleUploadAudio = (e) => {
         const files = e.target.files;
         if (files && files.length > 0) {
-            handleFile(files);
+            handleFile(files, "audio/");
         } else {
             showToast({
                 toastRef: toast,
@@ -119,36 +94,22 @@ const CreateAudioForm = () => {
                 detail: BROWSER_CANNOT_READ_FILE
             });
         }
-    };
+    }
 
     return (
         <>
             <div className="d-flex flex-wrap mt-3">
                 <div className="col-lg-7 col-md-7 col-sm-12 p-3 pt-0">
                     <Card
-                        title={<h6 className="mb-0" style={{fontWeight: 'bold'}}>Tải nhạc lên</h6>}>
-                        <div
-                            onDrop={handleDrop}
-                            onDragOver={(e) => e.preventDefault()}
-                            className={clsx(styles["create-image__add--image"])}
-                        >
-                            <div className="text-center">
-                                <img src={solar_upload_icon_1} alt="Icon upload"/>
-                                <p className="mb-0 col-lg-12 col-md-12 col-sm-12">Kéo thả tệp tại đây</p>
-                                <p className="mb-0 col-lg-12 col-md-12 col-sm-12">Kích thước tối đa 4GB với định dạng
-                                    mp3,
-                                    wav,...</p>
-                                <KLNButton
-                                    options={KLNButtonEnum.blackBtn}
-                                    hasFileInput={true}
-                                    onHandleFileChange={handleUpload}
-                                    style={{
-                                        cursor: "pointer",
-                                        marginTop: 10
-                                    }}
-                                >Tải nhạc lên</KLNButton>
-                            </div>
-                        </div>
+                        title={<h6 className="mb-0" style={{fontWeight: 'bold'}}>Tải ảnh bìa lên</h6>}>
+                        <KLNUploadFile
+                            setPreviewImage={setPreviewImage}
+                            setData={setAddedAudio}
+                            data={addedAudio}
+                            fileFieldName="imageFile"
+                            fileExtension={"jpg, png"}
+                            fileSizeLimitMb={250}
+                        />
                     </Card>
                 </div>
                 <div className="col-lg-5 col-md-5 col-sm-5 p-3 pt-0">
@@ -168,8 +129,13 @@ const CreateAudioForm = () => {
                             }} className={clsx(styles["create-image__preview--image__content"], 'bg-light')}>
                                 <h6 style={{
                                     fontWeight: 'bold'
-                                }}>Nội dung:</h6>
-                                <p title={addedAudio?.description}>{addedAudio?.description}</p>
+                                }}>Tiêu đề:</h6>
+                                <p title={addedAudio?.title}>{addedAudio?.title || <i>--N/A--</i>}</p>
+                                <h6 style={{
+                                    fontWeight: 'bold',
+                                    marginTop: 10
+                                }}>Tác giả:</h6>
+                                <p title={addedAudio?.author}>{addedAudio?.author || <i>--N/A--</i>}</p>
                             </div>
                         </div>
                     </Card>
@@ -199,6 +165,51 @@ const CreateAudioForm = () => {
                             })}
                             placeholder="Nhập tên tác giả"
                         />
+                    </Card>
+                </div>
+                <div className="col-lg-5 col-md-5 col-sm-5 p-3">
+                    <h5 style={{
+                        fontWeight: 'bold'
+                    }}>Thêm nhạc</h5>
+                    <Card className="w-100 card-details">
+                        <div
+                            style={{
+                                cursor: 'pointer'
+                            }} className={clsx("d-flex flex-wrap align-item-center col-lg-12 col-md-12 col-sm-12 p-2")}>
+                            <label
+                                htmlFor="audioUpload"
+                                style={{
+                                    fontWeight: 'bold'
+                                }} className={clsx("w-100")}>
+                                <AddSolidIcon className="" style={{
+                                    marginRight: '10px',
+                                }}/>
+                                Tải nhạc lên
+                                <p className='mb-0'>Kích thước tối đa 4GB với định dạng jpg, png,...</p>
+                            </label>
+                            <input type="file" id="audioUpload"
+                                   accept="audio/*"
+                                   style={{display: "none"}}
+                                   onChange={handleUploadAudio}/>
+                            {previewAudio && (
+                                <div className={clsx("mt-2 d-flex align-items-center", styles['preview-audio'])}>
+                                    <PlayBrokenIcon width={30} height={30} style={{
+                                        marginRight: "5px"
+                                    }}/>
+                                    <span style={{
+                                        display: '-webkit-box',
+                                        WebkitLineClamp: 1,
+                                        WebkitBoxOrient: 'vertical',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                    }}>{previewAudio.name}</span>
+                                    <TrashBrokenIcon
+                                        onClick={() => setPreviewAudio(null)}
+                                        width={30}
+                                        height={30}/>
+                                </div>
+                            )}
+                        </div>
                     </Card>
                 </div>
 
