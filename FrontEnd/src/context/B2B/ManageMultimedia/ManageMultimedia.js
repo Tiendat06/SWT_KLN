@@ -4,6 +4,7 @@ import reducer, {initialState} from "~/store/B2B/ManageMultimedia/reducer";
 const ManageMultimediaContext = createContext();
 
 export const ManageMultimediaProvider = ({children}) => {
+    const [selectedItems, setSelectedItems] = useState([]);
     const [visible, setVisible] = useState(false);
     const [state, dispatch] = useReducer(reducer, initialState);
     const [isLoading, setIsLoading] = useState(false);
@@ -17,6 +18,7 @@ export const ManageMultimediaProvider = ({children}) => {
             image, imageList, slideShow,
             video, videoList,
             audio, audioList,
+            selectedItems, setSelectedItems
         }}>
             {children}
         </ManageMultimediaContext.Provider>

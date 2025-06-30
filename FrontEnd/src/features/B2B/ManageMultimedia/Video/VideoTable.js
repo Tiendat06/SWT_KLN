@@ -1,5 +1,5 @@
 import {KLNColumn, KLNDataTable, KLNReactPaginate, KLNTableAction} from "~/components";
-import {useCallback, useLayoutEffect, useState} from "react";
+import {useCallback, useEffect, useLayoutEffect, useState} from "react";
 import {videoService} from "~/services/VideoService";
 import {useAdminContext} from "~/context/AdminContext";
 import MediaType from "~/enum/MediaType/MediaType";
@@ -10,8 +10,6 @@ import {deleteVideoAction, getVideoAction, setVideoAction} from "~/store/B2B/Man
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 
 const VideoTable = () => {
-    const [selectedItems, setSelectedItems] = useState([]);
-    // const [videoList, setVideoList] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const {
@@ -23,7 +21,10 @@ const VideoTable = () => {
         isLoading,
         setIsLoading,
         dispatch,
-        videoList
+        videoList,
+        selectedItems,
+        setSelectedItems,
+        isUpdated
     } = useManageMultimediaContext();
 
     const handleBtnDeleteMany = useCallback(async () => {
@@ -53,7 +54,7 @@ const VideoTable = () => {
             setIsLoading(false);
         }
         getVideoList();
-    }, [currentPage, selectedPageOption/*, isUpdated*/]);
+    }, [currentPage, selectedPageOption, isUpdated]);
 
     const handlePageClick = useCallback((event) => {
         setCurrentPage(event.selected + 1);
@@ -69,9 +70,17 @@ const VideoTable = () => {
             className="w-6rem shadow-2 border-round"/>;
     };
 
-    const indexTemplate = (rowData, {rowIndex}) => {
-        return <span>{rowIndex + 1}</span>;
-    }
+    const selectedOnCurrentPage = (videoList || []).filter(p =>
+        selectedItems.some(s => s.videoId === p.videoId));
+
+    const handleSelectionChange = (e) => {
+        const selectedOnPage = e.value;
+        const remaining = selectedItems.filter(
+            item => !(videoList || []).some(p => p.videoId === item.videoId)
+        );
+        const updated = [...remaining, ...selectedOnPage];
+        setSelectedItems(updated);
+    };
 
     return (
         <>
@@ -83,16 +92,17 @@ const VideoTable = () => {
                     value={videoList}
                     tableStyle={{minWidth: '60rem'}}
                     selectionMode="multiple"
-                    selection={selectedItems}
-                    onSelectionChange={(e) => setSelectedItems(e.value)}
+                    selection={selectedOnCurrentPage}
+                    onSelectionChange={handleSelectionChange}
                 >
                     <KLNColumn selectionMode="multiple" headerStyle={{width: '3rem'}}></KLNColumn>
-                    <KLNColumn body={indexTemplate} header="#" headerStyle={{width: '3rem'}}></KLNColumn>
+                    <KLNColumn body={(rowData, {rowIndex}) =>
+                        <span>{(rowIndex + 1) + ((currentPage - 1) * selectedPageOption.code)}</span>} header="#"
+                               headerStyle={{width: '3rem'}}></KLNColumn>
                     <KLNColumn headerStyle={{width: '8rem'}} bodyStyle={{width: '8rem', textAlign: 'center'}}
                                header="Thumnails" body={imageBodyTemplate}></KLNColumn>
                     <KLNColumn field="videoTitle" header="Tiêu đề"></KLNColumn>
-                    <KLNColumn headerStyle={{width: '10rem'}} bodyStyle={{
-                        width: '10rem',
+                    <KLNColumn headerStyle={{width: 150}} bodyStyle={{
                         display: 'flex',
                         justifyContent: 'space-around',
                         alignItems: 'center'

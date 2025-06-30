@@ -1,6 +1,6 @@
 import {magazineService} from "~/services/MagazineService";
 import {useManageMagazineContext} from "~/context/B2B/ManageMagazine/ManageMagazine";
-import {useCallback, useLayoutEffect, useState} from 'react';
+import {useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import {useAdminContext} from "~/context/AdminContext";
 import KLNDataTable from "~/components/KLNTable/KLNDataTable";
 import {KLNColumn, KLNReactPaginate, KLNTableAction} from "~/components";
@@ -10,7 +10,6 @@ import {deleteMagazineAction, getMagazineAction} from "~/store/B2B/ManageMagazin
 import {DateTimeFormat} from "~/utils";
 
 const MagazineTable = () => {
-    const [selectedItems, setSelectedItems] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageCount, setPageCount] = useState(0);
     const {selectedPageOption, setDeleteAction} = useAdminContext();
@@ -21,7 +20,9 @@ const MagazineTable = () => {
         isLoading,
         setIsLoading,
         magazineList,
-        dispatch
+        dispatch,
+        selectedItems,
+        setSelectedItems
     } = useManageMagazineContext();
 
     const handleDeleteMany = useCallback(async () => {
@@ -53,10 +54,6 @@ const MagazineTable = () => {
         getMagazineList();
     }, [currentPage, selectedPageOption]);
 
-    const indexTemplate = (rowData, {rowIndex}) => {
-        return <span>{rowIndex + 1}</span>;
-    }
-
     const imageBodyTemplate = (rowData) => {
         return <img
             style={{
@@ -70,6 +67,20 @@ const MagazineTable = () => {
     const handlePageClick = useCallback((event) => {
         setCurrentPage(event.selected + 1);
     }, []);
+
+    const selectedOnCurrentPage = (magazineList || []).filter(p =>
+        selectedItems.some(s => s.magazineId === p.magazineId)
+    );
+
+    const handleSelectionChange = (e) => {
+        const selectedOnPage = e.value;
+        const remaining = selectedItems.filter(
+            item => !(magazineList || []).some(p => p.magazineId === item.magazineId)
+        );
+        const updated = [...remaining, ...selectedOnPage];
+        setSelectedItems(updated);
+    };
+
     return (
         <div className="">
             <div style={{
@@ -80,13 +91,13 @@ const MagazineTable = () => {
                     value={magazineList}
                     tableStyle={{minWidth: '60rem'}}
                     selectionMode="multiple"
-                    selection={selectedItems}
-                    loadingIcon={<i className="pi pi-spin pi-spinner"
-                                    style={{fontSize: '2rem', color: '#3f51b5'}}/>}
-                    onSelectionChange={(e) => setSelectedItems(e.value)}
+                    selection={selectedOnCurrentPage}
+                    onSelectionChange={handleSelectionChange}
                 >
                     <KLNColumn selectionMode="multiple" headerStyle={{width: '3rem'}}></KLNColumn>
-                    <KLNColumn body={indexTemplate} header="#" headerStyle={{width: '3rem'}}></KLNColumn>
+                    <KLNColumn
+                        body={(rowData, {rowIndex}) => (rowIndex + 1) + ((currentPage - 1) * selectedPageOption.code)}
+                        header="#" headerStyle={{width: '3rem'}}></KLNColumn>
                     <KLNColumn header="Thumnails" body={imageBodyTemplate} headerStyle={{width: '3rem'}}></KLNColumn>
                     <KLNColumn field="title"
                                header="Tiêu đề"
@@ -106,8 +117,7 @@ const MagazineTable = () => {
                                    </div>
                                )}></KLNColumn>
                     <KLNColumn header="Ngày tạo" body={(rowData) => DateTimeFormat(rowData.createDate)}></KLNColumn>
-                    <KLNColumn headerStyle={{width: '10rem'}} bodyStyle={{
-                        width: '10rem',
+                    <KLNColumn headerStyle={{width: 150}} bodyStyle={{
                         display: 'flex',
                         justifyContent: 'space-around',
                         alignItems: 'center'

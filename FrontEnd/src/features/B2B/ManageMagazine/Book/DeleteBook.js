@@ -1,25 +1,20 @@
-import {KLNModal} from "~/components";
-import React, {useCallback} from "react";
 import {useAdminContext} from "~/context/AdminContext";
-import {deleteImageAction} from '~/store/B2B/ManageMultimedia/actions';
-import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
-import {slideShowService} from "~/services/SlideShowService";
+import React, {useCallback} from "react";
+import {deleteAudioAction} from "~/store/B2B/ManageMultimedia/actions";
+import {KLNModal} from "~/components";
 import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 import {check_icon} from "~/assets/img";
+import {useManageMagazineContext} from "~/context/B2B/ManageMagazine/ManageMagazine";
 
-const DeleteImage = ({slideShowId}) => {
+const DeleteBook = () => {
     const {deleteAction, setDeleteAction} = useAdminContext();
-    const {image, dispatch, setIsLoading} = useManageMultimediaContext();
+    const {book, dispatch} = useManageMagazineContext()
 
-    const onClickDeleteItem = useCallback(async () => {
+    const onClickDeleteItem = useCallback(() => {
         // api
-        setIsLoading(true);
-        const deleteSlideImages = await slideShowService.deleteSlideImageInSpecificSlideShowBySlideShowIdService([image.id], slideShowId);
-        if (deleteSlideImages)
-            dispatch(deleteImageAction([image]));
+        dispatch(deleteAudioAction([book]));
         setDeleteAction(false);
-        setIsLoading(false);
-    }, [image]);
+    }, [book]);
 
     return (
         <>
@@ -65,7 +60,7 @@ const DeleteImage = ({slideShowId}) => {
                 </div>
             </KLNModal>
         </>
-    );
+    )
 }
 
-export default DeleteImage;
+export default DeleteBook;
