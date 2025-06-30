@@ -1,5 +1,5 @@
 import {KLNColumn, KLNDataTable, KLNReactPaginate, KLNTableAction} from "~/components";
-import {useCallback, useLayoutEffect, useState} from "react";
+import {useCallback, useEffect, useLayoutEffect, useState} from "react";
 import {useAdminContext} from "~/context/AdminContext";
 import {musicService} from "~/services/MusicService";
 import MediaType from "~/enum/MediaType/MediaType";
@@ -10,7 +10,6 @@ import {DeleteMany} from "~/features/B2B/ManageMultimedia";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 
 const AudioTable = () => {
-    const [selectedItems, setSelectedItems] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const {
@@ -22,7 +21,10 @@ const AudioTable = () => {
         isLoading,
         setIsLoading,
         audioList,
-        dispatch
+        dispatch,
+        selectedItems,
+        setSelectedItems,
+        isUpdated
     } = useManageMultimediaContext();
 
     const handleDeleteMany = useCallback(async () => {
@@ -52,7 +54,7 @@ const AudioTable = () => {
             setIsLoading(false);
         }
         getAudioList();
-    }, [currentPage, selectedPageOption/*, isUpdated*/]);
+    }, [currentPage, selectedPageOption, isUpdated]);
 
     const handlePageClick = useCallback((event) => {
         setCurrentPage(event.selected + 1);
@@ -68,9 +70,18 @@ const AudioTable = () => {
             className="w-6rem shadow-2 border-round"/>;
     };
 
-    const indexTemplate = (rowData, {rowIndex}) => {
-        return <span>{rowIndex + 1}</span>;
-    }
+    const selectedOnCurrentPage = (audioList || []).filter(p =>
+        selectedItems.some(s => s.musicId === p.musicId)
+    );
+
+    const handleSelectionChange = (e) => {
+        const selectedOnPage = e.value;
+        const remaining = selectedItems.filter(
+            item => !(audioList || []).some(p => p.musicId === item.musicId)
+        );
+        const updated = [...remaining, ...selectedOnPage];
+        setSelectedItems(updated);
+    };
 
     return (
         <>
@@ -83,17 +94,18 @@ const AudioTable = () => {
                         value={audioList}
                         tableStyle={{minWidth: '60rem'}}
                         selectionMode="multiple"
-                        selection={selectedItems}
-                        onSelectionChange={(e) => setSelectedItems(e.value)}
+                        selection={selectedOnCurrentPage}
+                        onSelectionChange={handleSelectionChange}
                     >
                         <KLNColumn selectionMode="multiple" headerStyle={{width: '3rem'}}></KLNColumn>
-                        <KLNColumn body={indexTemplate} header="#" headerStyle={{width: '3rem'}}></KLNColumn>
+                        <KLNColumn body={(rowData, {rowIndex}) =>
+                            <span>{(rowIndex + 1) + ((currentPage - 1) * selectedPageOption.code)}</span>} header="#"
+                                   headerStyle={{width: '3rem'}}></KLNColumn>
                         <KLNColumn headerStyle={{width: '8rem'}} bodyStyle={{width: '8rem', textAlign: 'center'}}
                                    header="Thumnails" body={imageBodyTemplate}></KLNColumn>
                         <KLNColumn field="musicTitle" header="Tiêu đề"></KLNColumn>
                         <KLNColumn field="musicAuthor" header="Nhạc sĩ"></KLNColumn>
-                        <KLNColumn headerStyle={{width: '10rem'}} bodyStyle={{
-                            width: '10rem',
+                        <KLNColumn headerStyle={{width: 150}} bodyStyle={{
                             display: 'flex',
                             justifyContent: 'space-around',
                             alignItems: 'center'

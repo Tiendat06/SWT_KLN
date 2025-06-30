@@ -12,5 +12,6 @@ export const MULTIMEDIA_TITLE = 'Tài liệu đa phương tiện';
 export const MEMORIAL_TDT_TITLE = 'Khu lưu niệm bác Tôn';
 export const HANDIWORK_TDT_TITLE = 'Công trình mang tên bác Tôn';
 export const ADD_MULTIMEDIA_IMAGE_TITLE = 'Thêm hình ảnh nghê thuật về bác Tôn';
-export const ADD_VIDEO_TITLE = 'Thêm video về bác Tôn';
+export const ADD_MULTIMEDIA_VIDEO_TITLE = 'Thêm video về bác Tôn';
+export const ADD_MULTIMEDIA_AUDIO_TITLE = 'Thêm nhạc về bác Tôn';
 export const MANAGE_VIDEO_TITLE = 'Quản lý video về bác Tôn';

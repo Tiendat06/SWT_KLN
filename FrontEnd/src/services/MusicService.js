@@ -31,8 +31,25 @@ const getTotalMusicService = async (type = MediaType.None) => {
     })
 }
 
+const addMusicService = async (addedMusic) => {
+    const formData = new FormData();
+    formData.append("title", addedMusic.title);
+    formData.append("mediaTypeId", addedMusic.type);
+    formData.append("author", addedMusic.author);
+    formData.append("imageLink", addedMusic.imageFile);
+    formData.append("audioLink", addedMusic.audioFile);
+    formData.append("userId", addedMusic.userId);
+
+    return await UseFetchAPI({
+        api: `${musicRoute}/Music`,
+        body: formData,
+        method: "POST",
+    })
+}
+
 export const musicService = {
     getMusicListService,
     getMusicByIdService,
-    getTotalMusicService
+    getTotalMusicService,
+    addMusicService
 }

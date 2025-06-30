@@ -7,8 +7,8 @@ import { KLNButton } from "~/components";
 import { useAppContext } from "~/context/AppContext";
 import { showToast } from "~/utils/Toast";
 import {
-    ALLOW_N_IMG,
-    BROWSER_CANNOT_READ_IMG,
+    ALLOW_N_FILE,
+    BROWSER_CANNOT_READ_FILE,
     getValidateMessage,
     INVALID_FILE,
 } from "~/utils/ErrorMessage";
@@ -100,14 +100,14 @@ const CreateVideoForm = () => {
                 toastRef: toast,
                 severity: "error",
                 summary: "Tải video lỗi",
-                detail: BROWSER_CANNOT_READ_IMG,
+                detail: BROWSER_CANNOT_READ_FILE,
             });
         } else {
             showToast({
                 toastRef: toast,
                 severity: "error",
                 summary: "Tải video lỗi",
-                detail: getValidateMessage(ALLOW_N_IMG, { imageCount: 1 }),
+                detail: getValidateMessage(ALLOW_N_FILE, { imageCount: 1 }),
             });
         }
     };
@@ -121,7 +121,7 @@ const CreateVideoForm = () => {
                 toastRef: toast,
                 severity: "error",
                 summary: "Tải video lỗi",
-                detail: BROWSER_CANNOT_READ_IMG,
+                detail: BROWSER_CANNOT_READ_FILE,
             });
         }
     };

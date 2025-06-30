@@ -1,126 +1,84 @@
-import React, {useCallback, useEffect, useState} from "react";
-import {Card} from 'primereact/card';
-import clsx from "clsx";
-import styles from '~/styles/Pages/B2B/MediaDocument/createImage.module.scss';
-import {solar_upload_icon_1} from '~/assets/img';
-import {KLNButton} from "~/components";
+import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
+import React, {useCallback, useState} from "react";
 import {useAppContext} from "~/context/AppContext";
+import {useAdminContext} from "~/context/AdminContext";
+import MediaType from "~/enum/MediaType/MediaType";
+import HttpStatusEnum from "~/enum/Http/HttpStatusEnum";
 import {showToast} from "~/utils/Toast";
 import {ALLOW_N_FILE, BROWSER_CANNOT_READ_FILE, getValidateMessage, INVALID_FILE} from "~/utils/ErrorMessage";
-import {InputTextarea} from "primereact/inputtextarea";
-import {Calendar} from 'primereact/calendar';
-import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
-import TabViewEnum from "~/enum/TabView/TabViewEnum";
-import {useAdminContext} from "~/context/AdminContext";
-import {slideShowService} from "~/services/SlideShowService";
-import MediaType from "~/enum/MediaType/MediaType";
-import SlideShowType from "~/enum/SlideShowType/SlideShowType";
-import HttpStatusEnum from "~/enum/Http/HttpStatusEnum";
-import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
+import {Card} from "primereact/card";
+import clsx from "clsx";
+import styles from "~/styles/Pages/B2B/MediaDocument/createImage.module.scss";
+import {solar_upload_icon_1} from "~/assets/img";
+import {KLNButton} from "~/components";
 import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
+import {Calendar} from "primereact/calendar";
+import TabViewEnum from "~/enum/TabView/TabViewEnum";
+import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
+import {musicService} from "~/services/MusicService";
+import {InputText} from "primereact/inputtext";
 import KLNFormItem from "~/components/KLNFormItem/KLNFormItem";
-import InputType from "~/enum/InputType/InputType";
 
-const CreateImageForm = () => {
+const audioInput = {
+    title: '',
+    type: MediaType.PresidentTDT,
+    author: '',
+    imageFile: {},
+    audioFile: {},
+    userId: '',
+}
+
+const CreateAudioForm = () => {
     const {isLoading, setIsLoading} = useManageMultimediaContext();
-    const [addedSlideImage, setAddedSlideImage] = useState({
-        slideShowId: null,
-        imageFile: {},
-        description: '',
-    });
+    const [addedAudio, setAddedAudio] = useState(audioInput);
     const [previewImage, setPreviewImage] = useState(null);
     const {toast} = useAppContext();
     const {setTabView} = useAdminContext();
 
-    useEffect(() => {
-        const getSlideShow = async () => {
-            setIsLoading(true);
-            const data = await slideShowService.getSlideShowListService(1, 1, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
-            const slideShowData = data?.data?.items[0];
-            setAddedSlideImage({
-                ...addedSlideImage,
-                slideShowId: slideShowData.slideShowId,
-            })
-            setIsLoading(false);
-        }
-        getSlideShow();
-    }, []);
-
     const handleAddImage = useCallback(() => {
         const addSlideImage = async () => {
             setIsLoading(true);
-            const addedSlideImageData = await slideShowService.addSlideImageInSpecificSlideShowService(addedSlideImage, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
-            const status = addedSlideImageData.status;
+            const addedAudioData = await musicService.addMusicService(addedAudio);
+            const status = addedAudioData.status ?? 400;
             if (status === HttpStatusEnum.Ok || status === HttpStatusEnum.Created){
                 showToast({
                     toastRef: toast,
                     severity: 'success',
-                    summary: "Thêm hình ảnh",
-                    detail: "Thêm hình ảnh thành công."
+                    summary: "Thêm nhạc",
+                    detail: "Thêm nhạc thành công."
                 });
                 setPreviewImage(null);
-                setAddedSlideImage({
-                    slideShowId: null,
-                    imageFile: {},
-                    description: '',
-                });
+                setAddedAudio(audioInput);
             }
             else
                 showToast({
                     toastRef: toast,
                     severity: 'error',
-                    summary: "Thêm hình ảnh",
-                    detail: addedSlideImageData?.message,
+                    summary: "Thêm nhạc",
+                    detail: addedAudioData?.message,
                 })
             setIsLoading(false);
         }
         addSlideImage();
-    }, [addedSlideImage]);
-
-    const onChangeDescription = (e) => {
-        setAddedSlideImage({
-            ...addedSlideImage,
-            description: e.target.value,
-        });
-    }
+    }, [addedAudio]);
 
     const handleFile = (files) => {
-        const isImage = files[0].type.startsWith("image/");
-        const isSizeOk = files[0].size <= 100 * 1024 * 1024;
+        const isImage = files[0].type.startsWith("audio/");
+        const isSizeOk = files[0].size <= 4000 * 1024 * 1024;
         if (isImage && isSizeOk) {
-            setAddedSlideImage({
-                ...addedSlideImage,
-                imageFile: files[0]
+            setAddedAudio({
+                ...addedAudio,
+                audioFile: files[0]
             });
             setPreviewImage(URL.createObjectURL(files[0]));
         } else {
             showToast({
                 toastRef: toast,
                 severity: 'error',
-                summary: 'Tải hình ảnh lỗi',
+                summary: 'Tải nhạc lỗi',
                 detail: INVALID_FILE
             });
         }
-
-        //// many files
-        // const validFiles = [];
-        // Array.from(files).forEach((file) => {
-        //     const isImage = file.type.startsWith("image/");
-        //     const isSizeOk = file.size <= 100 * 1024 * 1024;
-        //
-        //     if (isImage && isSizeOk) {
-        //         validFiles.push(file);
-        //     } else {
-        //         showToast({
-        //             toastRef: toast,
-        //             severity: 'error',
-        //             summary: 'Tải hình ảnh lỗi',
-        //             detail: INVALID_FILE
-        //         });
-        //     }
-        //     if (validFiles.length > 0)
-        //         setImageFiles(validFiles);
-        // });
     };
 
     const handleDrop = (e) => {
@@ -134,14 +92,14 @@ const CreateImageForm = () => {
             showToast({
                 toastRef: toast,
                 severity: 'error',
-                summary: 'Tải hình ảnh lỗi',
+                summary: 'Tải nhạc lỗi',
                 detail: BROWSER_CANNOT_READ_FILE
             });
         } else {
             showToast({
                 toastRef: toast,
                 severity: 'error',
-                summary: 'Tải hình ảnh lỗi',
+                summary: 'Tải nhạc lỗi',
                 detail: getValidateMessage(ALLOW_N_FILE, {
                     imageCount: 1
                 })
@@ -157,7 +115,7 @@ const CreateImageForm = () => {
             showToast({
                 toastRef: toast,
                 severity: 'error',
-                summary: 'Tải hình ảnh lỗi',
+                summary: 'Tải nhạc lỗi',
                 detail: BROWSER_CANNOT_READ_FILE
             });
         }
@@ -168,7 +126,7 @@ const CreateImageForm = () => {
             <div className="d-flex flex-wrap mt-3">
                 <div className="col-lg-7 col-md-7 col-sm-12 p-3 pt-0">
                     <Card
-                        title={<h6 className="mb-0" style={{fontWeight: 'bold'}}>Tải ảnh lên</h6>}>
+                        title={<h6 className="mb-0" style={{fontWeight: 'bold'}}>Tải nhạc lên</h6>}>
                         <div
                             onDrop={handleDrop}
                             onDragOver={(e) => e.preventDefault()}
@@ -177,9 +135,9 @@ const CreateImageForm = () => {
                             <div className="text-center">
                                 <img src={solar_upload_icon_1} alt="Icon upload"/>
                                 <p className="mb-0 col-lg-12 col-md-12 col-sm-12">Kéo thả tệp tại đây</p>
-                                <p className="mb-0 col-lg-12 col-md-12 col-sm-12">Kích thước tối đa 100MB với định dạng
-                                    jpg,
-                                    png,...</p>
+                                <p className="mb-0 col-lg-12 col-md-12 col-sm-12">Kích thước tối đa 4GB với định dạng
+                                    mp3,
+                                    wav,...</p>
                                 <KLNButton
                                     options={KLNButtonEnum.blackBtn}
                                     hasFileInput={true}
@@ -188,7 +146,7 @@ const CreateImageForm = () => {
                                         cursor: "pointer",
                                         marginTop: 10
                                     }}
-                                >Tải ảnh lên</KLNButton>
+                                >Tải nhạc lên</KLNButton>
                             </div>
                         </div>
                     </Card>
@@ -211,36 +169,39 @@ const CreateImageForm = () => {
                                 <h6 style={{
                                     fontWeight: 'bold'
                                 }}>Nội dung:</h6>
-                                <p title={addedSlideImage?.description}>{addedSlideImage?.description}</p>
+                                <p title={addedAudio?.description}>{addedAudio?.description}</p>
                             </div>
                         </div>
                     </Card>
                 </div>
-                <div className="col-lg-12 col-md-12 col-sm-12 p-3">
+                <div className="col-lg-7 col-md-7 col-sm-7 p-3">
                     <h5 style={{
                         fontWeight: 'bold'
                     }}>Thông tin chi tiết</h5>
                     <Card className="w-100 card-details">
                         <KLNFormItem
-                            parentClassName={"col-lg-8 col-md-8 col-sm-12 p-3"}
                             label="Tiêu đề"
                             labelClassName="w-100 mb-2 fw-bold"
-                            value={addedSlideImage.description}
-                            onChange={onChangeDescription}
-                            placeholder="Nhập nội dung" rows={5} cols={30}
-                            inputType={InputType.TextArea}
+                            value={addedAudio?.title}
+                            onChange={(e) => setAddedAudio({
+                                ...addedAudio,
+                                title: e.target.value,
+                            })}
+                            placeholder="Nhập tiêu đề"
                         />
                         <KLNFormItem
-                            parentClassName={"col-lg-4 col-md-4 col-sm-12 p-3"}
-                            label="Tiêu đề"
+                            label="Tác giả"
                             labelClassName="w-100 mb-2 fw-bold"
-                            disabled={true} className="w-100" id="calendar"
-                            value={new Date()} dateFormat="dd/mm/yy"
-                            showIcon
-                            inputType={InputType.Calendar}
+                            value={addedAudio?.author}
+                            onChange={(e) => setAddedAudio({
+                                ...addedAudio,
+                                author: e.target.value,
+                            })}
+                            placeholder="Nhập tên tác giả"
                         />
                     </Card>
                 </div>
+
                 <div className="d-flex flex-wrap justify-content-center w-100">
                     <KLNButton
                         isLoading={isLoading}
@@ -251,7 +212,7 @@ const CreateImageForm = () => {
                     <KLNButton
                         options={KLNButtonEnum.whiteBtn}
                         btnClassName="mt-4 ml-5"
-                        onClick={() => setTabView(TabViewEnum.ManageMultimediaTabImage)}
+                        onClick={() => setTabView(TabViewEnum.ManageMultimediaTabAudio)}
                         urlLink={`${AppRoutesEnum.AdminRoute}/manage-multimedia`}
                     >Hủy</KLNButton>
                 </div>
@@ -260,4 +221,4 @@ const CreateImageForm = () => {
     )
 }
 
-export default CreateImageForm;
+export default CreateAudioForm;

@@ -8,7 +8,7 @@ import TabViewEnum from "~/enum/TabView/TabViewEnum";
 import { useAdminContext } from "~/context/AdminContext";
 import { CreateVideoForm } from "~/features/B2B/ManageMultimedia"; 
 import { ManageMultimediaProvider } from "~/context/B2B/ManageMultimedia/ManageMultimedia";
-import { ADD_VIDEO_TITLE } from "~/utils/Constansts"; 
+import { ADD_MULTIMEDIA_VIDEO_TITLE } from "~/utils/Constansts";
 
 const CreateVideo = () => {
     const { setTabView } = useAdminContext();
@@ -31,7 +31,7 @@ const CreateVideo = () => {
     return (
         <ManageMultimediaProvider>
             <Helmet>
-                <title>{ADD_VIDEO_TITLE}</title>
+                <title>{ADD_MULTIMEDIA_VIDEO_TITLE}</title>
             </Helmet>
             <h2 style={{ marginLeft: 15, fontWeight: "bold" }}>Thêm Video</h2>
             <KLNBreadCrumb items={items} />
