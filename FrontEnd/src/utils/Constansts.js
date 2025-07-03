@@ -14,6 +14,8 @@ export const HANDIWORK_TDT_TITLE = 'Công trình mang tên bác Tôn';
 export const ADD_MULTIMEDIA_IMAGE_TITLE = 'Thêm hình ảnh nghê thuật về bác Tôn';
 export const ADD_MULTIMEDIA_VIDEO_TITLE = 'Thêm video về bác Tôn';
 export const ADD_MULTIMEDIA_AUDIO_TITLE = 'Thêm nhạc về bác Tôn';
+export const ADD_BOOK_TITLE = 'Thêm sách & báo';
+export const ADD_MAGAZINE_TITLE = 'Thêm tạp chí';
 export const MANAGE_VIDEO_TITLE = 'Quản lý video về bác Tôn';
 
 export const TEST_USER_ID = 'd3bf776b-d5f7-4662-90d2-c273bfb779d2';

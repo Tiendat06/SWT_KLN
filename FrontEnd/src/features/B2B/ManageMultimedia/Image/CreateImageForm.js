@@ -81,7 +81,7 @@ const CreateImageForm = () => {
         });
     }
 
-    const handleFile = (files) => {
+    const handleManyFile = (files) => {
         const isImage = files[0].type.startsWith("image/");
         const isSizeOk = files[0].size <= 100 * 1024 * 1024;
         if (isImage && isSizeOk) {

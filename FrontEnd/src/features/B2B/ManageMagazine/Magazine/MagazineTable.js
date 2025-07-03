@@ -1,6 +1,6 @@
 import {magazineService} from "~/services/MagazineService";
 import {useManageMagazineContext} from "~/context/B2B/ManageMagazine/ManageMagazine";
-import {useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import {useCallback, useLayoutEffect, useState} from 'react';
 import {useAdminContext} from "~/context/AdminContext";
 import KLNDataTable from "~/components/KLNTable/KLNDataTable";
 import {KLNColumn, KLNReactPaginate, KLNTableAction} from "~/components";

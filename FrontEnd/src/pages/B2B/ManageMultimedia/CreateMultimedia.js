@@ -29,13 +29,13 @@ const CreateMultimedia = () => {
         },
         {
             template: () =>
-                tabView === TabViewEnum.ManageMultimediaTabImage ?
-                    <Link to={`${AppRoutesEnum.AdminRoute}/manage-multimedia/create-image`}>Thêm ảnh</Link>
-                    : tabView === TabViewEnum.ManageMultimediaTabVideo ?
-                        <Link to={`${AppRoutesEnum.AdminRoute}/manage-multimedia/create-video`}>Thêm video</Link>
-                        : tabView === TabViewEnum.ManageMultimediaTabAudio ?
-                            <Link to={`${AppRoutesEnum.AdminRoute}/manage-multimedia/create-audio`}>Thêm nhạc</Link>
-                            : ''
+                <Link to={`${AppRoutesEnum.AdminRoute}/manage-multimedia/create-multimedia`}>
+                    {tabView === TabViewEnum.ManageMultimediaTabImage ? 'Thêm ảnh' :
+                        tabView === TabViewEnum.ManageMultimediaTabVideo ? 'Thêm video' :
+                            tabView === TabViewEnum.ManageMultimediaTabAudio ? 'Thêm nhạc' :
+                                ''
+                    }
+                </Link>
         }
     ];
 
