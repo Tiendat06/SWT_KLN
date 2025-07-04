@@ -1,10 +1,12 @@
-﻿
+﻿using FluentValidation;
+
 namespace Application
 {
     public class GetTopicResponse
     {
         public required Guid TopicId { get; set; }
         public string? Capture { get; set; }
+        public string? Description { get; set; }
         public int? MediaTypeId { get; set; }
         public DateTime? CreateDate { get; set; }
         public Guid? UserId { get; set; }
@@ -29,4 +31,12 @@ namespace Application
         public string? Capture { get; set; }
         public string? VideoLink { get; set; }
     }
+
+    //public class getTopicResponseValidator : AbstractValidator<GetTopicResponse>
+    //{
+    //    public getTopicResponseValidator()
+    //    {
+
+    //    }
+    //}
 }

@@ -2,6 +2,7 @@
 using Domain.Constracts;
 using Domain.Localization;
 using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 
 namespace Application
@@ -9,24 +10,70 @@ namespace Application
     public class AddTopicRequest
     {
         public string Capture { get; set; }
+        public string? Description { get; set; }
+        public int MediaTypeId { get; set; }
         public Guid UserId { get; set; }
+        public List<GetTopicMediaRequest> TopicMedia { get; set; }
+    }
+
+    public class AddTopicImageRequest
+    {
+        public Guid? TopicId { get; set; }
+        public int MediaTypeId { get; set; }
+        public string? Capture { get; set; }
+        public IFormFile ImageLink { get; set; }
+    }
+
+    public class AddTopicVideoRequest
+    {
+        public Guid? TopicId { get; set; }
+        public int MediaTypeId { get; set; }
+        public string? Capture { get; set; }
+        public IFormFile VideoLink { get; set; }
     }
 
     public class AddTopicRequestValidator : AbstractValidator<AddTopicRequest>
     {
+        private const long MaxTotalSizeInBytes = 4L * 1024 * 1024 * 1024; // 4 GB size of upload
+
         public AddTopicRequestValidator(IStringLocalizer<KLNSharedResources> localizer)
         {
-            RuleFor(x => x.Capture)
+            RuleFor(x => x.TopicMedia)
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicCapture"]))
-                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicCapture"]))
-                .MaximumLength(TopicConsts.MaxCaptureLength).WithMessage(
-                CommonExtensions.GetValidateMessage(
-                    localizer["MaxLength"], localizer["TopicCapture"], TopicConsts.MaxCaptureLength
-                ));
+                .Must(images => images.Count < 4)
+                    .WithMessage(CommonExtensions.GetValidateMessage(localizer["MaxItems"], localizer["TopicImage"], 3));
+
+            RuleFor(x => x.TopicMedia)
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicCapture"]))
+                .Must(videos => videos.Count < 4)
+                    .WithMessage(CommonExtensions.GetValidateMessage(localizer["MaxItems"], localizer["TopicMusic"], 3));
 
             RuleFor(x => x.UserId)
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]))
-                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]));
+                .NotEqual(Guid.Empty).WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]));
+
+            RuleFor(x => x)
+                .Must(request =>
+                {
+                    long totalSize = 0;
+
+                    if (request.TopicMedia != null)
+                    {
+                        totalSize += request.TopicMedia
+                            .Where(i => i.MediaLink != null)
+                            .Sum(i => i.MediaLink.Length);
+                    }
+
+                    if (request.TopicMedia != null)
+                    {
+                        totalSize += request.TopicMedia
+                            .Where(v => v.MediaLink != null)
+                            .Sum(v => v.MediaLink.Length);
+                    }
+
+                    return totalSize <= MaxTotalSizeInBytes;
+                })
+                .WithMessage(CommonExtensions.GetValidateMessage(localizer["MaxFileSize"], "4GB"));
         }
     }
 }

@@ -44,12 +44,15 @@
     "InvalidValue": "{0} is invalid.",
     "NotEmpty": "{0} cannot be empty.",
     "MaxLength": "{0} can have a maximum of {1} characters",
+    "MaxItems": "Cannot send more than 3 items",
+    "MaxFileSize": "Cannot send total file size exceed 4GB",
     "LengthBetween": "{0} must be between {1} and {2}",
     "NotFound": "{0} not found.",
     "InvalidFileType": "The format is not accepted, please choose a valid format ({0})",
 
     "UploadImageCloudinaryFailed": "Failed to upload image to Cloudinary.",
     "UploadAudioCloudinaryFailed": "Failed to upload audio to Cloudinary.",
+    "UploadVideoYoutubeFailed": "Failed to upload video to youtube",
     "UploadPDFCloudinaryFailed": "Failed to upload PDF to Cloudinary.",
     "AddBlogFailed": "Failed to add blog.",
     "DeleteBlogFailed": "Failed to delete blog.",
@@ -62,5 +65,9 @@
     "DeleteMagazineFailed": "Failed to delete magazine.",
     "AddMusicFailed": "Failed to add music.",
     "UpdateMusicFailed": "Failed to update music.",
-    "DeleteMusicFailed": "Failed to delete music."
+    "DeleteMusicFailed": "Failed to delete music.",
+    "CreateTopicFailed": "Failed to create topic.",
+    "AddTopicFailed": "Failed to add topic",
+    "UpdateTopicFailed": "Failed to update topic.",
+    "DeleteTopicFailed": "Failed to delete topic."
 }

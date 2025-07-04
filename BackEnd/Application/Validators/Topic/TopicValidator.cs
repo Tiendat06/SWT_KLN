@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Domain.Localization;
+using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
 
 namespace Application.Validators
@@ -14,17 +15,17 @@ namespace Application.Validators
             _localizer = localizer;
         }
 
-        //public async Task<GetTopicResponse> CreateTopicAsyncValidator(AddTopicRequest addTopicRequest)
-        //{
-        //    var validator = new AddTopicRequestValidator(_localizer);
-        //    ValidationResult result = await validator.ValidateAsync(addTopicRequest);
-        //    if (!result.IsValid)
-        //    {
-        //        var error = result.Errors.FirstOrDefault();
-        //        throw new ArgumentException(error + "");
-        //    }
-        //    return await _topicService.CreateTopicAsync(addTopicRequest);
-        //}
+        public async Task<GetTopicResponse> CreateTopicAsyncValidator(AddTopicRequest addTopicRequest)
+        {
+            var validator = new AddTopicRequestValidator(_localizer);
+            ValidationResult result = await validator.ValidateAsync(addTopicRequest);
+            if (!result.IsValid)
+            {
+                var error = result.Errors.FirstOrDefault();
+                throw new ArgumentException(error + "");
+            }
+            return await _topicService.CreateTopicAsync(addTopicRequest);
+        }
 
         //public async Task<GetTopicResponse> UpdateTopicAsyncValidator(Guid id, UpdateTopicRequest updateTopicRequest)
         //{

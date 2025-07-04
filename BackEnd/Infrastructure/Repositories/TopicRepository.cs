@@ -59,7 +59,7 @@ namespace Infrastructure.Repositories
         }
         public async Task<Topic?> GetTopicByIdAsync(Guid id)
         {
-            var topic =  await _context.Topics
+            var topic = await _context.Topics
                 .AsNoTracking()
                 .Include(topic => topic.User)
                 .ThenInclude(user => user.Account)
@@ -92,6 +92,11 @@ namespace Infrastructure.Repositories
                 query = query.Where(x => x.Videos != null);
 
             return await query.CountAsync(x => x.IsDeleted == false);
+        }
+
+        public async Task CreateTopicAsync(Topic topic)
+        {
+            await _context.Topics.AddAsync(topic);
         }
     }
 }
