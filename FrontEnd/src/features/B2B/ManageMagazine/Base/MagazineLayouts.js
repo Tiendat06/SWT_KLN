@@ -36,13 +36,13 @@ const MagazineLayouts = () => {
                 {
                     id: 1,
                     tabView: TabViewEnum.ManageMagazineTabBook,
-                    title: 'Sách & Báo',
+                    title: 'Sách',
                     totalCount: totalBookData.data?.totalCount
                 },
                 {
                     id: 2,
                     tabView: TabViewEnum.ManageMagazineTabMagazine,
-                    title: 'Tạp chí',
+                    title: 'Báo & Tạp chí',
                     totalCount: totalMagazineData.data?.totalCount
                 }
             ]);
@@ -55,8 +55,8 @@ const MagazineLayouts = () => {
         {
             template: () =>
                 <Link to={`${AppRoutesEnum.AdminRoute}/manage-magazine`}>
-                    {tabView === TabViewEnum.ManageMagazineTabBook ? 'Danh sách sách báo' :
-                        tabView === TabViewEnum.ManageMagazineTabMagazine ? 'Danh sách tạp chí' :
+                    {tabView === TabViewEnum.ManageMagazineTabBook ? 'Danh sách sách' :
+                        tabView === TabViewEnum.ManageMagazineTabMagazine ? 'Danh sách báo & tạp chí' :
                             ''
                     }
                 </Link>

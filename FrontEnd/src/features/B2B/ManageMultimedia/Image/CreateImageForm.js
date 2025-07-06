@@ -18,7 +18,7 @@ import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 import KLNFormItem from "~/components/KLNFormItem/KLNFormItem";
 import InputType from "~/enum/InputType/InputType";
 
-const CreateImageForm = () => {
+const CreateImageForm = ({slideShowType = SlideShowType.TDTArtistic}) => {
     const {isLoading, setIsLoading} = useManageMultimediaContext();
     const [addedSlideImage, setAddedSlideImage] = useState({
         slideShowId: null,
@@ -32,7 +32,7 @@ const CreateImageForm = () => {
     useEffect(() => {
         const getSlideShow = async () => {
             setIsLoading(true);
-            const data = await slideShowService.getSlideShowListService(1, 1, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
+            const data = await slideShowService.getSlideShowListService(1, 1, MediaType.PresidentTDT, slideShowType);
             const slideShowData = data?.data?.items[0];
             setAddedSlideImage({
                 ...addedSlideImage,
@@ -46,7 +46,7 @@ const CreateImageForm = () => {
     const handleAddImage = useCallback(() => {
         const addSlideImage = async () => {
             setIsLoading(true);
-            const addedSlideImageData = await slideShowService.addSlideImageInSpecificSlideShowService(addedSlideImage, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
+            const addedSlideImageData = await slideShowService.addSlideImageInSpecificSlideShowService(addedSlideImage, MediaType.PresidentTDT, slideShowType);
             const status = addedSlideImageData.status;
             if (status === HttpStatusEnum.Ok || status === HttpStatusEnum.Created){
                 showToast({

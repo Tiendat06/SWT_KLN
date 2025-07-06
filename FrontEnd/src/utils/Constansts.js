@@ -9,6 +9,7 @@ export const CREATURE_TDT_TITLE = 'Tác phẩm mang tên Bác';
 export const TOPIC_TDT_TITLE = 'Chuyên đề hay về Bác';
 export const BOOK_MAGAZINE_TITLE = 'Báo - tạp chí';
 export const MULTIMEDIA_TITLE = 'Tài liệu đa phương tiện';
+export const IMAGE_TITLE = 'Hình ảnh và hiện vật';
 export const MEMORIAL_TDT_TITLE = 'Khu lưu niệm bác Tôn';
 export const HANDIWORK_TDT_TITLE = 'Công trình mang tên bác Tôn';
 export const ADD_MULTIMEDIA_IMAGE_TITLE = 'Thêm hình ảnh nghê thuật về bác Tôn';
@@ -17,5 +18,6 @@ export const ADD_MULTIMEDIA_AUDIO_TITLE = 'Thêm nhạc về bác Tôn';
 export const ADD_BOOK_TITLE = 'Thêm sách & báo';
 export const ADD_MAGAZINE_TITLE = 'Thêm tạp chí';
 export const MANAGE_VIDEO_TITLE = 'Quản lý video về bác Tôn';
+export const ADD_IMAGE_TITLE = 'Thêm hình ảnh & hiện vật';
 
 export const TEST_USER_ID = 'd3bf776b-d5f7-4662-90d2-c273bfb779d2';

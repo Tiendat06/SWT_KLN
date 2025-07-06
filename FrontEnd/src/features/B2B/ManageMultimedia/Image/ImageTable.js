@@ -16,7 +16,7 @@ import {DeleteMany} from "~/features/B2B/ManageMultimedia";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import KLNDataTable from "~/components/KLNTable/KLNDataTable";
 
-const ImageTable = () => {
+const ImageTable = ({slideShowType = SlideShowType.TDTArtistic}) => {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [slideShowId, setSlideShowId] = useState(null);
@@ -56,17 +56,20 @@ const ImageTable = () => {
     useLayoutEffect(() => {
         const getSlideShow = async () => {
             setIsLoading(true);
-            const data = await slideShowService.getSlideShowListService(1, 1, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
+            const data = await slideShowService.getSlideShowListService(1, 1, MediaType.PresidentTDT, slideShowType);
             const slideShowData = data?.data?.items[0];
-            setSlideShowId(slideShowData.slideShowId);
+            setSlideShowId(slideShowData?.slideShowId);
             const startIndex = (currentPage - 1) * selectedPageOption.code;
             const endIndex = startIndex + selectedPageOption.code;
 
-            dispatch(getImagesAction(slideShowData?.slideImage));
-            dispatch(getSlideShowAction({
-                ...slideShowData,
-                slideImage: slideShowData?.slideImage.slice(startIndex, endIndex),
-            }));
+            if (slideShowData?.slideImage){
+                dispatch(getImagesAction(slideShowData?.slideImage));
+                dispatch(getSlideShowAction({
+                    ...slideShowData,
+                    slideImage: slideShowData?.slideImage.slice(startIndex, endIndex),
+                }));
+            }
+
             setPageCount(Math.ceil((slideShowData?.slideImage?.length || 0) / selectedPageOption.code));
             setIsLoading(false);
         }
@@ -139,7 +142,10 @@ const ImageTable = () => {
                             justifyContent: 'space-around',
                             alignItems: 'center'
                         }} header="Thao tác" body={(rowData) => (<KLNTableAction
-                            editActionLink={`${AppRoutesEnum.AdminRoute}/manage-multimedia/image/${rowData.id}`}
+                            editActionLink={`${AppRoutesEnum.AdminRoute}${
+                                slideShowType === SlideShowType.TDTArtistic ? '/manage-multimedia/image/':
+                                slideShowType === SlideShowType.Artifact ? '/manage-image/': ''
+                            }${rowData.id}`}
                             onClickDelete={() => showModal(rowData)}
                         />)}></KLNColumn>
                     </KLNDataTable>

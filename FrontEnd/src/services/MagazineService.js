@@ -22,7 +22,35 @@ const getMagazineByIdService = async (id) => {
     })
 }
 
+const addMagazineService = async (addedMagazine, mediaType = MediaType.None) => {
+    const formData = new FormData();
+    formData.append('title', addedMagazine.title);
+    formData.append('mediaTypeId', mediaType);
+    formData.append('image', addedMagazine.imageFile);
+    formData.append('magazineContent', addedMagazine.magazineContent);
+    formData.append('userId', addedMagazine.userId);
+
+    return await UseFetchAPI({
+        api: `${magazineRoute}`,
+        body: formData,
+        headers: null,
+        method: "POST",
+    })
+}
+
+const deleteManyMagazineService = async (magazineIds) => {
+    return await UseFetchAPI({
+        api: `${magazineRoute}`,
+        method: 'DELETE',
+        body: {
+            ids: magazineIds,
+        }
+    })
+}
+
 export const magazineService = {
     getMagazineListService,
     getMagazineByIdService,
+    addMagazineService,
+    deleteManyMagazineService
 }

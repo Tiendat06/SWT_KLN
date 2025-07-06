@@ -20,17 +20,17 @@ const CreateBookAndMagazine = () => {
             template: () =>
                 tabView === TabViewEnum.ManageMagazineTabBook ?
                     <Link onClick={() => setTabView(TabViewEnum.ManageMagazineTabBook)}
-                          to={`${AppRoutesEnum.AdminRoute}/manage-magazine`}>Danh sách sách báo</Link>
+                          to={`${AppRoutesEnum.AdminRoute}/manage-magazine`}>Danh sách sách</Link>
                     : tabView === TabViewEnum.ManageMagazineTabMagazine ?
                         <Link onClick={() => setTabView(TabViewEnum.ManageMagazineTabMagazine)}
-                              to={`${AppRoutesEnum.AdminRoute}/manage-magazine`}>Danh sách tạp chí</Link>
+                              to={`${AppRoutesEnum.AdminRoute}/manage-magazine`}>Danh sách báo & tạp chí</Link>
                         : ''
         },
         {
             template: () =>
                 <Link to={`${AppRoutesEnum.AdminRoute}/manage-magazine/create-magazine`}>
-                    {tabView === TabViewEnum.ManageMagazineTabBook ? 'Thêm sách báo' :
-                        tabView === TabViewEnum.ManageMagazineTabMagazine ? 'Thêm tạp chí' :
+                    {tabView === TabViewEnum.ManageMagazineTabBook ? 'Thêm sách' :
+                        tabView === TabViewEnum.ManageMagazineTabMagazine ? 'Thêm báo & tạp chí' :
                             ''
                     }
                 </Link>
@@ -51,8 +51,8 @@ const CreateBookAndMagazine = () => {
                 marginLeft: 15,
                 fontWeight: "bold",
             }}>
-                {tabView === TabViewEnum.ManageMagazineTabBook ? 'Thêm Sách & Báo'
-                    : tabView === TabViewEnum.ManageMagazineTabMagazine ? 'Thêm tạp chí'
+                {tabView === TabViewEnum.ManageMagazineTabBook ? 'Thêm Sách'
+                    : tabView === TabViewEnum.ManageMagazineTabMagazine ? 'Thêm báo & tạp chí'
                         : ''
                 }
             </h2>
