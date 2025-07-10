@@ -7,8 +7,7 @@ import {useAdminContext} from "~/context/AdminContext";
 import {Link} from "react-router-dom";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import {KLNBreadCrumb} from "~/components";
-import {CreateBookForm, CreateMagazineForm} from "~/features/B2B/ManageMagazine";
-import UpdateBookForm from "~/features/B2B/ManageMagazine/Book/UpdateBookForm";
+import {UpdateMagazineForm, UpdateBookForm} from "~/features/B2B/ManageMagazine";
 
 const UpdateBookAndMagazine = () => {
     const {tabView, setTabView} = useAdminContext();
@@ -52,7 +51,7 @@ const UpdateBookAndMagazine = () => {
             </h2>
             <KLNBreadCrumb items={items}/>
             {tabView === TabViewEnum.ManageMagazineTabBook ? <UpdateBookForm />
-                : tabView === TabViewEnum.ManageMagazineTabMagazine ? <CreateMagazineForm />
+                : tabView === TabViewEnum.ManageMagazineTabMagazine ? <UpdateMagazineForm />
                     : <></>
             }
         </ManageMagazineProvider>
