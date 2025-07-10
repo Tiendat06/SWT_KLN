@@ -30,6 +30,8 @@ import CreateMultimediaImage from "~/pages/B2B/ManageMultimedia/CreateMultimedia
 import ManageVideo from "~/pages/B2B/ManageVideo/ManageVideo";
 import CreateVideo from "~/pages/B2B/ManageVideo/CreateVideo";
 
+import EditMultimedia from "./B2B/ManageMultimedia/EditMultimedia";
+
 export { Home, BlogContent };
 
 export {
@@ -59,3 +61,5 @@ export {
     ManageVideo,
     CreateVideo
 };
+
+export { EditMultimedia };

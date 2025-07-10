@@ -1,5 +1,7 @@
 import {BlogContent, Home, ManageImage, LoginPage, ManageVideo} from "~/pages"
 import CreateVideo from "~/pages/B2B/ManageVideo/CreateVideo"; 
+import EditMedia from '~/pages/B2B/ManageMultimedia/EditMultimedia';
+
 
 // import {BlogContent, Home} from "~/pages"
 
@@ -15,6 +17,9 @@ const siteJRoutes = [
 const siteTRoutes = [
       { path: "/administration/manage-video", element: <ManageVideo /> }, 
       { path: "/administration/manage-multimedia/create-video", element: <CreateVideo /> },
+     { path: "/administration/manage-multimedia/:type/:id", element: <EditMedia /> }
+
+
 ]
 
 const siteRoutes = [
