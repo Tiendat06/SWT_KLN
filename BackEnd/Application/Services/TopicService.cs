@@ -12,10 +12,6 @@ using Application.Mapper.Topics.Input;
 using Domain.Entities;
 using KLN.Shared.CrossCuttingConcerns.Utils;
 using System.Text.Json;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Services;
-using Google.Apis.YouTube.v3.Data;
-using Google.Apis.YouTube.v3;
 
 namespace Application.Services
 {
@@ -24,6 +20,7 @@ namespace Application.Services
         IConfiguration _configuration,
         IUnitOfWork _unitOfWork,
         Cloudinary _cloudinary,
+        YoutubeOperations _youtube,
         IStringLocalizer<KLNSharedResources> _localizer
         ) : ITopicService
     {
@@ -50,15 +47,26 @@ namespace Application.Services
         {
             using (var uow = await _unitOfWork.BeginTransactionAsync())
             {
+                var allowedContentTypesImage = new[] { CommonFileType.JPEG, CommonFileType.PNG, CommonFileType.JPG };
+                var allowedContentTypesVideo = new[] { CommonFileType.MP4, CommonFileType.AVI, CommonFileType.MOV, CommonFileType.WMV, CommonFileType.FLV, CommonFileType.MKV, CommonFileType.WEBM, CommonFileType.MPEG };
+                int totalImageCount = addTopicRequest.TopicMedia.Count(m =>
+                        FileOperations.CheckFileType(allowedContentTypesImage, m.MediaLink));
+
+                int totalVideoCount = addTopicRequest.TopicMedia.Count(m =>
+                    FileOperations.CheckFileType(allowedContentTypesVideo, m.MediaLink));
+
+                if (totalImageCount > 3 || totalVideoCount > 3)
+                {
+                    throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["MaxItems"], _localizer["TopicMedia"]));
+                }
+
                 try
                 {
                     Guid newGuid = Guid.NewGuid();
                     var asssetFolderTopicImage = CommonCloudinaryAttribute.assetFolderTopicImage;
                     var assetFolderTopicVideo = CommonCloudinaryAttribute.assetFolderTopicVideo;
                     var publicId = $"{nameof(Topic)}_{newGuid}";
-
-                    var allowedContentTypesImage = new[] { CommonFileType.JPEG, CommonFileType.PNG, CommonFileType.JPG };
-                    var allowedContentTypesVideo = new[] { CommonFileType.MP4, CommonFileType.AVI, CommonFileType.MOV, CommonFileType.WMV, CommonFileType.FLV, CommonFileType.MKV, CommonFileType.WEBM, CommonFileType.MPEG };
+            
                     var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
                     var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
 
@@ -79,7 +87,6 @@ namespace Application.Services
                             var topicImageUrl = resultTopicImage["secure_url"]?.ToString()
                                 ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
                             topicImagesList.Add((topicImageUrl, topicMediaRequest.Capture));
-
                             // Delete the local file after upload
                             FileOperations.DeleteFileFromLocal(topicFilePath, folderPath);
                         }
@@ -90,7 +97,7 @@ namespace Application.Services
                             var topicPublicId = $"{publicId}_vid_{Guid.NewGuid()}";
 
                             // upload topic video to Youtube
-                            string videoLink = await UploadVideoToYouTube(filePathVideo, topicMediaRequest.Capture);
+                            string videoLink = await _youtube.UploadVideoToYouTube(filePathVideo, topicMediaRequest.Capture);
 
                             // Delete file and folder from local
                             var isDeletedVideo = FileOperations.DeleteFileFromLocal(filePathVideo, folderPath);
@@ -124,60 +131,133 @@ namespace Application.Services
             }
         }
 
-        public async Task<string> UploadVideoToYouTube(string filePath, string title)
+        public async Task<GetTopicResponse> UpdateTopicAsync(Guid id, UpdateTopicRequest updateTopicRequest)
         {
-            // --- Xác thực ---
-            UserCredential credential;
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "Secret", "client_secret.json");
-            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            using (var uow = await _unitOfWork.BeginTransactionAsync())
             {
-                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets,
-                    new[] { YouTubeService.Scope.YoutubeUpload },
-                    "user",
-                    CancellationToken.None
-                );
-            }
+                var allowedContentTypesImage = new[] { CommonFileType.JPEG, CommonFileType.PNG, CommonFileType.JPG };
+                var allowedContentTypesVideo = new[] { CommonFileType.MP4, CommonFileType.AVI, CommonFileType.MOV, CommonFileType.WMV, CommonFileType.FLV, CommonFileType.MKV, CommonFileType.WEBM, CommonFileType.MPEG };
+                int totalImageCount = updateTopicRequest.TopicMedia.Count(m =>
+                        FileOperations.CheckFileType(allowedContentTypesImage, m.MediaLink));
 
-            // --- Tạo YouTubeService ---
-            var youtubeService = new YouTubeService(new BaseClientService.Initializer()
-            {
-                HttpClientInitializer = credential,
-                ApplicationName = "KLN Youtube Uploader"
-            });
+                int totalVideoCount = updateTopicRequest.TopicMedia.Count(m =>
+                    FileOperations.CheckFileType(allowedContentTypesVideo, m.MediaLink));
 
-            // --- Tạo Video object ---
-            var video = new Google.Apis.YouTube.v3.Data.Video();
-            video.Snippet = new VideoSnippet();
-            video.Snippet.Title = title;
-            video.Snippet.CategoryId = "22";
-            video.Status = new VideoStatus();
-            video.Status.PrivacyStatus = "unlisted";
-
-
-            // --- Upload video ---
-            string videoId = null;
-            using (var fileStream = new FileStream(filePath, FileMode.Open))
-            {
-                var videosInsertRequest = youtubeService.Videos.Insert(video, "snippet,status", fileStream, "video/*");
-                videosInsertRequest.ProgressChanged += (progress) =>
+                if (totalImageCount > 3 || totalVideoCount > 3)
                 {
-                    Console.WriteLine($"Upload status: {progress.Status}, bytes sent: {progress.BytesSent}");
-                };
-                videosInsertRequest.ResponseReceived += (uploadedVideo) =>
+                    throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["MaxItems"], _localizer["TopicMedia"]));
+                }
+
+                try
                 {
-                    videoId = uploadedVideo.Id;
-                    Console.WriteLine($"Video uploaded: {videoId}");
-                };
+                    var topicEntity = await _topicRepository.GetTopicByIdAsync(id)
+                        ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Topic"]));
 
-                await videosInsertRequest.UploadAsync();
+                    await uow.TrackEntity(topicEntity);
+
+                    topicEntity.Capture = updateTopicRequest.Capture;
+                    topicEntity.Description = updateTopicRequest.Description;
+
+                    var asssetFolderTopicImage = CommonCloudinaryAttribute.assetFolderTopicImage;
+                    var assetFolderTopicVideo = CommonCloudinaryAttribute.assetFolderTopicVideo;
+                    var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
+                    var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
+
+                    List<(string ImageUrl, string Capture)> topicImagesList = new List<(string, string)>();
+                    List<(string ImageUrl, string Capture)> topicVideosList = new List<(string, string)>();
+
+                    if (updateTopicRequest.TopicMedia != null && updateTopicRequest.TopicMedia.Any())
+                    {
+                        foreach (var topicMediaRequest in updateTopicRequest.TopicMedia)
+                        {
+                            // check meida type
+                            if (FileOperations.CheckFileType(allowedContentTypesImage, topicMediaRequest.MediaLink) == true)
+                            {
+                                // add file to local
+                                var topicFilePath = await FileOperations.SaveFileToLocal(folderPath, topicMediaRequest.MediaLink);
+                                var topicPublicId = $"{nameof(Domain.Entities.Topic)}_{id}_img_{Guid.NewGuid()}";
+
+                                // upload topic image to Cloudinary
+                                var resultTopicImage = cloudinaryOperations.UploadFileFromLocalToCloudinary(topicFilePath, asssetFolderTopicImage, topicPublicId)
+                                ?? throw new InvalidOperationException(_localizer["UpdateImageCloudinaryFailed"]);
+
+                                var topicImageUrl = resultTopicImage["secure_url"]?.ToString()
+                                    ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
+                                topicImagesList.Add((topicImageUrl, topicMediaRequest.Capture));
+
+                                // Delete the local file after upload
+                                FileOperations.DeleteFileFromLocal(topicFilePath, folderPath);
+                            }
+                            else if (FileOperations.CheckFileType(allowedContentTypesVideo, topicMediaRequest.MediaLink) == true)
+                            {
+                                // add file to local
+                                var filePathVideo = await FileOperations.SaveFileToLocal(folderPath, topicMediaRequest.MediaLink);
+                                var topicPublicId = $"{nameof(Domain.Entities.Topic)}_{id}_vid_{Guid.NewGuid()}";
+
+                                // upload topic video to Youtube
+                                string videoLink = await _youtube.UploadVideoToYouTube(filePathVideo, topicMediaRequest.Capture);
+
+                                // Delete file and folder from local
+                                var isDeletedVideo = FileOperations.DeleteFileFromLocal(filePathVideo, folderPath);
+
+                                topicVideosList.Add((videoLink, topicMediaRequest.Capture));
+
+                                // Delete the local file after upload
+                                FileOperations.DeleteFileFromLocal(filePathVideo, folderPath);
+                            }
+                            else
+                            {
+                                throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}, {CommonFileType.JPG}, {string.Join(", ", allowedContentTypesVideo)}"));
+                            }
+                        }
+                    }
+
+
+                    topicEntity.Images = JsonSerializer.Serialize(
+                            topicImagesList.Select((img, index) => new GetTopicImagesResponse
+                            {
+                                Id = index + 1,
+                                Capture = img.Capture,
+                                ImageLink = img.ImageUrl
+                            })
+                         );
+
+                    topicEntity.Videos = JsonSerializer.Serialize(
+                        topicVideosList.Select((vid, index) => new GetTopicVideoLinkResponse
+                        {
+                            Id = index + 1,
+                            Capture = vid.Capture,
+                            VideoLink = vid.ImageUrl
+                        })
+                     );
+
+                    topicEntity.LogTopics ??= new List<LogTopic>();
+                    topicEntity.LogTopics.Add(new LogTopic
+                    {
+                        LogTopicId = 0,
+                        Capture = topicEntity.Capture,
+                        Description = topicEntity.Description,
+                        MediaTypeId = topicEntity.MediaTypeId,
+                        CreateDate = topicEntity.CreateDate,
+                        Images = topicEntity.Images,
+                        Videos = topicEntity.Videos,
+                        UserId = topicEntity.UserId,
+                        Process = ProcessMethod.UPDATE,
+                    });
+
+
+                    await uow.SaveChangesAsync();
+                    await uow.CommitTransactionAsync();
+
+                    return GetTopicResponseMapper.GetTopicMapEntityToDTO(topicEntity);
+                }
+                catch (Exception ex)
+                {
+                    await uow.RollbackTransactionAsync();
+                    throw new InvalidOperationException(_localizer["UpdateTopicFailed"]);
+                }
             }
-
-            if (videoId == null)
-                throw new InvalidOperationException("Upload video to YouTube failed.");
-
-            // --- Tạo link iframe embed video ---
-            return $"https://www.youtube.com/embed/{videoId}";
+            return null;
         }
     }
 }

@@ -55,13 +55,13 @@ namespace API.Controller
         }
 
         // DELETE: api/Video/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteVideo(Guid id)
-        {
-            var isDeleted = await _videoService.DeleteVideoAsync(id);
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteVideo(Guid id)
+        //{
+        //    var isDeleted = await _videoService.DeleteVideoAsync(id);
 
-            return ApiSuccess(isDeleted);
-        }
+        //    return ApiSuccess(isDeleted);
+        //}
 
         [HttpGet("total")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetTotalVideoResponse>))]

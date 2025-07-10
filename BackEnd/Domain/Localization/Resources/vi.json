@@ -40,11 +40,12 @@
     "VideoLink": "Liên kết video",
     "TopicCapture": "Tiêu đề chuyên đề",
     "MediaTypeId": "Loại đề mục",
+    "TopicMedia": "Hình ảnh (Video)",
 
     "InvalidValue": "{0} không hợp lệ.",
     "NotEmpty": "{0} không được để trống.",
     "MaxLength": "{0} có ký tự tối đa là {1}",
-    "MaxItems": "Không thể gửi quá 3 file âm nhạc (video).",
+    "MaxItems": "Không thể gửi quá 3 file ảnh (video)",
     "MaxFileSize": "Không thể gửi tổng file nặng quá 4GB",
     "LengthBetween": "{0} phải nằm trong khoảng {1} - {2}",
     "NotFound": "{0} không tồn tại.",

@@ -38,15 +38,10 @@ namespace Application
 
         public AddTopicRequestValidator(IStringLocalizer<KLNSharedResources> localizer)
         {
-            RuleFor(x => x.TopicMedia)
-                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicCapture"]))
-                .Must(images => images.Count < 4)
-                    .WithMessage(CommonExtensions.GetValidateMessage(localizer["MaxItems"], localizer["TopicImage"], 3));
-
-            RuleFor(x => x.TopicMedia)
-                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicCapture"]))
-                .Must(videos => videos.Count < 4)
-                    .WithMessage(CommonExtensions.GetValidateMessage(localizer["MaxItems"], localizer["TopicMusic"], 3));
+            //RuleFor(x => x.TopicMedia)
+            //    .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicCapture"]))
+            //    .Must(images => images.Count < 4)
+            //        .WithMessage(CommonExtensions.GetValidateMessage(localizer["MaxItems"], localizer["TopicImage"], 3));
 
             RuleFor(x => x.UserId)
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]))

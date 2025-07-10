@@ -27,6 +27,18 @@ namespace Application.Validators
             return await _topicService.CreateTopicAsync(addTopicRequest);
         }
 
+        public async Task<GetTopicResponse> UpdateTopicAsyncValidator(Guid id, UpdateTopicRequest updateTopicRequest)
+        {
+            var validator = new UpdateTopicRequestValidator(_localizer);
+            ValidationResult result = await validator.ValidateAsync(updateTopicRequest);
+            if (!result.IsValid)
+            {
+                var error = result.Errors.FirstOrDefault();
+                throw new ArgumentException(error + "");
+            }
+            return await _topicService.UpdateTopicAsync(id, updateTopicRequest);
+        }
+
         //public async Task<GetTopicResponse> UpdateTopicAsyncValidator(Guid id, UpdateTopicRequest updateTopicRequest)
         //{
         //    var validator = new UpdateTopicRequestValidator(_localizer);

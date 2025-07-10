@@ -12,13 +12,13 @@ namespace Application.Mapper.Topics.Input
                 TopicId = newGuid,
                 Capture = addTopicRequest.Capture,
                 Description = addTopicRequest.Description,
-                Images = JsonSerializer.Serialize(images.Select((img, index) => new GetTopicImageResponse
+                Images = JsonSerializer.Serialize(images.Select((img, index) => new GetTopicImagesResponse
                 {
                     Id = index + 1,
                     Capture = img.Capture,
                     ImageLink = img.ImageUrl
                 })),
-                Videos = JsonSerializer.Serialize(videos.Select((vid, index) => new GetTopicVideoResponse
+                Videos = JsonSerializer.Serialize(videos.Select((vid, index) => new GetTopicVideoLinkResponse
                 {
                     Id = index + 1,
                     Capture = vid.Capture,

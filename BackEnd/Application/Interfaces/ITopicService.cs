@@ -6,5 +6,6 @@ namespace Application.Interfaces
         Task<PaginationResponseDto<GetTopicResponse>> GetAllTopicsAsync(GetAllTopicRequest input);
         Task<GetTopicResponse?> GetTopicByIdAsync(Guid id);
         Task<GetTopicResponse> CreateTopicAsync(AddTopicRequest addTopicRequest);
+        Task<GetTopicResponse> UpdateTopicAsync(Guid id, UpdateTopicRequest updateTopicRequest);
     }
 }

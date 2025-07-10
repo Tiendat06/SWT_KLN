@@ -40,11 +40,12 @@
     "VideoLink": "Video Link",
     "TopicCapture": "Topic Capture",
     "MediaTypeId": "Media Type",
+    "TopicMedia": "Image (Videos)",
 
     "InvalidValue": "{0} is invalid.",
     "NotEmpty": "{0} cannot be empty.",
     "MaxLength": "{0} can have a maximum of {1} characters",
-    "MaxItems": "Cannot send more than 3 items",
+    "MaxItems": "Cannot send more than 3 images (videos)",
     "MaxFileSize": "Cannot send total file size exceed 4GB",
     "LengthBetween": "{0} must be between {1} and {2}",
     "NotFound": "{0} not found.",

@@ -10,6 +10,7 @@ using Infrastructure;
 using Infrastructure.Persistence;
 using Infrastructure.Repositories;
 using KLN.Shared.CrossCuttingConcerns.Exceptions;
+using KLN.Shared.CrossCuttingConcerns.Utils;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Features;
@@ -218,6 +219,9 @@ namespace KLN
             Cloudinary cloudinary = new Cloudinary($"cloudinary://{builder.Configuration["API_KEY"]}:{builder.Configuration["API_KEY_SECRET"]}@dydpf7z8u");
             cloudinary.Api.Secure = true;
             builder.Services.AddSingleton(cloudinary);
+
+            // Youtube upload
+            builder.Services.AddScoped<YoutubeOperations>();
 
             // UnitOfWork
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

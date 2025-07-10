@@ -32,7 +32,7 @@ namespace API.Controllers
         {
             var topic = await _topicService.GetTopicByIdAsync(id);
 
-            return ApiSuccess(topic);
+            return ApiSuccess(topic);           
         }
 
         // POST: api/Topic
@@ -42,6 +42,15 @@ namespace API.Controllers
         {
             var topic = await _topicValidator.CreateTopicAsyncValidator(addTopicRequest);
             return ApiSuccess(topic, HttpStatusCode.Created);
+        }
+
+        // PUT: api/Topic/5
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetTopicResponse>))]
+        public async Task<IActionResult> PutTopic(Guid id, [FromForm] UpdateTopicRequest updateTopicRequest)
+        {
+            var updatedTopic = await _topicValidator.UpdateTopicAsyncValidator(id, updateTopicRequest);
+            return ApiSuccess(updatedTopic);
         }
     }
 }
