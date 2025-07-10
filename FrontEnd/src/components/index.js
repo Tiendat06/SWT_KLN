@@ -26,6 +26,9 @@ import KLNSkeletonWithSpinner from "~/components/KLNSkeleton/KLNSkeletonWithSpin
 import KLNImageWithSkeleton from "~/components/KLNSkeleton/KLNImageWithSkeleton/KLNImageWithSkeleton";
 import KLNProgressSpinner from "~/components/KLNProgressSpinner/KLNProgressSpinner";
 import KLNEdit from '~/components/KLNEdit/KLNEdit';
+import KLNAdminTitle from "~/components/KLNTitle/KLNAdminTitle";
+import KLNFormItem from "~/components/KLNFormItem/KLNFormItem";
+import KLNUploadFile from "~/components/KLNUploadFile/KLNUploadFile";
 
 export {
     Header, Footer, Body, Sidebar, AdminHeader,
@@ -36,6 +39,7 @@ export {
     KLNTabView, KLNCascadeSelect, KLNTableAction,
     KLNBreadCrumb, KLNModal, KLNToast, KLNColumn,
     KLNDataTable, KLNSkeletonWithSpinner, KLNImageWithSkeleton,
-    KLNProgressSpinner,KLNEdit
+    KLNProgressSpinner, KLNAdminTitle, KLNFormItem,
+    KLNUploadFile, KLNEdit
 }
 

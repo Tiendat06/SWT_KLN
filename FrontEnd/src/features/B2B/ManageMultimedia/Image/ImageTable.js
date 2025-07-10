@@ -1,7 +1,5 @@
-import {useCallback, useEffect, useState} from "react";
-import {
-    slideShowService
-} from "~/services/SlideShowService";
+import {useCallback, useEffect, useLayoutEffect, useState} from "react";
+import {slideShowService} from "~/services/SlideShowService";
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
 import {KLNColumn, KLNReactPaginate, KLNTableAction} from "~/components";
@@ -21,7 +19,6 @@ import KLNDataTable from "~/components/KLNTable/KLNDataTable";
 const ImageTable = () => {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const [selectedItems, setSelectedItems] = useState([]);
     const [slideShowId, setSlideShowId] = useState(null);
     const {selectedPageOption, setDeleteAction} = useAdminContext();
     const {
@@ -31,8 +28,10 @@ const ImageTable = () => {
         setIsLoading,
         imageList,
         slideShow,
-        isUpdated,
-        dispatch
+        dispatch,
+        selectedItems,
+        setSelectedItems,
+        isUpdated
     } = useManageMultimediaContext();
 
     const handleDeleteMany = useCallback(async () => {
@@ -54,7 +53,7 @@ const ImageTable = () => {
         dispatch(setImageAction(imageItem));
     }, []);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const getSlideShow = async () => {
             setIsLoading(true);
             const data = await slideShowService.getSlideShowListService(1, 1, MediaType.PresidentTDT, SlideShowType.TDTArtistic);
@@ -72,11 +71,11 @@ const ImageTable = () => {
             setIsLoading(false);
         }
         getSlideShow();
-    }, [selectedPageOption, isUpdated]);
+    }, [currentPage, selectedPageOption, isUpdated]);
 
     useEffect(() => {
         paginateSlideImages(imageList);
-    }, [currentPage, selectedPageOption]);
+    }, [currentPage, selectedPageOption, imageList]);
 
     const paginateSlideImages = (images) => {
         const startIndex = (currentPage - 1) * selectedPageOption.code;
@@ -101,9 +100,17 @@ const ImageTable = () => {
             className="w-6rem shadow-2 border-round"/>;
     };
 
-    const indexTemplate = (rowData, {rowIndex}) => {
-        return <span>{rowIndex + 1}</span>;
-    }
+    const selectedOnCurrentPage = (slideShow?.slideImage || []).filter(p =>
+        selectedItems.some(s => s.id === p.id));
+
+    const handleSelectionChange = (e) => {
+        const selectedOnPage = e.value;
+        const remaining = selectedItems.filter(
+            item => !(slideShow?.slideImage || []).some(p => p.id === item.id)
+        );
+        const updated = [...remaining, ...selectedOnPage];
+        setSelectedItems(updated);
+    };
 
     return (
         <>
@@ -116,18 +123,18 @@ const ImageTable = () => {
                         value={slideShow?.slideImage}
                         tableStyle={{minWidth: '60rem'}}
                         selectionMode="multiple"
-                        selection={selectedItems}
-                        loadingIcon={<i className="pi pi-spin pi-spinner"
-                                        style={{fontSize: '2rem', color: '#3f51b5'}}/>}
-                        onSelectionChange={(e) => setSelectedItems(e.value)}
+                        selection={selectedOnCurrentPage}
+                        onSelectionChange={handleSelectionChange}
+                        dataKey="id"
                     >
                         <KLNColumn selectionMode="multiple" headerStyle={{width: '3rem'}}></KLNColumn>
-                        <KLNColumn body={indexTemplate} header="#" headerStyle={{width: '3rem'}}></KLNColumn>
+                        <KLNColumn body={(rowData, {rowIndex}) =>
+                            <span>{(rowIndex + 1) + ((currentPage - 1) * selectedPageOption.code)}</span>} header="#"
+                                   headerStyle={{width: '3rem'}}></KLNColumn>
                         <KLNColumn headerStyle={{width: '8rem'}} bodyStyle={{width: '8rem', textAlign: 'center'}}
                                    header="Thumnails" body={imageBodyTemplate}></KLNColumn>
                         <KLNColumn field="capture" header="Nội dung"></KLNColumn>
-                        <KLNColumn headerStyle={{width: '10rem'}} bodyStyle={{
-                            width: '10rem',
+                        <KLNColumn headerStyle={{width: 150}} bodyStyle={{
                             display: 'flex',
                             justifyContent: 'space-around',
                             alignItems: 'center'

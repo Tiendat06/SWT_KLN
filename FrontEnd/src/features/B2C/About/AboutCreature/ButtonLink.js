@@ -2,6 +2,7 @@ import {KLNButton} from "~/components";
 import {useEffect, useState} from "react";
 import {bookService} from "~/services/BookService";
 import {magazineService} from "~/services/MagazineService";
+import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 
 const ButtonLink = ({isBookNavigation = true}) => {
     const [itemsId, setItemsId] = useState(null);
@@ -20,13 +21,13 @@ const ButtonLink = ({isBookNavigation = true}) => {
             setItemsId(id);
         }
         getItemId();
-    }, []);
+    }, [isBookNavigation]);
 
     return (
         <>
             <KLNButton
                 urlLink={`/about-books-magazines/${itemsId}`}
-                options={2}>Xem chi tiết</KLNButton>
+                options={KLNButtonEnum.secondaryBtn}>Xem chi tiết</KLNButton>
         </>
     )
 }

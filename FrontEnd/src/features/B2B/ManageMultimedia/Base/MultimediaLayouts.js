@@ -1,6 +1,5 @@
 import TabViewEnum from "~/enum/TabView/TabViewEnum";
-import {KLNBreadCrumb, KLNButton, KLNTabView, KLNCascadeSelect} from "~/components";
-import {faSquarePlus, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {KLNBreadCrumb, KLNButton, KLNTabView, KLNCascadeSelect, KLNAdminTitle} from "~/components";
 import clsx from "clsx";
 import {ImageTable, AudioTable, VideoTable} from '~/features/B2B/ManageMultimedia';
 import React, {useCallback, useEffect, useState} from "react";
@@ -13,12 +12,15 @@ import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
 import {musicService} from "~/services/MusicService";
 import {videoService} from "~/services/VideoService";
+import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
+import TrashBrokenIcon from "~/assets/icon/TrashBrokenIcon";
+import AddBrokenIcon from "~/assets/icon/AddBrokenIcon";
 
 const MultimediaLayouts = () => {
-    const {tabView, setTabView, setDeleteAction} = useAdminContext();
+    const {tabView, setTabView, setDeleteAction, setSelectedPageOption} = useAdminContext();
     const [tabViewData, setTabViewData] = useState([]);
     const {
-        setVisible, isUpdated
+        setVisible, isUpdated, setSelectedItems, selectedItems
     } = useManageMultimediaContext();
 
     const showModal = useCallback(() => {
@@ -83,10 +85,7 @@ const MultimediaLayouts = () => {
 
     return (
         <>
-            <h2 style={{
-                marginLeft: 15,
-                fontWeight: "bold",
-            }}>
+            <KLNAdminTitle>
                 {tabView === TabViewEnum.ManageMultimediaTabImage && (
                     <>Danh sách ảnh</>
                 )}
@@ -96,44 +95,42 @@ const MultimediaLayouts = () => {
                 {tabView === TabViewEnum.ManageMultimediaTabAudio && (
                     <>Danh sách nhạc</>
                 )}
-            </h2>
+            </KLNAdminTitle>
             <KLNBreadCrumb items={items}/>
             <div className="d-flex flex-wrap justify-content-between align-items-center">
                 <KLNTabView
-                    onClickTabView={() => setDeleteAction(false)}
+                    onClickTabView={() => {
+                        setDeleteAction(false);
+                        setSelectedItems([]);
+                        setSelectedPageOption({name: "5", code: 5});
+                    }}
                     data={tabViewData}
                 />
                 <div className="">
                     <KLNButton
                         style={{
                             marginRight: 20,
-                            fontWeight: "bold"
+                            fontWeight: "bold",
+                            cursor: !selectedItems.length ? "not-allowed": "pointer"
                         }}
-                        options={4}
-                        icon={faTrash}
-                        iconStyle={{
-                            marginLeft: 10,
-                            fontWeight: "normal"
-                        }}
+                        disabled={!selectedItems.length}
+                        options={KLNButtonEnum.secondDangerBtn}
                         onClick={showModal}
-                    >Xóa</KLNButton>
+                    >Xóa ({selectedItems.length}) <TrashBrokenIcon width={20} height={20} style={{marginLeft: 2}}/>
+                    </KLNButton>
                     <KLNButton
                         urlLink={
-                            tabView === TabViewEnum.ManageMultimediaTabImage
-                                ? `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-image`
-                                : tabView === TabViewEnum.ManageMultimediaTabVideo
-                                    ? `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-video`
-                                    : tabView === TabViewEnum.ManageMultimediaTabAudio
-                                        ? `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-audio`
-                                        : ''
+                            `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-multimedia`
+                            // tabView === TabViewEnum.ManageMultimediaTabImage
+                            //     ? `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-image`
+                            //     : tabView === TabViewEnum.ManageMultimediaTabVideo
+                            //         ? `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-video`
+                            //         : tabView === TabViewEnum.ManageMultimediaTabAudio
+                            //             ? `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-audio`
+                            //             : ''
                         }
-                        options={1}
-                        icon={faSquarePlus}
-                        iconStyle={{
-                            marginLeft: 10,
-                            fontWeight: "normal"
-                        }}
-                    >Thêm</KLNButton>
+                        options={KLNButtonEnum.dangerBtn}
+                    >Thêm <AddBrokenIcon width={20} height={20} style={{marginLeft: 5}}/></KLNButton>
                 </div>
             </div>
             <div style={{

@@ -1,5 +1,6 @@
 import { Dropdown } from "primereact/dropdown";
 import {useAdminContext} from "~/context/AdminContext";
+import styles from "~/styles/Components/KLNCascadeSelect/klnCascadeSelect.module.scss";
 
 const KLNCascadeSelect = ({...props}) => {
 

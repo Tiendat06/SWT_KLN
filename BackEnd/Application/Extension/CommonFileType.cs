@@ -24,6 +24,7 @@
         public static readonly string AAC = "audio/aac";
         public static readonly string FLAC = "audio/flac";
         public static readonly string M4A = "audio/mp4";
+        public static readonly string M3A = "audio/mp3";
 
         // Video
         public static readonly string MP4 = "video/mp4";

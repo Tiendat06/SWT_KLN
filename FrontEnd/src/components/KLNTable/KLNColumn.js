@@ -6,7 +6,11 @@ const KLNColumn = ({loading, body = null, ...props}) => {
         return loading ? <Skeleton animation="wave" width="100%"/> : body;
     };
 
-    return <Column {...props} body={bodyTemplate}/>
+    return <Column
+        {...props}
+        bodyStyle={{width: 200, ...props.bodyStyle}}
+        body={bodyTemplate}
+    />
 }
 
 export default KLNColumn;

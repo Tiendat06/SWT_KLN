@@ -18,6 +18,7 @@ import increase_volume_icon from "~/assets/img/icon/increase-volume-icon.png";
 import mute_volume_icon from "~/assets/img/icon/mute-volume-icon.png";
 import solar_upload_icon_1 from "~/assets/img/icon/solar_upload-linear.png";
 import logout_icon from "~/assets/img/icon/logout_icon.png";
+import check_icon from "~/assets/img/icon/check-icon.png";
 
 import home_img_1 from '~/assets/img/home/home-img-1.png';
 import home_img_2 from '~/assets/img/home/home-img-2.png';
@@ -100,9 +101,11 @@ import memorial_exhibitselection_2 from '~/assets/img/memorialarea/memorial_exhi
 export {handiwork_dsct}
 
 // icon
-export { search_icon, user_icon, plus_icon_1, next_icon_1, previous_icon_1,
+export {
+    search_icon, user_icon, plus_icon_1, next_icon_1, previous_icon_1,
     play_icon_1, play_icon_2, next_icon_2, previous_icon_2, increase_volume_icon,
-    mute_volume_icon, solar_upload_icon_1, logout_icon };
+    mute_volume_icon, solar_upload_icon_1, logout_icon, check_icon
+};
 
 // general
 export {vn_icon, tdtu_logo, banner_1, banner_2, banner_3, banner_4};
@@ -113,32 +116,41 @@ export {home_img_1, home_img_2, home_img_3, blog_home_1, book_home_1, book_home_
 // ctich_tdt
 export {gia_pha_1, tieu_su_1, tac_pham_1, tac_pham_2, tac_pham_3, tac_pham_4, tac_pham_5};
 
-export {gia_pha,tuong_BacTon,tau,bacTon,bacva_cacemnho};
+export {gia_pha, tuong_BacTon, tau, bacTon, bacva_cacemnho};
 
 //booksandmagazines
 export {book_img};
 
 //topicaboutBac
-export { BacHo_Bac, carousel_image_1, carousel_image_2,carousel_image_3,carousel_image_4 }; 
+export {BacHo_Bac, carousel_image_1, carousel_image_2, carousel_image_3, carousel_image_4};
 
 
 //multimediadocuments
-export {anh, nhac,videoclip,phim};
-export {gallery_video_1, gallery_video_2, gallery_video_3,gallery_video_4, gallery_video_5, gallery_video_6,gallery_video_7,gallery_video_8}
+export {anh, nhac, videoclip, phim};
+export {
+    gallery_video_1,
+    gallery_video_2,
+    gallery_video_3,
+    gallery_video_4,
+    gallery_video_5,
+    gallery_video_6,
+    gallery_video_7,
+    gallery_video_8
+}
 export {songThumbnail};
 
 
 //memorialStiilHouse
-export {stilt_house_img_1,stilt_house_img_2,stilt_house_img_3,stilt_house_img_4,stilt_house_img_5};
+export {stilt_house_img_1, stilt_house_img_2, stilt_house_img_3, stilt_house_img_4, stilt_house_img_5};
 
 //memorialTomb
 export {tomb};
 
 //memorialTemple
-export {temple_img_1,temple_img_2};
+export {temple_img_1, temple_img_2};
 
 //memorialprison
-export {prison_img_1,prison_img_2};
+export {prison_img_1, prison_img_2};
 
 // about art main
 export {about_art_main};
@@ -147,4 +159,15 @@ export {about_art_main};
 export {artifact_1};
 
 //memorial
-export {memorial_1,memorial_2,memorial_3,memorial_4,memorial_history_1,memorial_history_2,memorial_history_3,memorial_history_4,memorial_exhibitselection_1,memorial_exhibitselection_2};
+export {
+    memorial_1,
+    memorial_2,
+    memorial_3,
+    memorial_4,
+    memorial_history_1,
+    memorial_history_2,
+    memorial_history_3,
+    memorial_history_4,
+    memorial_exhibitselection_1,
+    memorial_exhibitselection_2
+};

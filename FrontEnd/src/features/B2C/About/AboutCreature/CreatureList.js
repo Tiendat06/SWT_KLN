@@ -4,6 +4,7 @@ import {bookService} from "~/services/BookService";
 import {KLNButton, KLNReactPaginate} from "~/components";
 import {play_icon_1} from "~/assets/img";
 import {useCallback, useLayoutEffect, useState} from "react";
+import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 
 function CreatureList() {
     const itemsPerPage = 3;
@@ -45,7 +46,7 @@ function CreatureList() {
                                     <div className={clsx(styles["about-creature__outstanding-btn"])}>
                                         <KLNButton
                                             urlLink={`/about-books-magazines/${creature?.bookId}`}
-                                            options={3}
+                                            options={KLNButtonEnum.warningBtn}
                                                    btnClassName={clsx(styles['about-creature__outstanding-btn-item'])}>
                                             <img style={{width: 20, height: 20, marginRight: 5}} src={play_icon_1}
                                                  alt=""/>
