@@ -54,9 +54,4 @@ export {
 
 export { LoginPage };
 
-export {
-    ManageVideo,
-    CreateVideo
-};
-
 export { EditMultimedia };

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '~/styles/Pages/B2B/MediaDocument/editMultimedia.module.scss';
+import styles from '~/styles/Pages/B2B/ManageMultimedia/editMultimedia.module.scss';
 
 const KLNEdit = ({ onSave, onCancel }) => {
   return (

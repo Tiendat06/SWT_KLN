@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { slideShowService } from '~/services/SlideShowService';
 import { musicService } from '~/services/MusicService';
 import { videoService } from '~/services/VideoService';
-import styles from '~/styles/Pages/B2B/MediaDocument/editMultimedia.module.scss';
+import styles from '~/styles/Pages/B2B/ManageMultimedia/editMultimedia.module.scss';
 import KLNEdit from '~/components/KLNEdit/KLNEdit';
 
 const EditMedia = () => {
