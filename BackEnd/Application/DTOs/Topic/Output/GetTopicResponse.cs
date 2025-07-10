@@ -32,6 +32,12 @@ namespace Application
         public string? VideoLink { get; set; }
     }
 
+    public class GetTopicMediaResponse
+    {
+        public List<GetTopicImagesResponse>? Images { get; set; }
+        public List<GetTopicVideoLinkResponse>? Videos { get; set; }
+    }
+
     //public class getTopicResponseValidator : AbstractValidator<GetTopicResponse>
     //{
     //    public getTopicResponseValidator()

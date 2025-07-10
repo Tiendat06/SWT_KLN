@@ -18,18 +18,23 @@ namespace Application
 
     public class AddTopicImageRequest
     {
-        public Guid? TopicId { get; set; }
-        public int MediaTypeId { get; set; }
         public string? Capture { get; set; }
         public IFormFile ImageLink { get; set; }
     }
 
     public class AddTopicVideoRequest
     {
-        public Guid? TopicId { get; set; }
-        public int MediaTypeId { get; set; }
         public string? Capture { get; set; }
         public IFormFile VideoLink { get; set; }
+    }
+
+    public class AddTopicMediaRequest
+    {
+        public Guid? TopicId { get; set; }
+        public int MediaTypeId { get; set; }
+        public Guid UserId { get; set; }
+        public List<AddTopicImageRequest> TopicImages { get; set; }
+        public List<AddTopicVideoRequest> TopicVideos { get; set; }
     }
 
     public class AddTopicRequestValidator : AbstractValidator<AddTopicRequest>
@@ -66,6 +71,46 @@ namespace Application
                             .Sum(v => v.MediaLink.Length);
                     }
 
+                    return totalSize <= MaxTotalSizeInBytes;
+                })
+                .WithMessage(CommonExtensions.GetValidateMessage(localizer["MaxFileSize"], "4GB"));
+        }
+    }
+
+    public class AddTopicMediaRequestValidator : AbstractValidator<AddTopicMediaRequest>
+    {
+        private const long MaxTotalSizeInBytes = 4L * 1024 * 1024 * 1024; // 4 GB size of upload
+
+        public AddTopicMediaRequestValidator(IStringLocalizer<KLNSharedResources> localizer)
+        {
+            RuleFor(x => x.TopicId)
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicId"]))
+                .NotEqual(Guid.Empty).WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicId"]));
+
+            RuleFor(x => x.MediaTypeId)
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MediaTypeId"]))
+                .NotEqual(0).WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MediaTypeId"]));
+
+            RuleFor(x => x.UserId)
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]))
+                .NotEqual(Guid.Empty).WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]));
+
+            RuleFor(x => x)
+                .Must(request =>
+                {
+                    long totalSize = 0;
+                    if (request.TopicImages != null)
+                    {
+                        totalSize += request.TopicImages
+                            .Where(i => i.ImageLink != null)
+                            .Sum(i => i.ImageLink.Length);
+                    }
+                    if (request.TopicVideos != null)
+                    {
+                        totalSize += request.TopicVideos
+                            .Where(v => v.VideoLink != null)
+                            .Sum(v => v.VideoLink.Length);
+                    }
                     return totalSize <= MaxTotalSizeInBytes;
                 })
                 .WithMessage(CommonExtensions.GetValidateMessage(localizer["MaxFileSize"], "4GB"));

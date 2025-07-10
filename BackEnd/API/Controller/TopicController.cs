@@ -32,7 +32,7 @@ namespace API.Controllers
         {
             var topic = await _topicService.GetTopicByIdAsync(id);
 
-            return ApiSuccess(topic);           
+            return ApiSuccess(topic);
         }
 
         // POST: api/Topic
@@ -62,6 +62,31 @@ namespace API.Controllers
             return ApiSuccess(result);
         }
 
-        //DELETE: api/Topic/Media/5
+        // POST: api/Topic/Media/5
+        [HttpPost("Media")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetTopicMediaResponse>))]
+        public async Task<IActionResult> AddTopicMedia([FromForm] AddTopicMediaRequest addTopicMediaRequest)
+        {
+            var topicMedia = await _topicValidator.AddTopicMediaAsyncValidator(addTopicMediaRequest);
+            return ApiSuccess(topicMedia, HttpStatusCode.Created);
+        }
+
+        // PUT: api/Topic/Media/5
+        [HttpPut("Media")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetTopicMediaResponse>))]
+        public async Task<IActionResult> UpdateTopicMedia([FromForm] UpdateTopicMediaRequest updateTopicMediaRequest)
+        {
+            var updatedTopicMedia = await _topicValidator.UpdateTopicMediaAsyncValidator(updateTopicMediaRequest);
+            return ApiSuccess(updatedTopicMedia);
+        }
+
+        // DELETE: api/Topic/Media/5
+        [HttpDelete("Media")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
+        public async Task<IActionResult> DeleteTopicMedia([FromBody] DeleteTopicMediaRequest request)
+        {
+            var result = await _topicService.DeleteTopicMediaAsync(request);
+            return ApiSuccess(result);
+        }
     }
 }

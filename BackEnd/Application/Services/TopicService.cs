@@ -12,6 +12,8 @@ using Application.Mapper.Topics.Input;
 using Domain.Entities;
 using KLN.Shared.CrossCuttingConcerns.Utils;
 using System.Text.Json;
+using System.Security.Cryptography.X509Certificates;
+using CloudinaryDotNet.Actions;
 
 namespace Application.Services
 {
@@ -302,6 +304,178 @@ namespace Application.Services
                     throw new InvalidOperationException(_localizer["DeleteTopicFailed"]);
                 }
             }
+        }
+
+        public async Task<GetTopicMediaResponse> AddTopicMediaAsync(AddTopicMediaRequest addTopicMediaRequest)
+        {
+            var allowedContentTypesImage = new[] { CommonFileType.JPEG, CommonFileType.PNG, CommonFileType.JPG };
+            var allowedContentTypesVideo = new[] { CommonFileType.MP4, CommonFileType.AVI, CommonFileType.MOV, CommonFileType.WMV, CommonFileType.FLV, CommonFileType.MKV, CommonFileType.WEBM, CommonFileType.MPEG };
+            int totalImageCount = addTopicMediaRequest.TopicImages.Count(m =>
+                    FileOperations.CheckFileType(allowedContentTypesImage, m.ImageLink));
+
+            int totalVideoCount = addTopicMediaRequest.TopicVideos.Count(m =>
+                FileOperations.CheckFileType(allowedContentTypesVideo, m.VideoLink));
+
+            if (totalImageCount > 3 || totalVideoCount > 3)
+            {
+                throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["MaxItems"], _localizer["TopicMedia"]));
+            }
+            using (var uow = await _unitOfWork.BeginTransactionAsync())
+            {
+                try
+                {
+                    var id = addTopicMediaRequest.TopicId ?? throw new ArgumentNullException(CommonExtensions.GetValidateMessage(_localizer["InvalidValue"], _localizer["TopicId"]));
+                    var topicEntity = await _topicRepository.GetTopicByIdAsync(id)
+                        ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Topic"]));
+
+                    await uow.TrackEntity(topicEntity);
+                    var asssetFolderTopicImage = CommonCloudinaryAttribute.assetFolderTopicImage;
+                    var assetFolderTopicVideo = CommonCloudinaryAttribute.assetFolderTopicVideo;
+                    var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
+                    var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
+
+                    List<(string ImageUrl, string Capture)> topicImagesList = new List<(string, string)>();
+                    List<(string ImageUrl, string Capture)> topicVideosList = new List<(string, string)>();
+
+                    // Track the entity for adding to existing topic
+                    await uow.TrackEntity(topicEntity);
+
+                    // Deserialize the SlideImage JSON field
+                    var currentImages = string.IsNullOrWhiteSpace(topicEntity.Images)
+                        ? new List<GetTopicImagesResponse>()
+                        : JsonSerializer.Deserialize<List<GetTopicImagesResponse>>(topicEntity.Images!)!;
+
+                    var currentVideos = string.IsNullOrWhiteSpace(topicEntity.Videos)
+                        ? new List<GetTopicVideoLinkResponse>()
+                        : JsonSerializer.Deserialize<List<GetTopicVideoLinkResponse>>(topicEntity.Videos!)!;
+
+                    int imageIndex = currentImages.Count;
+                    int videoIndex = currentVideos.Count;
+
+                    // Upload new images
+                    foreach (var topicImage in addTopicMediaRequest.TopicImages)
+                    {
+                        var filePath = await FileOperations.SaveFileToLocal(folderPath, topicImage.ImageLink);
+                        var publicId = $"{nameof(Domain.Entities.Topic)}_{id}_img_{Guid.NewGuid()}";
+
+                        var result = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePath, asssetFolderTopicImage, publicId)
+                            ?? throw new InvalidOperationException(_localizer["UpdateImageCloudinaryFailed"]);
+
+                        var imageUrl = result["secure_url"]?.ToString()
+                            ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
+
+                        currentImages.Add(new GetTopicImagesResponse
+                        {
+                            Id = ++imageIndex,
+                            Capture = topicImage.Capture,
+                            ImageLink = imageUrl
+                        });
+
+                        FileOperations.DeleteFileFromLocal(filePath, folderPath);
+                    }
+
+                    // Upload new videos
+                    foreach (var topicVideo in addTopicMediaRequest.TopicVideos)
+                    {
+                        var filePath = await FileOperations.SaveFileToLocal(folderPath, topicVideo.VideoLink);
+                        var publicId = $"{nameof(Domain.Entities.Topic)}_{id}_vid_{Guid.NewGuid()}";
+
+                        var videoUrl = await _youtube.UploadVideoToYouTube(filePath, topicVideo.Capture);
+                        FileOperations.DeleteFileFromLocal(filePath, folderPath);
+
+                        currentVideos.Add(new GetTopicVideoLinkResponse
+                        {
+                            Id = ++videoIndex,
+                            Capture = topicVideo.Capture,
+                            VideoLink = videoUrl
+                        });
+                    }
+
+                    // Update topicEntity
+                    topicEntity.Images = JsonSerializer.Serialize(currentImages);
+                    topicEntity.Videos = JsonSerializer.Serialize(currentVideos);
+
+                    // Optional: Add log
+                    topicEntity.LogTopics ??= new List<LogTopic>();
+                    topicEntity.LogTopics.Add(new LogTopic
+                    {
+                        LogTopicId = 0,
+                        Capture = topicEntity.Capture,
+                        Description = topicEntity.Description,
+                        MediaTypeId = topicEntity.MediaTypeId,
+                        CreateDate = topicEntity.CreateDate,
+                        Images = topicEntity.Images,
+                        Videos = topicEntity.Videos,
+                        UserId = topicEntity.UserId,
+                        Process = ProcessMethod.UPDATE
+                    });
+
+                    await uow.SaveChangesAsync();
+                    await uow.CommitTransactionAsync();
+
+                    return new GetTopicMediaResponse
+                    {
+                        Images = currentImages,
+                        Videos = currentVideos
+                    };
+                }
+                catch (Exception ex)
+                {
+                    await uow.RollbackTransactionAsync();
+                    throw new InvalidOperationException(_localizer["AddTopicMediaFailed"]);
+                }
+            }
+        }
+        public async Task<GetTopicMediaResponse> UpdateTopicMediaAsync(UpdateTopicMediaRequest updateTopicMediaRequest)
+        {
+            var allowedContentTypesImage = new[] { CommonFileType.JPEG, CommonFileType.PNG, CommonFileType.JPG };
+            var allowedContentTypesVideo = new[] { CommonFileType.MP4, CommonFileType.AVI, CommonFileType.MOV, CommonFileType.WMV, CommonFileType.FLV, CommonFileType.MKV, CommonFileType.WEBM, CommonFileType.MPEG };
+            int totalImageCount = updateTopicMediaRequest.TopicImages.Count(m =>
+                    FileOperations.CheckFileType(allowedContentTypesImage, m.ImageLink));
+
+            int totalVideoCount = updateTopicMediaRequest.TopicVideos.Count(m =>
+                FileOperations.CheckFileType(allowedContentTypesVideo, m.VideoLink));
+
+            if (totalImageCount > 3 || totalVideoCount > 3)
+            {
+                throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["MaxItems"], _localizer["TopicMedia"]));
+            }
+
+            using (var uow = await _unitOfWork.BeginTransactionAsync())
+            {
+                //try
+                //{
+                //    await _topicRepository.HardDeleteTopicAsync(id);
+                //    await uow.SaveChangesAsync();
+                //    await uow.CommitTransactionAsync();
+                //    return true;
+                //}
+                //catch (Exception ex)
+                //{
+                //    await uow.RollbackTransactionAsync();
+                //    throw new InvalidOperationException(_localizer["HardDeleteTopicFailed"]);
+                //}
+            }
+            return null;
+        }
+        public async Task<bool> DeleteTopicMediaAsync(DeleteTopicMediaRequest request)
+        {
+            using (var uow = await _unitOfWork.BeginTransactionAsync())
+            {
+                //try
+                //{
+                //    await _topicRepository.HardDeleteMultipleTopicAsync(ids);
+                //    await uow.SaveChangesAsync();
+                //    await uow.CommitTransactionAsync();
+                //    return true;
+                //}
+                //catch (Exception ex)
+                //{
+                //    await uow.RollbackTransactionAsync();
+                //    throw new InvalidOperationException(_localizer["HardDeleteMultipleTopicFailed"]);
+                //}
+            }
+            return true;
         }
     }
 }
