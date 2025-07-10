@@ -16,7 +16,7 @@ import {DeleteMany} from "~/features/B2B/ManageMultimedia";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import KLNDataTable from "~/components/KLNTable/KLNDataTable";
 
-const ImageTable = ({slideShowType = SlideShowType.TDTArtistic}) => {
+const ImageTable = ({slideShowType = SlideShowType.TDTArtistic, mediaType = MediaType.PresidentTDT}) => {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [slideShowId, setSlideShowId] = useState(null);
@@ -56,7 +56,7 @@ const ImageTable = ({slideShowType = SlideShowType.TDTArtistic}) => {
     useLayoutEffect(() => {
         const getSlideShow = async () => {
             setIsLoading(true);
-            const data = await slideShowService.getSlideShowListService(1, 1, MediaType.PresidentTDT, slideShowType);
+            const data = await slideShowService.getSlideShowListService(1, 1, mediaType, slideShowType);
             const slideShowData = data?.data?.items[0];
             setSlideShowId(slideShowData?.slideShowId);
             const startIndex = (currentPage - 1) * selectedPageOption.code;
@@ -144,7 +144,7 @@ const ImageTable = ({slideShowType = SlideShowType.TDTArtistic}) => {
                         }} header="Thao tác" body={(rowData) => (<KLNTableAction
                             editActionLink={`${AppRoutesEnum.AdminRoute}${
                                 slideShowType === SlideShowType.TDTArtistic ? '/manage-multimedia/image/':
-                                slideShowType === SlideShowType.Artifact ? '/manage-image/': ''
+                                slideShowType === SlideShowType.Artifact ? '/manage-images/': ''
                             }${rowData.id}`}
                             onClickDelete={() => showModal(rowData)}
                         />)}></KLNColumn>

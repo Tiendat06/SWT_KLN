@@ -113,7 +113,7 @@ const BookTable = () => {
                         justifyContent: 'space-evenly',
                         alignItems: 'center'
                     }} header="Thao tác" body={(rowData) => (<KLNTableAction
-                        editActionLink={`${AppRoutesEnum.AdminRoute}/manage-magazine/book/${rowData.bookId}`}
+                        editActionLink={`${AppRoutesEnum.AdminRoute}/manage-magazine/${rowData.bookId}`}
                         onClickDelete={() => showModal(rowData)}
                     />)}></KLNColumn>
                 </KLNDataTable>

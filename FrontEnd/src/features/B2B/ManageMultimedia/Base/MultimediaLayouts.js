@@ -161,7 +161,7 @@ const MultimediaLayouts = () => {
                     <KLNCascadeSelect/>
                 </div>
                 {tabView === TabViewEnum.ManageMultimediaTabImage && (
-                    <ImageTable slideShowType={SlideShowType.TDTArtistic}/>
+                    <ImageTable mediaType={MediaType.PresidentTDT} slideShowType={SlideShowType.TDTArtistic}/>
                 )}
                 {tabView === TabViewEnum.ManageMultimediaTabVideo && (
                     <VideoTable/>

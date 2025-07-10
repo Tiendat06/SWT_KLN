@@ -16,7 +16,9 @@ export const ADD_MULTIMEDIA_IMAGE_TITLE = 'Thêm hình ảnh nghê thuật về 
 export const ADD_MULTIMEDIA_VIDEO_TITLE = 'Thêm video về bác Tôn';
 export const ADD_MULTIMEDIA_AUDIO_TITLE = 'Thêm nhạc về bác Tôn';
 export const ADD_BOOK_TITLE = 'Thêm sách & báo';
+export const UPDATE_BOOK_MAGAZINE_TITLE = 'Cập nhật sách, báo & tạp chí';
 export const ADD_MAGAZINE_TITLE = 'Thêm tạp chí';
+export const UPDATE_IMAGE_TITLE = 'Chi tiết sách báo & tạp chí';
 export const MANAGE_VIDEO_TITLE = 'Quản lý video về bác Tôn';
 export const ADD_IMAGE_TITLE = 'Thêm hình ảnh & hiện vật';
 

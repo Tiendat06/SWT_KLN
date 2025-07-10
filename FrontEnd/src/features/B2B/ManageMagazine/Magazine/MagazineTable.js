@@ -122,7 +122,7 @@ const MagazineTable = () => {
                         justifyContent: 'space-around',
                         alignItems: 'center'
                     }} header="Thao tác" body={(rowData) => (<KLNTableAction
-                        editActionLink={`${AppRoutesEnum.AdminRoute}/manage-magazine/magazine/${rowData.magazineId}`}
+                        editActionLink={`${AppRoutesEnum.AdminRoute}/manage-magazine/${rowData.magazineId}`}
                         onClickDelete={() => showModal(rowData)}
                     />)}></KLNColumn>
                 </KLNDataTable>

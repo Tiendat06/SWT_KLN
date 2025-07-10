@@ -18,7 +18,7 @@ import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 import KLNFormItem from "~/components/KLNFormItem/KLNFormItem";
 import InputType from "~/enum/InputType/InputType";
 
-const CreateImageForm = ({slideShowType = SlideShowType.TDTArtistic}) => {
+const CreateImageForm = ({slideShowType = SlideShowType.TDTArtistic, mediaType = MediaType.PresidentTDT}) => {
     const {isLoading, setIsLoading} = useManageMultimediaContext();
     const [addedSlideImage, setAddedSlideImage] = useState({
         slideShowId: null,
@@ -32,8 +32,9 @@ const CreateImageForm = ({slideShowType = SlideShowType.TDTArtistic}) => {
     useEffect(() => {
         const getSlideShow = async () => {
             setIsLoading(true);
-            const data = await slideShowService.getSlideShowListService(1, 1, MediaType.PresidentTDT, slideShowType);
+            const data = await slideShowService.getSlideShowListService(1, 1, mediaType, slideShowType);
             const slideShowData = data?.data?.items[0];
+            console.log(slideShowData);
             setAddedSlideImage({
                 ...addedSlideImage,
                 slideShowId: slideShowData.slideShowId,
@@ -46,9 +47,9 @@ const CreateImageForm = ({slideShowType = SlideShowType.TDTArtistic}) => {
     const handleAddImage = useCallback(() => {
         const addSlideImage = async () => {
             setIsLoading(true);
-            const addedSlideImageData = await slideShowService.addSlideImageInSpecificSlideShowService(addedSlideImage, MediaType.PresidentTDT, slideShowType);
+            const addedSlideImageData = await slideShowService.addSlideImageInSpecificSlideShowService(addedSlideImage, mediaType, slideShowType);
             const status = addedSlideImageData.status;
-            if (status === HttpStatusEnum.Ok || status === HttpStatusEnum.Created){
+            if (status === HttpStatusEnum.Ok || status === HttpStatusEnum.Created) {
                 showToast({
                     toastRef: toast,
                     severity: 'success',
@@ -61,8 +62,7 @@ const CreateImageForm = ({slideShowType = SlideShowType.TDTArtistic}) => {
                     imageFile: {},
                     description: '',
                 });
-            }
-            else
+            } else
                 showToast({
                     toastRef: toast,
                     severity: 'error',
@@ -195,7 +195,9 @@ const CreateImageForm = ({slideShowType = SlideShowType.TDTArtistic}) => {
                         options={KLNButtonEnum.whiteBtn}
                         btnClassName="mt-4 ml-5"
                         onClick={() => setTabView(TabViewEnum.ManageMultimediaTabImage)}
-                        urlLink={`${AppRoutesEnum.AdminRoute}/manage-multimedia`}
+                        urlLink={slideShowType === SlideShowType.TDTArtistic ? `${AppRoutesEnum.AdminRoute}/manage-multimedia` :
+                            slideShowType === SlideShowType.Artifact ? `${AppRoutesEnum.AdminRoute}/manage-images` : ''
+                        }
                     >Hủy</KLNButton>
                 </div>
             </div>

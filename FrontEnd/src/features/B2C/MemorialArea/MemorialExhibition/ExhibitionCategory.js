@@ -29,7 +29,7 @@ const ExhibitionCategory = () => {
             setSlideImageMain(slideImageData[0]);
         }
         getSlideShowById();
-    }, []);
+    }, [slideShowId]);
 
     useEffect(() => {
         const getSlideShowList = async () => {
@@ -38,7 +38,7 @@ const ExhibitionCategory = () => {
             setSlideShowList(slideShowListData);
         }
         getSlideShowList();
-    }, []);
+    }, [slideShowId]);
     return (
         <>
             <KLNCategory

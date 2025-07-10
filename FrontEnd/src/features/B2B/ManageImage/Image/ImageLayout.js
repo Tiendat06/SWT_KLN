@@ -39,12 +39,11 @@ const ImageLayout = () => {
 
     useEffect(() => {
         const getTotalCount = async () => {
-            const totalSlideImageData = await slideShowService.getTotalSlideImageInSpecificSlideShowService(MediaType.PresidentTDT, SlideShowType.Artifact);
+            const totalSlideImageData = await slideShowService.getTotalSlideImageInSpecificSlideShowService(MediaType.TDTMemorial, SlideShowType.Artifact);
             setTotalCount({
                 ...totalCount,
                 totalImageCount: totalSlideImageData.data.totalSlideImage
             });
-            console.log(totalSlideImageData);
         }
         getTotalCount();
     }, [isUpdated]);
@@ -73,7 +72,7 @@ const ImageLayout = () => {
                             cursor: totalCount.totalImageCount === 0 ? "not-allowed" : "pointer",
                         }}
                         urlLink={
-                            `${AppRoutesEnum.AdminRoute}/manage-images${totalCount.totalImageCount !== 0 ? '/create-images': ''}`
+                            `${AppRoutesEnum.AdminRoute}/manage-images${totalCount.totalImageCount !== 0 ? '/create-images' : ''}`
                         }
                         options={KLNButtonEnum.dangerBtn}
                     >Thêm <AddBrokenIcon width={20} height={20} style={{marginLeft: 5}}/></KLNButton>
@@ -89,9 +88,10 @@ const ImageLayout = () => {
                     }}>Số luợng hiển thị</p>
                     <KLNCascadeSelect/>
                 </div>
-                <ImageTable slideShowType={
-                    SlideShowType.Artifact
-                }/>
+                <ImageTable
+                    mediaType={MediaType.TDTMemorial}
+                    slideShowType={SlideShowType.Artifact}
+                />
             </div>
         </>
     )

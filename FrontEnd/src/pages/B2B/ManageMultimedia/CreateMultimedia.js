@@ -9,6 +9,7 @@ import {ManageMultimediaProvider} from "~/context/B2B/ManageMultimedia/ManageMul
 import {Helmet} from "react-helmet-async";
 import {ADD_MULTIMEDIA_AUDIO_TITLE, ADD_MULTIMEDIA_IMAGE_TITLE, ADD_MULTIMEDIA_VIDEO_TITLE} from "~/utils/Constansts";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
+import MediaType from "~/enum/MediaType/MediaType";
 
 const CreateMultimedia = () => {
     const {tabView, setTabView} = useAdminContext();
@@ -62,7 +63,7 @@ const CreateMultimedia = () => {
                 }
             </h2>
             <KLNBreadCrumb items={items}/>
-            {tabView === TabViewEnum.ManageMultimediaTabImage ? <CreateImageForm slideShowType={SlideShowType.TDTArtistic}/>
+            {tabView === TabViewEnum.ManageMultimediaTabImage ? <CreateImageForm mediaType={MediaType.PresidentTDT} slideShowType={SlideShowType.TDTArtistic}/>
                 : tabView === TabViewEnum.ManageMultimediaTabVideo ? <CreateVideoForm/>
                     : tabView === TabViewEnum.ManageMultimediaTabAudio ? <CreateAudioForm/>
                         : <></>
