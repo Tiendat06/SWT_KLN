@@ -58,12 +58,12 @@ namespace API.Controllers
         }
 
         // DELETE: api/Magazine/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMagazine(Guid id)
+        [HttpDelete("ids")]
+        public async Task<IActionResult> DeleteMagazine([FromForm] List<Guid> ids)
         {
-            var isDeleted = await _magazineService.DeleteMagazineAsync(id);
+            var result = await _magazineService.DeleteMultipleMagazinesAsync(ids);
 
-            return ApiSuccess(isDeleted);
+            return ApiSuccess(result);
         }
     }
 }

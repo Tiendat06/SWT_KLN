@@ -55,11 +55,11 @@ namespace API.Controllers
         }
 
         // DELETE: api/Book/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBook(Guid id)
+        [HttpDelete("ids")]
+        public async Task<IActionResult> DeleteMultipleBook([FromForm] List<Guid> ids)
         {
-            var isDeleted = await _bookService.DeleteBookAsync(id);
-            return ApiSuccess(isDeleted);
+            var result = await _bookService.DeleteMultipleBooksAsync(ids);
+            return ApiSuccess(result);
         }
 
         // GET: api/Book/book-quan

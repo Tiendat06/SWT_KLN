@@ -55,16 +55,32 @@ namespace Infrastructure.Repositories
                 .FirstOrDefaultAsync(book => book.BookId == id && book.IsDeleted == false);
         }
 
+        public async Task<List<Book>> GetBookByIdsAsync(List<Guid> ids)
+        {
+            return await _context.Books
+                .AsNoTracking()
+                .Where(book => ids.Contains(book.BookId) && book.IsDeleted == false)
+                .ToListAsync();
+        }
+
         public async Task HardDeleteBookAsync(Guid id)
         {
             _context.Books.Remove(new Book { BookId = id });
             await _context.SaveChangesAsync();
         }
 
-        public async Task SoftDeleteBookAsync(Book book)
+        public async Task SoftDeleteMultipleBookAsync(List<Guid> ids)
         {
-            book.IsDeleted = true;
-            await Task.CompletedTask;
+            var books = await _context.Books
+                .Where(b => ids.Contains(b.BookId) && b.IsDeleted == false)
+                .ToListAsync();
+
+            foreach (var book in books)
+            {
+                book.IsDeleted = true;
+            }
+
+            _context.Books.UpdateRange(books);
         }
 
         public async Task<int> CountBooksAsync(int type)
