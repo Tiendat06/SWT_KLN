@@ -59,7 +59,7 @@ namespace API.Controllers
 
         // DELETE: api/Magazine/ids
         [HttpDelete("ids")]
-        public async Task<IActionResult> DeleteMagazine([FromForm] List<Guid> ids)
+        public async Task<IActionResult> DeleteMagazine([FromBody] List<Guid> ids)
         {
             var result = await _magazineService.DeleteMultipleMagazinesAsync(ids);
 

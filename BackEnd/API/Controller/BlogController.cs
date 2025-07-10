@@ -59,7 +59,7 @@ namespace API.Controllers
 
         // DELETE: api/Blog/ids
         [HttpDelete("ids")]
-        public async Task<IActionResult> DeleteBlog([FromForm] List<Guid> ids)
+        public async Task<IActionResult> DeleteBlog([FromBody] List<Guid> ids)
         {
             var isDeleted = await _blogService.DeleteMultipleBlogsAsync(ids);
 

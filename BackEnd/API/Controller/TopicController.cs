@@ -56,7 +56,7 @@ namespace API.Controllers
         //DELETE: api/Topic/ids
         [HttpDelete("ids")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
-        public async Task<IActionResult> DeleteTopic([FromForm] List<Guid> ids)
+        public async Task<IActionResult> DeleteTopic([FromBody] List<Guid> ids)
         {
             var result = await _topicService.DeleteMultipleTopicAsync(ids);
             return ApiSuccess(result);
