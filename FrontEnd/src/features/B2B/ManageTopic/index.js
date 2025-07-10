@@ -1,7 +1,7 @@
 import TopicLayouts from "~/features/B2B/ManageTopic/Topic/TopicLayouts";
 import TopicDetailLayouts from "~/features/B2B/ManageTopic/Topic/TopicDetailLayouts";
-import CreateTopicModal from "~/features/B2B/ManageTopic/Topic/CreateTopicModal";
-import EditTopicModal from "~/features/B2B/ManageTopic/Topic/EditTopicModal";
+import CreateTopic from "~/pages/B2B/ManageTopic/CreateTopic";
+import EditTopic from "~/pages/B2B/ManageTopic/EditTopic";
 import DeleteTopicModal from "~/features/B2B/ManageTopic/Topic/DeleteTopicModal";
 import AddImageModal from "~/features/B2B/ManageTopic/Image/AddImageModal";
 import AddVideoModal from "~/features/B2B/ManageTopic/Video/AddVideoModal";
@@ -15,8 +15,8 @@ import TopicVideoTable from "~/features/B2B/ManageTopic/Video/TopicVideoTable";
 export {
     TopicLayouts, 
     TopicDetailLayouts, 
-    CreateTopicModal, 
-    EditTopicModal, 
+    CreateTopic, 
+    EditTopic, 
     DeleteTopicModal,
     AddImageModal, 
     AddVideoModal, 

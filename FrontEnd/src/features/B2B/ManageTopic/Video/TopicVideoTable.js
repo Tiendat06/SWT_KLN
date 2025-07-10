@@ -1,10 +1,8 @@
-import {KLNDataTable, KLNColumn, KLNReactPaginate} from "~/components";
+import {KLNDataTable, KLNColumn, KLNReactPaginate, KLNTableActionModal} from "~/components";
 import {useEffect, useState, useCallback} from "react";
 import {useAdminContext} from "~/context/AdminContext";
 import {useManageTopicContext} from "~/context/B2B/ManageTopic/ManageTopicContext";
 import {DateTimeFormat} from "~/utils/DateTimeFormat";
-import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     getTopicVideosAction,
     setTopicVideoAction,
@@ -99,31 +97,20 @@ const TopicVideoTable = ({topicDetail}) => {
         );
     };
 
-    const dateBodyTemplate = (rowData) => {
-        return DateTimeFormat(rowData.createDate);
-    };
+
 
     const actionBodyTemplate = (rowData) => {
         return (
-            <div className="d-flex gap-2">
-                <button 
-                    className="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center"
-                    onClick={() => onEditVideo(rowData)}
-                    title="Sửa video"
-                    style={{width: '32px', height: '32px'}}
-                >
-                    <FontAwesomeIcon icon={faEdit} size="sm" />
-                </button>
-                <button 
-                    className="btn btn-sm btn-outline-danger d-flex align-items-center justify-content-center"
-                    onClick={() => onDeleteVideo(rowData)}
-                    title="Xóa video"
-                    style={{width: '32px', height: '32px'}}
-                >
-                    <FontAwesomeIcon icon={faTrash} size="sm" />
-                </button>
-            </div>
+            <KLNTableActionModal
+                onEdit={() => onEditVideo(rowData)}
+                onClickDelete={() => onDeleteVideo(rowData)}
+            />
         );
+    };
+
+    const sequenceBodyTemplate = (rowData, options) => {
+        const startIndex = (currentPage - 1) * selectedPageOption.code;
+        return startIndex + options.rowIndex + 1;
     };
 
     return (
@@ -139,6 +126,12 @@ const TopicVideoTable = ({topicDetail}) => {
                 >
                     <KLNColumn selectionMode="multiple" headerStyle={{width: '3rem'}}></KLNColumn>
                     <KLNColumn 
+                        field="sequence" 
+                        header="#" 
+                        body={sequenceBodyTemplate}
+                        style={{width: '60px', textAlign: 'center'}}
+                    />
+                    <KLNColumn 
                         field="thumbnail" 
                         header="Thumbnail" 
                         body={thumbnailBodyTemplate}
@@ -150,16 +143,15 @@ const TopicVideoTable = ({topicDetail}) => {
                         style={{minWidth: '250px'}}
                     />
                     <KLNColumn 
-                        field="createDate" 
-                        header="Ngày cập nhật"
-                        body={dateBodyTemplate}
-                        style={{width: '150px'}}
-                    />
-                    <KLNColumn 
                         field="actions" 
-                        header="Action"
+                        header="Thao tác"
                         body={actionBodyTemplate}
-                        style={{width: '100px'}}
+                        headerStyle={{width: 150}} 
+                        bodyStyle={{
+                            display: 'flex',
+                            justifyContent: 'space-around',
+                            alignItems: 'center'
+                        }}
                     />
                 </KLNDataTable>
             </div>

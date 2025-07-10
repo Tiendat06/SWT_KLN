@@ -1,23 +1,23 @@
-import {KLNBreadCrumb, KLNButton, KLNCascadeSelect, KLNDataTable, KLNColumn, KLNReactPaginate} from "~/components";
+import {KLNBreadCrumb, KLNButton, KLNCascadeSelect, KLNDataTable, KLNColumn, KLNReactPaginate, KLNTableAction} from "~/components";
 import {faSquarePlus, faTrash, faEdit} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 import React, {useCallback, useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import {useAdminContext} from "~/context/AdminContext";
 import {useManageTopicContext} from "~/context/B2B/ManageTopic/ManageTopicContext";
 import {topicService} from "~/services/TopicService";
-import CreateTopicModal from "./CreateTopicModal";
-import EditTopicModal from "./EditTopicModal";
+import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 import DeleteTopicModal from "./DeleteTopicModal";
 import {DateTimeFormat} from "~/utils/DateTimeFormat";
 import {
     getTopicsAction,
-    setTopicAction,
     deleteTopicAction,
     setLoadingAction
 } from '~/store/B2B/ManageTopic/actions';
+import { useAppContext } from "~/context/AppContext";
+import { showToast } from "~/utils/Toast";
+
 
 // Mock data nếu API không hoạt động
 const mockTopics = [
@@ -101,13 +101,16 @@ const TopicLayouts = () => {
     const {selectedPageOption, setDeleteAction} = useAdminContext();
     const {
         visible, setVisible, isUpdated, setIsUpdated, setCreateTopicModalVisible, setEditTopicModalVisible,
-        selectedTopics, setSelectedTopics, setEditingTopic, triggerDeleteSingle,
+        selectedTopics, setSelectedTopics, setEditingTopic, triggerDeleteSingle, resetSelection,
         topics, isLoading, dispatch
     } = useManageTopicContext();
     
     const [allTopics, setAllTopics] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const navigate = useNavigate();
+    const { toast } = useAppContext();
 
     const showDeleteModal = useCallback(() => {
         setDeleteAction(true);
@@ -118,28 +121,31 @@ const TopicLayouts = () => {
         setVisible(false);
     }, [setVisible]);
 
-    const showCreateModal = useCallback(() => {
-        setCreateTopicModalVisible(true);
-    }, [setCreateTopicModalVisible]);
-
-    const handleDeleteMany = useCallback(async () => {
+    const handleDelete = useCallback(async (topicIds) => {
+        setIsDeleting(true);
         try {
-            // API call to delete selected topics
-            const topicIds = selectedTopics.map(topic => topic.topicId);
             const deleteResult = await topicService.deleteTopicService(topicIds);
             
             if (deleteResult) {
                 dispatch(deleteTopicAction(topicIds));
+                
                 console.log('Topics deleted successfully');
-                setIsUpdated(prev => !prev);
+                showToast({ toastRef: toast, severity: 'success', summary: 'Xóa chuyên đề', detail: 'Xóa chuyên đề thành công' });
             }
         } catch (error) {
             console.error('Error deleting topics:', error);
+            showToast({ toastRef: toast, severity: 'error', summary: 'Xóa chuyên đề', detail: 'Có lỗi xảy ra khi xóa chuyên đề' });
+        } finally {
+            setIsDeleting(false);
+            resetSelection();
+            setVisible(false);
         }
-        
-        setSelectedTopics([]);
-        setVisible(false);
-    }, [selectedTopics, setSelectedTopics, setVisible, setIsUpdated, dispatch]);
+    }, [resetSelection, setVisible, dispatch, toast]);
+
+    const handleDeleteMany = useCallback(async () => {
+        const topicIds = selectedTopics.map(topic => topic.topicId);
+        await handleDelete(topicIds);
+    }, [selectedTopics, handleDelete]);
 
     // Paginate topics when data changes
     const paginateTopics = useCallback((topicsData) => {
@@ -163,14 +169,10 @@ const TopicLayouts = () => {
                     const topicsData = response.data.items || [];
                     setAllTopics(topicsData);
                     setPageCount(Math.ceil(topicsData.length / selectedPageOption.code));
-                    
-                    // Set initial paginated data
                     paginateTopics(topicsData);
                 } else {
                     setAllTopics(mockTopics);
                     setPageCount(Math.ceil(mockTopics.length / selectedPageOption.code));
-                    
-                    // Set initial paginated data
                     paginateTopics(mockTopics);
                 }
             } catch (error) {
@@ -178,8 +180,6 @@ const TopicLayouts = () => {
                 // Fallback to mock data
                 setAllTopics(mockTopics);
                 setPageCount(Math.ceil(mockTopics.length / selectedPageOption.code));
-                
-                // Set initial paginated data
                 paginateTopics(mockTopics);
             } finally {
                 dispatch(setLoadingAction(false));
@@ -194,19 +194,27 @@ const TopicLayouts = () => {
         paginateTopics(allTopics);
     }, [currentPage, selectedPageOption, allTopics, paginateTopics]);
 
+    // Cập nhật pageCount khi allTopics thay đổi
+    useEffect(() => {
+        const newPageCount = Math.ceil(allTopics.length / selectedPageOption.code);
+        setPageCount(newPageCount);
+        if (currentPage > newPageCount && newPageCount > 0) {
+            setCurrentPage(newPageCount);
+        } else if (allTopics.length === 0) {
+            setCurrentPage(1);
+        }
+    }, [allTopics.length, selectedPageOption.code, currentPage]);
+
     const handlePageClick = useCallback((event) => {
         setCurrentPage(event.selected + 1);
     }, []);
 
     // Table template functions
     const onEdit = (topic) => {
-        dispatch(setTopicAction(topic));
-        setEditingTopic(topic);
-        setEditTopicModalVisible(true);
+        navigate(`${AppRoutesEnum.AdminRoute}/manage-topic/${topic.topicId}/edit`);
     };
 
     const onDelete = (topic) => {
-        dispatch(setTopicAction(topic));
         triggerDeleteSingle(topic);
     };
 
@@ -214,63 +222,7 @@ const TopicLayouts = () => {
         return <span>{((currentPage - 1) * selectedPageOption.code) + rowIndex + 1}</span>;
     };
 
-    const thumbnailBodyTemplate = (rowData) => {
-        const firstImage = rowData.images?.[0];
-        const firstVideo = rowData.videos?.[0];
-        
-        if (firstImage) {
-            return (
-                <img 
-                    src={firstImage.imageLink} 
-                    alt={firstImage.capture}
-                    style={{width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px'}}
-                />
-            );
-        } else if (firstVideo) {
-            return (
-                <div style={{position: 'relative', width: '50px', height: '50px'}}>
-                    <div style={{
-                        width: '100%', 
-                        height: '100%', 
-                        backgroundColor: '#f0f0f0', 
-                        borderRadius: '4px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}>
-                        <div style={{
-                            color: 'white',
-                            fontSize: '14px',
-                            backgroundColor: 'rgba(0,0,0,0.7)',
-                            borderRadius: '50%',
-                            width: '20px',
-                            height: '20px',
-                            display: 'flex',
-                            alignItems: 'center', 
-                            justifyContent: 'center'
-                        }}>
-                            ▶
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-        
-        return (
-            <div style={{
-                width: '50px', 
-                height: '50px', 
-                backgroundColor: '#f0f0f0', 
-                borderRadius: '4px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#999'
-            }}>
-                📁
-            </div>
-        );
-    };
+
 
     const nameBodyTemplate = (rowData) => {
         return (
@@ -289,28 +241,12 @@ const TopicLayouts = () => {
         return DateTimeFormat(rowData.createDate);
     };
 
-    const actionBodyTemplate = (rowData) => {
-        return (
-            <div className="d-flex gap-2 justify-content-center">
-                <button 
-                    className="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center"
-                    onClick={() => onEdit(rowData)}
-                    title="Sửa chuyên đề"
-                    style={{width: '32px', height: '32px'}}
-                >
-                    <FontAwesomeIcon icon={faEdit} size="sm" />
-                </button>
-                <button 
-                    className="btn btn-sm btn-outline-danger d-flex align-items-center justify-content-center"
-                    onClick={() => onDelete(rowData)}
-                    title="Xóa chuyên đề"
-                    style={{width: '32px', height: '32px'}}
-                >
-                    <FontAwesomeIcon icon={faTrash} size="sm" />
-                </button>
-            </div>
-        );
-    };
+    const actionBodyTemplate = (rowData) => (
+        <KLNTableAction
+            editActionLink={`${AppRoutesEnum.AdminRoute}/manage-topic/${rowData.topicId}/edit`}
+            onClickDelete={() => onDelete(rowData)}
+        />
+    );
 
     const items = [
         {template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Chuyên đề hay về Bác</Link>}
@@ -335,7 +271,7 @@ const TopicLayouts = () => {
                             opacity: selectedTopics.length > 0 ? 1 : 0.6,
                             cursor: selectedTopics.length > 0 ? 'pointer' : 'not-allowed'
                         }}
-                        options={4}
+                        options={KLNButtonEnum.secondDangerBtn}
                         icon={faTrash}
                         iconStyle={{
                             marginLeft: 10,
@@ -345,20 +281,18 @@ const TopicLayouts = () => {
                         disabled={selectedTopics.length === 0}
                     >Xóa {selectedTopics.length > 0 && `(${selectedTopics.length})`}</KLNButton>
                     <KLNButton
-                        options={5}
+                        options={KLNButtonEnum.dangerBtn}
                         icon={faSquarePlus}
                         iconStyle={{
                             marginLeft: 10,
                             fontWeight: "normal"
                         }}
                         style={{
-                            background: 'linear-gradient(135deg, #AD1E32 0%, #D22F27 100%)',
-                            border: 'none',
                             fontWeight: "normal",
                             boxShadow: '0 4px 8px rgba(173, 30, 50, 0.3)',
                             transition: 'all 0.3s ease'
                         }}
-                        onClick={showCreateModal}
+                        urlLink={`${AppRoutesEnum.AdminRoute}/manage-topic/create`}
                     >Thêm mới</KLNButton>
                 </div>
             </div>
@@ -392,12 +326,6 @@ const TopicLayouts = () => {
                             <KLNColumn selectionMode="multiple" headerStyle={{width: '3rem'}}></KLNColumn>
                             <KLNColumn body={indexTemplate} header="#" headerStyle={{width: '3rem'}}></KLNColumn>
                             <KLNColumn 
-                                headerStyle={{width: '8rem'}} 
-                                bodyStyle={{width: '8rem', textAlign: 'center'}}
-                                header="Thumbnail" 
-                                body={thumbnailBodyTemplate}
-                            />
-                            <KLNColumn 
                                 field="capture" 
                                 header="Tên chuyên đề"
                                 body={nameBodyTemplate}
@@ -409,13 +337,11 @@ const TopicLayouts = () => {
                                 headerStyle={{width: '12rem'}}
                             />
                             <KLNColumn 
-                                headerStyle={{width: '10rem'}} 
-                                bodyStyle={{
-                                    width: '10rem',
+                                headerStyle={{width: 150}} bodyStyle={{
                                     display: 'flex',
-                                    justifyContent: 'center',
+                                    justifyContent: 'space-around',
                                     alignItems: 'center'
-                                }} 
+                                }}
                                 header="Thao tác" 
                                 body={actionBodyTemplate}
                             />
@@ -428,13 +354,12 @@ const TopicLayouts = () => {
                 </div>
             </div>
             
-            <CreateTopicModal />
-            <EditTopicModal />
             <DeleteTopicModal 
                 visible={visible}
                 setVisible={setVisible}
                 btnSaveOnClick={handleDeleteMany}
                 btnCancelOnClick={hideModal}
+                onDelete={handleDelete}
             />
         </>
     );

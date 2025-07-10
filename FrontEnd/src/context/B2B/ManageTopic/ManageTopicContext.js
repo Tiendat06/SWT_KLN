@@ -1,5 +1,6 @@
 import React, {createContext, useContext, useState, useCallback, useReducer} from 'react';
 import manageTopicReducer from '~/store/B2B/ManageTopic/reducer';
+import { setTopicAction } from '~/store/B2B/ManageTopic/actions';
 
 const ManageTopicContext = createContext();
 
@@ -82,8 +83,16 @@ export const ManageTopicProvider = ({children}) => {
     // Helper function to trigger delete for single item
     const triggerDeleteSingle = useCallback((item) => {
         setSelectedTopics([item]);
+        // Set selectedTopic for single delete
+        dispatch(setTopicAction(item));
         setVisible(true);
-    }, []);
+    }, [dispatch]);
+
+    // Helper function to reset selection
+    const resetSelection = useCallback(() => {
+        setSelectedTopics([]);
+        dispatch(setTopicAction(null));
+    }, [dispatch]);
 
     // Helper functions for temp media
     const addTempImage = useCallback((image) => {
@@ -142,6 +151,7 @@ export const ManageTopicProvider = ({children}) => {
         visible,
         setVisible,
         triggerDeleteSingle,
+        resetSelection,
         
         // Create topic modal
         createTopicModalVisible,

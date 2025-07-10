@@ -17,6 +17,7 @@ import KLNDropdown from "~/components/KLNDropdown/KLNDropdown";
 import KLNTabView from "~/components/KLNTabView/KLNTabView";
 import KLNCascadeSelect from "~/components/KLNCascadeSelect/KLNCascadeSelect";
 import KLNTableAction from "~/components/KLNTableAction/KLNTableAction";
+import KLNTableActionModal from "~/components/KLNTableAction/KLNTableActionModal";
 import KLNBreadCrumb from "~/components/KLNBreadCrumb/KLNBreadCrumb";
 import KLNModal from "~/components/KLNModal/KLNModal";
 import TopicModal from "~/components/KLNModal/TopicModal";
@@ -27,6 +28,7 @@ import KLNSkeletonWithSpinner from "~/components/KLNSkeleton/KLNSkeletonWithSpin
 import KLNImageWithSkeleton from "~/components/KLNSkeleton/KLNImageWithSkeleton/KLNImageWithSkeleton";
 import KLNProgressSpinner from "~/components/KLNProgressSpinner/KLNProgressSpinner";
 import KLNAdminTitle from "~/components/KLNTitle/KLNAdminTitle";
+import KLNTopicForm from "~/components/KLNTopicForm/KLNTopicForm";
 
 export {
     Header, Footer, Body, Sidebar, AdminHeader,
@@ -34,9 +36,9 @@ export {
     KLNReactPaginate, KLNSlideImage, KLNVideoClip,
     KLNTitle, KLNAudio, KLNCategory,
     KLNReactDotPaginate, KLNDropdown,
-    KLNTabView, KLNCascadeSelect, KLNTableAction,
+    KLNTabView, KLNCascadeSelect, KLNTableAction, KLNTableActionModal,
     KLNBreadCrumb, KLNModal, KLNToast, KLNColumn,
     KLNDataTable, KLNSkeletonWithSpinner, KLNImageWithSkeleton,
-    KLNProgressSpinner, KLNAdminTitle, TopicModal
+    KLNProgressSpinner, KLNAdminTitle, TopicModal, KLNTopicForm
 }
 

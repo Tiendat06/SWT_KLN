@@ -38,7 +38,25 @@ const KLNButton = ({
         <>
             {!hasFileInput ?
                 (
+                    urlLink ? (
                     <Link to={urlLink}>
+                            <button {...props} style={style} className={clsx(buttonStyle, btnClassName)}
+                                    onClick={onClick}>
+                                <span className="d-flex align-items-center justify-content-center">
+                                    {isLoading && <KLNProgressSpinner
+                                        strokeWidth={5}
+                                        mode={mode}
+                                        style={{
+                                            marginRight: 5,
+                                            fontWeight: "bold",
+                                            color: "white"
+                                        }}/>}
+                                    {children}
+                                    {icon && !isLoading && <FontAwesomeIcon style={iconStyle} icon={icon}/>}
+                                </span>
+                            </button>
+                        </Link>
+                    ) : (
                         <button {...props} style={style} className={clsx(buttonStyle, btnClassName)}
                                 onClick={onClick}>
                             <span className="d-flex align-items-center justify-content-center">
@@ -54,7 +72,7 @@ const KLNButton = ({
                                 {icon && !isLoading && <FontAwesomeIcon style={iconStyle} icon={icon}/>}
                             </span>
                         </button>
-                    </Link>
+                    )
                 ) :
                 (
                     <>

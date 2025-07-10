@@ -13,6 +13,7 @@ import TopicVideoTable from "../Video/TopicVideoTable";
 import {
     setTopicDetailAction
 } from '~/store/B2B/ManageTopic/actions';
+import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 
 // Mock data chi tiết chuyên đề
 const mockTopicDetail = {
@@ -176,20 +177,19 @@ const TopicDetailLayouts = ({topicId}) => {
                     onClickTabView={() => setDeleteAction(false)}
                     data={tabViewData}
                 />
-                <div className="d-flex gap-3">
+                <div className="">
                     <KLNButton
-                        options={4}
-                        icon={faTrash}
-                        iconStyle={{
-                            marginLeft: 8,
-                            fontSize: '14px'
-                        }}
                         style={{
-                            fontSize: '14px',
-                            padding: '8px 16px',
-                            fontWeight: "500",
+                            marginRight: 20,
+                            fontWeight: "normal",
                             opacity: selectedCount > 0 ? 1 : 0.6,
                             cursor: selectedCount > 0 ? 'pointer' : 'not-allowed'
+                        }}
+                        options={KLNButtonEnum.secondDangerBtn}
+                        icon={faTrash}
+                        iconStyle={{
+                            marginLeft: 10,
+                            fontWeight: "normal"
                         }}
                         onClick={selectedCount > 0 ? showDeleteModal : undefined}
                         disabled={selectedCount === 0}
@@ -197,18 +197,14 @@ const TopicDetailLayouts = ({topicId}) => {
                         Xóa {currentMediaType} {selectedCount > 0 && `(${selectedCount})`}
                     </KLNButton>
                     <KLNButton
-                        options={5}
+                        options={KLNButtonEnum.dangerBtn}
                         icon={mediaIcon}
                         iconStyle={{
-                            marginLeft: 8,
-                            fontSize: '14px'
+                            marginLeft: 10,
+                            fontWeight: "normal"
                         }}
                         style={{
-                            fontSize: '14px',
-                            padding: '8px 16px',
-                            fontWeight: "500",
-                            background: 'linear-gradient(135deg, #AD1E32 0%, #D22F27 100%)',
-                            border: 'none',
+                            fontWeight: "normal",
                             boxShadow: '0 4px 8px rgba(173, 30, 50, 0.3)',
                             transition: 'all 0.3s ease'
                         }}

@@ -1,11 +1,13 @@
 import {KLNModal} from "~/components";
 import React, {useCallback} from "react";
 import {useManageTopicContext} from "~/context/B2B/ManageTopic/ManageTopicContext";
-import {deleteTopicAction} from '~/store/B2B/ManageTopic/actions';
-import {topicService} from "~/services/TopicService";
+import { useAppContext } from "~/context/AppContext";
+import { showToast } from "~/utils/Toast";
+import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 
-const DeleteTopicModal = ({visible, setVisible, btnSaveOnClick, btnCancelOnClick}) => {
-    const {selectedTopic, selectedTopics, setSelectedTopics, setIsUpdated, dispatch} = useManageTopicContext();
+const DeleteTopicModal = ({visible, setVisible, btnSaveOnClick, btnCancelOnClick, onDelete}) => {
+    const {selectedTopic, selectedTopics, resetSelection} = useManageTopicContext();
+    const { toast } = useAppContext();
 
     const onClickDeleteItem = useCallback(async () => {
         try {
@@ -20,22 +22,15 @@ const DeleteTopicModal = ({visible, setVisible, btnSaveOnClick, btnCancelOnClick
                 topicIds = [selectedTopic.topicId];
             }
             
-            if (topicIds.length > 0) {
-                // Gọi API xóa nhiều topic
-                await topicService.deleteTopicService(topicIds);
-                
-                // Dispatch action để cập nhật store
-                dispatch(deleteTopicAction(topicIds));
-                setSelectedTopics([]);
+            if (topicIds.length > 0 && onDelete) {
+                await onDelete(topicIds);
             }
-            
-            setIsUpdated(prev => !prev);
-            setVisible(false);
         } catch (error) {
             console.error('Error deleting topics:', error);
+            showToast({ toastRef: toast, severity: 'error', summary: 'Xóa chuyên đề', detail: 'Có lỗi xảy ra khi xóa chuyên đề' });
             setVisible(false);
         }
-    }, [selectedTopic, selectedTopics, dispatch, setSelectedTopics, setIsUpdated, setVisible]);
+    }, [selectedTopic, selectedTopics, onDelete, setVisible, toast]);
 
     const getDeleteMessage = () => {
         if (selectedTopics && selectedTopics.length > 1) {
@@ -51,17 +46,25 @@ const DeleteTopicModal = ({visible, setVisible, btnSaveOnClick, btnCancelOnClick
             <KLNModal
                 visible={visible}
                 setVisible={setVisible}
-                position={'top'}
-                labelSave='Xóa'
-                labelCancel='Hủy'
+                position={'middle'}
+                labelSave='Xác nhận'
+                labelCancel='Bỏ qua'
+                headerStyle={{
+                    padding: "5px 10px 0 10px"
+                }}
+                contentStyle={{
+                    paddingBottom: 10
+                }}
                 btnSaveOnClick={btnSaveOnClick || onClickDeleteItem}
                 btnCancelOnClick={btnCancelOnClick || (() => setVisible(false))}
+                buttonSaveOptions={KLNButtonEnum.blackBtn}
+                buttonCloseOptions={KLNButtonEnum.whiteBtn}
                 footerStyle={{
                     display: 'flex',
                     justifyContent: 'center',
                 }}
                 buttonSaveStyle={{
-                    marginRight: 20,
+                    marginLeft: 20,
                 }}
             >
                 <p style={{

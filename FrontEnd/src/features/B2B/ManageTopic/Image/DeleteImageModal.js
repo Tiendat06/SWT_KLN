@@ -3,6 +3,7 @@ import React, {useCallback} from "react";
 import {useManageTopicContext} from "~/context/B2B/ManageTopic/ManageTopicContext";
 import {deleteTopicImageAction} from '~/store/B2B/ManageTopic/actions';
 import {topicService} from "~/services/TopicService";
+import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 
 const DeleteImageModal = ({topicId}) => {
     const {
@@ -58,17 +59,25 @@ const DeleteImageModal = ({topicId}) => {
             <KLNModal
                 visible={deleteImageModalVisible}
                 setVisible={setDeleteImageModalVisible}
-                position={'top'}
-                labelSave='Xóa'
-                labelCancel='Hủy'
+                position={'middle'}
+                labelSave='Xác nhận'
+                labelCancel='Bỏ qua'
+                headerStyle={{
+                    padding: "5px 10px 0 10px"
+                }}
+                contentStyle={{
+                    paddingBottom: 10
+                }}
                 btnSaveOnClick={onClickDeleteItem}
                 btnCancelOnClick={() => setDeleteImageModalVisible(false)}
+                buttonSaveOptions={KLNButtonEnum.blackBtn}
+                buttonCloseOptions={KLNButtonEnum.whiteBtn}
                 footerStyle={{
                     display: 'flex',
                     justifyContent: 'center',
                 }}
                 buttonSaveStyle={{
-                    marginRight: 20,
+                    marginLeft: 20,
                 }}
             >
                 <p style={{
