@@ -7,5 +7,6 @@ namespace Application.Interfaces
         Task<GetTopicResponse?> GetTopicByIdAsync(Guid id);
         Task<GetTopicResponse> CreateTopicAsync(AddTopicRequest addTopicRequest);
         Task<GetTopicResponse> UpdateTopicAsync(Guid id, UpdateTopicRequest updateTopicRequest);
+        Task<bool> DeleteMultipleTopicAsync(List<Guid> ids);
     }
 }

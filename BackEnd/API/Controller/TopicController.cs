@@ -52,5 +52,16 @@ namespace API.Controllers
             var updatedTopic = await _topicValidator.UpdateTopicAsyncValidator(id, updateTopicRequest);
             return ApiSuccess(updatedTopic);
         }
+
+        //DELETE: api/Topic/ids
+        [HttpDelete("ids")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
+        public async Task<IActionResult> DeleteTopic([FromForm] List<Guid> ids)
+        {
+            var result = await _topicService.DeleteMultipleTopicAsync(ids);
+            return ApiSuccess(result);
+        }
+
+        //DELETE: api/Topic/Media/5
     }
 }

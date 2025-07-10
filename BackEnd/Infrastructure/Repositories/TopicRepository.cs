@@ -78,6 +78,14 @@ namespace Infrastructure.Repositories
             return topic;
         }
 
+        public async Task<List<Topic>> GetTopicByIdsAsync(List<Guid> ids)
+        {
+            return await _context.Topics
+                .AsNoTracking()
+                .Where(topic => ids.Contains(topic.TopicId) && topic.IsDeleted == false)
+                .ToListAsync();
+        }
+
         public async Task<int> CountTopicAsync(int type, int topicType)
         {
             var query = _context.Topics
@@ -97,6 +105,18 @@ namespace Infrastructure.Repositories
         public async Task CreateTopicAsync(Topic topic)
         {
             await _context.Topics.AddAsync(topic);
+        }
+
+        public async Task SoftDeleteMultipleTopicByIdsAsync(List<Guid> ids)
+        {
+            var topics = await _context.Topics
+                .Where(topic => ids.Contains(topic.TopicId) && topic.IsDeleted == false)
+                .ToListAsync();
+            foreach (var topic in topics)
+            {
+                topic.IsDeleted = true;
+            }
+            await _context.SaveChangesAsync();
         }
     }
 }

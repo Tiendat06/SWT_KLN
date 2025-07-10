@@ -17,6 +17,7 @@ namespace Application.Services
 {
     public class TopicService(
         ITopicRepository _topicRepository,
+        ILogTopicRepository _logTopicRepository,
         IConfiguration _configuration,
         IUnitOfWork _unitOfWork,
         Cloudinary _cloudinary,
@@ -257,7 +258,50 @@ namespace Application.Services
                     throw new InvalidOperationException(_localizer["UpdateTopicFailed"]);
                 }
             }
-            return null;
+        }
+
+        public async Task<bool> DeleteMultipleTopicAsync(List<Guid> ids)
+        {
+            using (var uow = await _unitOfWork.BeginTransactionAsync())
+            {
+                try
+                {
+                    // Fetch all music entities once for logging
+                    Console.WriteLine($"ids: {ids}");
+                    var topicEntities = await _topicRepository.GetTopicByIdsAsync(ids);
+                    Console.WriteLine($"Fetched {topicEntities?.Count() ?? 0} topic records for deletion.");
+                    if (topicEntities == null || !topicEntities.Any())
+                    {
+                        throw new KeyNotFoundException(_localizer["NoTopicRecordsFound"]);
+                    }
+
+                    var logEntries = topicEntities.Select(topic => new LogTopic
+                    {
+                        LogTopicId = 0,
+                        Capture = topic.Capture,
+                        Description = topic.Description,
+                        MediaTypeId = topic.MediaTypeId,
+                        CreateDate = topic.CreateDate,
+                        Images = topic.Images,
+                        Videos = topic.Videos,
+                        UserId = topic.UserId,
+                        Process = ProcessMethod.DELETE,
+                    }).ToList();
+
+                    await _logTopicRepository.CreateLogTopicRangeAsync(logEntries);
+
+                    await _topicRepository.SoftDeleteMultipleTopicByIdsAsync(ids);
+                    await uow.SaveChangesAsync();
+                    await uow.CommitTransactionAsync();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    await uow.RollbackTransactionAsync();
+                    throw new InvalidOperationException(_localizer["DeleteTopicFailed"]);
+                }
+            }
         }
     }
 }

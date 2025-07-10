@@ -246,7 +246,7 @@ namespace Application.Services
                     Console.WriteLine($"Fetched {videoEntities?.Count() ?? 0} video records for deletion.");
                     if (videoEntities == null || !videoEntities.Any())
                     {
-                        throw new KeyNotFoundException(_localizer["NoVideRecordsFound"]);
+                        throw new KeyNotFoundException(_localizer["NoVideoRecordsFound"]);
                     }
 
                     // Create deletion log entries

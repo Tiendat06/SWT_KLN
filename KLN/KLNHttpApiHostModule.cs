@@ -244,6 +244,7 @@ namespace KLN
             builder.Services.AddScoped<ILogBlogRepository, LogBlogRepository>();
             builder.Services.AddScoped<ILogBookRepository, LogBookRepository>();
             builder.Services.AddScoped<ILogMagazineRepository, LogMagazineRepository>();
+            builder.Services.AddScoped<ILogTopicRepository, LogTopicRepository>();
             builder.Services.AddScoped<ISlideShowRepository, SlideShowRepository>();
             builder.Services.AddScoped<ISlideShowTypeRepository, SlideShowTypeRepository>();
             builder.Services.AddScoped<ILogSlideShowRepository, LogSlideShowRepository>();
