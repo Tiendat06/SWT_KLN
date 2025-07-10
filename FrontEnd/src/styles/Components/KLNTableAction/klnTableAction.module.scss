@@ -1,0 +1,23 @@
+@use "../../GlobalStyles/index" as *;
+@use "../../Utils/mixins" as *;
+@use "../../Utils/variables" as *;
+
+.action-trash{
+  background-color: $app-color-24;
+  padding: 5px;
+  border-radius: 5px;
+  color: $app-color-3;
+}
+
+.action-edit {
+  background-color: $app-color-21;
+  padding: 5px;
+  border-radius: 5px;
+  svg {
+    color: $app-color-22;
+  }
+}
+
+.icon-trash, .icon-pen{
+  font-size: 10px;
+}

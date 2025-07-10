@@ -7,7 +7,7 @@ import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import {Link} from "react-router-dom";
 
 const Sidebar = () => {
-    const {sideBarCategory, setSideBarCategory} = useAdminContext();
+    const {sideBarCategory, setSideBarCategory, setSelectedPageOption} = useAdminContext();
     const sidebarContent = [
         {id: 1, title: 'Tài liệu đa phương tiện', path: `${AppRoutesEnum.AdminRoute}/manage-multimedia`, icon: (<FontAwesomeIcon icon={faFile} />)},
         {id: 2, title: 'Sách, Báo & Tạp Chí', path: `${AppRoutesEnum.AdminRoute}/manage-magazine`, icon: (<FontAwesomeIcon icon={faBook} />)},
@@ -28,7 +28,10 @@ const Sidebar = () => {
                         <Link
                             to={item.path}
                             key={`sidebar-${item.id}-${index}`}
-                            onClick={() => setSideBarCategory(item.id)}
+                            onClick={() => {
+                                setSideBarCategory(item.id);
+                                setSelectedPageOption({name: "5", code: 5});
+                            }}
                             className={clsx(
                                 'd-flex flex-wrap align-items-center',
                                 styles["sidebar-item"],

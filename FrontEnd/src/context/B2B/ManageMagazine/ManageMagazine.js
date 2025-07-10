@@ -4,10 +4,11 @@ import reducer, {initialState} from "~/store/B2B/ManageMagazine/reducer";
 const ManageMagazineContext = createContext();
 
 export const ManageMagazineProvider = ({children}) => {
+    const [selectedItems, setSelectedItems] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [visible, setVisible] = useState(false);
     const [state, dispatch] = useReducer(reducer, initialState);
-    const {magazine, magazineList, book, bookList} = state;
+    const {magazine, magazineList, book, bookList, isUpdated} = state;
 
     return (
         <ManageMagazineContext.Provider
@@ -15,7 +16,8 @@ export const ManageMagazineProvider = ({children}) => {
                 visible, setVisible,
                 isLoading, setIsLoading,
                 book, bookList,
-                magazine, magazineList, dispatch
+                magazine, magazineList, dispatch, isUpdated,
+                selectedItems, setSelectedItems
             }}
         >
             {children}

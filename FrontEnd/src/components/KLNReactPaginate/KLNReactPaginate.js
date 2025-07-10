@@ -8,7 +8,6 @@ function KLNReactPaginate({ handlePageClick, pageCount, ...props }) {
 
     return (
         <ReactPaginate
-            {...props}
             breakLabel={<BsThreeDots className={clsx(styles['break-icon'])} size={18} />}
             breakLinkClassName={'break-link'}
             breakClassName={clsx(styles["break-me"])}
@@ -27,6 +26,7 @@ function KLNReactPaginate({ handlePageClick, pageCount, ...props }) {
             previousLinkClassName={clsx(styles['prev-link'], 'page-link')}
             activeClassName={clsx(styles["active"])}
             disabledClassName={''}
+            {...props}
         />
     );
 }

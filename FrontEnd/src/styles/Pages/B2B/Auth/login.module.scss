@@ -127,10 +127,10 @@ $toggle-icon-size: 1.25rem;
           color: $secondary-text-color;
           font-size: $toggle-icon-size;
           transition: color 0.2s ease-in-out;
-        
+
           z-index: 1; // Đảm bảo nút nằm trên input
 
-         
+
           i {
             font-size: inherit;
             line-height: 1;

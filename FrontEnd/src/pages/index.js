@@ -25,10 +25,7 @@ import ManageMultimedia from "~/pages/B2B/ManageMultimedia/ManageMultimedia";
 import ManageMagazine from "~/pages/B2B/ManageMagazine/ManageMagazine";
 import ManageTopic from "~/pages/B2B/ManageTopic/ManageTopic";
 import LoginPage from "~/pages/B2B/Login/Login";
-import CreateMultimediaImage from "~/pages/B2B/ManageMultimedia/CreateMultimediaImage";
-
-import ManageVideo from "~/pages/B2B/ManageVideo/ManageVideo";
-import CreateVideo from "~/pages/B2B/ManageVideo/CreateVideo";
+import CreateMultimedia from "~/pages/B2B/ManageMultimedia/CreateMultimedia";
 
 export { Home, BlogContent };
 
@@ -48,14 +45,9 @@ export { Handiwork };
 export {
     ManageImage,
     ManageMultimedia,
-    CreateMultimediaImage,
+    CreateMultimedia,
     ManageMagazine,
     ManageTopic,
 };
 
 export { LoginPage };
-
-export {
-    ManageVideo,
-    CreateVideo
-};

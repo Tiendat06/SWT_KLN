@@ -1,21 +1,21 @@
-import {KLNModal} from "~/components";
 import {useAdminContext} from "~/context/AdminContext";
-import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
 import React, {useCallback} from "react";
 import {deleteAudioAction} from "~/store/B2B/ManageMultimedia/actions";
+import {KLNModal} from "~/components";
 import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 import {check_icon} from "~/assets/img";
+import {useManageMagazineContext} from "~/context/B2B/ManageMagazine/ManageMagazine";
 
-const DeleteAudio = () => {
+const DeleteBook = () => {
     const {deleteAction, setDeleteAction} = useAdminContext();
-    const {audio, dispatch, setSelectedItems} = useManageMultimediaContext()
+    const {book, dispatch, setSelectedItems} = useManageMagazineContext()
 
     const onClickDeleteItem = useCallback(() => {
         // api
-        dispatch(deleteAudioAction([audio]));
+        dispatch(deleteAudioAction([book]));
         setDeleteAction(false);
         setSelectedItems([]);
-    }, [audio]);
+    }, [book]);
 
     return (
         <>
@@ -64,4 +64,4 @@ const DeleteAudio = () => {
     )
 }
 
-export default DeleteAudio;
+export default DeleteBook;

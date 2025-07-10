@@ -5,16 +5,17 @@ import TabViewEnum from "~/enum/TabView/TabViewEnum";
 import {KLNAdminTitle, KLNBreadCrumb, KLNButton, KLNCascadeSelect, KLNTabView} from "~/components";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import {Link} from "react-router-dom";
-import {faSquarePlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 import {BookTable, MagazineTable} from "~/features/B2B/ManageMagazine";
 import {bookService} from "~/services/BookService";
 import {magazineService} from "~/services/MagazineService";
 import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
+import AddBrokenIcon from "~/assets/icon/AddBrokenIcon";
+import TrashBrokenIcon from "~/assets/icon/TrashBrokenIcon";
 
 const MagazineLayouts = () => {
-    const {tabView, setTabView, setDeleteAction, isUpdated} = useAdminContext();
-    const {setVisible} = useManageMagazineContext();
+    const {tabView, setTabView, setDeleteAction, setSelectedPageOption} = useAdminContext();
+    const {setVisible, setSelectedItems, selectedItems, isUpdated} = useManageMagazineContext();
     const [tabViewData, setTabViewData] = useState([]);
 
     const showModal = useCallback(() => {
@@ -74,23 +75,25 @@ const MagazineLayouts = () => {
             <KLNBreadCrumb items={items}/>
             <div className="d-flex flex-wrap justify-content-between align-items-center">
                 <KLNTabView
-                    onClickTabView={() => setDeleteAction(false)}
+                    onClickTabView={() => {
+                        setDeleteAction(false);
+                        setSelectedItems([]);
+                        setSelectedPageOption({name: "5", code: 5});
+                    }}
                     data={tabViewData}
                 />
                 <div className="">
                     <KLNButton
+                        disabled={!selectedItems.length}
                         style={{
                             marginRight: 20,
-                            fontWeight: "bold"
+                            fontWeight: "bold",
+                            cursor: !selectedItems.length ? "not-allowed": "pointer"
                         }}
                         options={KLNButtonEnum.secondDangerBtn}
-                        icon={faTrash}
-                        iconStyle={{
-                            marginLeft: 10,
-                            fontWeight: "normal"
-                        }}
                         onClick={showModal}
-                    >Xóa</KLNButton>
+                    >Xóa ({selectedItems.length}) <TrashBrokenIcon width={20} height={20} style={{marginLeft: 2}}/>
+                    </KLNButton>
                     <KLNButton
                         urlLink={
                             tabView === TabViewEnum.ManageMagazineTabBook
@@ -100,12 +103,7 @@ const MagazineLayouts = () => {
                                     : ''
                         }
                         options={KLNButtonEnum.dangerBtn}
-                        icon={faSquarePlus}
-                        iconStyle={{
-                            marginLeft: 10,
-                            fontWeight: "normal"
-                        }}
-                    >Thêm</KLNButton>
+                    >Thêm <AddBrokenIcon width={20} height={20} style={{marginLeft: 5}}/></KLNButton>
                 </div>
             </div>
             <div style={{
@@ -119,10 +117,10 @@ const MagazineLayouts = () => {
                     <KLNCascadeSelect/>
                 </div>
                 {tabView === TabViewEnum.ManageMagazineTabBook && (
-                    <BookTable />
+                    <BookTable/>
                 )}
                 {tabView === TabViewEnum.ManageMagazineTabMagazine && (
-                    <MagazineTable />
+                    <MagazineTable/>
                 )}
             </div>
         </>

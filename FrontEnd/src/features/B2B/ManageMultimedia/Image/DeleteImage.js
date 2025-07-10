@@ -9,7 +9,7 @@ import {check_icon} from "~/assets/img";
 
 const DeleteImage = ({slideShowId}) => {
     const {deleteAction, setDeleteAction} = useAdminContext();
-    const {image, dispatch, isLoading, setIsLoading} = useManageMultimediaContext();
+    const {image, dispatch, setIsLoading, setSelectedItems} = useManageMultimediaContext();
 
     const onClickDeleteItem = useCallback(async () => {
         // api
@@ -19,6 +19,7 @@ const DeleteImage = ({slideShowId}) => {
             dispatch(deleteImageAction([image]));
         setDeleteAction(false);
         setIsLoading(false);
+        setSelectedItems([]);
     }, [image]);
 
     return (
