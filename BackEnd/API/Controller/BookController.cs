@@ -54,7 +54,7 @@ namespace API.Controllers
             return ApiSuccess(book);
         }
 
-        // DELETE: api/Book/5
+        // DELETE: api/Book/ids
         [HttpDelete("ids")]
         public async Task<IActionResult> DeleteMultipleBook([FromForm] List<Guid> ids)
         {

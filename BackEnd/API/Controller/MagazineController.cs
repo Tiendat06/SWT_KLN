@@ -57,7 +57,7 @@ namespace API.Controllers
             return ApiSuccess(updatedMagazine);
         }
 
-        // DELETE: api/Magazine/5
+        // DELETE: api/Magazine/ids
         [HttpDelete("ids")]
         public async Task<IActionResult> DeleteMagazine([FromForm] List<Guid> ids)
         {
