@@ -18,9 +18,25 @@ namespace Application
 
     public class UpdateTopicMediaRequest
     {
-        public Guid TopicId { get; set; }
+        public Guid? TopicId { get; set; }
+        public int MediaTypeId { get; set; }
+        public Guid UserId { get; set; }
+        public List<int>? ImageIds { get; set; }
+        public List<int>? VideoIds { get; set; }
         public List<GetTopicImageRequest> TopicImages { get; set; }
         public List<GetTopicVideoRequest> TopicVideos { get; set; }
+    }
+
+    public class UpdateTopicImageRequest
+    {
+        public string? Capture { get; set; }
+        public IFormFile ImageLink { get; set; }
+    }
+
+    public class UpdateTopicVideoRequest
+    {
+        public string? Capture { get; set; }
+        public IFormFile VideoLink { get; set; }
     }
 
     public class UpdateTopicRequestValidator : AbstractValidator<UpdateTopicRequest>
@@ -70,6 +86,14 @@ namespace Application
             RuleFor(x => x.TopicId)
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicId"]))
                 .NotEqual(Guid.Empty).WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicId"]));
+
+            RuleFor(x => x.MediaTypeId)
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MediaTypeId"]))
+                .GreaterThan(0).WithMessage(CommonExtensions.GetValidateMessage(localizer["GreaterThanZero"], localizer["MediaTypeId"]));
+
+            RuleFor(x => x.UserId)
+                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]))
+                .NotEqual(Guid.Empty).WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]));
 
             RuleFor(x => x.TopicImages)
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicImage"]))
