@@ -10,6 +10,6 @@ namespace Application.Interfaces
         Task<bool> DeleteMultipleTopicAsync(List<Guid> ids);
         Task<GetTopicMediaResponse> AddTopicMediaAsync(AddTopicMediaRequest addTopicMediaRequest);
         Task<GetTopicMediaResponse> UpdateTopicMediaAsync(UpdateTopicMediaRequest updateTopicMediaRequest);
-        Task<bool> DeleteTopicMediaAsync(DeleteTopicMediaRequest request);
+        Task<GetTopicMediaResponse> DeleteTopicMediaAsync(DeleteTopicMediaRequest request);
     }
 }

@@ -616,24 +616,99 @@ namespace Application.Services
             }
         }
 
-        public async Task<bool> DeleteTopicMediaAsync(DeleteTopicMediaRequest request)
+        public async Task<GetTopicMediaResponse> DeleteTopicMediaAsync(DeleteTopicMediaRequest request)
         {
             using (var uow = await _unitOfWork.BeginTransactionAsync())
             {
-                //try
-                //{
-                //    await _topicRepository.HardDeleteMultipleTopicAsync(ids);
-                //    await uow.SaveChangesAsync();
-                //    await uow.CommitTransactionAsync();
-                //    return true;
-                //}
-                //catch (Exception ex)
-                //{
-                //    await uow.RollbackTransactionAsync();
-                //    throw new InvalidOperationException(_localizer["HardDeleteMultipleTopicFailed"]);
-                //}
+                try
+                {
+                    var topicEntity = await _topicRepository.GetTopicByIdAsync(request.TopicId)
+                        ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Topic"]));
+
+                    await uow.TrackEntity(topicEntity);
+
+                    var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
+
+                    var currentImages = string.IsNullOrWhiteSpace(topicEntity.Images)
+                        ? new List<GetTopicImagesResponse>()
+                        : JsonSerializer.Deserialize<List<GetTopicImagesResponse>>(topicEntity.Images!)!;
+
+                    var currentVideos = string.IsNullOrWhiteSpace(topicEntity.Videos)
+                        ? new List<GetTopicVideoLinkResponse>()
+                        : JsonSerializer.Deserialize<List<GetTopicVideoLinkResponse>>(topicEntity.Videos!)!;
+
+                    // Delete images
+                    if (request.ImageIds?.Count > 0)
+                    {
+                        foreach (var imageId in request.ImageIds)
+                        {
+                            var image = currentImages.FirstOrDefault(img => img.Id == imageId);
+                            if (image != null)
+                            {
+                                currentImages.Remove(image);
+                            }
+                        }
+
+                        // Reassign image IDs
+                        for (int i = 0; i < currentImages.Count; i++)
+                        {
+                            currentImages[i].Id = i + 1;
+                        }
+                    }
+
+                    // Delete videos
+                    if (request.VideoIds?.Count > 0)
+                    {
+                        foreach (var videoId in request.VideoIds)
+                        {
+                            var video = currentVideos.FirstOrDefault(v => v.Id == videoId);
+                            if (video != null)
+                            {
+                                currentVideos.Remove(video);
+                            }
+                        }
+
+                        // Reassign video IDs
+                        for (int i = 0; i < currentVideos.Count; i++)
+                        {
+                            currentVideos[i].Id = i + 1;
+                        }
+                    }
+
+                    // Serialize updated lists
+                    topicEntity.Images = JsonSerializer.Serialize(currentImages);
+                    topicEntity.Videos = JsonSerializer.Serialize(currentVideos);
+
+                    // Log deletion
+                    topicEntity.LogTopics ??= new List<LogTopic>();
+                    topicEntity.LogTopics.Add(new LogTopic
+                    {
+                        LogTopicId = 0,
+                        Capture = topicEntity.Capture,
+                        Description = topicEntity.Description,
+                        MediaTypeId = topicEntity.MediaTypeId,
+                        CreateDate = topicEntity.CreateDate,
+                        Images = topicEntity.Images,
+                        Videos = topicEntity.Videos,
+                        UserId = request.UserId,
+                        Process = ProcessMethod.DELETE
+                    });
+
+                    await uow.SaveChangesAsync();
+                    await uow.CommitTransactionAsync();
+
+                    return new GetTopicMediaResponse
+                    {
+                        Images = currentImages,
+                        Videos = currentVideos
+                    };
+                }
+                catch (Exception ex)
+                {
+                    await uow.RollbackTransactionAsync();
+                    throw new InvalidOperationException(_localizer["DeleteTopicMediaFailed"], ex);
+                }
             }
-            return true;
         }
     }
 }

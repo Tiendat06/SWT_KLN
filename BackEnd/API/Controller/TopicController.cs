@@ -65,7 +65,7 @@ namespace API.Controllers
         // POST: api/Topic/Media/5
         [HttpPost("Media")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetTopicMediaResponse>))]
-        public async Task<IActionResult> AddTopicMedia([FromForm] AddTopicMediaRequest addTopicMediaRequest)
+        public async Task<IActionResult> AddTopicMedia([FromBody] AddTopicMediaRequest addTopicMediaRequest)
         {
             var topicMedia = await _topicValidator.AddTopicMediaAsyncValidator(addTopicMediaRequest);
             return ApiSuccess(topicMedia, HttpStatusCode.Created);
@@ -74,7 +74,7 @@ namespace API.Controllers
         // PUT: api/Topic/Media/5
         [HttpPut("Media")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetTopicMediaResponse>))]
-        public async Task<IActionResult> UpdateTopicMedia([FromForm] UpdateTopicMediaRequest updateTopicMediaRequest)
+        public async Task<IActionResult> UpdateTopicMedia([FromBody] UpdateTopicMediaRequest updateTopicMediaRequest)
         {
             var updatedTopicMedia = await _topicValidator.UpdateTopicMediaAsyncValidator(updateTopicMediaRequest);
             return ApiSuccess(updatedTopicMedia);
