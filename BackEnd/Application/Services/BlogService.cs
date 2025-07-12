@@ -129,6 +129,49 @@ namespace Application.Services
             }
         }
 
+        public async Task<bool> DeleteMultipleBlogsAsync(List<Guid> ids)
+        {
+            using (var uow = _unitOfWork.BeginTransactionAsync().Result)
+            {
+                try
+                {
+                    Console.WriteLine($"ids: {ids}");
+                    var blogEntities = await _blogRepository.GetBlogByIdsAsync(ids) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Blog"]));
+                    Console.WriteLine($"Fetched {blogEntities?.Count() ?? 0} book records for deletion.");
+                    if (blogEntities == null || !blogEntities.Any())
+                    {
+                        throw new KeyNotFoundException(_localizer["NoBookRecordsFound"]);
+                    }
+                    // update log blog
+                    var logEntries = blogEntities.Select(blog => new LogBlog
+                    {
+                        LogBlogId = 0,
+                        BlogImage = blog.BlogImage,
+                        BlogTitle = blog.BlogTitle,
+                        BlogContent = blog.BlogContent,
+                        CreateDate = blog.CreateDate,
+                        UserId = blog.UserId,
+                        BlogId = blog.BlogId,
+                        Process = ProcessMethod.DELETE,
+                    }).ToList();
+
+                    await _logBlogRepository.CreateLogBlogRangeAsync(logEntries);
+
+                    // delete blog
+                    _blogRepository.SoftDeleteMultipleBlogsByIdsAsync(ids);
+
+                    uow.SaveChangesAsync();
+                    uow.CommitTransactionAsync();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    uow.RollbackTransactionAsync().Wait();
+                    throw new InvalidOperationException(_localizer["DeleteMultipleBlogsFailed"]);
+                }
+            }
+        }
+
         public async Task<GetBlogResponse> UpdateBlogAsync(Guid id, UpdateBlogRequest updateBlogRequest)
         {
             using(var uow = await _unitOfWork.BeginTransactionAsync())

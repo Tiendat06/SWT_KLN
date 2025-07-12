@@ -29,5 +29,11 @@
         public static readonly string assetFolderSlideShow = "KLN/SlideShow";
         public static readonly string assetFolderSlideImage = $"{assetFolderSlideShow}/SlideShow";
         public static readonly string assetFolderSlideShowImage = $"{assetFolderSlideShow}/SlideShow";
+
+        // topic
+        public static readonly string assetFolderTopic = "KLN/Topic";
+        public static readonly string assetFolderTopicImage = $"{assetFolderTopic}/image";
+        public static readonly string assetFolderTopicMusic = $"{assetFolderTopic}/music";
+        public static readonly string assetFolderTopicVideo = $"{assetFolderTopic}/video";
     }
 }

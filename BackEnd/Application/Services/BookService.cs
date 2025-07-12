@@ -190,40 +190,40 @@ namespace Application.Services
             }
         }
 
-        public async Task<bool> DeleteBookAsync(Guid id)
+        public async Task<bool> DeleteMultipleBooksAsync(List<Guid> ids)
         {
             using (var uow = await _unitOfWork.BeginTransactionAsync())
             {
                 try
                 {
-                    var bookEntity = await _bookRepository.GetBookByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Book"]));
+                    // Fetch all music entities once for logging
+                    Console.WriteLine($"ids: {ids}");
+                    var bookEntities = await _bookRepository.GetBookByIdsAsync(ids) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Book"]));
+                    Console.WriteLine($"Fetched {bookEntities?.Count() ?? 0} book records for deletion.");
+                    if (bookEntities == null || !bookEntities.Any())
+                    {
+                        throw new KeyNotFoundException(_localizer["NoBookRecordsFound"]);
+                    }
                     // update log book
-                    var newLogBook = new LogBook
+                    var logEntries = bookEntities.Select(book => new LogBook
                     {
                         LogBookId = 0,
-                        Title = bookEntity.Title,
-                        Image = bookEntity.Image,
-                        CreateDate = bookEntity.CreateDate,
-                        UserId = bookEntity.UserId,
-                        BookContent = bookEntity.BookContent,
-                        Publisher = bookEntity.Publisher,
-                        Author = bookEntity.Author,
-                        YearPublic = bookEntity.YearPublic,
-                        BookId = bookEntity.BookId,
+                        Title = book.Title,
+                        Image = book.Image,
+                        CreateDate = book.CreateDate,
+                        UserId = book.UserId,
+                        Description = book.Description,
+                        BookContent = book.BookContent,
+                        Publisher = book.Publisher,
+                        Author = book.Author,
+                        YearPublic = book.YearPublic,
+                        BookId = book.BookId,
                         Process = ProcessMethod.DELETE,
-                    };
-                    await _logBookRepository.CreateLogBookAsync(newLogBook);
+                    }).ToList();
 
-                    // delete image from cloudinary
-                    //var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
-                    //var publicId = $"{nameof(Book)}_{id}";
-                    //var result = cloudinaryOperations.DeleteFileFromCloudinary(publicId);
+                    await _logBookRepository.CreateLogBookRangeAsync(logEntries);
 
-                    // delete book
-                    var book = new Book { BookId = id };
-                    await uow.TrackEntity(book);
-
-                    await _bookRepository.SoftDeleteBookAsync(book);
+                    await _bookRepository.SoftDeleteMultipleBookAsync(ids);
 
                     await uow.SaveChangesAsync();
                     await uow.CommitTransactionAsync();

@@ -40,16 +40,20 @@
     "VideoLink": "Liên kết video",
     "TopicCapture": "Tiêu đề chuyên đề",
     "MediaTypeId": "Loại đề mục",
+    "TopicMedia": "Hình ảnh (Video)",
 
     "InvalidValue": "{0} không hợp lệ.",
     "NotEmpty": "{0} không được để trống.",
     "MaxLength": "{0} có ký tự tối đa là {1}",
+    "MaxItems": "Không thể gửi quá 3 file ảnh (video)",
+    "MaxFileSize": "Không thể gửi tổng file nặng quá 4GB",
     "LengthBetween": "{0} phải nằm trong khoảng {1} - {2}",
     "NotFound": "{0} không tồn tại.",
     "InvalidFileType": "Định dạng không được chấp nhận, vui lòng chọn các định dạng phù hợp ({0})",
 
     "UploadImageCloudinaryFailed": "Tải ảnh lên Cloudinary không thành công.",
     "UploadAudioCloudinaryFailed": "Tải âm thanh lên Cloudinary không thành công.",
+    "UploadVideoYoutubeFailed": "Tải video lên Youtube không thành công.",
     "UploadPDFCloudinaryFailed": "Tải pdf lên Cloudinary không thành công",
     "AddBlogFailed": "Thêm bài viết không thành công.",
     "DeleteBlogFailed": "Xóa bài viết không thành công.",
@@ -62,5 +66,9 @@
     "DeleteMagazineFailed": "Xóa tạp chí không thành công.",
     "AddMusicFailed": "Thêm nhạc không thành công.",
     "UpdateMusicFailed": "Cập nhật nhạc không thành công.",
-    "DeleteMusicFailed": "Xóa nhạc không thành công."
+    "DeleteMusicFailed": "Xóa nhạc không thành công.",
+    "CreateTopicFailed": "tạo chuyên đè không thành công.",
+    "AddTopicFailed": "Thêm chuyên đề mới không thành công.",
+    "UpdateTopicFailed": "Cập nhật chuyên đè không thành công.",
+    "DeleteTopicFailed": "Xóa chuyên đề không thành công."
 }

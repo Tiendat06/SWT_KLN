@@ -18,6 +18,11 @@ namespace Infrastructure.Repositories
             await _context.LogBooks.AddAsync(logBook);
         }
 
+        public async Task CreateLogBookRangeAsync(IEnumerable<LogBook> logBooks)
+        {
+            await _context.LogBooks.AddRangeAsync(logBooks);
+        }
+
         public async Task<IEnumerable<LogBook>> GetAllLogBooksAsync()
         {
             throw new NotImplementedException();

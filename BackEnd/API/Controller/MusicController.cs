@@ -56,7 +56,7 @@ namespace API.Controller
 
         // DELETE: api/Music/ids
         [HttpDelete("ids")]
-        public async Task<IActionResult> DeleteMultipleMusic([FromForm] List<Guid> ids)
+        public async Task<IActionResult> DeleteMultipleMusic([FromBody] List<Guid> ids)
         {
             // Convert strings to Guids, filter out invalid ones
             //var guidIds = new List<Guid>();

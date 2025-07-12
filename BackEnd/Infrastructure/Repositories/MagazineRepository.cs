@@ -54,6 +54,13 @@ namespace Infrastructure.Repositories
                 .ThenInclude(account => account.Role)
                 .FirstOrDefaultAsync(magazine => magazine.MagazineId == id && magazine.IsDeleted == false);
         }
+        public async Task<List<Magazine>> GetMagazinesByIdsAsync(List<Guid> ids)
+        {
+            return await _context.Magazines
+                .AsNoTracking()
+                .Where(magazine => ids.Contains(magazine.MagazineId) && magazine.IsDeleted == false)
+                .ToListAsync();
+        }
 
         public async Task HardDeleteMagazineAsync(Guid id)
         {
@@ -65,6 +72,18 @@ namespace Infrastructure.Repositories
         {
             magazine.IsDeleted = true;
             await Task.CompletedTask;
+        }
+
+        public async Task SoftDeleteMultipleMagazineByIdsAsync(List<Guid> ids)
+        {
+            var magazines = await _context.Magazines
+                .Where(magazine => ids.Contains(magazine.MagazineId) && magazine.IsDeleted == false)
+                .ToListAsync();
+            foreach (var magazine in magazines)
+            {
+                magazine.IsDeleted = true;
+            }
+            await _context.SaveChangesAsync();
         }
 
         public async Task<int> CountMagazineAsync(int type)

@@ -12,13 +12,14 @@ namespace Application.Mapper.Topics.Output
             {
                 TopicId = topic.TopicId,
                 Capture = topic.Capture,
+                Description = topic?.Description,
                 MediaTypeId = topic.MediaTypeId,
                 CreateDate = topic.CreateDate,
                 UserId = topic.UserId,
-                Name = topic.User.Name,
-                Email = topic.User.Email,
-                UserName = topic.User.Account.UserName,
-                RoleName = topic.User.Account.Role.RoleName,
+                Name = topic.User?.Name ?? string.Empty,
+                Email = topic.User?.Email ?? string.Empty,
+                UserName = topic.User?.Account?.UserName ?? string.Empty,
+                RoleName = topic.User?.Account?.Role?.RoleName ?? string.Empty,
                 Images = topic.Images != null ? JsonSerializer.Deserialize<List<GetTopicImagesResponse>>(topic.Images) : new List<GetTopicImagesResponse>(),
                 Videos = topic.Videos != null ? JsonSerializer.Deserialize<List<GetTopicVideoLinkResponse>>(topic.Videos) : new List<GetTopicVideoLinkResponse>()
             };
@@ -32,13 +33,14 @@ namespace Application.Mapper.Topics.Output
                 {
                     TopicId = topic.TopicId,
                     Capture = topic.Capture,
+                    Description = topic?.Description,
                     MediaTypeId = topic.MediaTypeId,
                     CreateDate = topic.CreateDate,
                     UserId = topic.UserId,
-                    Name = topic.User.Name,
-                    Email = topic.User.Email,
-                    UserName = topic.User.Account.UserName,
-                    RoleName = topic.User.Account.Role.RoleName,
+                    Name = topic.User?.Name ?? string.Empty,
+                    Email = topic.User?.Email ?? string.Empty,
+                    UserName = topic.User?.Account?.UserName ?? string.Empty,
+                    RoleName = topic.User?.Account?.Role?.RoleName ?? string.Empty,
                     Images = topic.Images != null ? JsonSerializer.Deserialize<List<GetTopicImagesResponse>>(topic.Images) : new List<GetTopicImagesResponse>(),
                     Videos = topic.Videos != null ? JsonSerializer.Deserialize<List<GetTopicVideoLinkResponse>>(topic.Videos) : new List<GetTopicVideoLinkResponse>()
                 });

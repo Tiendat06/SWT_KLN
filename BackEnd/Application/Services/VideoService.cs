@@ -8,10 +8,6 @@ using Domain;
 using Domain.Entities;
 using Domain.Interfaces;
 using Domain.Localization;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Services;
-using Google.Apis.YouTube.v3.Data;
-using Google.Apis.YouTube.v3;
 using Microsoft.Extensions.Localization;
 using KLN.Shared.CrossCuttingConcerns;
 
@@ -21,6 +17,7 @@ namespace Application.Services
         IVideoRepository _videoRepository,
         ILogVideoRepository _logVideoRepository,
         Cloudinary _cloudinary,
+        YoutubeOperations _youtube,
         IUnitOfWork _unitOfWork,
         IStringLocalizer<KLNSharedResources> _localizer
         ) : IVideoService
@@ -100,7 +97,7 @@ namespace Application.Services
                         var filePathVideo = await FileOperations.SaveFileToLocal(folderPath, updateVideoRequest.VideoFile);
 
                         // Upload video
-                        string newVideoLink = await UploadVideoToYouTube(filePathVideo, updateVideoRequest.Title);
+                        string newVideoLink = await _youtube.UploadVideoToYouTube(filePathVideo, updateVideoRequest.Title);
                         videoEntity.VideoLink = newVideoLink;
                         FileOperations.DeleteFileFromLocal(filePathVideo, folderPath);
                     }
@@ -170,7 +167,7 @@ namespace Application.Services
                     var filePathVideo = await FileOperations.SaveFileToLocal(folderPath, addVideoRequest.VideoFile);
 
                     // Upload to YouTube
-                    string videoLink = await UploadVideoToYouTube(filePathVideo, addVideoRequest.Title);
+                    string videoLink = await _youtube.UploadVideoToYouTube(filePathVideo, addVideoRequest.Title);
 
                     // Delete file and folder from local
                     var isDeletedVideo = FileOperations.DeleteFileFromLocal(filePathVideo, folderPath);
@@ -249,7 +246,7 @@ namespace Application.Services
                     Console.WriteLine($"Fetched {videoEntities?.Count() ?? 0} video records for deletion.");
                     if (videoEntities == null || !videoEntities.Any())
                     {
-                        throw new KeyNotFoundException(_localizer["NoVideRecordsFound"]);
+                        throw new KeyNotFoundException(_localizer["NoVideoRecordsFound"]);
                     }
 
                     // Create deletion log entries
@@ -283,62 +280,6 @@ namespace Application.Services
                     throw new InvalidOperationException(_localizer["DeleteVideoFailed"]);
                 }
             }
-        }
-
-        public async Task<string> UploadVideoToYouTube(string filePath, string title)
-        {
-            // --- Xác thực ---
-            UserCredential credential;
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "Secret", "client_secret.json");
-            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets,
-                    new[] { YouTubeService.Scope.YoutubeUpload },
-                    "user",
-                    CancellationToken.None
-                );
-            }
-
-            // --- Tạo YouTubeService ---
-            var youtubeService = new YouTubeService(new BaseClientService.Initializer()
-            {
-                HttpClientInitializer = credential,
-                ApplicationName = "KLN Youtube Uploader"
-            });
-
-            // --- Tạo Video object ---
-            var video = new Google.Apis.YouTube.v3.Data.Video();
-            video.Snippet = new VideoSnippet();
-            video.Snippet.Title = title;
-            video.Snippet.CategoryId = "22";
-            video.Status = new VideoStatus();
-            video.Status.PrivacyStatus = "unlisted";
-
-
-            // --- Upload video ---
-            string videoId = null;
-            using (var fileStream = new FileStream(filePath, FileMode.Open))
-            {
-                var videosInsertRequest = youtubeService.Videos.Insert(video, "snippet,status", fileStream, "video/*");
-                videosInsertRequest.ProgressChanged += (progress) =>
-                {
-                    Console.WriteLine($"Upload status: {progress.Status}, bytes sent: {progress.BytesSent}");
-                };
-                videosInsertRequest.ResponseReceived += (uploadedVideo) =>
-                {
-                    videoId = uploadedVideo.Id;
-                    Console.WriteLine($"Video uploaded: {videoId}");
-                };
-
-                await videosInsertRequest.UploadAsync();
-            }
-
-            if (videoId == null)
-                throw new InvalidOperationException("Upload video to YouTube failed.");
-
-            // --- Tạo link iframe embed video ---
-            return $"https://www.youtube.com/embed/{videoId}";
         }
     }
 }
