@@ -30,6 +30,9 @@ namespace Domain.Entities
         [Column("image", TypeName = "varchar")]
         public string? Image { get; set; } = string.Empty;
 
+        [Column("description", TypeName = "nvarchar")]
+        public string? Description { get; set; } = string.Empty;
+
         [Column("createDate", TypeName ="datetime")]
         public DateTime? CreateDate {  get; set; } = DateTime.Now;
 

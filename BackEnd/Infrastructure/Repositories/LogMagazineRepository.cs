@@ -19,6 +19,11 @@ namespace Infrastructure.Repositories
             await _context.LogMagazines.AddAsync(logMagazine);
         }
 
+        public async Task CreateLogMagazineRangeAsync(IEnumerable<LogMagazine> logMagazines)
+        {
+            await _context.LogMagazines.AddRangeAsync(logMagazines);
+        }
+
         public async Task<IEnumerable<LogMagazine>> GetAllLogMagazinesAsync()
         {
             return await _context.LogMagazines
