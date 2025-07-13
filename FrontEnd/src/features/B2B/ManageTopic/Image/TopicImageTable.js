@@ -1,8 +1,7 @@
-import {KLNDataTable, KLNColumn, KLNReactPaginate, KLNTableActionModal} from "~/components";
+import {KLNDataTable, KLNColumn, KLNReactPaginate, KLNTableAction} from "~/components";
 import {useEffect, useState, useCallback} from "react";
 import {useAdminContext} from "~/context/AdminContext";
 import {useManageTopicContext} from "~/context/B2B/ManageTopic/ManageTopicContext";
-import {DateTimeFormat} from "~/utils/DateTimeFormat";
 import {
     getTopicImagesAction,
     setTopicImageAction,
@@ -81,8 +80,8 @@ const TopicImageTable = ({topicDetail}) => {
 
     const actionBodyTemplate = (rowData) => {
         return (
-            <KLNTableActionModal
-                onEdit={() => onEditImage(rowData)}
+            <KLNTableAction
+                onClickEdit={() => onEditImage(rowData)}
                 onClickDelete={() => onDeleteImage(rowData)}
             />
         );

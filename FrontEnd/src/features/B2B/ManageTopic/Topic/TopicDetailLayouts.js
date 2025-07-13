@@ -144,6 +144,7 @@ const TopicDetailLayouts = ({topicId}) => {
 
     const items = [
         {template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Chuyên đề hay về Bác</Link>},
+        {template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Danh sách chuyên đề</Link>},
         {template: () => <span>Chi tiết chuyên đề</span>}
     ];
 

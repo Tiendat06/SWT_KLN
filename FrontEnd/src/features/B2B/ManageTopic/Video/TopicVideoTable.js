@@ -1,8 +1,7 @@
-import {KLNDataTable, KLNColumn, KLNReactPaginate, KLNTableActionModal} from "~/components";
+import {KLNDataTable, KLNColumn, KLNReactPaginate, KLNTableAction} from "~/components";
 import {useEffect, useState, useCallback} from "react";
 import {useAdminContext} from "~/context/AdminContext";
 import {useManageTopicContext} from "~/context/B2B/ManageTopic/ManageTopicContext";
-import {DateTimeFormat} from "~/utils/DateTimeFormat";
 import {
     getTopicVideosAction,
     setTopicVideoAction,
@@ -101,8 +100,8 @@ const TopicVideoTable = ({topicDetail}) => {
 
     const actionBodyTemplate = (rowData) => {
         return (
-            <KLNTableActionModal
-                onEdit={() => onEditVideo(rowData)}
+            <KLNTableAction
+                onClickEdit={() => onEditVideo(rowData)}
                 onClickDelete={() => onDeleteVideo(rowData)}
             />
         );

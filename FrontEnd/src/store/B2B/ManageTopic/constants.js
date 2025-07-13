@@ -26,4 +26,11 @@ export const SET_TOPIC_DETAIL = 'SET_TOPIC_DETAIL';
 // Loading states
 export const SET_LOADING = 'SET_LOADING';
 export const SET_TOPIC_IMAGES_LOADING = 'SET_TOPIC_IMAGES_LOADING';
-export const SET_TOPIC_VIDEOS_LOADING = 'SET_TOPIC_VIDEOS_LOADING'; 
+export const SET_TOPIC_VIDEOS_LOADING = 'SET_TOPIC_VIDEOS_LOADING';
+
+// Temp Media constants (for create topic)
+export const ADD_TEMP_IMAGE = 'ADD_TEMP_IMAGE';
+export const ADD_TEMP_VIDEO = 'ADD_TEMP_VIDEO';
+export const REMOVE_TEMP_IMAGES = 'REMOVE_TEMP_IMAGES';
+export const REMOVE_TEMP_VIDEOS = 'REMOVE_TEMP_VIDEOS';
+export const CLEAR_TEMP_MEDIA = 'CLEAR_TEMP_MEDIA'; 

@@ -18,7 +18,12 @@ import {
     SET_TOPIC_DETAIL,
     SET_LOADING,
     SET_TOPIC_IMAGES_LOADING,
-    SET_TOPIC_VIDEOS_LOADING
+    SET_TOPIC_VIDEOS_LOADING,
+    ADD_TEMP_IMAGE,
+    ADD_TEMP_VIDEO,
+    REMOVE_TEMP_IMAGES,
+    REMOVE_TEMP_VIDEOS,
+    CLEAR_TEMP_MEDIA
 } from './constants';
 
 // Topic actions
@@ -163,5 +168,40 @@ export const setTopicVideosLoadingAction = payLoad => {
     return {
         type: SET_TOPIC_VIDEOS_LOADING,
         payLoad,
+    }
+}
+
+// Temp Media actions
+export const addTempImageAction = payLoad => {
+    return {
+        type: ADD_TEMP_IMAGE,
+        payLoad,
+    }
+}
+
+export const addTempVideoAction = payLoad => {
+    return {
+        type: ADD_TEMP_VIDEO,
+        payLoad,
+    }
+}
+
+export const removeTempImagesAction = payLoad => {
+    return {
+        type: REMOVE_TEMP_IMAGES,
+        payLoad,
+    }
+}
+
+export const removeTempVideosAction = payLoad => {
+    return {
+        type: REMOVE_TEMP_VIDEOS,
+        payLoad,
+    }
+}
+
+export const clearTempMediaAction = () => {
+    return {
+        type: CLEAR_TEMP_MEDIA,
     }
 } 

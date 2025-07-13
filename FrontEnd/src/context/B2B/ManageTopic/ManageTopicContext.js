@@ -1,6 +1,13 @@
 import React, {createContext, useContext, useState, useCallback, useReducer} from 'react';
 import manageTopicReducer from '~/store/B2B/ManageTopic/reducer';
-import { setTopicAction } from '~/store/B2B/ManageTopic/actions';
+import { 
+    setTopicAction,
+    addTempImageAction,
+    addTempVideoAction,
+    removeTempImagesAction,
+    removeTempVideosAction,
+    clearTempMediaAction
+} from '~/store/B2B/ManageTopic/actions';
 
 const ManageTopicContext = createContext();
 
@@ -27,6 +34,10 @@ export const ManageTopicProvider = ({children}) => {
         // Topic Videos
         topicVideos: [],
         selectedTopicVideo: null,
+        
+        // Temp Media (for create topic)
+        tempImages: [],
+        tempVideos: [],
         
         // Loading states
         isLoading: false,
@@ -76,9 +87,7 @@ export const ManageTopicProvider = ({children}) => {
     // Update trigger
     const [isUpdated, setIsUpdated] = useState(false);
     
-    // Temp media for create topic modal
-    const [tempImages, setTempImages] = useState([]);
-    const [tempVideos, setTempVideos] = useState([]);
+    // Temp media is now managed by reducer - no separate state needed
 
     // Helper function to trigger delete for single item
     const triggerDeleteSingle = useCallback((item) => {
@@ -94,27 +103,26 @@ export const ManageTopicProvider = ({children}) => {
         dispatch(setTopicAction(null));
     }, [dispatch]);
 
-    // Helper functions for temp media
+    // Helper functions for temp media - now using reducer
     const addTempImage = useCallback((image) => {
-        setTempImages(prev => [...prev, image]);
-    }, []);
+        dispatch(addTempImageAction(image));
+    }, [dispatch]);
 
     const addTempVideo = useCallback((video) => {
-        setTempVideos(prev => [...prev, video]);
-    }, []);
+        dispatch(addTempVideoAction(video));
+    }, [dispatch]);
 
     const removeTempImages = useCallback((imageIds) => {
-        setTempImages(prev => prev.filter(img => !imageIds.includes(img.id)));
-    }, []);
+        dispatch(removeTempImagesAction(imageIds));
+    }, [dispatch]);
 
     const removeTempVideos = useCallback((videoIds) => {
-        setTempVideos(prev => prev.filter(video => !videoIds.includes(video.id)));
-    }, []);
+        dispatch(removeTempVideosAction(videoIds));
+    }, [dispatch]);
 
     const clearTempMedia = useCallback(() => {
-        setTempImages([]);
-        setTempVideos([]);
-    }, []);
+        dispatch(clearTempMediaAction());
+    }, [dispatch]);
 
     // Helper functions for editing media (works for both images and videos)
     const setEditingMedia = useCallback((media) => {
@@ -209,11 +217,9 @@ export const ManageTopicProvider = ({children}) => {
         isUpdated,
         setIsUpdated,
         
-        // Temp media
-        tempImages,
-        setTempImages,
-        tempVideos,
-        setTempVideos,
+        // Temp media (from reducer)
+        tempImages: state.tempImages,
+        tempVideos: state.tempVideos,
         addTempImage,
         addTempVideo,
         removeTempImages,

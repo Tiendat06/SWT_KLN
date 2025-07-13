@@ -6,7 +6,7 @@ import { showToast } from "~/utils/Toast";
 import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 
 const DeleteTopicModal = ({visible, setVisible, btnSaveOnClick, btnCancelOnClick, onDelete}) => {
-    const {selectedTopic, selectedTopics, resetSelection} = useManageTopicContext();
+    const {selectedTopic, selectedTopics} = useManageTopicContext();
     const { toast } = useAppContext();
 
     const onClickDeleteItem = useCallback(async () => {

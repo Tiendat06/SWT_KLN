@@ -1,8 +1,8 @@
 import {KLNBreadCrumb, KLNButton, KLNCascadeSelect, KLNDataTable, KLNColumn, KLNReactPaginate, KLNTableAction} from "~/components";
-import {faSquarePlus, faTrash, faEdit} from "@fortawesome/free-solid-svg-icons";
+import {faSquarePlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 import React, {useCallback, useEffect, useState} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import {useAdminContext} from "~/context/AdminContext";
 import {useManageTopicContext} from "~/context/B2B/ManageTopic/ManageTopicContext";
@@ -100,16 +100,14 @@ const mockTopics = [
 const TopicLayouts = () => {
     const {selectedPageOption, setDeleteAction} = useAdminContext();
     const {
-        visible, setVisible, isUpdated, setIsUpdated, setCreateTopicModalVisible, setEditTopicModalVisible,
-        selectedTopics, setSelectedTopics, setEditingTopic, triggerDeleteSingle, resetSelection,
+        visible, setVisible, isUpdated,
+        selectedTopics, setSelectedTopics, triggerDeleteSingle, resetSelection,
         topics, isLoading, dispatch
     } = useManageTopicContext();
     
     const [allTopics, setAllTopics] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const [isDeleting, setIsDeleting] = useState(false);
-    const navigate = useNavigate();
     const { toast } = useAppContext();
 
     const showDeleteModal = useCallback(() => {
@@ -122,7 +120,6 @@ const TopicLayouts = () => {
     }, [setVisible]);
 
     const handleDelete = useCallback(async (topicIds) => {
-        setIsDeleting(true);
         try {
             const deleteResult = await topicService.deleteTopicService(topicIds);
             
@@ -136,7 +133,6 @@ const TopicLayouts = () => {
             console.error('Error deleting topics:', error);
             showToast({ toastRef: toast, severity: 'error', summary: 'Xóa chuyên đề', detail: 'Có lỗi xảy ra khi xóa chuyên đề' });
         } finally {
-            setIsDeleting(false);
             resetSelection();
             setVisible(false);
         }
@@ -210,10 +206,6 @@ const TopicLayouts = () => {
     }, []);
 
     // Table template functions
-    const onEdit = (topic) => {
-        navigate(`${AppRoutesEnum.AdminRoute}/manage-topic/${topic.topicId}/edit`);
-    };
-
     const onDelete = (topic) => {
         triggerDeleteSingle(topic);
     };
@@ -222,7 +214,66 @@ const TopicLayouts = () => {
         return <span>{((currentPage - 1) * selectedPageOption.code) + rowIndex + 1}</span>;
     };
 
-
+    const thumbnailBodyTemplate = (rowData) => {
+        const firstImage = rowData.images?.[0];
+        const firstVideo = rowData.videos?.[0];
+        
+        if (firstImage) {
+            return (
+                <img 
+                    src={firstImage.imageLink} 
+                    alt={firstImage.capture}
+                    style={{
+                        width: 50,
+                    }}
+                    className="w-6rem shadow-2 border-round"
+                />
+            );
+        } else if (firstVideo) {
+            return (
+                <div style={{position: 'relative', width: '50px', height: '50px', marginLeft: '20px'}}>
+                    <div style={{
+                        width: '100%', 
+                        height: '100%', 
+                        backgroundColor: '#f0f0f0', 
+                        borderRadius: '4px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
+                        <div style={{
+                            color: 'white',
+                            fontSize: '14px',
+                            backgroundColor: 'rgba(0,0,0,0.7)',
+                            borderRadius: '50%',
+                            width: '20px',
+                            height: '20px',
+                            display: 'flex',
+                            alignItems: 'center', 
+                            justifyContent: 'center'
+                        }}>
+                            ▶
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        
+        return (
+            <div style={{
+                width: '50px', 
+                height: '50px', 
+                backgroundColor: '#f0f0f0', 
+                borderRadius: '4px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#999'
+            }}>
+                📁
+            </div>
+        );
+    };
 
     const nameBodyTemplate = (rowData) => {
         return (
@@ -249,7 +300,8 @@ const TopicLayouts = () => {
     );
 
     const items = [
-        {template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Chuyên đề hay về Bác</Link>}
+        {template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Chuyên đề hay về Bác</Link>},
+        {template: () => <span>Danh sách chuyên đề</span>}
     ];
 
     return (
@@ -326,6 +378,12 @@ const TopicLayouts = () => {
                             <KLNColumn selectionMode="multiple" headerStyle={{width: '3rem'}}></KLNColumn>
                             <KLNColumn body={indexTemplate} header="#" headerStyle={{width: '3rem'}}></KLNColumn>
                             <KLNColumn 
+                                headerStyle={{width: '8rem'}} 
+                                bodyStyle={{width: '8rem', textAlign: 'center'}}
+                                header="Thumbnail" 
+                                body={thumbnailBodyTemplate}
+                            />
+                            <KLNColumn 
                                 field="capture" 
                                 header="Tên chuyên đề"
                                 body={nameBodyTemplate}
@@ -341,7 +399,7 @@ const TopicLayouts = () => {
                                     display: 'flex',
                                     justifyContent: 'space-around',
                                     alignItems: 'center'
-                                }}
+                                }} 
                                 header="Thao tác" 
                                 body={actionBodyTemplate}
                             />

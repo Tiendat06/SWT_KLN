@@ -17,10 +17,9 @@ import KLNDropdown from "~/components/KLNDropdown/KLNDropdown";
 import KLNTabView from "~/components/KLNTabView/KLNTabView";
 import KLNCascadeSelect from "~/components/KLNCascadeSelect/KLNCascadeSelect";
 import KLNTableAction from "~/components/KLNTableAction/KLNTableAction";
-import KLNTableActionModal from "~/components/KLNTableAction/KLNTableActionModal";
 import KLNBreadCrumb from "~/components/KLNBreadCrumb/KLNBreadCrumb";
 import KLNModal from "~/components/KLNModal/KLNModal";
-import TopicModal from "~/components/KLNModal/TopicModal";
+
 import KLNToast from "~/components/KLNToast/KLNToast";
 import KLNColumn from "~/components/KLNTable/KLNColumn";
 import KLNDataTable from "~/components/KLNTable/KLNDataTable";
@@ -28,7 +27,7 @@ import KLNSkeletonWithSpinner from "~/components/KLNSkeleton/KLNSkeletonWithSpin
 import KLNImageWithSkeleton from "~/components/KLNSkeleton/KLNImageWithSkeleton/KLNImageWithSkeleton";
 import KLNProgressSpinner from "~/components/KLNProgressSpinner/KLNProgressSpinner";
 import KLNAdminTitle from "~/components/KLNTitle/KLNAdminTitle";
-import KLNTopicForm from "~/components/KLNTopicForm/KLNTopicForm";
+import KLNCollapsibleMediaSection from "~/components/KLNMediaSection/KLNCollapsibleMediaSection";
 
 export {
     Header, Footer, Body, Sidebar, AdminHeader,
@@ -36,9 +35,9 @@ export {
     KLNReactPaginate, KLNSlideImage, KLNVideoClip,
     KLNTitle, KLNAudio, KLNCategory,
     KLNReactDotPaginate, KLNDropdown,
-    KLNTabView, KLNCascadeSelect, KLNTableAction, KLNTableActionModal,
+    KLNTabView, KLNCascadeSelect, KLNTableAction,
     KLNBreadCrumb, KLNModal, KLNToast, KLNColumn,
     KLNDataTable, KLNSkeletonWithSpinner, KLNImageWithSkeleton,
-    KLNProgressSpinner, KLNAdminTitle, TopicModal, KLNTopicForm
+    KLNProgressSpinner, KLNAdminTitle, KLNCollapsibleMediaSection
 }
 

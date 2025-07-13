@@ -1,4 +1,4 @@
-import {TopicModal, KLNButton} from "~/components";
+import {KLNModal, KLNButton} from "~/components";
 import {useManageTopicContext} from "~/context/B2B/ManageTopic/ManageTopicContext";
 import {useState, useEffect, useRef} from "react";
 import {InputTextarea} from "primereact/inputtextarea";
@@ -162,19 +162,22 @@ const EditVideoModal = () => {
         }
     };
 
-    const isFormValid = formData.capture.trim() !== '';
-
     return (
-        <TopicModal
+        <KLNModal
             visible={editVideoModalVisible}
-            onHide={handleClose}
-            header={`Sửa thông tin ${mediaType}`}
-            style={{width: '900px'}}
+            setVisible={setEditVideoModalVisible}
+            modalHeader={`Sửa thông tin ${mediaType}`}
+            size="xl"
             labelSave={isSubmitting ? 'Đang lưu...' : 'Lưu'}
             labelCancel="Hủy"
             btnSaveOnClick={handleSubmit}
             btnCancelOnClick={handleClose}
-            disabled={!isFormValid || isSubmitting}
+            isLoading={isSubmitting}
+            buttonSaveOptions={5}
+            buttonCloseOptions={4}
+            footerStyle={{display: 'flex', justifyContent: 'center', gap: '1rem', padding: '1rem'}}
+            buttonSaveStyle={{minWidth: '100px'}}
+            buttonCancelStyle={{minWidth: '100px'}}
         >
             <div className="d-flex flex-wrap mt-3">
                 <div className="col-lg-7 col-md-7 col-sm-12 p-3 pt-0">
@@ -259,7 +262,7 @@ const EditVideoModal = () => {
                     </Card>
                 </div>
             </div>
-        </TopicModal>
+        </KLNModal>
     );
 };
 

@@ -18,7 +18,12 @@ import {
     SET_TOPIC_DETAIL,
     SET_LOADING,
     SET_TOPIC_IMAGES_LOADING,
-    SET_TOPIC_VIDEOS_LOADING
+    SET_TOPIC_VIDEOS_LOADING,
+    ADD_TEMP_IMAGE,
+    ADD_TEMP_VIDEO,
+    REMOVE_TEMP_IMAGES,
+    REMOVE_TEMP_VIDEOS,
+    CLEAR_TEMP_MEDIA
 } from './constants';
 
 const initialState = {
@@ -34,6 +39,10 @@ const initialState = {
     // Topic Videos
     topicVideos: [],
     selectedTopicVideo: null,
+    
+    // Temp Media (for create topic)
+    tempImages: [],
+    tempVideos: [],
     
     // Loading states
     isLoading: false,
@@ -181,6 +190,42 @@ const manageTopicReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isTopicVideosLoading: action.payLoad
+            };
+            
+        // Temp Media cases
+        case ADD_TEMP_IMAGE:
+            return {
+                ...state,
+                tempImages: [...state.tempImages, action.payLoad]
+            };
+            
+        case ADD_TEMP_VIDEO:
+            return {
+                ...state,
+                tempVideos: [...state.tempVideos, action.payLoad]
+            };
+            
+        case REMOVE_TEMP_IMAGES:
+            return {
+                ...state,
+                tempImages: state.tempImages.filter(image => 
+                    !action.payLoad.includes(image.id)
+                )
+            };
+            
+        case REMOVE_TEMP_VIDEOS:
+            return {
+                ...state,
+                tempVideos: state.tempVideos.filter(video => 
+                    !action.payLoad.includes(video.id)
+                )
+            };
+            
+        case CLEAR_TEMP_MEDIA:
+            return {
+                ...state,
+                tempImages: [],
+                tempVideos: []
             };
             
         default:
