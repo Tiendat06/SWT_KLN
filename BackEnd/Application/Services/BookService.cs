@@ -197,9 +197,9 @@ namespace Application.Services
                 try
                 {
                     // Fetch all music entities once for logging
-                    Console.WriteLine($"ids: {ids}");
+                    //Console.WriteLine($"ids: {ids}");
                     var bookEntities = await _bookRepository.GetBookByIdsAsync(ids) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Book"]));
-                    Console.WriteLine($"Fetched {bookEntities?.Count() ?? 0} book records for deletion.");
+                    //Console.WriteLine($"Fetched {bookEntities?.Count() ?? 0} book records for deletion.");
                     if (bookEntities == null || !bookEntities.Any())
                     {
                         throw new KeyNotFoundException(_localizer["NoBookRecordsFound"]);

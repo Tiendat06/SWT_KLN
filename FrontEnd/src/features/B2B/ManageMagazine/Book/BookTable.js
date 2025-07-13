@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useLayoutEffect, useState} from "react";
+import {useCallback, useLayoutEffect, useState} from "react";
 import {useManageMagazineContext} from "~/context/B2B/ManageMagazine/ManageMagazine";
 import {useAdminContext} from "~/context/AdminContext";
 import {bookService} from "~/services/BookService";
@@ -6,13 +6,16 @@ import KLNDataTable from "~/components/KLNTable/KLNDataTable";
 import {KLNColumn, KLNReactPaginate, KLNTableAction} from "~/components";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import {DeleteMany} from "~/features/B2B/ManageMultimedia";
-import {deleteBookAction, getBookAction} from "~/store/B2B/ManageMagazine/actions";
-import DeleteBook from "~/features/B2B/ManageMagazine/Book/DeleteBook";
+import {deleteBookAction, getBookAction, setBookAction} from "~/store/B2B/ManageMagazine/actions";
+import {showToast} from "~/utils/Toast";
+import {useAppContext} from "~/context/AppContext";
+import {DeleteBook} from "~/features/B2B/ManageMagazine";
 
 const BookTable = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageCount, setPageCount] = useState(0);
     const {selectedPageOption, setDeleteAction} = useAdminContext();
+    const {toast} = useAppContext();
 
     const {
         visible,
@@ -28,9 +31,19 @@ const BookTable = () => {
     const handleDeleteMany = useCallback(async () => {
         // api
         setIsLoading(true);
-        // const deleteSlideImages = await slideShowService.deleteSlideImageInSpecificSlideShowBySlideShowIdService(selectedItems.map(item => item.id), slideShowId);
-        // if (deleteSlideImages)
-        dispatch(deleteBookAction(selectedItems));
+        console.log(selectedItems.map(item => item.bookId));
+        const deleteBooks = await bookService.deleteManyBookService(selectedItems.map(item => item.bookId));
+        let severity = 'error';
+        if (deleteBooks){
+            dispatch(deleteBookAction(selectedItems));
+            severity = 'success';
+        }
+        showToast({
+            toastRef: toast,
+            severity: severity,
+            summary: 'Xóa sách',
+            detail: deleteBooks.message
+        })
         setVisible(false);
         setIsLoading(false);
     }, [selectedItems]);
@@ -39,8 +52,9 @@ const BookTable = () => {
         setVisible(false);
     }, []);
 
-    const showModal = useCallback(() => {
+    const showModal = useCallback((bookItem) => {
         setDeleteAction(true);
+        dispatch(setBookAction(bookItem));
     }, []);
 
     useLayoutEffect(() => {
@@ -113,7 +127,7 @@ const BookTable = () => {
                         justifyContent: 'space-evenly',
                         alignItems: 'center'
                     }} header="Thao tác" body={(rowData) => (<KLNTableAction
-                        editActionLink={`${AppRoutesEnum.AdminRoute}/manage-magazine/book/${rowData.bookId}`}
+                        editActionLink={`${AppRoutesEnum.AdminRoute}/manage-magazine/${rowData.bookId}`}
                         onClickDelete={() => showModal(rowData)}
                     />)}></KLNColumn>
                 </KLNDataTable>

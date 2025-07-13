@@ -107,12 +107,14 @@ namespace Application.Services
                     {
                         LogMagazineId = 0,
                         Title = magazineEntity.Title,
+                        Description = magazineEntity.Description,
                         Image = magazineEntity.Image,
                         CreateDate = magazineEntity.CreateDate,
                         UserId = magazineEntity.UserId,
                         MagazineContent = magazineEntity.MagazineContent,
                         MagazineId = magazineEntity.MagazineId,
                         Process = ProcessMethod.UPDATE,
+                        MediaTypeId = updateMagazineRequest.MediaTypeId
                     };
                     await _logMagazineRepository.CreateLogMagazineAsync(newLogMagazine);
                     await uow.SaveChangesAsync();

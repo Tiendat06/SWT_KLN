@@ -33,8 +33,8 @@ namespace Application
                     localizer["MaxLength"], localizer["BookTitle"], BookConsts.MaxTitleLength
                 ));
 
-            RuleFor(x => x.BookContent)
-                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["BookContent"]));
+            //RuleFor(x => x.BookContent)
+            //    .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["BookContent"]));
             //    .NotEmpty().WithMessage(BookValidatorResources.BookContentNotEmpty);
 
             RuleFor(x => x.Publisher)
@@ -57,8 +57,8 @@ namespace Application
                 //.NotEmpty().WithMessage(BookValidatorResources.YearPublicNotEmpty);
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["BookYearPublic"]));
 
-            RuleFor(x => x.Image)
-                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["BookImage"]));
+            //RuleFor(x => x.Image)
+            //    .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["BookImage"]));
             //    .NotEmpty().WithMessage(BookValidatorResources.ImageNotEmpty);
 
             RuleFor(x => x.UserId)
