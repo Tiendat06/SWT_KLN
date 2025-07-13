@@ -124,7 +124,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["UpdateVideoFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -185,7 +185,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["AddVideoFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -229,7 +229,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["DeleteVideoFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -241,9 +241,7 @@ namespace Application.Services
                 try
                 {
                     // Fetch all music entities once for logging
-                    Console.WriteLine($"ids: {ids}");
                     var videoEntities = await _videoRepository.GetVideoByIdsAsync(ids);
-                    Console.WriteLine($"Fetched {videoEntities?.Count() ?? 0} video records for deletion.");
                     if (videoEntities == null || !videoEntities.Any())
                     {
                         throw new KeyNotFoundException(_localizer["NoVideoRecordsFound"]);
@@ -277,7 +275,7 @@ namespace Application.Services
                 {
                     Console.WriteLine($"Delete multiple video error: {ex.Message}");
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["DeleteVideoFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }

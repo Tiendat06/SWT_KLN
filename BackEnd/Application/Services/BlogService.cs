@@ -80,7 +80,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["AddBlogFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
 
             }
@@ -124,7 +124,7 @@ namespace Application.Services
                 } catch(Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["DeleteBlogFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -167,7 +167,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     uow.RollbackTransactionAsync().Wait();
-                    throw new InvalidOperationException(_localizer["DeleteMultipleBlogsFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -232,7 +232,7 @@ namespace Application.Services
                 } catch(Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["UpdateBlogFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }

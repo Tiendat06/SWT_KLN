@@ -124,7 +124,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["UpdateMagazineFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -177,7 +177,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["AddMagazineFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -225,7 +225,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["DeleteMultipleMagazinesFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -269,7 +269,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["DeleteMagazineFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }

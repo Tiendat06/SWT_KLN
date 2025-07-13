@@ -129,7 +129,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["AddTopicFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -257,7 +257,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["UpdateTopicFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -269,9 +269,7 @@ namespace Application.Services
                 try
                 {
                     // Fetch all music entities once for logging
-                    Console.WriteLine($"ids: {ids}");
                     var topicEntities = await _topicRepository.GetTopicByIdsAsync(ids);
-                    Console.WriteLine($"Fetched {topicEntities?.Count() ?? 0} topic records for deletion.");
                     if (topicEntities == null || !topicEntities.Any())
                     {
                         throw new KeyNotFoundException(_localizer["NoTopicRecordsFound"]);
@@ -301,7 +299,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["DeleteTopicFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -422,7 +420,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["AddTopicMediaFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -611,7 +609,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["UpdateTopicMediaFailed"], ex);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -706,7 +704,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["DeleteTopicMediaFailed"], ex);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }

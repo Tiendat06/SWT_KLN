@@ -122,7 +122,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["AddSlideShowFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -234,7 +234,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["UpdateSlideShowFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -279,7 +279,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["DeleteSlideShowFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -351,10 +351,10 @@ namespace Application.Services
                         ImageLink = newSlideImage.ImageLink
                     };
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["AddSlideImageFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -428,10 +428,10 @@ namespace Application.Services
 
                     return targetImage;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["UpdateSlideImageFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -481,10 +481,10 @@ namespace Application.Services
 
                     return true;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    return false;
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }

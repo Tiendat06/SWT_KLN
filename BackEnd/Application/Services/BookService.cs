@@ -132,7 +132,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["UpdateBookFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -185,7 +185,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["AddBookFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -232,7 +232,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["DeleteBookFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }

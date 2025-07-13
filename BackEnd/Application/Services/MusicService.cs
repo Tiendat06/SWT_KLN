@@ -105,7 +105,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["AddMusicFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -204,7 +204,7 @@ namespace Application.Services
                 {
                     //Console.WriteLine($"Update music error: {ex.Message}");
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["UpdateMusicFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -216,9 +216,7 @@ namespace Application.Services
                 try
                 {
                     // Fetch all music entities once for logging
-                    Console.WriteLine($"ids: {ids}");
                     var musicEntities = await _musicRepository.GetMusicByIdsAsync(ids);
-                    Console.WriteLine($"Fetched {musicEntities?.Count() ?? 0} music records for deletion.");
                     if (musicEntities == null || !musicEntities.Any())
                     {
                         throw new KeyNotFoundException(_localizer["NoMusicRecordsFound"]);
@@ -250,9 +248,8 @@ namespace Application.Services
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Delete multiple music error: {ex.Message}");
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["DeleteMusicFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
