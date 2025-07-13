@@ -50,6 +50,13 @@ namespace Application.Services
         {
             using (var uow = await _unitOfWork.BeginTransactionAsync())
             {
+                // Check for duplicate title
+                var existingTopic = await _topicRepository.GetTopicByTitleAsync(addTopicRequest.Capture);
+                if (existingTopic != null)
+                {
+                    throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["AlreadyExists"], _localizer["TopicCapture"]));
+                }
+
                 var allowedContentTypesImage = new[] { CommonFileType.JPEG, CommonFileType.PNG, CommonFileType.JPG };
                 var allowedContentTypesVideo = new[] { CommonFileType.MP4, CommonFileType.AVI, CommonFileType.MOV, CommonFileType.WMV, CommonFileType.FLV, CommonFileType.MKV, CommonFileType.WEBM, CommonFileType.MPEG };
                 int totalImageCount = addTopicRequest.TopicMedia.Count(m =>
@@ -138,6 +145,13 @@ namespace Application.Services
         {
             using (var uow = await _unitOfWork.BeginTransactionAsync())
             {
+                // Check for duplicate title (ignore current topic's title)
+                var existingTopic = await _topicRepository.GetTopicByTitleAsync(updateTopicRequest.Capture);
+                if (existingTopic != null && existingTopic.TopicId != id)
+                {
+                    throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["AlreadyExists"], _localizer["TopicCapture"]));
+                }
+
                 var allowedContentTypesImage = new[] { CommonFileType.JPEG, CommonFileType.PNG, CommonFileType.JPG };
                 var allowedContentTypesVideo = new[] { CommonFileType.MP4, CommonFileType.AVI, CommonFileType.MOV, CommonFileType.WMV, CommonFileType.FLV, CommonFileType.MKV, CommonFileType.WEBM, CommonFileType.MPEG };
                 int totalImageCount = updateTopicRequest.TopicMedia.Count(m =>

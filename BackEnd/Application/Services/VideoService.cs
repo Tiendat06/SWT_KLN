@@ -55,6 +55,13 @@ namespace Application.Services
             {
                 try
                 {
+                    // Check for duplicate title (ignore current video's title)
+                    var existingVideo = await _videoRepository.GetVideoByTitleAsync(updateVideoRequest.Title);
+                    if (existingVideo != null && existingVideo.VideoId != id)
+                    {
+                        throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["AlreadyExists"], _localizer["VideoTitle"]));
+                    }
+
                     var videoEntity = await _videoRepository.GetVideoByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Video"]));
                     await uow.TrackEntity(videoEntity);
 
@@ -135,6 +142,13 @@ namespace Application.Services
             {
                 try
                 {
+                    // Check for duplicate title
+                    var existingVideo = await _videoRepository.GetVideoByTitleAsync(addVideoRequest.Title);
+                    if (existingVideo != null)
+                    {
+                        throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["AlreadyExists"], _localizer["VideoTitle"]));
+                    }
+
                     Guid newGuid = Guid.NewGuid();
                     var assetFolderImage = CommonCloudinaryAttribute.assetFolderVideoImage;
                     var publicId = $"{nameof(Domain.Entities.Video)}_{newGuid}";

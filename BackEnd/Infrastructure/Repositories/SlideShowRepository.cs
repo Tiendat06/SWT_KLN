@@ -122,5 +122,11 @@ namespace Infrastructure.Repositories
             await Task.CompletedTask;
         }
 
+        public async Task<SlideShow?> GetSlideShowByTitleAsync(string slideShowTitle)
+        {
+            return await _context.SlideShows
+                .FirstOrDefaultAsync(b => b.Title == slideShowTitle && (b.IsDeleted == false || b.IsDeleted == null));
+        }
+
     }
 }

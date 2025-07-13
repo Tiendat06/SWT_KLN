@@ -46,6 +46,13 @@ namespace Application.Services
             {
                 try
                 {
+                    // Check for duplicate title
+                    var existingBlog = await _blogRepository.GetBlogByTitleAsync(addBlogRequest.BlogTitle);
+                    if (existingBlog != null)
+                    {
+                        throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["AlreadyExists"], _localizer["BlogTitle"]));
+                    }
+
                     var assetFolder = CommonCloudinaryAttribute.assetFolderBlog;
                     Guid newGuid = Guid.NewGuid();
                     var publicId = $"{nameof(Blog)}_{newGuid}";
@@ -135,9 +142,9 @@ namespace Application.Services
             {
                 try
                 {
-                    Console.WriteLine($"ids: {ids}");
+                    //Console.WriteLine($"ids: {ids}");
                     var blogEntities = await _blogRepository.GetBlogByIdsAsync(ids) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Blog"]));
-                    Console.WriteLine($"Fetched {blogEntities?.Count() ?? 0} book records for deletion.");
+                    //Console.WriteLine($"Fetched {blogEntities?.Count() ?? 0} book records for deletion.");
                     if (blogEntities == null || !blogEntities.Any())
                     {
                         throw new KeyNotFoundException(_localizer["NoBookRecordsFound"]);
@@ -181,6 +188,13 @@ namespace Application.Services
                     // update blog
                     var blogEntity = await _blogRepository.GetBlogByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Blog"]));
                     await uow.TrackEntity(blogEntity);
+
+                    // Check for duplicate title (ignore current blog's title)
+                    var existingBlog = await _blogRepository.GetBlogByTitleAsync(updateBlogRequest.BlogTitle);
+                    if (existingBlog != null && existingBlog.BlogId != id)
+                    {
+                        throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["AlreadyExists"], _localizer["BlogTitle"]));
+                    }
 
                     blogEntity.BlogTitle = updateBlogRequest.BlogTitle;
                     blogEntity.BlogContent = updateBlogRequest.BlogContent;

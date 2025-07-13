@@ -44,6 +44,13 @@ namespace Application.Services
             {
                 try
                 {
+                    // Check for duplicate title (ignore current magazine's title)
+                    var existingMagazine = await _magazineRepository.GetMagazineByTitleAsync(updateMagazineRequest.Title);
+                    if (existingMagazine != null && existingMagazine.MagazineId != id)
+                    {
+                        throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["AlreadyExists"], _localizer["MagazineTitle"]));
+                    }
+
                     var magazineEntity = await _magazineRepository.GetMagazineByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Magazine"]));
                     await uow.TrackEntity(magazineEntity);
 
@@ -137,6 +144,13 @@ namespace Application.Services
             {
                 try
                 {
+                    // Check for duplicate title
+                    var existingMagazine = await _magazineRepository.GetMagazineByTitleAsync(addMagazineRequest.Title);
+                    if (existingMagazine != null)
+                    {
+                        throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["AlreadyExists"], _localizer["MagazineTitle"]));
+                    }
+
                     Guid newGuid = Guid.NewGuid();
                     var assetFolderPDF = CommonCloudinaryAttribute.assetFolderMagazinePDF;
                     var assetFolderImage = CommonCloudinaryAttribute.assetFolderMagazineImage;
@@ -196,9 +210,9 @@ namespace Application.Services
                         throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Magazine"]));
                     }
                     // Fetch all music entities once for logging
-                    Console.WriteLine($"ids: {ids}");
+                    //Console.WriteLine($"ids: {ids}");
                     var magazineEntities = await _magazineRepository.GetMagazinesByIdsAsync(ids) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Magazine"]));
-                    Console.WriteLine($"Fetched {magazineEntities?.Count() ?? 0} magazine records for deletion.");
+                    //Console.WriteLine($"Fetched {magazineEntities?.Count() ?? 0} magazine records for deletion.");
                     if (magazineEntities == null || !magazineEntities.Any())
                     {
                         throw new KeyNotFoundException(_localizer["NoMagazineRecordsFound"]);

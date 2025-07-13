@@ -60,6 +60,13 @@ namespace Application.Services
             {
                 try
                 {
+                    // Check for duplicate title
+                    var existingSlideShow = await _slideShowRepository.GetSlideShowByTitleAsync(addSlideShowRequest.Title);
+                    if (existingSlideShow != null)
+                    {
+                        throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["AlreadyExists"], _localizer["SlideShowTitle"]));
+                    }
+
                     Guid newGuid = Guid.NewGuid();
                     var assetFolderImage = CommonCloudinaryAttribute.assetFolderSlideImage;
                     var publicId = $"{nameof(SlideShow)}_{newGuid}";
@@ -133,6 +140,13 @@ namespace Application.Services
             {
                 try
                 {
+                    // Check for duplicate title (ignore current slideShow's title)
+                    var existingSlideShow = await _slideShowRepository.GetSlideShowByTitleAsync(updateSlideShowRequest.Title);
+                    if (existingSlideShow != null && existingSlideShow.SlideShowId != id)
+                    {
+                        throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["AlreadyExists"], _localizer["SlideShowTitle"]));
+                    }
+
                     var slideShowEntity = await _slideShowRepository.GetSlideShowByIdAsync(id)
                         ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["SlideShow"]));
 
