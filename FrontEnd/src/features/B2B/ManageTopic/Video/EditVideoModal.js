@@ -6,7 +6,7 @@ import {Calendar} from "primereact/calendar";
 import {Card} from "primereact/card";
 import {topicService} from "~/services/TopicService";
 import clsx from "clsx";
-import styles from "~/styles/Pages/B2B/MediaDocument/createVideo.module.scss";
+import styles from "~/styles/Pages/B2B/ManageMultimedia/createVideo.module.scss";
 import solar_upload_icon_1 from "~/assets/img/icon/solar_upload-linear.png";
 import {BROWSER_CANNOT_READ_IMG} from "~/utils/ErrorMessage";
 import {showToast} from "~/utils/Toast";

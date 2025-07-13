@@ -6,7 +6,7 @@ import {InputTextarea} from "primereact/inputtextarea";
 import {Calendar} from "primereact/calendar";
 import {Card} from "primereact/card";
 import clsx from "clsx";
-import styles from "~/styles/Pages/B2B/MediaDocument/createVideo.module.scss";
+import styles from "~/styles/Pages/B2B/ManageMultimedia/createVideo.module.scss";
 import solar_upload_icon_1 from "~/assets/img/icon/solar_upload-linear.png";
 import {topicService} from "~/services/TopicService";
 import {
