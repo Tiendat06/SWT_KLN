@@ -55,7 +55,7 @@ const reducer = (state, action) => {
         case SET_BOOK:
             newState = {
                 ...state,
-                book: action.payload,
+                book: action.payLoad,
             }
             break;
         case ADD_BOOK:

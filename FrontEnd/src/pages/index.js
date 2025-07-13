@@ -26,6 +26,9 @@ import ManageMagazine from "~/pages/B2B/ManageMagazine/ManageMagazine";
 import ManageTopic from "~/pages/B2B/ManageTopic/ManageTopic";
 import LoginPage from "~/pages/B2B/Login/Login";
 import CreateMultimedia from "~/pages/B2B/ManageMultimedia/CreateMultimedia";
+import CreateBookAndMagazine from "~/pages/B2B/ManageMagazine/CreateBookAndMagazine";
+import CreateImage from "~/pages/B2B/ManageImage/CreateImage";
+import UpdateBookAndMagazine from "~/pages/B2B/ManageMagazine/UpdateBookAndMagazine";
 
 export { Home, BlogContent };
 
@@ -48,6 +51,10 @@ export {
     CreateMultimedia,
     ManageMagazine,
     ManageTopic,
+    CreateBookAndMagazine,
+    CreateImage,
+    UpdateBookAndMagazine
+
 };
 
 export { LoginPage };
