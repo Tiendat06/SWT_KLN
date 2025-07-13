@@ -28,6 +28,8 @@ import KLNImageWithSkeleton from "~/components/KLNSkeleton/KLNImageWithSkeleton/
 import KLNProgressSpinner from "~/components/KLNProgressSpinner/KLNProgressSpinner";
 import KLNAdminTitle from "~/components/KLNTitle/KLNAdminTitle";
 import KLNCollapsibleMediaSection from "~/components/KLNMediaSection/KLNCollapsibleMediaSection";
+import KLNFormItem from "~/components/KLNFormItem/KLNFormItem";
+import KLNUploadFile from "~/components/KLNUploadFile/KLNUploadFile";
 
 export {
     Header, Footer, Body, Sidebar, AdminHeader,
@@ -38,6 +40,7 @@ export {
     KLNTabView, KLNCascadeSelect, KLNTableAction,
     KLNBreadCrumb, KLNModal, KLNToast, KLNColumn,
     KLNDataTable, KLNSkeletonWithSpinner, KLNImageWithSkeleton,
-    KLNProgressSpinner, KLNAdminTitle, KLNCollapsibleMediaSection
+    KLNCollapsibleMediaSection, KLNProgressSpinner, KLNAdminTitle, KLNFormItem,
+    KLNUploadFile
 }
 

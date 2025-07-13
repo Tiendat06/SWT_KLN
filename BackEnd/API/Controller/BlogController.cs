@@ -57,11 +57,11 @@ namespace API.Controllers
             return ApiSuccess(updatedBlog);
         }
 
-        // DELETE: api/Blog/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBlog(Guid id)
+        // DELETE: api/Blog/ids
+        [HttpDelete("ids")]
+        public async Task<IActionResult> DeleteBlog([FromBody] List<Guid> ids)
         {
-            var isDeleted = await _blogService.DeleteBlogAsync(id);
+            var isDeleted = await _blogService.DeleteMultipleBlogsAsync(ids);
 
             return ApiSuccess(isDeleted);
         }

@@ -8,6 +8,7 @@ namespace Domain.Interfaces
         Task<LogBlog?> GetLogBlogByIdAsync(int id);
         Task<IEnumerable<LogBlog>> GetLogBlogsByBlogIdAsync(Guid blogId);
         Task CreateLogBlogAsync(LogBlog logBlog);
+        Task CreateLogBlogRangeAsync(IEnumerable<LogBlog> logBlogs);
         Task HardDeleteLogBlogAsync(int id);
         Task SoftDeleteLogBlogAsync(LogBlog logBlog);
 

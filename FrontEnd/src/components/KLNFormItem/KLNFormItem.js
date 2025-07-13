@@ -1,12 +1,12 @@
 import {InputText} from "primereact/inputtext";
 import {InputTextarea} from "primereact/inputtextarea";
-import React from "react";
+import React, {memo} from "react";
 import clsx from "clsx";
 import InputType from "~/enum/InputType/InputType";
 import {Calendar} from "primereact/calendar";
 
 const KLNFormItem = ({
-                         parentClassName = "col-lg-12 col-md-12 col-sm-12 p-3",
+                         parentClassName = "col-lg-12 col-md-12 col-sm-12 p-2",
                          label = '',
                          labelClassName = '',
                          inputClassName = '',
@@ -44,4 +44,4 @@ const KLNFormItem = ({
     );
 }
 
-export default KLNFormItem;
+export default memo(KLNFormItem);

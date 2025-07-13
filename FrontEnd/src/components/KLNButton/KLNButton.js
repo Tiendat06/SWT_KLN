@@ -90,9 +90,6 @@ const KLNButton = ({
                                 {children}
                                 {icon && !isLoading && <FontAwesomeIcon style={iconStyle} icon={icon}/>}
                             </span>
-                            {/*{isLoading && <KLNProgressSpinner/>}*/}
-                            {/*{children}*/}
-                            {/*{icon && !isLoading && <FontAwesomeIcon style={iconStyle} icon={icon}/>}*/}
                         </label>
                         <input type="file"
                                id="fileUpload"

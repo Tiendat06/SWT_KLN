@@ -55,13 +55,13 @@ namespace API.Controller
         }
 
         // DELETE: api/Video/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteVideo(Guid id)
-        {
-            var isDeleted = await _videoService.DeleteVideoAsync(id);
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteVideo(Guid id)
+        //{
+        //    var isDeleted = await _videoService.DeleteVideoAsync(id);
 
-            return ApiSuccess(isDeleted);
-        }
+        //    return ApiSuccess(isDeleted);
+        //}
 
         [HttpGet("total")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetTotalVideoResponse>))]
@@ -74,7 +74,7 @@ namespace API.Controller
         // DELETE: api/Video/ids
         [HttpDelete("ids")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
-        public async Task<IActionResult> DeleteMultipleVideo([FromForm] List<Guid> ids)
+        public async Task<IActionResult> DeleteMultipleVideo([FromBody] List<Guid> ids)
         {
             var result = await _videoService.DeleteMultipleVideoAsync(ids);
             return ApiSuccess(result);

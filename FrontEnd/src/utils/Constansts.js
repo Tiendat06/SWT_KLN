@@ -19,3 +19,5 @@ export const ADD_TOPIC_TITLE = 'Thêm chuyên đề';
 export const ADD_TOPIC_IMAGE_TITLE = 'Thêm ảnh chuyên đề';
 export const ADD_MULTIMEDIA_VIDEO_TITLE = 'Thêm video về bác Tôn';
 export const ADD_MULTIMEDIA_AUDIO_TITLE = 'Thêm nhạc về bác Tôn';
+
+export const TEST_USER_ID = 'd3bf776b-d5f7-4662-90d2-c273bfb779d2';

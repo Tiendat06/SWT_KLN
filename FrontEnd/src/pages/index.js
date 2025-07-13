@@ -28,9 +28,6 @@ import TopicDetail from "~/pages/B2B/ManageTopic/TopicDetail";
 import LoginPage from "~/pages/B2B/Login/Login";
 import CreateMultimedia from "~/pages/B2B/ManageMultimedia/CreateMultimedia";
 
-import ManageVideo from "~/pages/B2B/ManageVideo/ManageVideo";
-import CreateVideo from "~/pages/B2B/ManageVideo/CreateVideo";
-
 import CreateTopic from "~/pages/B2B/ManageTopic/CreateTopic";
 import EditTopic from "~/pages/B2B/ManageTopic/EditTopic";
 
@@ -61,8 +58,3 @@ export {
 };
 
 export { LoginPage };
-
-export {
-    ManageVideo,
-    CreateVideo
-};

@@ -8,6 +8,7 @@ namespace Domain.Interfaces
         Task<LogBook?> GetLogBookByIdAsync(int id);
         Task<IEnumerable<LogBook>> GetLogBooksByBookIdAsync(int bookId);
         Task CreateLogBookAsync(LogBook logBook);
+        Task CreateLogBookRangeAsync(IEnumerable<LogBook> logBooks);
         Task HardDeleteLogBookAsync(int id);
         Task SoftDeleteLogBookAsync(LogBook logBook);
     }

@@ -8,12 +8,13 @@ import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 
 const DeleteVideo = () => {
     const {deleteAction, setDeleteAction} = useAdminContext();
-    const {video, dispatch} = useManageMultimediaContext();
+    const {video, dispatch, setSelectedItems} = useManageMultimediaContext();
 
     const onClickDeleteItem = useCallback(() => {
         // api
         dispatch(deleteVideoAction([video]));
         setDeleteAction(false);
+        setSelectedItems([]);
     }, [video]);
 
     return (

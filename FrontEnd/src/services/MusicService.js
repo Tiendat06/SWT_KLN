@@ -41,9 +41,10 @@ const addMusicService = async (addedMusic) => {
     formData.append("userId", addedMusic.userId);
 
     return await UseFetchAPI({
-        api: `${musicRoute}/Music`,
+        api: `${musicRoute}`,
         body: formData,
         method: "POST",
+        headers: null
     })
 }
 
