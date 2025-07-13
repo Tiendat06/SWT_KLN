@@ -46,7 +46,7 @@ const deleteManyMagazineService = async (magazineIds) => {
     });
 }
 
-const updateMagazineService = async (updatedMagazine, mediaType = MediaType.None) => {
+const updateMagazineService = async (id, updatedMagazine, mediaType = MediaType.None) => {
     const formData = new FormData();
     formData.append("title", updatedMagazine.title);
     formData.append("mediaTypeId", mediaType);
@@ -56,7 +56,7 @@ const updateMagazineService = async (updatedMagazine, mediaType = MediaType.None
     formData.append('userId', updatedMagazine.userId);
 
     return await UseFetchAPI({
-        api: `${magazineRoute}/${updatedMagazine.magazineId}`,
+        api: `${magazineRoute}/${id}`,
         method: 'PUT',
         headers: null,
         body: formData

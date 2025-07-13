@@ -24,6 +24,7 @@ import {useParams} from "react-router-dom";
 import MediaType from "~/enum/MediaType/MediaType";
 
 const bookInput = {
+    bookId: '',
     title: '',
     publisher: '',
     author: '',
@@ -60,7 +61,11 @@ const UpdateBookForm = () => {
     const handleUpdateImage = useCallback(() => {
         const updateBook = async () => {
             setIsLoading(true);
-            const updatedBookData = await bookService.updateBookService(id, updatedBook, MediaType.PresidentTDT);
+            const updatedBookData = await bookService.updateBookService(id, {
+                ...updatedBook,
+                imageFile: previewImage,
+                bookContent: previewBook
+            }, MediaType.PresidentTDT);
             const status = updatedBookData.status ?? HttpStatusEnum.BadRequest;
             let severity = "error";
             if (status === HttpStatusEnum.Ok || status === HttpStatusEnum.Created)

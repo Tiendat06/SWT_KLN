@@ -46,7 +46,7 @@ const CreateBookForm = () => {
         const addBook = async () => {
             setIsLoading(true);
             const addedBookData = await bookService.addBookService(addedBook, MediaType.PresidentTDT);
-            const status = addedBookData.status ?? 400;
+            const status = addedBookData.status ?? HttpStatusEnum.BadRequest;
             let severity = 'error';
             if (status === HttpStatusEnum.Ok || status === HttpStatusEnum.Created) {
                 severity = 'success';
