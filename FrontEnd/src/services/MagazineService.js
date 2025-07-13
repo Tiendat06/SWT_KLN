@@ -42,15 +42,31 @@ const deleteManyMagazineService = async (magazineIds) => {
     return await UseFetchAPI({
         api: `${magazineRoute}`,
         method: 'DELETE',
-        body: {
-            ids: magazineIds,
-        }
-    })
+        body: JSON.stringify(magazineIds)
+    });
+}
+
+const updateMagazineService = async (updatedMagazine, mediaType = MediaType.None) => {
+    const formData = new FormData();
+    formData.append("title", updatedMagazine.title);
+    formData.append("mediaTypeId", mediaType);
+    formData.append("description", updatedMagazine.description);
+    formData.append('image', updatedMagazine.imageFile);
+    formData.append('magazineContent', updatedMagazine.magazineContent);
+    formData.append('userId', updatedMagazine.userId);
+
+    return await UseFetchAPI({
+        api: `${magazineRoute}/${updatedMagazine.magazineId}`,
+        method: 'PUT',
+        headers: null,
+        body: formData
+    });
 }
 
 export const magazineService = {
     getMagazineListService,
     getMagazineByIdService,
     addMagazineService,
-    deleteManyMagazineService
+    deleteManyMagazineService,
+    updateMagazineService
 }

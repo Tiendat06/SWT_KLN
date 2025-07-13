@@ -32,11 +32,11 @@ namespace Application
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MusicAuthor"]));
                 //.NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MusicAuthor"]
                 //));
-            RuleFor(x => x.ImageLink)
-                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MusicImage"]));
+            //RuleFor(x => x.ImageLink)
+            //    .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MusicImage"]));
                 //.NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MusicImage"]));
-            RuleFor(x => x.AudioLink)
-                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MusicAudio"]));
+            //RuleFor(x => x.AudioLink)
+            //    .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MusicAudio"]));
                 //.NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MusicAudio"]));
             RuleFor(x => x.UserId)
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]))

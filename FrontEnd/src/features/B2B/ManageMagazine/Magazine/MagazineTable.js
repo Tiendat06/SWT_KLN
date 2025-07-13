@@ -6,13 +6,17 @@ import KLNDataTable from "~/components/KLNTable/KLNDataTable";
 import {KLNColumn, KLNReactPaginate, KLNTableAction} from "~/components";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import {DeleteMany} from "~/features/B2B/ManageMultimedia";
-import {deleteMagazineAction, getMagazineAction} from "~/store/B2B/ManageMagazine/actions";
+import {deleteMagazineAction, getMagazineAction, setMagazineAction} from "~/store/B2B/ManageMagazine/actions";
 import {DateTimeFormat} from "~/utils";
+import {DeleteMagazine} from "~/features/B2B/ManageMagazine";
+import {showToast} from "~/utils/Toast";
+import {useAppContext} from "~/context/AppContext";
 
 const MagazineTable = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageCount, setPageCount] = useState(0);
     const {selectedPageOption, setDeleteAction} = useAdminContext();
+    const {toast} = useAppContext();
 
     const {
         visible,
@@ -28,9 +32,18 @@ const MagazineTable = () => {
     const handleDeleteMany = useCallback(async () => {
         // api
         setIsLoading(true);
-        // const deleteSlideImages = await slideShowService.deleteSlideImageInSpecificSlideShowBySlideShowIdService(selectedItems.map(item => item.id), slideShowId);
-        // if (deleteSlideImages)
-        dispatch(deleteMagazineAction(selectedItems));
+        const deleteMagazines = await magazineService.deleteManyMagazineService(selectedItems.map(item => item.magazineId));
+        let severity = 'error';
+        if (deleteMagazines){
+            dispatch(deleteMagazineAction(selectedItems));
+            severity = 'success';            
+        }
+        showToast({
+            toastRef: toast,
+            severity,
+            summary: 'Xóa báo & tạp chí',
+            detail: deleteMagazines.message
+        })
         setVisible(false);
         setIsLoading(false);
     }, [selectedItems]);
@@ -39,8 +52,9 @@ const MagazineTable = () => {
         setVisible(false);
     }, []);
 
-    const showModal = useCallback(() => {
+    const showModal = useCallback((magazineItem) => {
         setDeleteAction(true);
+        dispatch(setMagazineAction(magazineItem));
     }, []);
 
     useLayoutEffect(() => {
@@ -131,6 +145,7 @@ const MagazineTable = () => {
                 pageCount={pageCount}
                 handlePageClick={handlePageClick}
             />
+            <DeleteMagazine/>
             <DeleteMany
                 isLoading={isLoading}
                 visible={visible}

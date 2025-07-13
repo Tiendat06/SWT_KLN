@@ -18,6 +18,7 @@ import TabViewEnum from "~/enum/TabView/TabViewEnum";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import styles from "~/styles/Pages/B2B/ManageMultimedia/createAudioForm.module.scss";
 import {TEST_USER_ID} from "~/utils/Constansts";
+import MediaType from "~/enum/MediaType/MediaType";
 
 const magazineInput = {
     title: '',
@@ -38,7 +39,7 @@ const CreateMagazineForm = () => {
     const handleAddImage = useCallback(() => {
         const addMagazine = async () => {
             setIsLoading(true);
-            const addedBookData = await magazineService.addMagazineService(addedMagazine);
+            const addedBookData = await magazineService.addMagazineService(addedMagazine, MediaType.PresidentTDT);
             const status = addedBookData.status ?? 400;
             if (status === HttpStatusEnum.Ok || status === HttpStatusEnum.Created) {
                 showToast({

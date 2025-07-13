@@ -5,7 +5,7 @@ import HttpStatusEnum from "~/enum/Http/HttpStatusEnum";
 import {showToast} from "~/utils/Toast";
 import {BROWSER_CANNOT_READ_FILE, INVALID_FILE} from "~/utils/ErrorMessage";
 import {Card} from "primereact/card";
-import {KLNButton, KLNFormItem, KLNUploadFile} from "~/components";
+import {KLNButton, KLNFile, KLNFormItem, KLNRenderIf, KLNUploadFile} from "~/components";
 import clsx from "clsx";
 import styles from "~/styles/Pages/B2B/ManageMultimedia/createAudioForm.module.scss";
 import TrashBrokenIcon from "~/assets/icon/TrashBrokenIcon";
@@ -21,6 +21,7 @@ import InputType from "~/enum/InputType/InputType";
 import KLNPageText from "~/components/KLNPageText/KLNPageText";
 import {DateTimeFormat} from "~/utils";
 import DateTimeFormatEnum from "~/enum/DateTime/DateTimeFormatEnum";
+import MediaType from "~/enum/MediaType/MediaType";
 
 const bookInput = {
     title: '',
@@ -44,24 +45,21 @@ const CreateBookForm = () => {
     const handleAddImage = useCallback(() => {
         const addBook = async () => {
             setIsLoading(true);
-            const addedBookData = await bookService.addBookService(addedBook);
+            const addedBookData = await bookService.addBookService(addedBook, MediaType.PresidentTDT);
             const status = addedBookData.status ?? 400;
+            let severity = 'error';
             if (status === HttpStatusEnum.Ok || status === HttpStatusEnum.Created) {
-                showToast({
-                    toastRef: toast,
-                    severity: 'success',
-                    summary: "Thêm sách",
-                    detail: "Thêm sách thành công."
-                });
+                severity = 'success';
                 setPreviewImage(null);
+                setPreviewBook(null);
                 setAddedBook(bookInput);
-            } else
-                showToast({
-                    toastRef: toast,
-                    severity: 'error',
-                    summary: "Thêm sách",
-                    detail: addedBookData?.message,
-                })
+            }
+            showToast({
+                toastRef: toast,
+                severity: severity,
+                summary: "Thêm sách",
+                detail: addedBookData?.message
+            });
             setIsLoading(false);
         }
         addBook();
@@ -124,9 +122,9 @@ const CreateBookForm = () => {
                             <div style={{
                                 height: "60%"
                             }} className={clsx(styles['create-image__preview--image__src'])}>
-                                {previewImage && (
+                                <KLNRenderIf renderIf={previewImage}>
                                     <img src={previewImage} alt="Hình ảnh xem trước"/>
-                                )}
+                                </KLNRenderIf>
                             </div>
                             <div style={{
                                 height: "40%"
@@ -249,27 +247,22 @@ const CreateBookForm = () => {
                                    accept="application/*"
                                    style={{display: "none"}}
                                    onChange={handleUploadBook}/>
-                            {previewBook && (
-                                <div className={clsx("mt-2 d-flex align-items-center", styles['preview-audio'])}>
-                                    <FileSolidIcon width={30} height={30} style={{
+                            <KLNRenderIf renderIf={previewBook}>
+                                <KLNFile
+                                    href={previewBook ? URL.createObjectURL(previewBook) : ''}
+                                    prefixIcon={<FileSolidIcon width={30} height={30} style={{
                                         marginRight: "10px"
-                                    }}/>
-                                    <span style={{
-                                        display: '-webkit-box',
-                                        WebkitLineClamp: 1,
-                                        WebkitBoxOrient: 'vertical',
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                    }}>{previewBook.name}</span>
-                                    <TrashBrokenIcon
+                                    }}/>}
+                                    trailingIcon={<TrashBrokenIcon
                                         style={{
                                             marginLeft: '5px',
                                         }}
                                         onClick={() => setPreviewBook(null)}
                                         width={30}
-                                        height={30}/>
-                                </div>
-                            )}
+                                        height={30}/>}
+                                    fileName={previewBook?.name}
+                                />
+                            </KLNRenderIf>
                         </div>
                     </Card>
                 </div>

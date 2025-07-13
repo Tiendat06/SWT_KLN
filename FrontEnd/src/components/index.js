@@ -29,6 +29,8 @@ import KLNAdminTitle from "~/components/KLNTitle/KLNAdminTitle";
 import KLNFormItem from "~/components/KLNFormItem/KLNFormItem";
 import KLNUploadFile from "~/components/KLNUploadFile/KLNUploadFile";
 import KLNPageText from "~/components/KLNPageText/KLNPageText";
+import KLNFile from "~/components/KLNFile/KLNFile";
+import KLNRenderIf from "~/components/KLNRenderIf/KLNRenderIf";
 
 export {
     Header, Footer, Body, Sidebar, AdminHeader,
@@ -40,6 +42,6 @@ export {
     KLNBreadCrumb, KLNModal, KLNToast, KLNColumn,
     KLNDataTable, KLNSkeletonWithSpinner, KLNImageWithSkeleton,
     KLNProgressSpinner, KLNAdminTitle, KLNFormItem,
-    KLNUploadFile, KLNPageText
+    KLNUploadFile, KLNPageText, KLNFile, KLNRenderIf
 }
 

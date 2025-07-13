@@ -19,6 +19,7 @@ import {TEST_USER_ID} from "~/utils/Constansts";
 import {showToast} from "~/utils/Toast";
 import styles from "~/styles/Pages/B2B/ManageMultimedia/createAudioForm.module.scss";
 import {useParams} from "react-router-dom";
+import MediaType from "~/enum/MediaType/MediaType";
 
 const magazineInput = {
     title: '',
@@ -41,16 +42,19 @@ const UpdateMagazineForm = () => {
         const magazineData = await magazineService.getMagazineByIdService(id);
         setUpdatedMagazine({
             ...updatedMagazine,
-            ...magazineData.data
+            ...magazineData.data,
+            imageFile: magazineData.data.image,
         });
-        setPreviewImage(magazineData.data.image);
-        setPreviewMagazine(magazineData.data.magazineContent);
     }
 
     const handleUpdateImage = useCallback(() => {
         const updateMagazine = async () => {
             setIsLoading(true);
-            const updatedBookData = await magazineService.addMagazineService(updatedMagazine);
+            const updatedBookData = await magazineService.updateMagazineService({
+                ...updatedMagazine,
+                imageFile: previewImage,
+                magazineContent: previewMagazine
+            }, MediaType.PresidentTDT);
             const status = updatedBookData.status ?? 400;
             if (status === HttpStatusEnum.Ok || status === HttpStatusEnum.Created) {
                 showToast({
@@ -59,8 +63,7 @@ const UpdateMagazineForm = () => {
                     summary: "Cập nhật báo & tạp chí",
                     detail: "Cập nhật báo & tạp chí thành công."
                 });
-                setPreviewImage(null);
-                setUpdatedMagazine(magazineInput);
+                setUpdatedMagazine(updatedBookData);
             } else
                 showToast({
                     toastRef: toast,
@@ -79,7 +82,7 @@ const UpdateMagazineForm = () => {
         if (isFile && isSizeOk) {
             setUpdatedMagazine({
                 ...updatedMagazine,
-                magazineContent: files[0]
+                magazineContent: null
             });
             setPreviewMagazine(files[0]);
         } else {
@@ -92,7 +95,7 @@ const UpdateMagazineForm = () => {
         }
     };
 
-    const handleUploadBook = (e) => {
+    const handleUploadMagazine = (e) => {
         const files = e.target.files;
         if (files && files.length > 0) {
             handleFile(files, "application/");
@@ -134,8 +137,8 @@ const UpdateMagazineForm = () => {
                             <div style={{
                                 height: "60%"
                             }} className={clsx(styles['create-image__preview--image__src'])}>
-                                {previewImage && (
-                                    <img src={previewImage} alt="Hình ảnh xem trước"/>
+                                {(updatedMagazine.imageFile || previewImage) && (
+                                    <img src={previewImage ?? updatedMagazine.imageFile} alt="Hình ảnh xem trước"/>
                                 )}
                             </div>
                             <div style={{
@@ -152,7 +155,8 @@ const UpdateMagazineForm = () => {
                                     <h6 style={{
                                         fontWeight: 'bold'
                                     }}>Mô tả:</h6>
-                                    <p title={updatedMagazine?.description}>{updatedMagazine?.description || <KLNPageText/>}</p>
+                                    <p title={updatedMagazine?.description}>{updatedMagazine?.description ||
+                                        <KLNPageText/>}</p>
                                 </div>
                             </div>
                         </div>
@@ -210,24 +214,35 @@ const UpdateMagazineForm = () => {
                             <input type="file" id="audioUpload"
                                    accept="application/*"
                                    style={{display: "none"}}
-                                   onChange={handleUploadBook}/>
-                            {previewMagazine && (
-                                <div className={clsx("mt-2 d-flex align-items-center", styles['preview-audio'])}>
-                                    <FileSolidIcon width={30} height={30} style={{
-                                        marginRight: "10px"
-                                    }}/>
-                                    <span style={{
-                                        display: '-webkit-box',
-                                        WebkitLineClamp: 1,
-                                        WebkitBoxOrient: 'vertical',
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                    }}>{updatedMagazine?.title}</span>
+                                   onChange={handleUploadMagazine}/>
+                            {(updatedMagazine.magazineContent || previewMagazine) && (
+                                <div
+                                    className={clsx("mt-2 d-flex align-items-center justify-content-between w-100", styles['preview-audio'])}>
+                                    <div className="d-flex align-items-center col-lg-11 col-md-11 col-sm-11">
+                                        <FileSolidIcon width={30} height={30} style={{
+                                            marginRight: "10px"
+                                        }}/>
+                                        <span style={{
+                                            display: '-webkit-box',
+                                            WebkitLineClamp: 1,
+                                            WebkitBoxOrient: 'vertical',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                        }}>{previewMagazine?.name || updatedMagazine.title}</span>
+                                    </div>
                                     <TrashBrokenIcon
+                                        className="col-lg-1 col-md-1 col-sm-1"
                                         style={{
                                             marginLeft: '5px',
                                         }}
-                                        onClick={() => setPreviewMagazine(null)}
+                                        onClick={() => {
+                                            previewMagazine ?
+                                                setPreviewMagazine(null)
+                                                : setUpdatedMagazine({
+                                                    ...updatedMagazine,
+                                                    magazineContent: null,
+                                                })
+                                        }}
                                         width={30}
                                         height={30}/>
                                 </div>

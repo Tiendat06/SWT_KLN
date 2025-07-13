@@ -28,7 +28,7 @@ const KLNUploadFile = ({
     const handleFile = (files, fileType) => {
         const isFile = files[0].type.startsWith(fileType);
         const isSizeOk = files[0].size <= fileSizeLimitMb * 1024 * 1024;
-        console.log({isFile, isSizeOk, type: files[0].type})
+        // console.log({isFile, isSizeOk, type: files[0].type})
         if (isFile && isSizeOk) {
             setData({
                 ...data,

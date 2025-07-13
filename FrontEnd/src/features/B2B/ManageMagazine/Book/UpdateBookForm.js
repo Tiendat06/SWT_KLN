@@ -7,7 +7,7 @@ import {bookService} from "~/services/BookService";
 import HttpStatusEnum from "~/enum/Http/HttpStatusEnum";
 import {showToast} from "~/utils/Toast";
 import {BROWSER_CANNOT_READ_FILE, INVALID_FILE} from "~/utils/ErrorMessage";
-import {KLNButton, KLNFormItem, KLNPageText, KLNUploadFile} from "~/components";
+import {KLNButton, KLNFile, KLNFormItem, KLNPageText, KLNRenderIf, KLNUploadFile} from "~/components";
 import clsx from "clsx";
 import {Card} from "primereact/card";
 import styles from "~/styles/Pages/B2B/ManageMultimedia/createAudioForm.module.scss";
@@ -21,6 +21,7 @@ import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 import TabViewEnum from "~/enum/TabView/TabViewEnum";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import {useParams} from "react-router-dom";
+import MediaType from "~/enum/MediaType/MediaType";
 
 const bookInput = {
     title: '',
@@ -30,7 +31,9 @@ const bookInput = {
     imageFile: {},
     userId: TEST_USER_ID,
     bookContent: {},
-    description: ''
+    description: '',
+
+    downloadUrlFile: ''
 }
 
 const UpdateBookForm = () => {
@@ -45,35 +48,29 @@ const UpdateBookForm = () => {
 
     const getBookData = async () => {
         const bookData = await bookService.getBookByIdService(id);
+        let downloadUrlFile = (bookData.data.bookContent).replace("/upload/", "/upload/fl_attachment/")
         setUpdatedBook({
             ...updatedBook,
-            ...bookData.data
+            ...bookData.data,
+            imageFile: bookData.data.image,
+            downloadUrlFile,
         });
-        setPreviewImage(bookData.data.image);
-        setPreviewBook(bookData.data.bookContent);
     }
 
     const handleUpdateImage = useCallback(() => {
         const updateBook = async () => {
             setIsLoading(true);
-            const updatedBookData = await bookService.addBookService(updatedBook);
+            const updatedBookData = await bookService.updateBookService(id, updatedBook, MediaType.PresidentTDT);
             const status = updatedBookData.status ?? HttpStatusEnum.BadRequest;
-            if (status === HttpStatusEnum.Ok || status === HttpStatusEnum.Created) {
-                showToast({
-                    toastRef: toast,
-                    severity: 'success',
-                    summary: "Cập nhật sách",
-                    detail: "Cập nhật sách thành công."
-                });
-                setPreviewImage(null);
-                setUpdatedBook(bookInput);
-            } else
-                showToast({
-                    toastRef: toast,
-                    severity: 'error',
-                    summary: "Cập nhật sách",
-                    detail: updatedBookData?.message,
-                })
+            let severity = "error";
+            if (status === HttpStatusEnum.Ok || status === HttpStatusEnum.Created)
+                severity = "success";
+            showToast({
+                toastRef: toast,
+                severity: severity,
+                summary: "Cập nhật sách",
+                detail: updatedBookData?.message,
+            })
             setIsLoading(false);
         }
         updateBook();
@@ -140,9 +137,9 @@ const UpdateBookForm = () => {
                             <div style={{
                                 height: "60%"
                             }} className={clsx(styles['create-image__preview--image__src'])}>
-                                {previewImage && (
-                                    <img src={previewImage} alt="Hình ảnh xem trước"/>
-                                )}
+                                <KLNRenderIf renderIf={previewImage || updatedBook.imageFile}>
+                                    <img src={previewImage ?? updatedBook.imageFile} alt="Hình ảnh xem trước"/>
+                                </KLNRenderIf>
                             </div>
                             <div style={{
                                 height: "40%"
@@ -152,25 +149,29 @@ const UpdateBookForm = () => {
                                     <h6 style={{
                                         fontWeight: 'bold'
                                     }}>Tiêu đề:</h6>
-                                    <p className={clsx(styles['preview-para'])} title={updatedBook?.title}>{updatedBook?.title || <KLNPageText/>}</p>
+                                    <p className={clsx(styles['preview-para'])}
+                                       title={updatedBook?.title}>{updatedBook?.title || <KLNPageText/>}</p>
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-sm-6 p-1">
                                     <h6 style={{
                                         fontWeight: 'bold',
                                     }}>Tác giả:</h6>
-                                    <p className={clsx(styles['preview-para'])} title={updatedBook?.author}>{updatedBook?.author || <KLNPageText/>}</p>
+                                    <p className={clsx(styles['preview-para'])}
+                                       title={updatedBook?.author}>{updatedBook?.author || <KLNPageText/>}</p>
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-sm-6 p-1">
                                     <h6 style={{
                                         fontWeight: 'bold'
                                     }}>Nhà xuất bản:</h6>
-                                    <p className={clsx(styles['preview-para'])} title={updatedBook?.publisher}>{updatedBook?.publisher || <KLNPageText/>}</p>
+                                    <p className={clsx(styles['preview-para'])}
+                                       title={updatedBook?.publisher}>{updatedBook?.publisher || <KLNPageText/>}</p>
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-sm-6 p-1">
                                     <h6 style={{
                                         fontWeight: 'bold',
                                     }}>Năm xuất bản:</h6>
-                                    <p className={clsx(styles['preview-para'])} title={updatedBook?.yearPublic}>{!isNaN(DateTimeFormat(updatedBook?.yearPublic, DateTimeFormatEnum.Year))
+                                    <p className={clsx(styles['preview-para'])}
+                                       title={updatedBook?.yearPublic}>{!isNaN(DateTimeFormat(updatedBook?.yearPublic, DateTimeFormatEnum.Year))
                                         ? DateTimeFormat(updatedBook?.yearPublic, DateTimeFormatEnum.Year) :
                                         <KLNPageText/>}</p>
                                 </div>
@@ -251,7 +252,7 @@ const UpdateBookForm = () => {
                                 cursor: 'pointer'
                             }} className={clsx("d-flex flex-wrap align-item-center col-lg-12 col-md-12 col-sm-12 p-2")}>
                             <label
-                                htmlFor="audioUpload"
+                                htmlFor="bookUpload"
                                 style={{
                                     fontWeight: 'bold'
                                 }} className={clsx("w-100")}>
@@ -261,31 +262,32 @@ const UpdateBookForm = () => {
                                 Tải sách lên
                                 <p className='mb-0'>Kích thước tối đa 4GB với định dạng pdf, docx,...</p>
                             </label>
-                            <input type="file" id="audioUpload"
+                            <input type="file" id="bookUpload"
                                    accept="application/*"
                                    style={{display: "none"}}
                                    onChange={handleUploadBook}/>
-                            {previewBook && (
-                                <div className={clsx("mt-2 d-flex align-items-center", styles['preview-audio'])}>
-                                    <FileSolidIcon width={30} height={30} style={{
-                                        marginRight: "10px"
-                                    }}/>
-                                    <span style={{
-                                        display: '-webkit-box',
-                                        WebkitLineClamp: 1,
-                                        WebkitBoxOrient: 'vertical',
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                    }}>{previewBook.name || updatedBook.title}</span>
-                                    <TrashBrokenIcon
-                                        style={{
-                                            marginLeft: '5px',
-                                        }}
-                                        onClick={() => setPreviewBook(null)}
-                                        width={30}
-                                        height={30}/>
-                                </div>
-                            )}
+                            <KLNRenderIf renderIf={previewBook || updatedBook.bookContent}>
+                                <KLNFile
+                                    href={previewBook != null ? URL.createObjectURL(previewBook) : updatedBook.downloadUrlFile}
+                                    prefixIcon={
+                                        <FileSolidIcon style={{
+                                            marginRight: "10px"
+                                        }}/>}
+                                    trailingIcon={
+                                        <TrashBrokenIcon
+                                            style={{
+                                                marginLeft: '5px',
+                                            }}
+                                            onClick={() => {
+                                                setUpdatedBook({
+                                                    ...updatedBook,
+                                                    bookContent: null
+                                                })
+                                                setPreviewBook(null)
+                                            }}/>}
+                                    fileName={previewBook?.name || updatedBook.title}
+                                />
+                            </KLNRenderIf>
                         </div>
                     </Card>
                 </div>
