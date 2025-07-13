@@ -71,7 +71,7 @@ const MagazineTable = () => {
     const imageBodyTemplate = (rowData) => {
         return <img
             style={{
-                width: 50,
+                width: 30,
             }}
             src={rowData.image}
             alt={rowData.title}

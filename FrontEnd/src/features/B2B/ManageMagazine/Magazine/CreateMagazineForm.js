@@ -6,7 +6,7 @@ import {magazineService} from "~/services/MagazineService";
 import HttpStatusEnum from "~/enum/Http/HttpStatusEnum";
 import {showToast} from "~/utils/Toast";
 import {BROWSER_CANNOT_READ_FILE, INVALID_FILE} from "~/utils/ErrorMessage";
-import {KLNButton, KLNFormItem, KLNPageText, KLNUploadFile} from "~/components";
+import {KLNButton, KLNFile, KLNFormItem, KLNPageText, KLNRenderIf, KLNUploadFile} from "~/components";
 import {Card} from "primereact/card";
 import clsx from "clsx";
 import InputType from "~/enum/InputType/InputType";
@@ -40,7 +40,7 @@ const CreateMagazineForm = () => {
         const addMagazine = async () => {
             setIsLoading(true);
             const addedBookData = await magazineService.addMagazineService(addedMagazine, MediaType.PresidentTDT);
-            const status = addedBookData.status ?? 400;
+            const status = addedBookData.status ?? HttpStatusEnum.BadRequest;
             if (status === HttpStatusEnum.Ok || status === HttpStatusEnum.Created) {
                 showToast({
                     toastRef: toast,
@@ -119,9 +119,9 @@ const CreateMagazineForm = () => {
                             <div style={{
                                 height: "60%"
                             }} className={clsx(styles['create-image__preview--image__src'])}>
-                                {previewImage && (
+                                <KLNRenderIf renderIf={previewImage}>
                                     <img src={previewImage} alt="Hình ảnh xem trước"/>
-                                )}
+                                </KLNRenderIf>
                             </div>
                             <div style={{
                                 height: "40%"
@@ -137,7 +137,8 @@ const CreateMagazineForm = () => {
                                     <h6 style={{
                                         fontWeight: 'bold'
                                     }}>Mô tả:</h6>
-                                    <p title={addedMagazine?.description}>{addedMagazine?.description || <KLNPageText/>}</p>
+                                    <p title={addedMagazine?.description}>{addedMagazine?.description ||
+                                        <KLNPageText/>}</p>
                                 </div>
                             </div>
                         </div>
@@ -182,7 +183,7 @@ const CreateMagazineForm = () => {
                                 cursor: 'pointer'
                             }} className={clsx("d-flex flex-wrap align-item-center col-lg-12 col-md-12 col-sm-12 p-2")}>
                             <label
-                                htmlFor="audioUpload"
+                                htmlFor="magazineUpload"
                                 style={{
                                     fontWeight: 'bold'
                                 }} className={clsx("w-100")}>
@@ -192,31 +193,24 @@ const CreateMagazineForm = () => {
                                 Tải báo & tạp chí lên
                                 <p className='mb-0'>Kích thước tối đa 4GB với định dạng pdf, docx,...</p>
                             </label>
-                            <input type="file" id="audioUpload"
+                            <input type="file" id="magazineUpload"
                                    accept="application/*"
                                    style={{display: "none"}}
                                    onChange={handleUploadBook}/>
-                            {previewMagazine && (
-                                <div className={clsx("mt-2 d-flex align-items-center", styles['preview-audio'])}>
-                                    <FileSolidIcon width={30} height={30} style={{
+                            <KLNRenderIf renderIf={previewMagazine}>
+                                <KLNFile
+                                    href={previewMagazine ? URL.createObjectURL(previewMagazine) : ''}
+                                    prefixIcon={<FileSolidIcon style={{
                                         marginRight: "10px"
-                                    }}/>
-                                    <span style={{
-                                        display: '-webkit-box',
-                                        WebkitLineClamp: 1,
-                                        WebkitBoxOrient: 'vertical',
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis',
-                                    }}>{previewMagazine.name}</span>
-                                    <TrashBrokenIcon
+                                    }}/>}
+                                    trailingIcon={<TrashBrokenIcon
                                         style={{
                                             marginLeft: '5px',
                                         }}
-                                        onClick={() => setPreviewMagazine(null)}
-                                        width={30}
-                                        height={30}/>
-                                </div>
-                            )}
+                                        onClick={() => setPreviewMagazine(null)}/>}
+                                    fileName={previewMagazine?.name}
+                                />
+                            </KLNRenderIf>
                         </div>
                     </Card>
                 </div>
