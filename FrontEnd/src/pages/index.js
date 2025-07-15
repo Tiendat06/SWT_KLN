@@ -27,6 +27,9 @@ import ManageTopic from "~/pages/B2B/ManageTopic/ManageTopic";
 import TopicDetail from "~/pages/B2B/ManageTopic/TopicDetail";
 import LoginPage from "~/pages/B2B/Login/Login";
 import CreateMultimedia from "~/pages/B2B/ManageMultimedia/CreateMultimedia";
+import CreateBookAndMagazine from "~/pages/B2B/ManageMagazine/CreateBookAndMagazine";
+import CreateImage from "~/pages/B2B/ManageImage/CreateImage";
+import UpdateBookAndMagazine from "~/pages/B2B/ManageMagazine/UpdateBookAndMagazine";
 
 import CreateTopic from "~/pages/B2B/ManageTopic/CreateTopic";
 import EditTopic from "~/pages/B2B/ManageTopic/EditTopic";
@@ -54,7 +57,11 @@ export {
     ManageTopic,
     TopicDetail,
     CreateTopic,
-    EditTopic
+    EditTopic,
+    CreateBookAndMagazine,
+    CreateImage,
+    UpdateBookAndMagazine
+
 };
 
 export { LoginPage };

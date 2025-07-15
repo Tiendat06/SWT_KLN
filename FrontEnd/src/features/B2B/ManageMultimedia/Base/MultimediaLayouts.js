@@ -17,6 +17,11 @@ import TrashBrokenIcon from "~/assets/icon/TrashBrokenIcon";
 import AddBrokenIcon from "~/assets/icon/AddBrokenIcon";
 
 const MultimediaLayouts = () => {
+    const [totalCount, setTotalCount] = useState({
+        totalSlideImage: 0,
+        totalVideo: 0,
+        totalMusic: 0
+    });
     const {tabView, setTabView, setDeleteAction, setSelectedPageOption} = useAdminContext();
     const [tabViewData, setTabViewData] = useState([]);
     const {
@@ -37,6 +42,12 @@ const MultimediaLayouts = () => {
             const totalSlideImageData = await slideShowService.getTotalSlideImageInSpecificSlideShowService(MediaType.PresidentTDT, SlideShowType.TDTArtistic)
             const totalMusicData = await musicService.getTotalMusicService(MediaType.PresidentTDT);
             const totalVideoData = await videoService.getTotalVideoService(MediaType.PresidentTDT);
+            setTotalCount({
+                ...totalCount,
+                totalSlideImage: totalSlideImageData.data.totalSlideImage,
+                totalMusic: totalMusicData.data.totalMusic,
+                totalVideo: totalVideoData.data.totalVideo,
+            })
 
             setTabViewData([
                 {
@@ -83,6 +94,16 @@ const MultimediaLayouts = () => {
         },
     ];
 
+    const getAddBtnCursor = () => {
+        if ((tabView === TabViewEnum.ManageMultimediaTabVideo && totalCount.totalVideo > 0) ||
+            (tabView === TabViewEnum.ManageMultimediaTabImage && totalCount.totalSlideImage > 0) ||
+            (tabView === TabViewEnum.ManageMultimediaTabAudio && totalCount.totalMusic > 0)
+        ){
+            return "pointer";
+        }
+        return "not-allowed";
+    }
+
     return (
         <>
             <KLNAdminTitle>
@@ -119,15 +140,11 @@ const MultimediaLayouts = () => {
                     >Xóa ({selectedItems.length}) <TrashBrokenIcon width={20} height={20} style={{marginLeft: 2}}/>
                     </KLNButton>
                     <KLNButton
+                        style={{
+                            cursor: getAddBtnCursor(),
+                        }}
                         urlLink={
                             `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-multimedia`
-                            // tabView === TabViewEnum.ManageMultimediaTabImage
-                            //     ? `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-image`
-                            //     : tabView === TabViewEnum.ManageMultimediaTabVideo
-                            //         ? `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-video`
-                            //         : tabView === TabViewEnum.ManageMultimediaTabAudio
-                            //             ? `${AppRoutesEnum.AdminRoute}/manage-multimedia/create-audio`
-                            //             : ''
                         }
                         options={KLNButtonEnum.dangerBtn}
                     >Thêm <AddBrokenIcon width={20} height={20} style={{marginLeft: 5}}/></KLNButton>
@@ -144,7 +161,7 @@ const MultimediaLayouts = () => {
                     <KLNCascadeSelect/>
                 </div>
                 {tabView === TabViewEnum.ManageMultimediaTabImage && (
-                    <ImageTable/>
+                    <ImageTable mediaType={MediaType.PresidentTDT} slideShowType={SlideShowType.TDTArtistic}/>
                 )}
                 {tabView === TabViewEnum.ManageMultimediaTabVideo && (
                     <VideoTable/>

@@ -55,7 +55,7 @@ namespace API.Controllers
         }
 
         // DELETE: api/Book/ids
-        [HttpDelete("ids")]
+        [HttpDelete]
         public async Task<IActionResult> DeleteMultipleBook([FromBody] List<Guid> ids)
         {
             var result = await _bookService.DeleteMultipleBooksAsync(ids);

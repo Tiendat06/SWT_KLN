@@ -9,6 +9,7 @@ import {BrowserRouter as Router} from 'react-router-dom'
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import '~/i18n';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

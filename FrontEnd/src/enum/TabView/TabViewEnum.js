@@ -31,6 +31,11 @@ const TabViewEnum = Object.freeze({
      * Magazine tab in manage magazine
      * */
     ManageMagazineTabMagazine: 6,
+
+    /**
+     * Image tab in manage image
+     * */
+    ManageImagesTabImages: 7,
 });
 
 export default TabViewEnum;

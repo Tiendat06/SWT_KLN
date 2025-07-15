@@ -107,12 +107,14 @@ namespace Application.Services
                     {
                         LogMagazineId = 0,
                         Title = magazineEntity.Title,
+                        Description = magazineEntity.Description,
                         Image = magazineEntity.Image,
                         CreateDate = magazineEntity.CreateDate,
                         UserId = magazineEntity.UserId,
                         MagazineContent = magazineEntity.MagazineContent,
                         MagazineId = magazineEntity.MagazineId,
                         Process = ProcessMethod.UPDATE,
+                        MediaTypeId = updateMagazineRequest.MediaTypeId
                     };
                     await _logMagazineRepository.CreateLogMagazineAsync(newLogMagazine);
                     await uow.SaveChangesAsync();
@@ -124,7 +126,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["UpdateMagazineFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -177,7 +179,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["AddMagazineFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -225,7 +227,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["DeleteMultipleMagazinesFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -269,7 +271,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["DeleteMagazineFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
