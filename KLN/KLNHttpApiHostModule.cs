@@ -10,6 +10,7 @@ using Infrastructure;
 using Infrastructure.Persistence;
 using Infrastructure.Repositories;
 using KLN.Shared.CrossCuttingConcerns.Exceptions;
+using KLN.Shared.CrossCuttingConcerns.Utils;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Features;
@@ -219,6 +220,9 @@ namespace KLN
             cloudinary.Api.Secure = true;
             builder.Services.AddSingleton(cloudinary);
 
+            // Youtube upload
+            builder.Services.AddScoped<YoutubeOperations>();
+
             // UnitOfWork
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -240,6 +244,7 @@ namespace KLN
             builder.Services.AddScoped<ILogBlogRepository, LogBlogRepository>();
             builder.Services.AddScoped<ILogBookRepository, LogBookRepository>();
             builder.Services.AddScoped<ILogMagazineRepository, LogMagazineRepository>();
+            builder.Services.AddScoped<ILogTopicRepository, LogTopicRepository>();
             builder.Services.AddScoped<ISlideShowRepository, SlideShowRepository>();
             builder.Services.AddScoped<ISlideShowTypeRepository, SlideShowTypeRepository>();
             builder.Services.AddScoped<ILogSlideShowRepository, LogSlideShowRepository>();

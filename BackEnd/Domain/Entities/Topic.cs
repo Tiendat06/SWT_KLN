@@ -19,6 +19,9 @@ namespace Domain.Entities
         [Column("capture", TypeName = "varchar")]
         public string? Capture {  get; set; } = string.Empty;
 
+        [Column("description", TypeName = "nvarchar")]
+        public string? Description { get; set; } = string.Empty;
+
         [Column("createDate", TypeName = "datetime")]
         public DateTime CreateDate { get; set; } = DateTime.Now;
 

@@ -30,6 +30,14 @@ namespace Infrastructure.Repositories
                 .FirstOrDefaultAsync(blog => blog.BlogId == id && blog.IsDeleted == false);
         }
 
+        public async Task<List<Blog>> GetBlogByIdsAsync(List<Guid> ids)
+        {
+            return await _context.Blogs
+                .AsNoTracking()
+                .Where(blog => ids.Contains(blog.BlogId) && blog.IsDeleted == false)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Blog>> GetAllBlogsAsync(int page, int fetch, int type)
         {
             var query = _context.Blogs
@@ -65,6 +73,18 @@ namespace Infrastructure.Repositories
         {
             blog.IsDeleted = true;
             await Task.CompletedTask;
+        }
+
+        public async Task SoftDeleteMultipleBlogsByIdsAsync(List<Guid> ids)
+        {
+            var blogs = await _context.Blogs
+                .Where(blog => ids.Contains(blog.BlogId) && blog.IsDeleted == false)
+                .ToListAsync();
+            foreach (var blog in blogs)
+            {
+                blog.IsDeleted = true;
+            }
+            await _context.SaveChangesAsync();
         }
 
         public async Task<int> CountAllBlogsAsync(int type)

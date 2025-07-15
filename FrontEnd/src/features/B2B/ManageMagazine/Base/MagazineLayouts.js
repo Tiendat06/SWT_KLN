@@ -36,13 +36,13 @@ const MagazineLayouts = () => {
                 {
                     id: 1,
                     tabView: TabViewEnum.ManageMagazineTabBook,
-                    title: 'Sách & Báo',
+                    title: 'Sách',
                     totalCount: totalBookData.data?.totalCount
                 },
                 {
                     id: 2,
                     tabView: TabViewEnum.ManageMagazineTabMagazine,
-                    title: 'Tạp chí',
+                    title: 'Báo & Tạp chí',
                     totalCount: totalMagazineData.data?.totalCount
                 }
             ]);
@@ -53,18 +53,13 @@ const MagazineLayouts = () => {
     const items = [
         {template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-magazine`}>Sách báo & Tạp chí</Link>},
         {
-            template: () => {
-                return (
-                    <>
-                        {tabView === TabViewEnum.ManageMagazineTabBook && (
-                            <Link to={`${AppRoutesEnum.AdminRoute}/manage-magazine`}>Danh sách sách báo</Link>
-                        )}
-                        {tabView === TabViewEnum.ManageMagazineTabMagazine && (
-                            <Link to={`${AppRoutesEnum.AdminRoute}/manage-magazine`}>Danh sách tạp chí</Link>
-                        )}
-                    </>
-                )
-            }
+            template: () =>
+                <Link to={`${AppRoutesEnum.AdminRoute}/manage-magazine`}>
+                    {tabView === TabViewEnum.ManageMagazineTabBook ? 'Danh sách sách' :
+                        tabView === TabViewEnum.ManageMagazineTabMagazine ? 'Danh sách báo & tạp chí' :
+                            ''
+                    }
+                </Link>
         },
     ];
     return (
@@ -88,20 +83,14 @@ const MagazineLayouts = () => {
                         style={{
                             marginRight: 20,
                             fontWeight: "bold",
-                            cursor: !selectedItems.length ? "not-allowed": "pointer"
+                            cursor: !selectedItems.length ? "not-allowed" : "pointer"
                         }}
                         options={KLNButtonEnum.secondDangerBtn}
                         onClick={showModal}
                     >Xóa ({selectedItems.length}) <TrashBrokenIcon width={20} height={20} style={{marginLeft: 2}}/>
                     </KLNButton>
                     <KLNButton
-                        urlLink={
-                            tabView === TabViewEnum.ManageMagazineTabBook
-                                ? `${AppRoutesEnum.AdminRoute}/manage-magazine/create-book`
-                                : tabView === TabViewEnum.ManageMagazineTabMagazine
-                                    ? `${AppRoutesEnum.AdminRoute}/manage-magazine/create-magazine`
-                                    : ''
-                        }
+                        urlLink={`${AppRoutesEnum.AdminRoute}/manage-magazine/create-magazine`}
                         options={KLNButtonEnum.dangerBtn}
                     >Thêm <AddBrokenIcon width={20} height={20} style={{marginLeft: 5}}/></KLNButton>
                 </div>

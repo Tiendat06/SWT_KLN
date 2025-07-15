@@ -4,6 +4,7 @@ import React, {memo} from "react";
 import clsx from "clsx";
 import InputType from "~/enum/InputType/InputType";
 import {Calendar} from "primereact/calendar";
+import {KLNRenderIf} from "~/components";
 
 const KLNFormItem = ({
                          parentClassName = "col-lg-12 col-md-12 col-sm-12 p-2",
@@ -19,27 +20,27 @@ const KLNFormItem = ({
             <label style={{
                 fontWeight: 'bold'
             }} className={clsx("w-100 mb-2", labelClassName)}>{label}</label>
-            {inputType === InputType.Text &&
+            <KLNRenderIf renderIf={inputType === InputType.Text}>
                 <InputText
                     {...props}
                     className={clsx("w-100", inputClassName)}/>
-            }
-            {inputType === InputType.TextArea &&
+            </KLNRenderIf>
+            <KLNRenderIf renderIf={inputType === InputType.TextArea}>
                 <InputTextarea
                     {...props}
                     className={clsx("w-100", inputClassName)}/>
-            }
-            {inputType === InputType.Calendar &&
+            </KLNRenderIf>
+            <KLNRenderIf renderIf={inputType === InputType.Calendar}>
                 <Calendar
                     {...props}
                     className={clsx("w-100", inputClassName)}/>
-            }
-            {inputType === InputType.SingleSelect &&
+            </KLNRenderIf>
+            <KLNRenderIf renderIf={inputType === InputType.SingleSelect}>
                 <></>
-            }
-            {inputType === InputType.Checkbox &&
+            </KLNRenderIf>
+            <KLNRenderIf renderIf={inputType === InputType.Checkbox}>
                 <></>
-            }
+            </KLNRenderIf>
         </div>
     );
 }

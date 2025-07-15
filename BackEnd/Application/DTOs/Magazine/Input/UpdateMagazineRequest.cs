@@ -28,8 +28,8 @@ namespace Application
                     localizer["MaxLength"], localizer["MagazineTitle"], MagazineConsts.MaxTitleLength
                 ));
 
-            RuleFor(x => x.MagazineContent)
-                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MagazineContent"]));
+            //RuleFor(x => x.MagazineContent)
+            //    .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MagazineContent"]));
                 //.NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MagazineContent"]));
 
             RuleFor(x => x.UserId)

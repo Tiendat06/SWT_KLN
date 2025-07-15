@@ -36,6 +36,18 @@ namespace Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("dbo");
+
+            // auto where IsDeleted
+            modelBuilder.Entity<Account>().HasQueryFilter(x => x.IsHidden.HasValue && !x.IsHidden.Value);
+            modelBuilder.Entity<Blog>().HasQueryFilter(x => x.IsDeleted.HasValue && !x.IsDeleted.Value);
+            modelBuilder.Entity<Book>().HasQueryFilter(x => x.IsDeleted.HasValue && !x.IsDeleted.Value);
+            modelBuilder.Entity<Magazine>().HasQueryFilter(x => x.IsDeleted.HasValue && !x.IsDeleted.Value);
+            modelBuilder.Entity<Music>().HasQueryFilter(x => x.IsDeleted.HasValue && !x.IsDeleted.Value);
+            modelBuilder.Entity<SlideShow>().HasQueryFilter(x => x.IsDeleted.HasValue && !x.IsDeleted.Value);
+            modelBuilder.Entity<SolemnVisit>().HasQueryFilter(x => x.IsDeleted.HasValue && !x.IsDeleted.Value);
+            modelBuilder.Entity<Video>().HasQueryFilter(x => x.IsDeleted.HasValue && !x.IsDeleted.Value);
+            modelBuilder.Entity<Topic>().HasQueryFilter(x => x.IsDeleted.HasValue && !x.IsDeleted.Value);
+
         }
     }
 }

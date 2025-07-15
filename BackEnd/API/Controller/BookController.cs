@@ -54,12 +54,12 @@ namespace API.Controllers
             return ApiSuccess(book);
         }
 
-        // DELETE: api/Book/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBook(Guid id)
+        // DELETE: api/Book/ids
+        [HttpDelete]
+        public async Task<IActionResult> DeleteMultipleBook([FromBody] List<Guid> ids)
         {
-            var isDeleted = await _bookService.DeleteBookAsync(id);
-            return ApiSuccess(isDeleted);
+            var result = await _bookService.DeleteMultipleBooksAsync(ids);
+            return ApiSuccess(result);
         }
 
         // GET: api/Book/book-quan

@@ -107,12 +107,14 @@ namespace Application.Services
                     {
                         LogMagazineId = 0,
                         Title = magazineEntity.Title,
+                        Description = magazineEntity.Description,
                         Image = magazineEntity.Image,
                         CreateDate = magazineEntity.CreateDate,
                         UserId = magazineEntity.UserId,
                         MagazineContent = magazineEntity.MagazineContent,
                         MagazineId = magazineEntity.MagazineId,
                         Process = ProcessMethod.UPDATE,
+                        MediaTypeId = updateMagazineRequest.MediaTypeId
                     };
                     await _logMagazineRepository.CreateLogMagazineAsync(newLogMagazine);
                     await uow.SaveChangesAsync();
@@ -124,7 +126,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["UpdateMagazineFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -177,7 +179,55 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["AddMagazineFailed"]);
+                    throw new InvalidOperationException(ex.Message);
+                }
+            }
+        }
+
+        public async Task<bool> DeleteMultipleMagazinesAsync(List<Guid> ids)
+        {
+            using (var uow = await _unitOfWork.BeginTransactionAsync())
+            {
+                try
+                {
+                    var magazines = await _magazineRepository.GetMagazinesByIdsAsync(ids);
+                    if (magazines.Count == 0)
+                    {
+                        throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Magazine"]));
+                    }
+                    // Fetch all music entities once for logging
+                    Console.WriteLine($"ids: {ids}");
+                    var magazineEntities = await _magazineRepository.GetMagazinesByIdsAsync(ids) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Magazine"]));
+                    Console.WriteLine($"Fetched {magazineEntities?.Count() ?? 0} magazine records for deletion.");
+                    if (magazineEntities == null || !magazineEntities.Any())
+                    {
+                        throw new KeyNotFoundException(_localizer["NoMagazineRecordsFound"]);
+                    }
+                    // update log Magazine
+                    var logEntries = magazineEntities.Select(magazine => new LogMagazine
+                    {
+                        LogMagazineId = 0,
+                        Title = magazine.Title,
+                        Image = magazine.Image,
+                        CreateDate = magazine.CreateDate,
+                        Description = magazine.Description,
+                        UserId = magazine.UserId,
+                        MagazineContent = magazine.MagazineContent,
+                        MagazineId = magazine.MagazineId,
+                        Process = ProcessMethod.DELETE,
+                    }).ToList();
+  
+                    await _logMagazineRepository.CreateLogMagazineRangeAsync(logEntries);
+
+                    await _magazineRepository.SoftDeleteMultipleMagazineByIdsAsync(ids);
+                    await uow.SaveChangesAsync();
+                    await uow.CommitTransactionAsync();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    await uow.RollbackTransactionAsync();
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -221,7 +271,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["DeleteMagazineFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
