@@ -7,6 +7,7 @@ import manageImagesRoutes, {manageImagesJRoutes} from "~/routes/B2B/manageImages
 import manageTopicRoutes, {manageTopicJRoutes} from "~/routes/B2B/manageTopicRoutes";
 import loginRoutes, { loginTRoutes } from "~/routes/B2B/loginRoutes";
 import manageMagazineRoutes, {manageMagazineJRoutes} from "~/routes/B2B/manageMagazineRoutes";
+import manageSlideShowRoutes, {manageSlideShowKRoutes} from "~/routes/B2B/manageSlideShowRoutes";
 
 
 export {siteJRoutes, aboutJRoutes, memorialAreaJRoutes, handiworkJRoutes};
@@ -14,6 +15,9 @@ export {siteJRoutes, aboutJRoutes, memorialAreaJRoutes, handiworkJRoutes};
 export {manageMultimediaJRoutes, manageImagesJRoutes, manageMagazineJRoutes, manageTopicJRoutes};
 
 export {loginTRoutes};
+
+export {manageSlideShowKRoutes};
+
 
 const appRoutes = [
     ...siteRoutes,
@@ -24,7 +28,8 @@ const appRoutes = [
     ...manageMagazineRoutes,
     ...manageImagesRoutes,
     ...manageTopicRoutes,
-    ...loginRoutes 
+    ...loginRoutes,
+    ...manageSlideShowRoutes,
 ];
 
 export default appRoutes;

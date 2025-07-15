@@ -33,6 +33,11 @@ import UpdateBookAndMagazine from "~/pages/B2B/ManageMagazine/UpdateBookAndMagaz
 
 import CreateTopic from "~/pages/B2B/ManageTopic/CreateTopic";
 import EditTopic from "~/pages/B2B/ManageTopic/EditTopic";
+import ManageSlideShow from "~/pages/B2B/ManageSlideShow/ManageSlideShow";
+import CreateSlideShow from "~/pages/B2B/ManageSlideShow/CreateSlideShow";
+import EditSlideShow from "~/pages/B2B/ManageSlideShow/EditSlideShow";
+import SlideShowDetail from "~/pages/B2B/ManageSlideShow/SlideShowDetail";
+
 
 export { Home, BlogContent };
 
@@ -65,3 +70,10 @@ export {
 };
 
 export { LoginPage };
+
+export {
+    ManageSlideShow,
+    CreateSlideShow,
+    EditSlideShow,
+    SlideShowDetail
+};

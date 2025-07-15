@@ -134,7 +134,7 @@ const TopicLayouts = () => {
             showToast({ toastRef: toast, severity: 'error', summary: 'Xóa chuyên đề', detail: 'Có lỗi xảy ra khi xóa chuyên đề' });
         } finally {
             resetSelection();
-            setVisible(false);
+        setVisible(false);
         }
     }, [resetSelection, setVisible, dispatch, toast]);
 
@@ -212,67 +212,6 @@ const TopicLayouts = () => {
 
     const indexTemplate = (rowData, {rowIndex}) => {
         return <span>{((currentPage - 1) * selectedPageOption.code) + rowIndex + 1}</span>;
-    };
-
-    const thumbnailBodyTemplate = (rowData) => {
-        const firstImage = rowData.images?.[0];
-        const firstVideo = rowData.videos?.[0];
-        
-        if (firstImage) {
-            return (
-                <img 
-                    src={firstImage.imageLink} 
-                    alt={firstImage.capture}
-                    style={{
-                        width: 50,
-                    }}
-                    className="w-6rem shadow-2 border-round"
-                />
-            );
-        } else if (firstVideo) {
-            return (
-                <div style={{position: 'relative', width: '50px', height: '50px', marginLeft: '20px'}}>
-                    <div style={{
-                        width: '100%', 
-                        height: '100%', 
-                        backgroundColor: '#f0f0f0', 
-                        borderRadius: '4px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}>
-                        <div style={{
-                            color: 'white',
-                            fontSize: '14px',
-                            backgroundColor: 'rgba(0,0,0,0.7)',
-                            borderRadius: '50%',
-                            width: '20px',
-                            height: '20px',
-                            display: 'flex',
-                            alignItems: 'center', 
-                            justifyContent: 'center'
-                        }}>
-                            ▶
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-        
-        return (
-            <div style={{
-                width: '50px', 
-                height: '50px', 
-                backgroundColor: '#f0f0f0', 
-                borderRadius: '4px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#999'
-            }}>
-                📁
-            </div>
-        );
     };
 
     const nameBodyTemplate = (rowData) => {
@@ -377,12 +316,6 @@ const TopicLayouts = () => {
                         >
                             <KLNColumn selectionMode="multiple" headerStyle={{width: '3rem'}}></KLNColumn>
                             <KLNColumn body={indexTemplate} header="#" headerStyle={{width: '3rem'}}></KLNColumn>
-                            <KLNColumn 
-                                headerStyle={{width: '8rem'}} 
-                                bodyStyle={{width: '8rem', textAlign: 'center'}}
-                                header="Thumbnail" 
-                                body={thumbnailBodyTemplate}
-                            />
                             <KLNColumn 
                                 field="capture" 
                                 header="Tên chuyên đề"
