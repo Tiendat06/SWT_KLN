@@ -376,7 +376,7 @@ namespace Application.Services
                         : JsonSerializer.Deserialize<List<GetSlideImageResponse>>(slideShow.SlideImage!)!;
 
                     var targetImage = slideImageList.FirstOrDefault(x => x.Id == request.Id)
-                                      ?? throw new KeyNotFoundException(_localizer["SlideImageNotFound"]);
+                                      ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["SlideImage"]));
 
                     // Upload new image if provided
                     if (request.SlideImage != null)
