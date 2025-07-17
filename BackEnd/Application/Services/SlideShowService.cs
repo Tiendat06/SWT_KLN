@@ -298,6 +298,30 @@ namespace Application.Services
             }
         }
 
+        public async Task<GetSlideImageResponse> GetSlideImageByIdAsync(Guid slideShowId, int slideImageId)
+        {
+            using (var uow = await _unitOfWork.BeginTransactionAsync())
+            {
+                try
+                {
+                    var slideShow = await _slideShowRepository.GetSlideShowByIdAsync(slideShowId)
+                        ?? throw new InvalidOperationException(_localizer["NotFound"] + _localizer["SlideShowTitle"]);
+                    // Deserialize the SlideImage JSON field
+                    var slideImageList = string.IsNullOrWhiteSpace(slideShow.SlideImage)
+                        ? new List<GetSlideImageResponse>()
+                        : JsonSerializer.Deserialize<List<GetSlideImageResponse>>(slideShow.SlideImage!)!;
+                    var targetImage = slideImageList.FirstOrDefault(x => x.Id == slideImageId)
+                        ?? throw new InvalidOperationException(_localizer["NotFound"] + _localizer["SlideImage"]);
+                    return targetImage;
+                }
+                catch (Exception ex)
+                {
+                    await uow.RollbackTransactionAsync();
+                    throw new InvalidOperationException(ex.Message);
+                }
+            }
+        }
+
         public async Task<GetSlideImageResponse> AddSlideImageAsync(AddSlideImageRequest addSlideImageRequest)
         {
             using (var uow = await _unitOfWork.BeginTransactionAsync())

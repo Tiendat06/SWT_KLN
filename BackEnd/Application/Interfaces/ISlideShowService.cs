@@ -12,5 +12,6 @@ namespace Application.Interfaces
         Task<GetSlideImageResponse> AddSlideImageAsync(AddSlideImageRequest addSlideImageRequest);
         Task<GetSlideImageResponse> UpdateSlideImageAsync(UpdateSlideImageRequest updateSlideImageRequest);
         Task<bool> DeleteSlideImageAsync(DeleteSlideImageRequest request);
+        Task<GetSlideImageResponse> GetSlideImageByIdAsync(Guid slideShowId, int slideImageId);
     }
 }

@@ -69,6 +69,15 @@ namespace API.Controller
             return ApiSuccess(result);
         }
 
+        // GET: api/SlideShow/SlideImage/5
+        [HttpGet("SlideImage")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetSlideImageResponse>))]
+        public async Task<IActionResult> GetSlideImageById(Guid slideShowId, int slideImageId)
+        {
+            var slideImage = await _slideShowService.GetSlideImageByIdAsync(slideShowId, slideImageId);
+            return ApiSuccess(slideImage);
+        }
+
         // POST: api/SlideImage
         [HttpPost("SlideImage")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetSlideImageResponse>))]
