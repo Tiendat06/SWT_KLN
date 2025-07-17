@@ -18,58 +18,69 @@ namespace Application
         public List<GetSlideImageRequest> SlideImage { get; set; }
     }
 
-    public class UpdateSlideImageRequest
+    public class UpdateSlideImagesRequest
     {
         public Guid SlideShowId { get; set; }
-        public int Id { get; set; }
+        public int MediaTypeId { get; set; }
+        public Guid UserId { get; set; }
         public string? Capture { get; set; }
-        public IFormFile? SlideImage { get; set; }
+        public List<int> Ids { get; set; }
+        public List<UpdateSlideImageMediaRequest> SlideImages { get; set; }
     }
 
-    //public class UpdateSlideImageRequest
-    //{
-    //    public Guid SlideShowId { get; set; }
-    //    public int SlideImageId { get; set; }
-    //    public string? Capture { get; set; }
-    //    public IFormFile? NewSlideImage { get; set; }
-    //}
-
-
-    public class UpdateSlideShowRequestValidator : AbstractValidator<UpdateSlideShowRequest>
+    public class UpdateSlideImageMediaRequest
     {
-        public UpdateSlideShowRequestValidator(IStringLocalizer<KLNSharedResources> localizer)
+        public string Capture { get; set; }
+        public IFormFile ImageLink
         {
-            RuleFor(x => x.Title)
-                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideShowTitle"]))
-                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideShowTitle"]))
-                .MaximumLength(SlideShowConsts.MaxTitleLength).WithMessage(
-                CommonExtensions.GetValidateMessage(localizer["MaxLength"],
-                localizer["SlideShowTitle"], SlideShowConsts.MaxTitleLength));
-
-            RuleFor(x => x.SlideShowTypeId)
-                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideShowTypeId"]))
-                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideShowTypeId"]));
-
-            RuleFor(x => x.UserId)
-                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]))
-                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]));
-
-            RuleFor(x => x.MediaTypeId)
-                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MediaTypeId"]))
-                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MediaTypeId"]));
+            get; set;
         }
-    }
-    public class UpdateSlideImageRequestValidator : AbstractValidator<UpdateSlideImageRequest>
-    {
-        public UpdateSlideImageRequestValidator(IStringLocalizer<KLNSharedResources> localizer)
-        {
-            RuleFor(x => x.SlideShowId)
-                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideShowId"]))
-                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideShowId"]));
 
-            RuleFor(x => x.SlideImage)
-                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideImage"]))
-                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideImage"]));
+        //public class UpdateSlideImageRequest
+        //{
+        //    public Guid SlideShowId { get; set; }
+        //    public int SlideImageId { get; set; }
+        //    public string? Capture { get; set; }
+        //    public IFormFile? NewSlideImage { get; set; }
+        //}
+
+
+        public class UpdateSlideShowRequestValidator : AbstractValidator<UpdateSlideShowRequest>
+        {
+            public UpdateSlideShowRequestValidator(IStringLocalizer<KLNSharedResources> localizer)
+            {
+                RuleFor(x => x.Title)
+                    .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideShowTitle"]))
+                    .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideShowTitle"]))
+                    .MaximumLength(SlideShowConsts.MaxTitleLength).WithMessage(
+                    CommonExtensions.GetValidateMessage(localizer["MaxLength"],
+                    localizer["SlideShowTitle"], SlideShowConsts.MaxTitleLength));
+
+                RuleFor(x => x.SlideShowTypeId)
+                    .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideShowTypeId"]))
+                    .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideShowTypeId"]));
+
+                RuleFor(x => x.UserId)
+                    .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]))
+                    .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]));
+
+                RuleFor(x => x.MediaTypeId)
+                    .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MediaTypeId"]))
+                    .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MediaTypeId"]));
+            }
+        }
+        public class UpdateSlideImageRequestValidator : AbstractValidator<UpdateSlideImagesRequest>
+        {
+            public UpdateSlideImageRequestValidator(IStringLocalizer<KLNSharedResources> localizer)
+            {
+                RuleFor(x => x.SlideShowId)
+                    .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideShowId"]))
+                    .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideShowId"]));
+
+                RuleFor(x => x.SlideImages)
+                    .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideImage"]))
+                    .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideImage"]));
+            }
         }
     }
 }

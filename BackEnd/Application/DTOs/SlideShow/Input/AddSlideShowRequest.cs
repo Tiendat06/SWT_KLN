@@ -18,13 +18,20 @@ namespace Application
         public List<GetSlideImageRequest> SlideImage { get; set; }
     }
 
-    public class AddSlideImageRequest
+    public class AddSlideImagesRequest
     {
-        public Guid? SlideShowId { get; set; }
+        public Guid SlideShowId { get; set; }
         public int MediaTypeId { get; set; }
         public int SlideShowTypeId { get; set; }
         public string? Capture { get; set; }
-        public IFormFile SlideImage { get; set; }
+        public Guid UserId { get; set; }
+        public List<AddSlideImageMediaRequest> SlideImages { get; set; }
+    }
+
+    public class AddSlideImageMediaRequest
+    {
+        public string Capture { get; set; }
+        public IFormFile ImageLink { get; set; }
     }
 
     public class AddSlideShowRequestValidator : AbstractValidator<AddSlideShowRequest>
@@ -59,7 +66,7 @@ namespace Application
                 .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MediaTypeId"]));
         }
     }
-    public class AddSlideImageRequestValidator : AbstractValidator<AddSlideImageRequest>
+    public class AddSlideImageRequestValidator : AbstractValidator<AddSlideImagesRequest>
     {
         public AddSlideImageRequestValidator(IStringLocalizer<KLNSharedResources> localizer)
         {
@@ -71,7 +78,7 @@ namespace Application
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MediaTypeId"]))
                 .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["MediaTypeId"]));
 
-            RuleFor(x => x.SlideImage)
+            RuleFor(x => x.SlideImages)
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideImage"]))
                 .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SlideImage"]));
         }

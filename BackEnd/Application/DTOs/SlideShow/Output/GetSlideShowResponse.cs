@@ -28,6 +28,11 @@ namespace Application
         public string? ImageLink { get; set; }
     }
 
+    public class GetSlideImageListResponse
+    {
+        public List<GetSlideImageResponse>? SlideImages { get; set; }
+    }
+
     public class GetSlideShowResponseValidator : AbstractValidator<GetSlideShowResponse>
     {
         public GetSlideShowResponseValidator()

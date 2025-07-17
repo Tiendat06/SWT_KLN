@@ -14,6 +14,8 @@ namespace Application
     public class DeleteSlideImageRequest
     {
         public Guid SlideShowId { get; set; }
+        public int MediaTypeId { get; set; }
+        public Guid UserId { get; set; }
         public List<int> Ids { get; set; }
     }
 }
