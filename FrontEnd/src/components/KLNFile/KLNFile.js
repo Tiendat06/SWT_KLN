@@ -11,7 +11,7 @@ const KLNFile = ({
 
     return (
         <div title={fileName}
-             className={clsx("mt-2 d-flex align-items-center w-100", styles['preview-file'])}>
+             className={clsx("mt-2 d-flex align-items-center w-100 p-2", styles['preview-file'])}>
             <div className="col-lg-1 col-md-1 col-sm-1">
                 {prefixIcon ?? prefixIcon}
             </div>

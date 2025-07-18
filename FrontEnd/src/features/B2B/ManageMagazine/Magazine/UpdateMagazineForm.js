@@ -1,7 +1,7 @@
 import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 import TabViewEnum from "~/enum/TabView/TabViewEnum";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
-import {KLNButton, KLNFormItem, KLNPageText, KLNUploadFile} from "~/components";
+import {KLNButton, KLNFile, KLNFormItem, KLNPageText, KLNRenderIf, KLNUploadFile} from "~/components";
 import TrashBrokenIcon from "~/assets/icon/TrashBrokenIcon";
 import FileSolidIcon from "~/assets/icon/FileSolidIcon";
 import clsx from "clsx";
@@ -22,11 +22,14 @@ import {useParams} from "react-router-dom";
 import MediaType from "~/enum/MediaType/MediaType";
 
 const magazineInput = {
+    magazineId: '',
     title: '',
     imageFile: {},
     magazineContent: {},
     description: '',
     userId: TEST_USER_ID,
+
+    downloadUrlFile: ''
 }
 
 const UpdateMagazineForm = () => {
@@ -40,22 +43,24 @@ const UpdateMagazineForm = () => {
 
     const getMagazineData = async () => {
         const magazineData = await magazineService.getMagazineByIdService(id);
+        let downloadUrlFile = (magazineData.data.magazineContent).replace("/upload/", "/upload/fl_attachment/");
         setUpdatedMagazine({
             ...updatedMagazine,
             ...magazineData.data,
             imageFile: magazineData.data.image,
+            downloadUrlFile
         });
     }
 
     const handleUpdateImage = useCallback(() => {
         const updateMagazine = async () => {
             setIsLoading(true);
-            const updatedBookData = await magazineService.updateMagazineService({
+            const updatedBookData = await magazineService.updateMagazineService(id, {
                 ...updatedMagazine,
                 imageFile: previewImage,
                 magazineContent: previewMagazine
             }, MediaType.PresidentTDT);
-            const status = updatedBookData.status ?? 400;
+            const status = updatedBookData.status ?? HttpStatusEnum.BadRequest;
             if (status === HttpStatusEnum.Ok || status === HttpStatusEnum.Created) {
                 showToast({
                     toastRef: toast,
@@ -215,23 +220,13 @@ const UpdateMagazineForm = () => {
                                    accept="application/*"
                                    style={{display: "none"}}
                                    onChange={handleUploadMagazine}/>
-                            {(updatedMagazine.magazineContent || previewMagazine) && (
-                                <div
-                                    className={clsx("mt-2 d-flex align-items-center justify-content-between w-100", styles['preview-audio'])}>
-                                    <div className="d-flex align-items-center col-lg-11 col-md-11 col-sm-11">
-                                        <FileSolidIcon width={30} height={30} style={{
-                                            marginRight: "10px"
-                                        }}/>
-                                        <span style={{
-                                            display: '-webkit-box',
-                                            WebkitLineClamp: 1,
-                                            WebkitBoxOrient: 'vertical',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                        }}>{previewMagazine?.name || updatedMagazine.title}</span>
-                                    </div>
-                                    <TrashBrokenIcon
-                                        className="col-lg-1 col-md-1 col-sm-1"
+                            <KLNRenderIf renderIf={(updatedMagazine.magazineContent || previewMagazine)}>
+                                <KLNFile
+                                    href={previewMagazine != null ? URL.createObjectURL(previewMagazine) : updatedMagazine.downloadUrlFile}
+                                    prefixIcon={<FileSolidIcon style={{
+                                        marginRight: "10px"
+                                    }}/>}
+                                    trailingIcon={<TrashBrokenIcon
                                         style={{
                                             marginLeft: '5px',
                                         }}
@@ -242,11 +237,10 @@ const UpdateMagazineForm = () => {
                                                     ...updatedMagazine,
                                                     magazineContent: null,
                                                 })
-                                        }}
-                                        width={30}
-                                        height={30}/>
-                                </div>
-                            )}
+                                        }}/>}
+                                    fileName={previewMagazine?.name || updatedMagazine.title}
+                                />
+                            </KLNRenderIf>
                         </div>
                     </Card>
                 </div>
