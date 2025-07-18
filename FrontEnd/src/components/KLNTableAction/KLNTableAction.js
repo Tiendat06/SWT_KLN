@@ -9,6 +9,8 @@ const KLNTableAction = ({
                             editActionLink = '',
                             onClickDelete = () => {
                             },
+                            onClickEdit = () => {
+                            },
                             deleteBtnClassName = '',
                             editBtnClassName = '',
                             deleteBtnStyle = {},
@@ -29,7 +31,7 @@ const KLNTableAction = ({
                     ...deleteIconStyle
                 }} fontWeight={deleteIconWeight} className={clsx(styles['icon-trash'], deleteIconClassName)}/>
             </div>
-            <div style={editBtnStyle} className={clsx(styles['action-edit'], editBtnClassName)}>
+            <div style={editBtnStyle} onClick={onClickEdit} className={clsx(styles['action-edit'], editBtnClassName)}>
                 <Link to={editActionLink}>
                     <PenBrokenIcon style={{
                         ...editIconStyle
