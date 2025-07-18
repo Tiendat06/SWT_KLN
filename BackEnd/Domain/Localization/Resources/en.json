@@ -50,6 +50,7 @@
     "LengthBetween": "{0} must be between {1} and {2}",
     "NotFound": "{0} not found.",
     "InvalidFileType": "The format is not accepted, please choose a valid format ({0})",
+    "AlreadyExists": "This title already exist",
 
     "UploadImageCloudinaryFailed": "Failed to upload image to Cloudinary.",
     "UploadAudioCloudinaryFailed": "Failed to upload audio to Cloudinary.",

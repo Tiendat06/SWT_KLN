@@ -47,6 +47,13 @@ namespace Application.Services
                     var bookEntity = await _bookRepository.GetBookByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Book"]));
                     await uow.TrackEntity(bookEntity);
 
+                    // Check for duplicate title (ignore current book's title)
+                    var existingBook = await _bookRepository.GetBookByTitleAsync(updateBookRequest.Title);
+                    if (existingBook != null && existingBook.BookId != id)
+                    {
+                        throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["AlreadyExists"], _localizer["BookTitle"]));
+                    }
+
                     // update book
                     bookEntity.Title = updateBookRequest.Title;
                     //bookEntity.Image = updateBookRequest.Image;
@@ -143,6 +150,13 @@ namespace Application.Services
             {
                 try
                 {
+                    // Check for duplicate title
+                    var existingBook = await _bookRepository.GetBookByTitleAsync(addBookRequest.Title);
+                    if (existingBook != null)
+                    {
+                        throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["AlreadyExists"], _localizer["BookTitle"]));
+                    }
+
                     Guid newGuid = Guid.NewGuid();
                     var assetFolderPDF = CommonCloudinaryAttribute.assetFolderBookPDF;
                     var assetFolderImage = CommonCloudinaryAttribute.assetFolderBookImage;

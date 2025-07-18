@@ -2,6 +2,7 @@
 using Domain.Localization;
 using FluentValidation.Results;
 using Microsoft.Extensions.Localization;
+using static Application.UpdateSlideImageMediaRequest;
 
 namespace Application.Validators
 {
@@ -39,7 +40,7 @@ namespace Application.Validators
             return await _SlideShowService.UpdateSlideShowAsync(id, updateSlideShowRequest);
         }
 
-        public async Task<GetSlideImageResponse> CreateSlideImageAsyncValidator(AddSlideImageRequest addSlideImageRequest)
+        public async Task<GetSlideImageListResponse> CreateSlideImageAsyncValidator(AddSlideImagesRequest addSlideImageRequest)
         {
             var validator = new AddSlideImageRequestValidator(_localizer);
             ValidationResult result = await validator.ValidateAsync(addSlideImageRequest);
@@ -48,10 +49,10 @@ namespace Application.Validators
                 var error = result.Errors.FirstOrDefault();
                 throw new ArgumentException(error + "");
             }
-            return await _SlideShowService.AddSlideImageAsync(addSlideImageRequest);
+            return await _SlideShowService.AddSlideImagesAsync(addSlideImageRequest);
         }
 
-        public async Task<GetSlideImageResponse> UpdateSlideImageAsyncValidator(UpdateSlideImageRequest updateSlideImageRequest)
+        public async Task<GetSlideImageListResponse> UpdateSlideImageAsyncValidator(UpdateSlideImagesRequest updateSlideImageRequest)
         {
             var validator = new UpdateSlideImageRequestValidator(_localizer);
             ValidationResult result = await validator.ValidateAsync(updateSlideImageRequest);
@@ -60,7 +61,7 @@ namespace Application.Validators
                 var error = result.Errors.FirstOrDefault();
                 throw new ArgumentException(error + "");
             }
-            return await _SlideShowService.UpdateSlideImageAsync(updateSlideImageRequest);
+            return await _SlideShowService.UpdateSlideImagesAsync(updateSlideImageRequest);
         }
     }
 }

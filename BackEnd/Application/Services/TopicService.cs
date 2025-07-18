@@ -50,6 +50,13 @@ namespace Application.Services
         {
             using (var uow = await _unitOfWork.BeginTransactionAsync())
             {
+                // Check for duplicate title
+                var existingTopic = await _topicRepository.GetTopicByTitleAsync(addTopicRequest.Capture);
+                if (existingTopic != null)
+                {
+                    throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["AlreadyExists"], _localizer["TopicCapture"]));
+                }
+
                 var allowedContentTypesImage = new[] { CommonFileType.JPEG, CommonFileType.PNG, CommonFileType.JPG };
                 var allowedContentTypesVideo = new[] { CommonFileType.MP4, CommonFileType.AVI, CommonFileType.MOV, CommonFileType.WMV, CommonFileType.FLV, CommonFileType.MKV, CommonFileType.WEBM, CommonFileType.MPEG };
                 int totalImageCount = addTopicRequest.TopicMedia.Count(m =>
@@ -129,7 +136,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["AddTopicFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -138,6 +145,13 @@ namespace Application.Services
         {
             using (var uow = await _unitOfWork.BeginTransactionAsync())
             {
+                // Check for duplicate title (ignore current topic's title)
+                var existingTopic = await _topicRepository.GetTopicByTitleAsync(updateTopicRequest.Capture);
+                if (existingTopic != null && existingTopic.TopicId != id)
+                {
+                    throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["AlreadyExists"], _localizer["TopicCapture"]));
+                }
+
                 var allowedContentTypesImage = new[] { CommonFileType.JPEG, CommonFileType.PNG, CommonFileType.JPG };
                 var allowedContentTypesVideo = new[] { CommonFileType.MP4, CommonFileType.AVI, CommonFileType.MOV, CommonFileType.WMV, CommonFileType.FLV, CommonFileType.MKV, CommonFileType.WEBM, CommonFileType.MPEG };
                 int totalImageCount = updateTopicRequest.TopicMedia.Count(m =>
@@ -257,7 +271,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["UpdateTopicFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -269,9 +283,7 @@ namespace Application.Services
                 try
                 {
                     // Fetch all music entities once for logging
-                    Console.WriteLine($"ids: {ids}");
                     var topicEntities = await _topicRepository.GetTopicByIdsAsync(ids);
-                    Console.WriteLine($"Fetched {topicEntities?.Count() ?? 0} topic records for deletion.");
                     if (topicEntities == null || !topicEntities.Any())
                     {
                         throw new KeyNotFoundException(_localizer["NoTopicRecordsFound"]);
@@ -301,7 +313,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["DeleteTopicFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -422,7 +434,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["AddTopicMediaFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -611,7 +623,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["UpdateTopicMediaFailed"], ex);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -706,7 +718,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["DeleteTopicMediaFailed"], ex);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }

@@ -11,5 +11,6 @@ namespace Domain.Interfaces
         Task HardDeleteBookAsync(Guid id);
         Task SoftDeleteMultipleBookAsync(List<Guid> ids);
         Task<int> CountBooksAsync(int type);
+        Task<Book?> GetBookByTitleAsync(string title);
     }
 }
