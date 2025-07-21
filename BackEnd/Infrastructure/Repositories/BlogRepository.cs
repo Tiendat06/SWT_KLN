@@ -94,5 +94,11 @@ namespace Infrastructure.Repositories
                 query = query.Where(x => x.MediaTypeId == type);
             return await query.CountAsync(x => x.IsDeleted == false);
         }
+        public async Task<Blog?> GetBlogByTitleAsync(string blogTitle)
+        {
+            return await _context.Blogs
+                .FirstOrDefaultAsync(b => b.BlogTitle == blogTitle && (b.IsDeleted == false || b.IsDeleted == null));
+        }
+
     }
 }

@@ -10,5 +10,6 @@ namespace Domain.Interfaces
         Task<int> CountTopicAsync(int type, int topicType);
         Task CreateTopicAsync(Topic topic);
         Task SoftDeleteMultipleTopicByIdsAsync(List<Guid> ids);
+        Task<Topic?> GetTopicByTitleAsync(string topicTitle);
     }
 }

@@ -54,6 +54,13 @@ namespace Application.Services
             {
                 try
                 {
+                    // Check for duplicate title
+                    var existingMusic = await _musicRepository.GetMusicByTitleAsync(addMusicRequest.Title);
+                    if (existingMusic != null)
+                    {
+                        throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["AlreadyExists"], _localizer["MusicTitle"]));
+                    }
+
                     Guid newGuid = Guid.NewGuid();
                     var assetFolderImage = CommonCloudinaryAttribute.assetFolderMusicImage;
                     var assetFolderAudioMP3 = CommonCloudinaryAttribute.assetFolderMusicAudioMP3;
@@ -105,7 +112,7 @@ namespace Application.Services
                 catch (Exception ex)
                 {
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["AddMusicFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -116,6 +123,13 @@ namespace Application.Services
             {
                 try
                 {
+                    // Check for duplicate title (ignore current music's title)
+                    var existingMusic = await _musicRepository.GetMusicByTitleAsync(updateMusicRequest.Title);
+                    if (existingMusic != null && existingMusic.MusicId != id)
+                    {
+                        throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["AlreadyExists"], _localizer["MusicTitle"]));
+                    }
+
                     var musicEntity = await _musicRepository.GetMusicByIdAsync(id) ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Music"]));
                     await uow.TrackEntity(musicEntity);
 
@@ -142,7 +156,7 @@ namespace Application.Services
                         var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
                         var filePathImage = await FileOperations.SaveFileToLocal(folderPath, updateMusicRequest.ImageLink);
                         //var filePathAudio = await FileOperations.SaveMultipleFileToLocal(folderPath, updateMusicRequest.AudioLink);
-                        Console.WriteLine($"Saved updated image to: {filePathImage}");
+                        //Console.WriteLine($"Saved updated image to: {filePathImage}");
 
                         // Upload to cloudinary
                         var assetFolderImage = CommonCloudinaryAttribute.assetFolderMusicImage;
@@ -152,7 +166,7 @@ namespace Application.Services
 
                         // Delete file from local
                         var isDeletedImage = FileOperations.DeleteFileFromLocal(filePathImage, folderPath);
-                        Console.WriteLine($"Updated image to: {musicImage}");
+                        //Console.WriteLine($"Updated image to: {musicImage}");
 
                         // Update image link
                         musicEntity.ImageLink = musicImage;
@@ -164,18 +178,18 @@ namespace Application.Services
                         // Add file to local
                         var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
                         var filePathAudio = await FileOperations.SaveFileToLocal(folderPath, updateMusicRequest.AudioLink);
-                        Console.WriteLine($"Saved updated audio to: {filePathAudio}");
+                        //Console.WriteLine($"Saved updated audio to: {filePathAudio}");
 
                         // Upload to cloudinary
                         var assetFolderAudioMP3 = CommonCloudinaryAttribute.assetFolderMusicAudioMP3;
                         var publicId = $"{nameof(Music)}_{id}";
                         var resultAudio = cloudinaryOperations.UploadRawFileToCloudinary(filePathAudio, assetFolderAudioMP3, publicId) ?? throw new InvalidOperationException(_localizer["UploadAudioCloudinaryFailed"]);
-                        Console.WriteLine($"Result Audio: {resultAudio}");
+                        //Console.WriteLine($"Result Audio: {resultAudio}");
                         var musicAudio = resultAudio["secure_url"]?.ToString() ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
 
                         // Delete file from local
                         var isDeletedAudio = FileOperations.DeleteFileFromLocal(filePathAudio, folderPath);
-                        Console.WriteLine($"Updated audio to: {musicAudio}");
+                        //Console.WriteLine($"Updated audio to: {musicAudio}");
 
                         // Update audio link
                         musicEntity.AudioLink = musicAudio;
@@ -204,7 +218,7 @@ namespace Application.Services
                 {
                     //Console.WriteLine($"Update music error: {ex.Message}");
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["UpdateMusicFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }
@@ -216,9 +230,7 @@ namespace Application.Services
                 try
                 {
                     // Fetch all music entities once for logging
-                    Console.WriteLine($"ids: {ids}");
                     var musicEntities = await _musicRepository.GetMusicByIdsAsync(ids);
-                    Console.WriteLine($"Fetched {musicEntities?.Count() ?? 0} music records for deletion.");
                     if (musicEntities == null || !musicEntities.Any())
                     {
                         throw new KeyNotFoundException(_localizer["NoMusicRecordsFound"]);
@@ -250,9 +262,8 @@ namespace Application.Services
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Delete multiple music error: {ex.Message}");
                     await uow.RollbackTransactionAsync();
-                    throw new InvalidOperationException(_localizer["DeleteMusicFailed"]);
+                    throw new InvalidOperationException(ex.Message);
                 }
             }
         }

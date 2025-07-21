@@ -118,5 +118,12 @@ namespace Infrastructure.Repositories
             }
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Topic?> GetTopicByTitleAsync(string topicTitle)
+        {
+            return await _context.Topics
+                .AsNoTracking()
+                .FirstOrDefaultAsync(topic => topic.Capture == topicTitle && topic.IsDeleted == false);
+        }
     }
 }

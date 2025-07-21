@@ -13,5 +13,6 @@ namespace Domain.Interfaces
         Task SoftDeleteBlogAsync(Blog blog);
         Task SoftDeleteMultipleBlogsByIdsAsync(List<Guid> ids);
         Task<int> CountAllBlogsAsync(int type);
+        Task<Blog?> GetBlogByTitleAsync(string title);
     }
 }

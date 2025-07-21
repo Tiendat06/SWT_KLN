@@ -17,5 +17,6 @@ namespace Domain.Interfaces
         Task SoftDeleteMusicAsync(Music music);
         Task SoftDeleteMultipleMusicByIdsAsync(List<Guid> ids);
         Task HardDeleteMusicAsync(Music music);
+        Task<Music?> GetMusicByTitleAsync(string musicTitle);
     }
 }

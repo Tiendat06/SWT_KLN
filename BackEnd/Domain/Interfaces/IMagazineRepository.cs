@@ -12,5 +12,6 @@ namespace Domain.Interfaces
         Task SoftDeleteMagazineAsync(Magazine magazine);
         Task SoftDeleteMultipleMagazineByIdsAsync(List<Guid> ids);
         Task<int> CountMagazineAsync(int type);
+        Task<Magazine?> GetMagazineByTitleAsync(string magazineTitle);
     }
 }
