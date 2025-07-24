@@ -2,6 +2,6 @@
 {
     public class SolemnVisitConsts
     {
-        public static int MaxNameLength = 30;
+        public static int MaxNameLength = 100;
     }
 }

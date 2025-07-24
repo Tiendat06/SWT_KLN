@@ -19,6 +19,7 @@ import KLNCascadeSelect from "~/components/KLNCascadeSelect/KLNCascadeSelect";
 import KLNTableAction from "~/components/KLNTableAction/KLNTableAction";
 import KLNBreadCrumb from "~/components/KLNBreadCrumb/KLNBreadCrumb";
 import KLNModal from "~/components/KLNModal/KLNModal";
+
 import KLNToast from "~/components/KLNToast/KLNToast";
 import KLNColumn from "~/components/KLNTable/KLNColumn";
 import KLNDataTable from "~/components/KLNTable/KLNDataTable";
@@ -26,6 +27,7 @@ import KLNSkeletonWithSpinner from "~/components/KLNSkeleton/KLNSkeletonWithSpin
 import KLNImageWithSkeleton from "~/components/KLNSkeleton/KLNImageWithSkeleton/KLNImageWithSkeleton";
 import KLNProgressSpinner from "~/components/KLNProgressSpinner/KLNProgressSpinner";
 import KLNAdminTitle from "~/components/KLNTitle/KLNAdminTitle";
+import KLNCollapsibleMediaSection from "~/components/KLNMediaSection/KLNCollapsibleMediaSection";
 import KLNFormItem from "~/components/KLNFormItem/KLNFormItem";
 import KLNUploadFile from "~/components/KLNUploadFile/KLNUploadFile";
 import KLNPageText from "~/components/KLNPageText/KLNPageText";
@@ -42,6 +44,6 @@ export {
     KLNBreadCrumb, KLNModal, KLNToast, KLNColumn,
     KLNDataTable, KLNSkeletonWithSpinner, KLNImageWithSkeleton,
     KLNProgressSpinner, KLNAdminTitle, KLNFormItem,
-    KLNUploadFile, KLNPageText, KLNFile, KLNRenderIf
+    KLNUploadFile, KLNPageText, KLNFile, KLNRenderIf, KLNCollapsibleMediaSection
 }
 

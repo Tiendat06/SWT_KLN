@@ -15,7 +15,15 @@ const TabViewEnum = Object.freeze({
     ManageMultimediaTabAudio: 2,
 
     /**
-     * Book tab in manage magazine
+     * Image tab in topic detail
+     * */
+    TopicDetailTabImage: 3,
+
+    /**
+     * Video tab in topic detail
+     * */
+    TopicDetailTabVideo: 4,
+    /* * Book tab in manage magazine
      * */
     ManageMagazineTabBook: 5,
 
