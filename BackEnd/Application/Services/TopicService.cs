@@ -503,8 +503,8 @@ namespace Application.Services
                             var secureUrl = uploadResult["secure_url"]?.ToString()
                                 ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
 
-                            var oldPublicId = cloudinaryOperations.ExtractPublicIdFromUrl(existingImage.ImageLink);
-                            cloudinaryOperations.DeleteFileFromCloudinary(oldPublicId);
+                            //var oldPublicId = cloudinaryOperations.ExtractPublicIdFromUrl(existingImage.ImageLink);
+                            //cloudinaryOperations.DeleteFileFromCloudinary(oldPublicId);
 
                             FileOperations.DeleteFileFromLocal(filePath, folderPath);
                             existingImage.ImageLink = secureUrl;

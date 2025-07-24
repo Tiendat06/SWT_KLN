@@ -444,8 +444,8 @@ namespace Application.Services
                         var secureUrl = result["secure_url"]?.ToString()
                             ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
 
-                        var oldPublicId = cloudinary.ExtractPublicIdFromUrl(existing.ImageLink);
-                        cloudinary.DeleteFileFromCloudinary(oldPublicId);
+                        //var oldPublicId = cloudinary.ExtractPublicIdFromUrl(existing.ImageLink);
+                        //cloudinary.DeleteFileFromCloudinary(oldPublicId);
 
                         FileOperations.DeleteFileFromLocal(filePath, folderPath);
 
@@ -539,12 +539,12 @@ namespace Application.Services
                     if (!imagesToRemove.Any())
                         throw new KeyNotFoundException(_localizer["SlideImageNotFound"]);
 
-                    var cloudinary = new CloudinaryOperations(_cloudinary);
-                    foreach (var img in imagesToRemove)
-                    {
-                        var publicId = cloudinary.ExtractPublicIdFromUrl(img.ImageLink);
-                        cloudinary.DeleteFileFromCloudinary(publicId);
-                    }
+                    //var cloudinary = new CloudinaryOperations(_cloudinary);
+                    //foreach (var img in imagesToRemove)
+                    //{
+                    //    var publicId = cloudinary.ExtractPublicIdFromUrl(img.ImageLink);
+                    //    cloudinary.DeleteFileFromCloudinary(publicId);
+                    //}
 
                     slideImageList = slideImageList.Where(x => !request.Ids.Contains(x.Id)).ToList();
 
