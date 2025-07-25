@@ -26,6 +26,7 @@ import KLNDataTable from "~/components/KLNTable/KLNDataTable";
 import KLNSkeletonWithSpinner from "~/components/KLNSkeleton/KLNSkeletonWithSpinner/KLNSkeletonWithSpinner";
 import KLNImageWithSkeleton from "~/components/KLNSkeleton/KLNImageWithSkeleton/KLNImageWithSkeleton";
 import KLNProgressSpinner from "~/components/KLNProgressSpinner/KLNProgressSpinner";
+import KLNEdit from '~/components/KLNEdit/KLNEdit';
 import KLNAdminTitle from "~/components/KLNTitle/KLNAdminTitle";
 import KLNCollapsibleMediaSection from "~/components/KLNMediaSection/KLNCollapsibleMediaSection";
 import KLNFormItem from "~/components/KLNFormItem/KLNFormItem";
