@@ -1,0 +1,26 @@
+// SlideShow constants
+export const GET_SLIDESHOWS = 'GET_SLIDESHOWS';
+export const SET_SLIDESHOW = 'SET_SLIDESHOW';
+export const ADD_SLIDESHOW = 'ADD_SLIDESHOW';
+export const UPDATE_SLIDESHOW = 'UPDATE_SLIDESHOW';
+export const DELETE_SLIDESHOW = 'DELETE_SLIDESHOW';
+
+// SlideShow Image constants
+export const GET_SLIDESHOW_IMAGES = 'GET_SLIDESHOW_IMAGES';
+export const SET_SLIDESHOW_IMAGE = 'SET_SLIDESHOW_IMAGE';
+export const ADD_SLIDESHOW_IMAGE = 'ADD_SLIDESHOW_IMAGE';
+export const UPDATE_SLIDESHOW_IMAGE = 'UPDATE_SLIDESHOW_IMAGE';
+export const DELETE_SLIDESHOW_IMAGE = 'DELETE_SLIDESHOW_IMAGE';
+
+// SlideShow Detail constants
+export const GET_SLIDESHOW_DETAIL = 'GET_SLIDESHOW_DETAIL';
+export const SET_SLIDESHOW_DETAIL = 'SET_SLIDESHOW_DETAIL';
+
+// Loading states
+export const SET_LOADING = 'SET_LOADING';
+export const SET_SLIDESHOW_IMAGES_LOADING = 'SET_SLIDESHOW_IMAGES_LOADING';
+
+// Temp Media constants (for create slideshow)
+export const ADD_TEMP_IMAGE = 'ADD_TEMP_IMAGE';
+export const REMOVE_TEMP_IMAGES = 'REMOVE_TEMP_IMAGES';
+export const CLEAR_TEMP_MEDIA = 'CLEAR_TEMP_MEDIA';

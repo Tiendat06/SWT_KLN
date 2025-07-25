@@ -120,5 +120,12 @@ namespace Infrastructure.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public async Task<Music?> GetMusicByTitleAsync(string musicTitle)
+        {
+            return await _context.Musics
+                .FirstOrDefaultAsync(b => b.Title == musicTitle && (b.IsDeleted == false || b.IsDeleted == null));
+        }
+
     }
 }

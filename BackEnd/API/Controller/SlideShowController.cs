@@ -69,10 +69,19 @@ namespace API.Controller
             return ApiSuccess(result);
         }
 
+        // GET: api/SlideShow/SlideImage/5
+        [HttpGet("SlideImage")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetSlideImageResponse>))]
+        public async Task<IActionResult> GetSlideImageById(Guid slideShowId, int slideImageId)
+        {
+            var slideImage = await _slideShowService.GetSlideImageByIdAsync(slideShowId, slideImageId);
+            return ApiSuccess(slideImage);
+        }
+
         // POST: api/SlideImage
         [HttpPost("SlideImage")]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetSlideImageResponse>))]
-        public async Task<IActionResult> AddSlideImage([FromForm] AddSlideImageRequest addSlideImageRequest)
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetSlideImageListResponse>))]
+        public async Task<IActionResult> AddSlideImage([FromForm] AddSlideImagesRequest addSlideImageRequest)
         {
             var slideImage = await _slideShowValidator.CreateSlideImageAsyncValidator(addSlideImageRequest);
             return ApiSuccess(slideImage, HttpStatusCode.Created);
@@ -80,8 +89,8 @@ namespace API.Controller
 
         // PUT: api/SlideImage/5
         [HttpPut("SlideImage")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetSlideImageResponse>))]
-        public async Task<IActionResult> UpdateSlideImage([FromForm] UpdateSlideImageRequest updateSlideImageRequest)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetSlideImageListResponse>))]
+        public async Task<IActionResult> UpdateSlideImage([FromForm] UpdateSlideImagesRequest updateSlideImageRequest)
         {
             var slideImage = await _slideShowValidator.UpdateSlideImageAsyncValidator(updateSlideImageRequest);
             return ApiSuccess(slideImage);
@@ -93,7 +102,7 @@ namespace API.Controller
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
         public async Task<IActionResult> DeleteSlideImages([FromBody] DeleteSlideImageRequest deleteSlideImagesRequest)
         {
-            var isDeleted = await _slideShowService.DeleteSlideImageAsync(deleteSlideImagesRequest);
+            var isDeleted = await _slideShowService.DeleteSlideImagesAsync(deleteSlideImagesRequest);
             return ApiSuccess(isDeleted);
         }
     }

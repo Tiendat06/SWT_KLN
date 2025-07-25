@@ -89,5 +89,11 @@ namespace Infrastructure.Repositories
             }
             await _context.SaveChangesAsync();
         }
+        public async Task<Video?> GetVideoByTitleAsync(string videoTitle)
+        {
+            return await _context.Videos
+                .AsNoTracking()
+                .FirstOrDefaultAsync(video => video.Title == videoTitle && video.IsDeleted == false);
+        }
     }
 }

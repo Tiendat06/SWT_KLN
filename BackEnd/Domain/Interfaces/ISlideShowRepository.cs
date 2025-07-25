@@ -18,5 +18,6 @@ namespace Domain.Interfaces
         Task HardDeleteSlideShowAsync(Guid id);
         Task SoftDeleteSlideShowAsync(SlideShow slideShow);
         Task SoftDeleteSlideShowsAsync(List<SlideShow> slideShows);
+        Task<SlideShow?> GetSlideShowByTitleAsync(string slideShowTitle);
     }
 }

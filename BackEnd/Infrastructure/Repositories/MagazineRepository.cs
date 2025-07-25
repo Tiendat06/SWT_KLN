@@ -94,5 +94,11 @@ namespace Infrastructure.Repositories
                 query = query.Where(x => x.MediaTypeId == type);
             return await query.CountAsync(x => x.IsDeleted == false);
         }
+        public async Task<Magazine?> GetMagazineByTitleAsync(string magazineTitle)
+        {
+            return await _context.Magazines
+                .FirstOrDefaultAsync(b => b.Title == magazineTitle && (b.IsDeleted == false || b.IsDeleted == null));
+        }
+
     }
 }
