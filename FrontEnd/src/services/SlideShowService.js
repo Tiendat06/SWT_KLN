@@ -80,6 +80,21 @@ const addSlideImageInSpecificSlideShowService = async (addedSlideImage,
         headers: null
     })
 }
+const updateSlideImageService = async (payload) => {
+  const formData = new FormData();
+  formData.append("slideImage", payload.imageFile); // file ảnh
+  formData.append("capture", payload.description);  // mô tả
+  formData.append("mediaTypeId", 1); // tùy chỉnh nếu cần
+  formData.append("slideShowTypeId", 1); // tùy chỉnh nếu cần
+
+  return await UseFetchAPI({
+    api: `${slideShowRoute}/SlideImage/${payload.id}`, // ✅ đúng URL ảnh
+    method: "PUT",
+    body: formData,
+    headers: null,
+  });
+};
+
 
 
 export const addVideoToSpecificSlideShowService = async (formData) => {
@@ -94,13 +109,17 @@ export const addVideoToSpecificSlideShowService = async (formData) => {
 };
 
 
+
+
 export const slideShowService = {
     getSlideShowByIdService,
     getSlideShowListService,
     deleteSlideImageInSpecificSlideShowService,
     deleteSlideImageInSpecificSlideShowBySlideShowIdService,
     getTotalSlideImageInSpecificSlideShowService,
-    addSlideImageInSpecificSlideShowService
+    addSlideImageInSpecificSlideShowService,
+    updateSlideImageService,
+    
 }
 
 

@@ -6,6 +6,8 @@ const KLNButtonEnum = Object.freeze({
     successBtn: 5,
     blackBtn: 6,
     whiteBtn: 7,
+    saveBtn: 8,
+    cancelBtn: 9,
 });
 
 export default KLNButtonEnum;
