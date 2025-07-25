@@ -7,7 +7,7 @@ import manageImagesRoutes, {manageImagesJRoutes} from "~/routes/B2B/manageImages
 import manageTopicRoutes, {manageTopicJRoutes} from "~/routes/B2B/manageTopicRoutes";
 import loginRoutes, { loginTRoutes } from "~/routes/B2B/loginRoutes";
 import manageMagazineRoutes, {manageMagazineJRoutes} from "~/routes/B2B/manageMagazineRoutes";
-import manageSlideShowRoutes, {manageSlideShowKRoutes} from "~/routes/B2B/manageSlideShowRoutes";
+import manageSlideShowRoutes, {manageSlideShowKRoutes} from "~/routes/B2B/manageSlideshowRoutes";
 
 
 export {siteJRoutes, aboutJRoutes, memorialAreaJRoutes, handiworkJRoutes};
