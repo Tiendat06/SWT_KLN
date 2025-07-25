@@ -31,7 +31,6 @@ import CreateBookAndMagazine from "~/pages/B2B/ManageMagazine/CreateBookAndMagaz
 import CreateImage from "~/pages/B2B/ManageImage/CreateImage";
 import UpdateBookAndMagazine from "~/pages/B2B/ManageMagazine/UpdateBookAndMagazine";
 
-import EditMultimedia from "./B2B/ManageMultimedia/EditMultimedia";
 import CreateTopic from "~/pages/B2B/ManageTopic/CreateTopic";
 import EditTopic from "~/pages/B2B/ManageTopic/EditTopic";
 import ManageSlideShow from "~/pages/B2B/ManageSlideShow/ManageSlideShow";
@@ -72,7 +71,6 @@ export {
 
 export { LoginPage };
 
-export { EditMultimedia };
 export {
     ManageSlideShow,
     CreateSlideShow,
