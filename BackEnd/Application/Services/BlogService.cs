@@ -147,7 +147,7 @@ namespace Application.Services
                     //Console.WriteLine($"Fetched {blogEntities?.Count() ?? 0} book records for deletion.");
                     if (blogEntities == null || !blogEntities.Any())
                     {
-                        throw new KeyNotFoundException(_localizer["NoBookRecordsFound"]);
+                        throw new KeyNotFoundException(_localizer["NoBlogRecordsFound"]);
                     }
                     // update log blog
                     var logEntries = blogEntities.Select(blog => new LogBlog

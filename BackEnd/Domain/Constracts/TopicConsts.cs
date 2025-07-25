@@ -9,5 +9,6 @@ namespace Domain.Constracts
     public class TopicConsts
     {
         public static int MaxCaptureLength = 255;
+        public static int MaxDescriptionLegth = 1000;
     }
 }

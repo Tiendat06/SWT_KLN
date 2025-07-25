@@ -8,7 +8,7 @@ import KLNButtonEnum from '~/enum/Button/KLNButtonEnum';
 const DeleteSlideShowModal = ({visible, setVisible, btnSaveOnClick, btnCancelOnClick, onDelete}) => {
     const {selectedSlideshow, selectedSlideshows} = useManageSlideshowContext();
     const { toast } = useAppContext();
-
+//
     const onClickDeleteItem = useCallback(async () => {
         try {
             let slideshowIds = [];

@@ -15,6 +15,6 @@ const SlideShowLayouts = () => {
             <SlideShowTable />
         </>
     );
-};
+};//
 
 export default SlideShowLayouts; 
