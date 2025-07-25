@@ -32,8 +32,6 @@ const KLNButton = ({
         [KLNButtonEnum.successBtn]: styles['button-5'],
         [KLNButtonEnum.blackBtn]: styles['button-6'],
         [KLNButtonEnum.whiteBtn]: styles['button-7'],
-        [KLNButtonEnum.saveBtn]: styles['button-8'],
-        [KLNButtonEnum.cancelBtn]: styles['button-9'],
     }[options] || styles['button-1'];
 
     return (
