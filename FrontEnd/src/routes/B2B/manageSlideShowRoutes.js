@@ -7,7 +7,7 @@ const manageSlideShowKRoutes = [
     {path: `${AppRoutesEnum.AdminRoute}/manage-exhibition/:slideShowId/edit`, element: <EditSlideShow/>},
     {path: `${AppRoutesEnum.AdminRoute}/manage-exhibition/:slideShowId`, element: <SlideShowDetail/>},
 ];
-
+//
 const manageSlideShowRoutes = [
     ...manageSlideShowKRoutes,
 ];
