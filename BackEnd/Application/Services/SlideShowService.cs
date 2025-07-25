@@ -348,8 +348,6 @@ namespace Application.Services
                         ? new List<GetSlideImageResponse>()
                         : JsonSerializer.Deserialize<List<GetSlideImageResponse>>(slideShow.SlideImage!)!;
 
-                    var targetImage = slideImageList.FirstOrDefault(x => x.Id == request.Id)
-                                      ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["SlideImage"]));
                     int imageIndex = slideImageList.Count;
 
                     foreach (var img in request.SlideImages)
