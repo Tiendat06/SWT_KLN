@@ -16,6 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
 import { useAppContext } from '~/context/AppContext';
 import { ADD_BLOG_TITLE } from '~/utils/Constansts';
+import { Link } from 'react-router-dom';
 
 const TINYMCE_API_KEY = process.env.REACT_APP_TINYMCE_API_KEY;
 
@@ -35,8 +36,8 @@ const CreateBlogLayout = () => {
 
     // Breadcrumb items
     const items = [
-        { template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-blog`}>Blog</a> },
-        { template: () => <span>Thêm blog</span> }
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-blog`}>Blog</Link> },
+        { template: () => <span>Thêm mới</span> }
     ];
 
     const handlePosterUpload = (input) => {

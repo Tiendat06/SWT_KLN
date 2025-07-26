@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Card } from 'primereact/card';
 import clsx from 'clsx';
 import KLNButton from '~/components/KLNButton/KLNButton';
@@ -35,8 +35,8 @@ const EditBlogLayout = () => {
 
     // Breadcrumb items
     const items = [
-        { template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-blog`}>Blog</a> },
-        { template: () => <span>Chỉnh sửa blog</span> }
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-blog`}>Blog</Link> },
+        { template: () => <span>Chỉnh sửa</span> }
     ];
 
     // Hàm map mediaTypeId sang tên module

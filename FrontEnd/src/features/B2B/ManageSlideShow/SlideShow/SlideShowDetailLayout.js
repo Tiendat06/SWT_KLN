@@ -11,6 +11,7 @@ import AppRoutesEnum from '~/enum/Route/AppRoutesEnum';
 import { DateTimeFormat } from '~/utils/DateTimeFormat';
 import { setSlideshowImageAction, getSlideshowImagesAction, setSlideshowDetailAction } from '~/store/B2B/ManageSlideShow/actions';
 import { slideShowService } from '~/services/SlideShowService';
+import { Link } from 'react-router-dom';
 
 // Mock data (fallback)
 const mockDetail = {
@@ -177,8 +178,8 @@ const SlideShowDetailLayout = ({ slideShowId }) => {
     );
 
     const items = [
-        { template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Slideshow</a> },
-        { template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Nhà trưng bày</a> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Slideshow</Link> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Nhà trưng bày</Link> },
         { template: () => <span>Chi tiết</span> }
     ];
 

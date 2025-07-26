@@ -13,6 +13,7 @@ import DeleteBlogModal from "./DeleteBlogModal";
 import { useAppContext } from "~/context/AppContext";
 import MediaType from '~/enum/MediaType/MediaType';
 import { TEST_USER_ID, PRESIDENT_TDT_TITLE, MEMORIAL_TDT_TITLE, HANDIWORK_TDT_TITLE, MANAGE_BLOG_TITLE } from '~/utils/Constansts';
+import { Link } from 'react-router-dom';
 
 // Mock data nếu API không hoạt động
 const mockBlogs = [
@@ -186,7 +187,7 @@ const BlogLayouts = () => {
 
     // Breadcrumb items
     const items = [
-        { template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-blog`}>Blog</a> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-blog`}>Blog</Link> },
         { template: () => <span>Danh sách blog</span> }
     ];
 
