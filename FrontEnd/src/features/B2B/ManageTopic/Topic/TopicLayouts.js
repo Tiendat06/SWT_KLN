@@ -2,7 +2,6 @@ import {KLNBreadCrumb, KLNButton, KLNCascadeSelect, KLNDataTable, KLNColumn, KLN
 import {faSquarePlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 import React, {useCallback, useEffect, useState} from "react";
-import {Link} from "react-router-dom";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import {useAdminContext} from "~/context/AdminContext";
 import {useManageTopicContext} from "~/context/B2B/ManageTopic/ManageTopicContext";
@@ -216,14 +215,14 @@ const TopicLayouts = () => {
 
     const nameBodyTemplate = (rowData) => {
         return (
-            <Link 
-                to={`${AppRoutesEnum.AdminRoute}/manage-topic/${rowData.topicId}`}
+            <a 
+                href={`${AppRoutesEnum.AdminRoute}/manage-topic/${rowData.topicId}`}
                 style={{ textDecoration: 'none', fontWeight: '500' }}
                 onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
                 onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
             >
                 {rowData.capture}
-            </Link>
+            </a>
         );
     };
 
@@ -239,7 +238,7 @@ const TopicLayouts = () => {
     );
 
     const items = [
-        {template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Chuyên đề hay về Bác</Link>},
+        {template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Chuyên đề hay về Bác</a>},
         {template: () => <span>Danh sách chuyên đề</span>}
     ];
 

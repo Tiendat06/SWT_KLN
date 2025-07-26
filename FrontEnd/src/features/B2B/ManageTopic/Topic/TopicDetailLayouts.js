@@ -3,7 +3,6 @@ import {KLNBreadCrumb, KLNButton, KLNTabView, KLNCascadeSelect} from "~/componen
 import {faTrash, faImage, faVideo} from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 import React, {useCallback, useEffect, useState} from "react";
-import {Link} from "react-router-dom";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import {useAdminContext} from "~/context/AdminContext";
 import {useManageTopicContext} from "~/context/B2B/ManageTopic/ManageTopicContext";
@@ -143,8 +142,8 @@ const TopicDetailLayouts = ({topicId}) => {
     }, [topicDetail]);
 
     const items = [
-        {template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Chuyên đề hay về Bác</Link>},
-        {template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Danh sách chuyên đề</Link>},
+        {template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Chuyên đề hay về Bác</a>},
+        {template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Danh sách chuyên đề</a>},
         {template: () => <span>Chi tiết chuyên đề</span>}
     ];
 
