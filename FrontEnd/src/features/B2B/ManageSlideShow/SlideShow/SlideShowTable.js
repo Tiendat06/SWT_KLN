@@ -8,7 +8,7 @@ import AppRoutesEnum from '~/enum/Route/AppRoutesEnum';
 import { DateTimeFormat } from '~/utils/DateTimeFormat';
 import KLNButtonEnum from '~/enum/Button/KLNButtonEnum';
 import { setSlideshowAction, getSlideshowsAction } from '~/store/B2B/ManageSlideShow/actions';
-import DeleteSlideShowModal from './DeleteSlideShowModal';
+import DeleteSlideShowModal from './DeleteSlideshowModal';
 import { slideShowService } from '~/services/SlideShowService';
 import MediaType from '~/enum/MediaType/MediaType';
 import SlideShowType from '~/enum/SlideShowType/SlideShowType';
