@@ -3,7 +3,7 @@ import { KLNDataTable, KLNColumn, KLNButton, KLNReactPaginate, KLNTableAction } 
 import { Dropdown } from 'primereact/dropdown';
 import { faSquarePlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useManageSlideshowContext } from '~/context/B2B/ManageSlideShow/ManageSlideshowContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import AppRoutesEnum from '~/enum/Route/AppRoutesEnum';
 import { DateTimeFormat } from '~/utils/DateTimeFormat';
 import KLNButtonEnum from '~/enum/Button/KLNButtonEnum';
@@ -207,14 +207,14 @@ const SlideShowTable = () => {
     );
 
     const nameBodyTemplate = (rowData) => (
-        <a 
-            href={`${AppRoutesEnum.AdminRoute}/manage-exhibition/${rowData.slideShowId}`}
+        <Link 
+            to={`${AppRoutesEnum.AdminRoute}/manage-exhibition/${rowData.slideShowId}`}
             style={{ textDecoration: 'none', fontWeight: '500' }}
             onMouseEnter={(e) => e.target.style.textDecoration = 'underline'}
             onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
         >
             {rowData.title}
-        </a>
+        </Link>
     );
 
     const dateBodyTemplate = (rowData) => DateTimeFormat(rowData.createDate);

@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import styles from "~/styles/Components/KLNTableAction/klnTableAction.module.scss";
+import {Link} from "react-router-dom";
 import {memo} from "react";
 import TrashBrokenIcon from "~/assets/icon/TrashBrokenIcon";
 import PenBrokenIcon from "~/assets/icon/PenBrokenIcon";
@@ -31,11 +32,11 @@ const KLNTableAction = ({
                 }} fontWeight={deleteIconWeight} className={clsx(styles['icon-trash'], deleteIconClassName)}/>
             </div>
             <div style={editBtnStyle} onClick={onClickEdit} className={clsx(styles['action-edit'], editBtnClassName)}>
-                <a href={editActionLink}>
+                <Link to={editActionLink}>
                     <PenBrokenIcon style={{
                         ...editIconStyle
                     }} fontWeight={editIconWeight} className={clsx(styles['icon-pen'], editIconClassName)}/>
-                </a>
+                </Link>
             </div>
         </>
     )
