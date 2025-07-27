@@ -350,12 +350,18 @@ namespace Application.Services
 
                     int imageIndex = slideImageList.Count;
 
-                    foreach (var img in request.SlideImages)
+                    // Sort by Id to control upload order
+                    var orderedImages = request.SlideImages.OrderBy(i => i.Id).ToList();
+
+                    foreach (var img in orderedImages)
                     {
                         var filePath = await FileOperations.SaveFileToLocal(folderPath, img.ImageLink);
                         var publicId = $"{nameof(SlideShow)}_{request.SlideShowId}_{Guid.NewGuid()}";
 
-                        var uploadResult = cloudinary.UploadFileFromLocalToCloudinary(filePath, CommonCloudinaryAttribute.assetFolderSlideShowImage, publicId)
+                        var uploadResult = cloudinary.UploadFileFromLocalToCloudinary(
+                                filePath,
+                                CommonCloudinaryAttribute.assetFolderSlideShowImage,
+                                publicId)
                             ?? throw new InvalidOperationException(_localizer["UploadSlideImageCloudinaryFailed"]);
 
                         var secureUrl = uploadResult["secure_url"]?.ToString()
@@ -365,7 +371,7 @@ namespace Application.Services
 
                         slideImageList.Add(new GetSlideImageResponse
                         {
-                            Id = ++imageIndex,
+                            Id = imageIndex++,
                             Capture = img.Capture,
                             ImageLink = secureUrl
                         });
@@ -408,6 +414,7 @@ namespace Application.Services
             {
                 try
                 {
+                    // Get SlideShow entity
                     var slideShow = await _slideShowRepository.GetSlideShowByIdAsync(request.SlideShowId)
                         ?? throw new InvalidOperationException(_localizer["SlideShowNotFound"]);
 
@@ -416,55 +423,21 @@ namespace Application.Services
                     var cloudinary = new CloudinaryOperations(_cloudinary);
                     var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
 
+                    // Deserialize the SlideImage JSON field
                     var slideImageList = string.IsNullOrWhiteSpace(slideShow.SlideImage)
                         ? new List<GetSlideImageResponse>()
                         : JsonSerializer.Deserialize<List<GetSlideImageResponse>>(slideShow.SlideImage!)!;
 
-                    // Replace existing images based on Ids
-                    for (int i = 0; i < request.Ids.Count; i++)
+                    foreach (var imageRequest in request.SlideImages)
                     {
-                        int imageId = request.Ids[i];
-                        var updatedImage = request.SlideImages[i];
-
-                        var existing = slideImageList.FirstOrDefault(x => x.Id == imageId)
-                            ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], $"ImageId {imageId}"));
-
-                        if (!FileOperations.CheckFileType(allowedContentTypes, updatedImage.ImageLink))
+                        // Check if the image type is correct or not
+                        if (!FileOperations.CheckFileType(allowedContentTypes, imageRequest.ImageLink))
                         {
                             throw new ArgumentException(CommonExtensions.GetValidateMessage(
                                 _localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}"));
                         }
 
-                        var filePath = await FileOperations.SaveFileToLocal(folderPath, updatedImage.ImageLink);
-                        var publicId = $"{nameof(SlideShow)}_{request.SlideShowId}_{Guid.NewGuid()}";
-
-                        var result = cloudinary.UploadFileFromLocalToCloudinary(filePath, CommonCloudinaryAttribute.assetFolderSlideShowImage, publicId)
-                            ?? throw new InvalidOperationException(_localizer["UploadSlideImageCloudinaryFailed"]);
-
-                        var secureUrl = result["secure_url"]?.ToString()
-                            ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
-
-                        //var oldPublicId = cloudinary.ExtractPublicIdFromUrl(existing.ImageLink);
-                        //cloudinary.DeleteFileFromCloudinary(oldPublicId);
-
-                        FileOperations.DeleteFileFromLocal(filePath, folderPath);
-
-                        existing.ImageLink = secureUrl;
-                        existing.Capture = updatedImage.Capture;
-                    }
-
-                    // Add new images
-                    for (int i = request.Ids.Count; i < request.SlideImages.Count; i++)
-                    {
-                        var newImage = request.SlideImages[i];
-
-                        if (!FileOperations.CheckFileType(allowedContentTypes, newImage.ImageLink))
-                        {
-                            throw new ArgumentException(CommonExtensions.GetValidateMessage(
-                                _localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}"));
-                        }
-
-                        var filePath = await FileOperations.SaveFileToLocal(folderPath, newImage.ImageLink);
+                        var filePath = await FileOperations.SaveFileToLocal(folderPath, imageRequest.ImageLink);
                         var publicId = $"{nameof(SlideShow)}_{request.SlideShowId}_{Guid.NewGuid()}";
 
                         var result = cloudinary.UploadFileFromLocalToCloudinary(filePath, CommonCloudinaryAttribute.assetFolderSlideShowImage, publicId)
@@ -475,15 +448,32 @@ namespace Application.Services
 
                         FileOperations.DeleteFileFromLocal(filePath, folderPath);
 
-                        slideImageList.Add(new GetSlideImageResponse
+                        if (imageRequest.Id > 0)
                         {
-                            Id = 0, // temporary, will reindex below
-                            Capture = newImage.Capture,
-                            ImageLink = secureUrl
-                        });
+                            // Update existing image
+                            var existing = slideImageList.FirstOrDefault(x => x.Id == imageRequest.Id)
+                                ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], $"ImageId {imageRequest.Id}"));
+
+                            // Delete old image from Cloudinary if needed
+                            // var oldPublicId = cloudinary.ExtractPublicIdFromUrl(existing.ImageLink);
+                            // cloudinary.DeleteFileFromCloudinary(oldPublicId);
+
+                            existing.ImageLink = secureUrl;
+                            existing.Capture = imageRequest.Capture;
+                        }
+                        else
+                        {
+                            // Add new image
+                            slideImageList.Add(new GetSlideImageResponse
+                            {
+                                Id = 0, // will be reassigned
+                                Capture = imageRequest.Capture,
+                                ImageLink = secureUrl
+                            });
+                        }
                     }
 
-                    // Reindex all IDs to keep them sequential
+                    // Reindex all IDs in the list
                     for (int i = 0; i < slideImageList.Count; i++)
                     {
                         slideImageList[i].Id = i + 1;
@@ -491,7 +481,7 @@ namespace Application.Services
 
                     slideShow.SlideImage = JsonSerializer.Serialize(slideImageList);
 
-                    // Logging
+                    // Log the changed in Update
                     slideShow.LogSlideShows ??= new List<LogSlideShow>();
                     slideShow.LogSlideShows.Add(new LogSlideShow
                     {
