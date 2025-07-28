@@ -25,5 +25,8 @@ export const ADD_MAGAZINE_TITLE = 'Thêm tạp chí';
 export const UPDATE_IMAGE_TITLE = 'Chi tiết sách báo & tạp chí';
 export const MANAGE_VIDEO_TITLE = 'Quản lý video về bác Tôn';
 export const ADD_IMAGE_TITLE = 'Thêm hình ảnh & hiện vật';
+export const MANAGE_BLOG_TITLE = 'Quản lý blog';
+export const ADD_BLOG_TITLE = 'Thêm blog';
+export const EDIT_BLOG_TITLE = 'Chỉnh sửa blog';
 
 export const TEST_USER_ID = '203ce6cd-b6eb-4045-a4c4-9cd574f2ea2f';
