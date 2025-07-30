@@ -3,7 +3,7 @@ import { KLNButton, KLNBreadCrumb, KLNCollapsibleMediaSection } from '~/componen
 import { useManageSlideshowContext } from '~/context/B2B/ManageSlideShow/ManageSlideshowContext';
 import { InputText } from 'primereact/inputtext';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAppContext } from '~/context/AppContext';
 import { showToast } from '~/utils/Toast';
 import { addSlideshowAction } from '~/store/B2B/ManageSlideShow/actions';
@@ -33,8 +33,8 @@ const CreateSlideShowLayout = () => {
     const { toast } = useAppContext();
 
     const items = [
-        { template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Slideshow</a> },
-        { template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Nhà trưng bày</a> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Slideshow</Link> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Nhà trưng bày</Link> },
         { template: () => <span>Thêm mới</span> }
     ];
 

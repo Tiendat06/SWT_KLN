@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { KLNButton, KLNBreadCrumb, KLNCollapsibleMediaSection } from "~/components";
 import { useManageTopicContext } from "~/context/B2B/ManageTopic/ManageTopicContext";
 import { InputText } from "primereact/inputtext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useAppContext } from "~/context/AppContext";
 import { showToast } from "~/utils/Toast";
 import { topicService } from "~/services/TopicService";
@@ -35,8 +35,8 @@ const EditTopicLayout = () => {
     const { toast } = useAppContext();
 
     const items = [
-        { template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Chuyên đề hay về Bác</a> },
-        { template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Danh sách chuyên đề</a> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Chuyên đề hay về Bác</Link> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Danh sách chuyên đề</Link> },
         { template: () => <span>Chỉnh sửa</span> }
     ];
 
