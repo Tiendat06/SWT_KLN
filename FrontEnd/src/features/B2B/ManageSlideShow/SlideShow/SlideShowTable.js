@@ -202,7 +202,7 @@ const SlideShowTable = () => {
 
     const thumbnailBodyTemplate = (rowData) => {
         // Try to get poster image first, if not available, use first slideImage
-        const imageUrl = rowData.imageLink || (rowData.slideImage && rowData.slideImage.length > 0 ? rowData.slideImage[0].imageLink : null);
+        const imageUrl = rowData.image || (rowData.slideImage && rowData.slideImage.length > 0 ? rowData.slideImage[0].imageLink : null);
         
         if (imageUrl) {
             return (

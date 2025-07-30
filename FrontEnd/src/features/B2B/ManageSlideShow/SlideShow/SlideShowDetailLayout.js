@@ -128,8 +128,16 @@ const SlideShowDetailLayout = ({ slideShowId }) => {
     useEffect(() => {
         if (slideshowDetail && slideshowDetail.slideImage) {
             setAllImages(slideshowDetail.slideImage);
+            dispatch(getSlideshowImagesAction(slideshowDetail.slideImage));
         }
     }, [slideshowDetail]);
+
+    // Force refresh khi isUpdated thay đổi
+    useEffect(() => {
+        if (isUpdated !== undefined) {
+            fetchSlideshowDetail();
+        }
+    }, [isUpdated, fetchSlideshowDetail]);
 
     const displayImages = slideshowImages;
 
