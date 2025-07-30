@@ -176,21 +176,20 @@ const EditSlideShowLayout = ({ slideShowId }) => {
                     });
                     throw new Error(`API Error ${updateResult.status}: ${updateResult.message || 'Unknown error'}`);
                 } else {
-                    throw new Error('API response invalid');
+                    const errorMessage = updateResult?.message || 'API response invalid';
+                    throw new Error(errorMessage);
                 }
-            } catch (apiError) {
-                console.warn('API lỗi, sử dụng mock data:', apiError);
-                
-                // Fallback to mock
-                const mockUpdatedSlideshow = {
-                    slideShowId,
-                    ...formData,
-                    slideImage: slideImages,
-                    updateDate: new Date().toISOString()
-                };
-                dispatch(updateSlideshowAction(mockUpdatedSlideshow));
-                showToast({ toastRef: toast, severity: 'success', summary: 'Cập nhật danh mục', detail: 'Cập nhật thành công! (Mock data)' });
-                navigate(`${AppRoutesEnum.AdminRoute}/manage-exhibition`);
+            } catch (error) {
+                console.error('Error updating slideshow:', error);
+                const errorMessage = error?.message || 'Có lỗi xảy ra khi cập nhật slideshow';
+                showToast({
+                    toastRef: toast,
+                    severity: 'error',
+                    summary: 'Lỗi cập nhật slideshow',
+                    detail: errorMessage
+                });
+            } finally {
+                setIsSubmitting(false);
             }
         } finally {
             setIsSubmitting(false);

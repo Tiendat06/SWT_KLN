@@ -68,29 +68,18 @@ const CreateTopicLayout = () => {
                 navigate(`${AppRoutesEnum.AdminRoute}/manage-topic`);
                 return;
             } else {
-                throw new Error('API response invalid');
+                const errorMessage = createResult?.message || 'API response invalid';
+                throw new Error(errorMessage);
             }
         } catch (error) {
-            console.warn('API lỗi, sử dụng mock data:', error);
-            
-            // API lỗi - tạo mock topic và vẫn điều hướng
-            const mockTopic = {
-                topicId: Date.now() + Math.random(),
-                ...formData,
-                images: tempImages,
-                videos: tempVideos,
-                createdAt: new Date().toISOString()
-            };
-            
-            dispatch(addTopicAction(mockTopic));
-            showToast({ 
-                toastRef: toast, 
-                severity: 'success', 
-                summary: 'Thêm chuyên đề', 
-                detail: 'Thêm chuyên đề thành công!' 
+            console.error('Error creating topic:', error);
+            const errorMessage = error?.message || 'Có lỗi xảy ra khi tạo chuyên đề';
+            showToast({
+                toastRef: toast,
+                severity: 'error',
+                summary: 'Lỗi tạo chuyên đề',
+                detail: errorMessage
             });
-            clearTempMedia();
-            navigate(`${AppRoutesEnum.AdminRoute}/manage-topic`);
         } finally {
             setIsSubmitting(false);
         }

@@ -101,7 +101,6 @@ const CreateBlogLayout = () => {
             description: formData.description,
             mediaTypeId: formData.mediaTypeId,
         };
-        console.log('Payload gửi lên API:', payload);
         try {
             const res = await blogService.createBlogService(payload, formData.mediaTypeId);
             if (res && res.data) {
