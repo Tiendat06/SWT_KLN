@@ -13,7 +13,7 @@ namespace Application
         public string? Description { get; set; }
         public int MediaTypeId { get; set; }
         public Guid UserId { get; set; }
-        public List<GetTopicMediaRequest> TopicMedia { get; set; }
+        public List<GetTopicMediaRequest>? TopicMedia { get; set; }
     }
 
     public class UpdateTopicMediaRequest
@@ -21,22 +21,24 @@ namespace Application
         public Guid? TopicId { get; set; }
         public int MediaTypeId { get; set; }
         public Guid UserId { get; set; }
-        public List<int>? ImageIds { get; set; }
-        public List<int>? VideoIds { get; set; }
-        public List<GetTopicImageRequest> TopicImages { get; set; }
-        public List<GetTopicVideoRequest> TopicVideos { get; set; }
+        //public List<int>? ImageIds { get; set; }
+        //public List<int>? VideoIds { get; set; }
+        public List<GetTopicImageRequest>? TopicImages { get; set; }
+        public List<GetTopicVideoRequest>? TopicVideos { get; set; }
     }
 
     public class UpdateTopicImageRequest
     {
+        public int Id { get; set; }
         public string? Capture { get; set; }
-        public IFormFile ImageLink { get; set; }
+        public IFormFile? ImageLink { get; set; }
     }
 
     public class UpdateTopicVideoRequest
     {
+        public int Id { get; set; }
         public string? Capture { get; set; }
-        public IFormFile VideoLink { get; set; }
+        public IFormFile? VideoLink { get; set; }
     }
 
     public class UpdateTopicRequestValidator : AbstractValidator<UpdateTopicRequest>
