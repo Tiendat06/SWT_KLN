@@ -30,6 +30,7 @@ namespace Application
 
     public class AddSlideImageMediaRequest
     {
+        public int Id { get; set; }
         public string Capture { get; set; }
         public IFormFile ImageLink { get; set; }
     }

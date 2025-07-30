@@ -43,15 +43,15 @@ namespace KLN.Shared.CrossCuttingConcerns.Utils
             return (JObject)result.JsonObj;
         }
 
-        public JObject DeleteFileFromCloudinary(string publicId)
-        {
-            var deleteParams = new DelResParams()
-            {
-                PublicIds = new List<string> { publicId },
-            };
-            var result = _cloudinary.DeleteResources(deleteParams) ?? throw new InvalidOperationException("Delete file from Cloudinary failed !");
-            return (JObject)result.JsonObj;
-        }
+        //public JObject DeleteFileFromCloudinary(string publicId)
+        //{
+        //    var deleteParams = new DelResParams()
+        //    {
+        //        PublicIds = new List<string> { publicId },
+        //    };
+        //    var result = _cloudinary.DeleteResources(deleteParams) ?? throw new InvalidOperationException("Delete file from Cloudinary failed !");
+        //    return (JObject)result.JsonObj;
+        //}
 
         public string ExtractPublicIdFromUrl(string imageUrl)
         {
