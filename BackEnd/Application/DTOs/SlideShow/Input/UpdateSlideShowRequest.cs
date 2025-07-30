@@ -32,7 +32,7 @@ namespace Application
     {
         public int Id { get; set; }
         public string Capture { get; set; }
-        public IFormFile ImageLink { get; set; }
+        public IFormFile? ImageLink { get; set; }
     }
     public class UpdateSlideShowRequestValidator : AbstractValidator<UpdateSlideShowRequest>
     {
