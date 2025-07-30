@@ -1,7 +1,7 @@
 import UseFetchAPI from "~/hooks/UseFetchAPI";
 import MediaType from "~/enum/MediaType/MediaType";
 import SlideShowType from "~/enum/SlideShowType/SlideShowType";
-import {DEFAULT_FETCH, DEFAULT_PAGE, TEST_USER_ID} from "~/utils/Constansts";
+import {DEFAULT_FETCH, DEFAULT_PAGE} from "~/utils/Constansts";
 
 const slideShowRoute = 'api/SlideShow';
 
@@ -66,23 +66,30 @@ const getTotalSlideImageInSpecificSlideShowService = async (
     });
 }
 
-const addSlideImageInSpecificSlideShowService = async (addedSlideImage,
-                                                       type = MediaType.None,
-                                                       slideShowType = SlideShowType.None) => {
+const addSlideImageInSpecificSlideShowService = async (slideshowId, createDataArray, type = MediaType.None, slideShowType = SlideShowType.None, userId = null) => {
     const formData = new FormData();
-    formData.append("SlideShowId", addedSlideImage.slideShowId);
+    formData.append("SlideShowId", slideshowId);
     formData.append("MediaTypeId", type);
     formData.append("SlideShowTypeId", slideShowType);
-    formData.append("slideImage", addedSlideImage.imageFile); // Thay đổi từ SlideImage thành slideImage
-    formData.append("Capture", addedSlideImage.description);
-    formData.append("UserId", TEST_USER_ID); // Thêm userId
+    if (userId) {
+        formData.append("UserId", userId);
+    }
+    
+    // Xử lý SlideImages như mảng theo cấu trúc backend
+    createDataArray.forEach((createData, index) => {
+        formData.append(`SlideImages[${index}].Capture`, createData.capture);
+        
+        if (createData.imageFile) {
+            formData.append(`SlideImages[${index}].ImageLink`, createData.imageFile);
+        }
+    });
 
     return await UseFetchAPI({
         api: `${slideShowRoute}/SlideImage`,
         method: "POST",
         body: formData,
         headers: null
-    })
+    });
 }
 
 export const createSlideShowWithImages = async (slideShowData, type = MediaType.None, slideShowType = SlideShowType.None, userId = null) => {
@@ -174,14 +181,24 @@ export const addVideoToSpecificSlideShowService = async (formData) => {
     });
 };
 
-const updateSlideshowImageService = async (slideshowId, imageId, updateData) => {
+const updateSlideshowImageService = async (slideshowId, updateDataArray, type = MediaType.None, slideShowType = SlideShowType.None, userId = null) => {
     const formData = new FormData();
     formData.append("SlideShowId", slideshowId);
-    formData.append("Id", imageId);
-    formData.append("Capture", updateData.capture);
-    if (updateData.imageFile) {
-        formData.append("slideImage", updateData.imageFile); // Thay đổi từ SlideImage thành slideImage
+    formData.append("MediaTypeId", type);
+    formData.append("SlideShowTypeId", slideShowType);
+    if (userId) {
+        formData.append("UserId", userId);
     }
+    
+    // Xử lý SlideImages như mảng theo cấu trúc backend
+    updateDataArray.forEach((updateData, index) => {
+        formData.append(`SlideImages[${index}].Id`, updateData.id);
+        formData.append(`SlideImages[${index}].Capture`, updateData.capture);
+        
+        if (updateData.imageFile) {
+            formData.append(`SlideImages[${index}].ImageLink`, updateData.imageFile);
+        }
+    });
 
     return await UseFetchAPI({
         api: `${slideShowRoute}/SlideImage`,
