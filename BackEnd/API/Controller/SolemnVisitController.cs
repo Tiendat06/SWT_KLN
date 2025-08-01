@@ -52,5 +52,14 @@ namespace API.Controller
             var updatedSolemnVisit = await _solemnVisitValidator.UpdateSolemnVisitAsyncValidator(id, request);
             return ApiSuccess(updatedSolemnVisit);
         }
+
+        // DELETE: api/SolemnVisit/ids
+        [HttpDelete("ids")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
+        public async Task<IActionResult> DeleteSolemnVisits([FromQuery] List<Guid> ids)
+        {
+            var result = await _solemnVisitService.DeleteMultipleSolemnVisitAsync(ids);
+            return ApiSuccess(result);
+        }
     }
 }

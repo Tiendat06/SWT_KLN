@@ -47,6 +47,16 @@ namespace Infrastructure.Repositories
             return await _context.SolemnVisits.CountAsync(x => x.IsDeleted == false);
         }
 
+        public async Task<IEnumerable<SolemnVisit>> GetSolemnVisitByIdsAsync(List<Guid> ids)
+        {
+            return await _context.SolemnVisits
+                .Where(x => ids.Contains(x.VisitId) && x.IsDeleted == false)
+                .Include(x => x.User)
+                    .ThenInclude(u => u.Account)
+                        .ThenInclude(a => a.Role)
+                .ToListAsync();
+        }
+
         public async Task<SolemnVisit?> GetSolemnVisitByNameAsync(string name)
         {
             return await _context.SolemnVisits
@@ -58,6 +68,14 @@ namespace Infrastructure.Repositories
         public async Task CreateSolemnVisitAsync(SolemnVisit solemnVisit)
         {
             await _context.SolemnVisits.AddAsync(solemnVisit);
+        }
+        public async Task SoftDeleteMultipleSolemnVisitByIdsAsync(List<Guid> ids)
+        {
+            var visits = await _context.SolemnVisits.Where(v => ids.Contains(v.VisitId)).ToListAsync();
+            foreach (var visit in visits)
+            {
+                visit.IsDeleted = true; // Assuming "Flag" is the soft delete column (true = deleted)
+            }
         }
     }
 }

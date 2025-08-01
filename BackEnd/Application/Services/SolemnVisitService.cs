@@ -221,5 +221,51 @@ namespace Application.Services
                 }
             }
         }
+        public async Task<bool> DeleteMultipleSolemnVisitAsync(List<Guid> ids)
+        {
+            using (var uow = await _unitOfWork.BeginTransactionAsync())
+            {
+                try
+                {
+                    // Get all solemn visits by IDs
+                    var solemnVisits = await _solemnVisitRepository.GetSolemnVisitByIdsAsync(ids)
+                        ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["SolemnVisit"]));
+
+                    if (!solemnVisits.Any())
+                    {
+                        throw new KeyNotFoundException(_localizer["NoSolemnVisitRecordsFound"]);
+                    }
+
+                    // Create log entries
+                    var logEntries = solemnVisits.Select(visit => new LogSolemnVisit
+                    {
+                        // Do NOT assign logSolemnId — it's auto-generated
+                        VisitId = visit.VisitId,
+                        Name = visit.Name,
+                        PortraitImage = visit.PortraitImage,
+                        LetterImage = visit.LetterImage,
+                        CreateDate = visit.CreateDate,
+                        UserId = visit.UserId,
+                        Process = ProcessMethod.DELETE,
+                        UpdateDate = DateTime.Now,
+                        Flag = false
+                    }).ToList();
+
+                    await _logSolemnVisitRepository.CreateLogSolemVisitRangeAsync(logEntries);
+
+                    // Perform soft delete
+                    await _solemnVisitRepository.SoftDeleteMultipleSolemnVisitByIdsAsync(ids);
+
+                    await uow.SaveChangesAsync();
+                    await uow.CommitTransactionAsync();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    await uow.RollbackTransactionAsync();
+                    throw new InvalidOperationException(ex.Message);
+                }
+            }
+        }
     }
 }

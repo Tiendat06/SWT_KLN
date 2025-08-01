@@ -17,5 +17,9 @@ namespace Infrastructure.Repositories
         {
             await _context.LogSolemVisits.AddAsync(log);
         }
+        public async Task CreateLogSolemVisitRangeAsync(IEnumerable<LogSolemnVisit> logs)
+        {
+            await _context.LogSolemVisits.AddRangeAsync(logs);
+        }
     }
 }

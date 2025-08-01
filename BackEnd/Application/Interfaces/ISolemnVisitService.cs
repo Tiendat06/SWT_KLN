@@ -7,5 +7,6 @@ namespace Application.Interfaces
         Task<GetSolemnVisitResponse?> GetSolemnVisitByIdAsync(Guid id);
         Task<GetSolemnVisitResponse> CreateSolemnVisitAsync(AddSolemnVisitRequest addSolemnVisitRequest);
         Task<GetSolemnVisitResponse> UpdateSolemnVisitAsync(Guid id, UpdateSolemnVisitRequest updateSolemnVisitRequest);
+        Task<bool> DeleteMultipleSolemnVisitAsync(List<Guid> ids);
     }
 }
