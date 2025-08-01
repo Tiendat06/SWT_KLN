@@ -13,6 +13,9 @@ import {showToast} from "~/utils/Toast";
 import {updateSlideshowImageAction, setSlideshowDetailAction} from '~/store/B2B/ManageSlideShow/actions';
 import KLNButtonEnum from '~/enum/Button/KLNButtonEnum';
 import { useAppContext } from "~/context/AppContext";
+import MediaType from '~/enum/MediaType/MediaType';
+import { TEST_USER_ID } from '~/utils/Constansts';
+import SlideShowType from '~/enum/SlideShowType/SlideShowType';
 
 const EditImageModal = ({ slideShowId }) => {
     const {
@@ -113,18 +116,36 @@ const EditImageModal = ({ slideShowId }) => {
     };
 
     const handleSubmit = async () => {
+        if (!formData.capture.trim()) {
+            showToast({ 
+                toastRef: toast, 
+                severity: 'error', 
+                summary: 'Lỗi', 
+                detail: 'Vui lòng nhập tên nội dung!' 
+            });
+            return;
+        }
+        
+        setIsSubmitting(true);
         try {
-            setIsSubmitting(true);
-            
             const updateData = {
                 id: selectedSlideshowImage.id,
-                capture: formData.capture,
-                imageFile: formData.file // Có thể null nếu không thay đổi ảnh
+                capture: formData.capture
             };
+            
+            if (formData.file) {
+                updateData.imageFile = formData.file;
+            }
             
             try {
                 // Gọi API cập nhật image
-                const result = await slideShowService.updateSlideshowImageService(slideShowId, selectedSlideshowImage.id, updateData);
+                const result = await slideShowService.updateSlideshowImageService(
+                    slideShowId, 
+                    [updateData], 
+                    MediaType.TDTMemorial, 
+                    SlideShowType.ExhibitionHouse, 
+                    TEST_USER_ID
+                );
                 
                 if (result && result.data) {
                     // API thành công - cập nhật store với data từ server
@@ -147,53 +168,33 @@ const EditImageModal = ({ slideShowId }) => {
                         summary: `Cập nhật ${mediaType}`,
                         detail: `Cập nhật ${mediaType} thành công.`
                     });
+                    
+                    // Chỉ đóng modal và cập nhật khi thành công
+                    setIsUpdated(prev => !prev);
+                    handleClose();
+                } else if (result && result.status && result.message && !result.data) {
+                    console.error('API Error Details:', result);
+                    showToast({ 
+                        toastRef: toast, 
+                        severity: 'error', 
+                        summary: 'Lỗi API', 
+                        detail: `${result.status}: ${result.message || 'Unknown error'}` 
+                    });
+                    throw new Error(`API Error ${result.status}: ${result.message || 'Unknown error'}`);
                 } else {
-                    throw new Error('API response invalid');
+                    const errorMessage = result?.message || 'API response invalid';
+                    throw new Error(errorMessage);
                 }
-            } catch (apiError) {
-                console.warn('API lỗi, sử dụng mock data:', apiError);
-                
-                // API lỗi - tạo mock data và cập nhật UI
-                const updatedImageData = {
-                    ...selectedSlideshowImage,
-                    capture: formData.capture,
-                    imageLink: formData.file ? previewUrl : selectedSlideshowImage.imageLink,
-                    createDate: new Date().toISOString()
-                };
-                
-                // Cập nhật UI với mock data
-                dispatch(updateSlideshowImageAction(updatedImageData));
-                
-                // Cập nhật slideshowDetail để trigger re-pagination
-                if (slideshowDetail) {
-                    const updatedDetail = {
-                        ...slideshowDetail,
-                        slideImage: slideshowDetail.slideImage.map(img => 
-                            img.id === updatedImageData.id ? updatedImageData : img
-                        )
-                    };
-                    dispatch(setSlideshowDetailAction(updatedDetail));
-                }
-                
+            } catch (error) {
+                console.error('Error updating image:', error);
+                const errorMessage = error?.message || 'Có lỗi xảy ra khi cập nhật ảnh';
                 showToast({
                     toastRef: toast,
-                    severity: 'success',
+                    severity: 'error',
                     summary: `Cập nhật ${mediaType}`,
-                    detail: `Cập nhật ${mediaType} thành công.`
+                    detail: errorMessage
                 });
             }
-            
-            setIsUpdated(prev => !prev);
-            handleClose();
-            
-        } catch (error) {
-            console.error('Error updating image:', error);
-            showToast({
-                toastRef: toast,
-                severity: 'error',
-                summary: `Cập nhật ${mediaType}`,
-                detail: `Lỗi khi cập nhật ${mediaType}. Vui lòng thử lại.`
-            });
         } finally {
             setIsSubmitting(false);
         }

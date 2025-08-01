@@ -129,9 +129,13 @@ const EditVideoModal = () => {
             
             const updateData = {
                 id: editingVideo.id,
-                capture: formData.capture,
-                videoFile: formData.file // Có thể null nếu không thay đổi video
+                capture: formData.capture
             };
+            
+            // Chỉ thêm videoFile nếu có file mới được chọn
+            if (formData.file) {
+                updateData.videoFile = formData.file;
+            }
             
             const result = await topicService.updateVideoService(updateData);
             if (result && result.data) {

@@ -14,6 +14,7 @@ import {showToast} from "~/utils/Toast";
 import { useAppContext } from "~/context/AppContext";
 import MediaType from '~/enum/MediaType/MediaType';
 import SlideShowType from '~/enum/SlideShowType/SlideShowType';
+import { TEST_USER_ID } from '~/utils/Constansts';
 
 const AddImageModal = ({ slideShowId }) => {
     const {
@@ -104,11 +105,18 @@ const AddImageModal = ({ slideShowId }) => {
             if (slideShowId) {
                 // Thêm vào slideshow hiện có
                 try {
-                    const result = await slideShowService.addSlideImageInSpecificSlideShowService({
-                        slideShowId: slideShowId,
-                        imageFile: formData.file,
-                        description: formData.capture
-                    }, MediaType.TDTMemorial, SlideShowType.ExhibitionHouse);
+                    const createData = {
+                        capture: formData.capture,
+                        imageFile: formData.file
+                    };
+                    
+                    const result = await slideShowService.addSlideImageInSpecificSlideShowService(
+                        slideShowId,
+                        [createData],
+                        MediaType.TDTMemorial, 
+                        SlideShowType.ExhibitionHouse,
+                        TEST_USER_ID
+                    );
                     
                     if (result && result.data) {
                         // API thành công - sử dụng data từ server
@@ -130,40 +138,19 @@ const AddImageModal = ({ slideShowId }) => {
                             detail: `Thêm ${mediaType} thành công!`
                         });
                     } else {
-                        throw new Error('API response invalid');
+                        const errorMessage = result?.message || 'API response invalid';
+                        throw new Error(errorMessage);
                     }
                 } catch (apiError) {
-                    console.warn('API lỗi, sử dụng mock data:', apiError);
-                    
-                    // API lỗi - tạo mock data và cập nhật UI
-                    const mockImageData = {
-                        id: Date.now() + Math.random(),
-                        capture: formData.capture,
-                        imageLink: previewUrl,
-                        slideShowId: slideShowId,
-                        createDate: new Date().toISOString()
-                    };
-                    
-                    // Cập nhật UI với mock data
-                    dispatch(addSlideshowImageAction(mockImageData));
-                    
-                    // Cập nhật slideshowDetail để trigger re-pagination
-                    if (slideshowDetail) {
-                        const updatedDetail = {
-                            ...slideshowDetail,
-                            slideImage: [...(slideshowDetail.slideImage || []), mockImageData]
-                        };
-                        dispatch(setSlideshowDetailAction(updatedDetail));
-                    }
-                    
+                    console.error('Error adding image:', apiError);
+                    const errorMessage = apiError?.message || 'Có lỗi xảy ra khi thêm ảnh';
                     showToast({
                         toastRef: toast,
-                        severity: 'success',
+                        severity: 'error',
                         summary: `Thêm ${mediaType}`,
-                        detail: `Thêm ${mediaType} thành công!`
+                        detail: errorMessage
                     });
                 }
-                
                 setIsUpdated(prev => !prev);
             } else {
                 // Thêm vào danh sách temp trong CreateSlideShowLayout
@@ -184,9 +171,9 @@ const AddImageModal = ({ slideShowId }) => {
                     summary: `Thêm ${mediaType}`,
                     detail: `Thêm ${mediaType} thành công!`
                 });
+                
+                handleClose();
             }
-            
-            handleClose();
             
         } catch (error) {
             console.error('Error adding media:', error);

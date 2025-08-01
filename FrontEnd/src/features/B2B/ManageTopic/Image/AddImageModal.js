@@ -12,12 +12,16 @@ import {topicService} from "~/services/TopicService";
 import {
     addTopicImageAction
 } from '~/store/B2B/ManageTopic/actions';
+import { showToast } from '~/utils/Toast';
+import { useAppContext } from '~/context/AppContext';
 
 const AddImageModal = ({topicId}) => {
     const {
         addImageModalVisible, setAddImageModalVisible,
         addTempImage, setIsUpdated, dispatch
     } = useManageTopicContext();
+
+    const { toast } = useAppContext();
 
     const [formData, setFormData] = useState({
         capture: '',
@@ -108,23 +112,18 @@ const AddImageModal = ({topicId}) => {
                     dispatch(addTopicImageAction(result.data));
                         alert(`Thêm ${mediaType} thành công!`);
                     } else {
-                        throw new Error('API response invalid');
+                        const errorMessage = result?.message || 'API response invalid';
+                        throw new Error(errorMessage);
                     }
                 } catch (apiError) {
-                    console.warn('API lỗi, sử dụng mock data:', apiError);
-                    
-                    // API lỗi - tạo mock data và cập nhật UI
-                    const mockImageData = {
-                        id: Date.now() + Math.random(),
-                        ...mediaData,
-                        imageLink: previewUrl,
-                        topicId: topicId,
-                        createdAt: new Date().toISOString()
-                    };
-                    
-                    // Cập nhật UI với mock data
-                    dispatch(addTopicImageAction(mockImageData));
-                    alert(`Thêm ${mediaType} thành công!`);
+                    console.error('Error adding image:', apiError);
+                    const errorMessage = apiError?.message || 'Có lỗi xảy ra khi thêm ảnh';
+                    showToast({
+                        toastRef: toast,
+                        severity: 'error',
+                        summary: `Thêm ${mediaType}`,
+                        detail: errorMessage
+                    });
                 }
                 
                 setIsUpdated(prev => !prev);
@@ -140,15 +139,24 @@ const AddImageModal = ({topicId}) => {
                 // Thêm vào context thông qua reducer
                 addTempImage(imageWithId);
                 
-                alert(`Thêm ${mediaType} thành công!`);
-                console.log(`Thêm ${mediaType} vào danh sách thành công.`, imageWithId);
+                showToast({
+                    toastRef: toast,
+                    severity: 'success',
+                    summary: `Thêm ${mediaType}`,
+                    detail: `Thêm ${mediaType} thành công!`
+                });
+                
+                handleClose();
             }
-            
-            handleClose();
             
         } catch (error) {
             console.error('Error adding media:', error);
-            alert(`Lỗi khi thêm ${mediaType}. Vui lòng thử lại.`);
+            showToast({
+                toastRef: toast,
+                severity: 'error',
+                summary: `Thêm ${mediaType}`,
+                detail: `Lỗi khi thêm ${mediaType}. Vui lòng thử lại.`
+            });
         } finally {
             setIsSubmitting(false);
         }
