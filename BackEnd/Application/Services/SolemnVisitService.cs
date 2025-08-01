@@ -10,11 +10,13 @@ using KLN.Shared.CrossCuttingConcerns;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using KLN.Shared.CrossCuttingConcerns.Utils;
+using Domain.Entities;
 
 namespace Application.Services
 {
     public class SolemnVisitService(
         ISolemnVisitRepository _solemnVisitRepository,
+        ILogSolemnVisitRepository _logSolemnVisitRepository,
         IConfiguration _configuration,
         IUnitOfWork _unitOfWork,
         Cloudinary _cloudinary,
@@ -83,12 +85,12 @@ namespace Application.Services
                     var letterPath = await FileOperations.SaveFileToLocal(folderPath, request.LetterImage);
 
                     // Upload to Cloudinary
-                    var cloudinaryOps = new CloudinaryOperations(_cloudinary);
+                    var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
 
-                    var portraitResult = cloudinaryOps.UploadFileFromLocalToCloudinary(portraitPath, assetFolder, portraitPublicId)
+                    var portraitResult = cloudinaryOperations.UploadFileFromLocalToCloudinary(portraitPath, assetFolder, portraitPublicId)
                         ?? throw new InvalidOperationException(_localizer["UploadImageCloudinaryFailed"]);
 
-                    var letterResult = cloudinaryOps.UploadFileFromLocalToCloudinary(letterPath, assetFolder, letterPublicId)
+                    var letterResult = cloudinaryOperations.UploadFileFromLocalToCloudinary(letterPath, assetFolder, letterPublicId)
                         ?? throw new InvalidOperationException(_localizer["UploadImageCloudinaryFailed"]);
 
                     var portraitUrl = portraitResult["secure_url"]?.ToString()
@@ -113,6 +115,104 @@ namespace Application.Services
                         ?? throw new InvalidOperationException(_localizer["AddSolemnVisitFailed"]);
 
                     return GetSolemnVisitResponseMapper.GetSolemnVisitMapEntityToDTO(added);
+                }
+                catch (Exception ex)
+                {
+                    await uow.RollbackTransactionAsync();
+                    throw new InvalidOperationException(ex.Message);
+                }
+            }
+        }
+
+        public async Task<GetSolemnVisitResponse> UpdateSolemnVisitAsync(Guid id, UpdateSolemnVisitRequest request)
+        {
+            using (var uow = await _unitOfWork.BeginTransactionAsync())
+            {
+                try
+                {
+                    var solemnVisit = await _solemnVisitRepository.GetSolemnVisitByIdAsync(id)
+                        ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["SolemnVisit"]));
+                    await uow.TrackEntity(solemnVisit);
+
+                    // Check for duplicate name
+                    var existing = await _solemnVisitRepository.GetSolemnVisitByNameAsync(request.Name);
+                    if (existing != null && existing.VisitId != id)
+                    {
+                        throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["AlreadyExists"], _localizer["SolemnVisitName"]));
+                    }
+
+                    var assetFolder = CommonCloudinaryAttribute.assetFolderSolemnVisit;
+                    var allowedContentTypes = new[] { CommonFileType.JPEG, CommonFileType.JPG, CommonFileType.PNG, CommonFileType.GIF, CommonFileType.BMP, CommonFileType.WEBP, CommonFileType.SVG, CommonFileType.TIFF };
+
+                    var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
+                    var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
+
+                    // Update PortraitImage if provided
+                    if (request.PortraitImage != null)
+                    {
+                        if (!FileOperations.CheckFileType(allowedContentTypes, request.PortraitImage))
+                        {
+                            throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], string.Join(", ", allowedContentTypes)));
+                        }
+
+                        var portraitPath = await FileOperations.SaveFileToLocal(folderPath, request.PortraitImage);
+                        var portraitPublicId = $"Portrait_{id}";
+                        var portraitResult = cloudinaryOperations.UploadFileFromLocalToCloudinary(portraitPath, assetFolder, portraitPublicId)
+                            ?? throw new InvalidOperationException(_localizer["UploadImageCloudinaryFailed"]);
+                        var portraitUrl = portraitResult["secure_url"]?.ToString()
+                            ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "portrait secure_url"));
+                        FileOperations.DeleteFileFromLocal(portraitPath, folderPath);
+
+                        solemnVisit.PortraitImage = portraitUrl;
+                    }
+
+                    // Update LetterImage if provided
+                    if (request.LetterImage != null)
+                    {
+                        if (!FileOperations.CheckFileType(allowedContentTypes, request.LetterImage))
+                        {
+                            throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], string.Join(", ", allowedContentTypes)));
+                        }
+
+                        var letterPath = await FileOperations.SaveFileToLocal(folderPath, request.LetterImage);
+                        var letterPublicId = $"Letter_{id}";
+                        var letterResult = cloudinaryOperations.UploadFileFromLocalToCloudinary(letterPath, assetFolder, letterPublicId)
+                            ?? throw new InvalidOperationException(_localizer["UploadImageCloudinaryFailed"]);
+                        var letterUrl = letterResult["secure_url"]?.ToString()
+                            ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "letter secure_url"));
+                        FileOperations.DeleteFileFromLocal(letterPath, folderPath);
+
+                        solemnVisit.LetterImage = letterUrl;
+                    }
+
+                    // Update basic fields
+                    solemnVisit.Name = request.Name;
+                    solemnVisit.UserId = request.UserId;
+
+                    // Add log
+                    var newLog = new LogSolemnVisit
+                    {
+                        LogSolemnId = 0,
+                        Name = solemnVisit.Name,
+                        PortraitImage = solemnVisit.PortraitImage,
+                        LetterImage = solemnVisit.LetterImage,
+                        CreateDate = solemnVisit.CreateDate,
+                        UpdateDate = DateTime.Now,
+                        UserId = solemnVisit.UserId,
+                        VisitId = solemnVisit.VisitId,
+                        Flag = false,
+                        Process = ProcessMethod.UPDATE
+                    };
+
+                    await _logSolemnVisitRepository.CreateLogSolemnVisitAsync(newLog);
+
+                    await uow.SaveChangesAsync();
+                    await uow.CommitTransactionAsync();
+
+                    var updated = await _solemnVisitRepository.GetSolemnVisitByIdAsync(id)
+                        ?? throw new InvalidOperationException(_localizer["UpdateSolemnVisitFailed"]);
+
+                    return GetSolemnVisitResponseMapper.GetSolemnVisitMapEntityToDTO(updated);
                 }
                 catch (Exception ex)
                 {

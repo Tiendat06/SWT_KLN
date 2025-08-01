@@ -25,5 +25,16 @@ namespace Application.Validators
             }
             return await _solemnVisitService.CreateSolemnVisitAsync(addSolemnVisitRequest);
         }
+        public async Task<GetSolemnVisitResponse> UpdateSolemnVisitAsyncValidator(Guid id, UpdateSolemnVisitRequest updateSolemnVisitRequest)
+        {
+            var validator = new UpdateSolemnVisitRequestValidator(_localizer);
+            ValidationResult result = await validator.ValidateAsync(updateSolemnVisitRequest);
+            if (!result.IsValid)
+            {
+                var error = result.Errors.FirstOrDefault();
+                throw new ArgumentException(error + "");
+            }
+            return await _solemnVisitService.UpdateSolemnVisitAsync(id, updateSolemnVisitRequest);
+        }
     }
 }

@@ -43,5 +43,14 @@ namespace API.Controller
 
             return ApiSuccess(solemnVisit);
         }
+
+        // PUT: api/SolemnVisit/5
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetSolemnVisitResponse>))]
+        public async Task<IActionResult> UpdateSolemnVisit(Guid id, [FromForm] UpdateSolemnVisitRequest request)
+        {
+            var updatedSolemnVisit = await _solemnVisitValidator.UpdateSolemnVisitAsyncValidator(id, request);
+            return ApiSuccess(updatedSolemnVisit);
+        }
     }
 }

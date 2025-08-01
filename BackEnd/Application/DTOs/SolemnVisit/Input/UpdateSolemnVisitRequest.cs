@@ -9,21 +9,21 @@ namespace Application
 {
     public class UpdateSolemnVisitRequest
     {
-        public Guid SolemnVisitId { get; set; }
+        //public Guid SolemnVisitId { get; set; }
         public string Name { get; set; }
         public IFormFile? PortraitImage { get; set; }
         public IFormFile? LetterImage { get; set; }
         public Guid UserId { get; set; }
     }
 
-    public class UpdateSolemnvisitRequestValidator : AbstractValidator<UpdateSolemnVisitRequest>
+    public class UpdateSolemnVisitRequestValidator : AbstractValidator<UpdateSolemnVisitRequest>
     {
         private const long MaxTotalSizeInBytes = 4L * 1024 * 1024 * 1024; // 4 GB size of upload
-        public UpdateSolemnvisitRequestValidator(IStringLocalizer<KLNSharedResources> localizer)
+        public UpdateSolemnVisitRequestValidator(IStringLocalizer<KLNSharedResources> localizer)
         {
-            RuleFor(x => x.SolemnVisitId)
-                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SolemnVisitId"]))
-                .NotEqual(Guid.Empty).WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SolemnVisitId"]));
+            //RuleFor(x => x.SolemnVisitId)
+            //    .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SolemnVisitId"]))
+            //    .NotEqual(Guid.Empty).WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SolemnVisitId"]));
             RuleFor(x => x.Name)
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SolemnVisitName"]))
                 .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["SolemnVisitName"]))
