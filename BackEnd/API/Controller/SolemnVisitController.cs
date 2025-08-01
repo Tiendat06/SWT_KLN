@@ -33,5 +33,15 @@ namespace API.Controller
 
             return ApiSuccess(solemnVisit);
         }
+
+        // POST: api/SolemnVisit
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetSolemnVisitResponse>))]
+        public async Task<IActionResult> CreateSolemnVisit([FromForm] AddSolemnVisitRequest addSolemnVisitRequest)
+        {
+            var solemnVisit = await _solemnVisitValidator.CreateSolemnVisitAsyncValidator(addSolemnVisitRequest);
+
+            return ApiSuccess(solemnVisit);
+        }
     }
 }

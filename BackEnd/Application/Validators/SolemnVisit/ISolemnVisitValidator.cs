@@ -2,5 +2,6 @@
 {
     public interface ISolemnVisitValidator
     {
+        Task<GetSolemnVisitResponse> CreateSolemnVisitAsyncValidator(AddSolemnVisitRequest addSolemnVisitRequest);
     }
 }

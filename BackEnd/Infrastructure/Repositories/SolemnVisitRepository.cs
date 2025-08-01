@@ -46,5 +46,18 @@ namespace Infrastructure.Repositories
         {
             return await _context.SolemnVisits.CountAsync(x => x.IsDeleted == false);
         }
+
+        public async Task<SolemnVisit?> GetSolemnVisitByNameAsync(string name)
+        {
+            return await _context.SolemnVisits
+                .Include(x => x.User)
+                    .ThenInclude(u => u.Account)
+                        .ThenInclude(a => a.Role)
+                .FirstOrDefaultAsync(x => x.Name == name);
+        }
+        public async Task CreateSolemnVisitAsync(SolemnVisit solemnVisit)
+        {
+            await _context.SolemnVisits.AddAsync(solemnVisit);
+        }
     }
 }
