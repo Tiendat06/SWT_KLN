@@ -34,6 +34,6 @@ namespace Domain.Entities
 
         //[NotMapped]
         // log solemVisit 1 - 1
-        public virtual ICollection<LogSolemVisit>? LogSolemVisits { get; set; }
+        public virtual ICollection<LogSolemnVisit>? LogSolemVisits { get; set; }
     }
 }

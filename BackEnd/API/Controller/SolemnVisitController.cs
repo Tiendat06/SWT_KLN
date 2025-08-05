@@ -33,5 +33,33 @@ namespace API.Controller
 
             return ApiSuccess(solemnVisit);
         }
+
+        // POST: api/SolemnVisit
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetSolemnVisitResponse>))]
+        public async Task<IActionResult> CreateSolemnVisit([FromForm] AddSolemnVisitRequest addSolemnVisitRequest)
+        {
+            var solemnVisit = await _solemnVisitValidator.CreateSolemnVisitAsyncValidator(addSolemnVisitRequest);
+
+            return ApiSuccess(solemnVisit);
+        }
+
+        // PUT: api/SolemnVisit/5
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetSolemnVisitResponse>))]
+        public async Task<IActionResult> UpdateSolemnVisit(Guid id, [FromForm] UpdateSolemnVisitRequest request)
+        {
+            var updatedSolemnVisit = await _solemnVisitValidator.UpdateSolemnVisitAsyncValidator(id, request);
+            return ApiSuccess(updatedSolemnVisit);
+        }
+
+        // DELETE: api/SolemnVisit/ids
+        [HttpDelete("ids")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
+        public async Task<IActionResult> DeleteSolemnVisits([FromQuery] List<Guid> ids)
+        {
+            var result = await _solemnVisitService.DeleteMultipleSolemnVisitAsync(ids);
+            return ApiSuccess(result);
+        }
     }
 }
