@@ -159,6 +159,9 @@ namespace KLN
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT_KEY_SECRET"])),
                     ValidateIssuer = false, 
                     ValidateAudience = false,
+                    ValidateLifetime = true,
+                    RequireExpirationTime = true,
+                    ClockSkew = TimeSpan.Zero
                 };
             });
 
@@ -235,6 +238,7 @@ namespace KLN
             builder.Services.AddScoped<IMusicValidator, MusicValidator>();
             builder.Services.AddScoped<IVideoValidator, VideoValidator>();
             builder.Services.AddScoped<ITopicValidator, TopicValidator>();
+            builder.Services.AddScoped<IAccountValidator, AccountValidator>();
 
             // Repository
             builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -255,6 +259,7 @@ namespace KLN
             builder.Services.AddScoped<IMusicRepository, MusicRepository>();
             builder.Services.AddScoped<ILogMusicRepository, LogMusicRepository>();
             builder.Services.AddScoped<ITopicRepository, TopicRepository>();
+            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
             // Services
             builder.Services.AddScoped<IUserService, UserService>();
@@ -272,6 +277,7 @@ namespace KLN
             builder.Services.AddScoped<IMusicService, MusicService>();
             builder.Services.AddScoped<ILogMusicService, LogMusicService>();
             builder.Services.AddScoped<ITopicService, TopicService>();
+            builder.Services.AddScoped<IAccountService, AccountService>();
 
         }
     }
