@@ -6,6 +6,7 @@ using Application.Validators;
 using System.Net;
 using Application;
 using KLN.Shared.CrossCuttingConcerns;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -38,6 +39,7 @@ namespace API.Controllers
 
         // POST: api/Book
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetBookResponse>))]
         public async Task<IActionResult> PostBook([FromForm] AddBookRequest addBookRequest)
         {
@@ -47,6 +49,7 @@ namespace API.Controllers
 
         // PUT: api/Book/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetBookResponse>))]
         public async Task<IActionResult> PutBook(Guid id, [FromForm] UpdateBookRequest updateBookRequest)
         {
@@ -56,6 +59,7 @@ namespace API.Controllers
 
         // DELETE: api/Book/ids
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteMultipleBook([FromBody] List<Guid> ids)
         {
             var result = await _bookService.DeleteMultipleBooksAsync(ids);

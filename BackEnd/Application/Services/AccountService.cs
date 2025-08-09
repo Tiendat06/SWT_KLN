@@ -41,7 +41,7 @@ namespace Application.Services
 
                 var claims = new[]
                 {
-                    new Claim(ClaimTypes.NameIdentifier, account.AccountId.ToString()),
+                    new Claim("accountId", account.AccountId.ToString()),
                     new Claim(ClaimTypes.Name, account.UserName),
                     new Claim(ClaimTypes.Role, MapRole((int)account.RoleId)),
                     new Claim(JwtRegisteredClaimNames.Email, account.User.Email ?? ""),

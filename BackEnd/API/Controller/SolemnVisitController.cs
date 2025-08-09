@@ -5,6 +5,7 @@ using API.Controller.Base;
 using Application.Validators;
 using Application;
 using KLN.Shared.CrossCuttingConcerns;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controller
 {
@@ -36,6 +37,7 @@ namespace API.Controller
 
         // POST: api/SolemnVisit
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetSolemnVisitResponse>))]
         public async Task<IActionResult> CreateSolemnVisit([FromForm] AddSolemnVisitRequest addSolemnVisitRequest)
         {
@@ -46,6 +48,7 @@ namespace API.Controller
 
         // PUT: api/SolemnVisit/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetSolemnVisitResponse>))]
         public async Task<IActionResult> UpdateSolemnVisit(Guid id, [FromForm] UpdateSolemnVisitRequest request)
         {
@@ -55,6 +58,7 @@ namespace API.Controller
 
         // DELETE: api/SolemnVisit/ids
         [HttpDelete("ids")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
         public async Task<IActionResult> DeleteSolemnVisits([FromQuery] List<Guid> ids)
         {

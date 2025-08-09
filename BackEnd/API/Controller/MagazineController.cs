@@ -6,6 +6,7 @@ using Application.Validators;
 using System.Net;
 using Application;
 using KLN.Shared.CrossCuttingConcerns;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -39,6 +40,7 @@ namespace API.Controllers
         // POST: api/Magazine
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetMagazineResponse>))]
         public async Task<IActionResult> CreateMagazine([FromForm] AddMagazineRequest addMagazineRequest)
         {
@@ -49,6 +51,7 @@ namespace API.Controllers
         // PUT: api/Magazine/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetMagazineResponse>))]
         public async Task<IActionResult> PutMagazine(Guid id, [FromForm] UpdateMagazineRequest updateMagazineRequest)
         {
@@ -59,6 +62,7 @@ namespace API.Controllers
 
         // DELETE: api/Magazine/ids
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteMagazine([FromBody] List<Guid> ids)
         {
             var result = await _magazineService.DeleteMultipleMagazinesAsync(ids);

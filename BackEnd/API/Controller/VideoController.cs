@@ -6,6 +6,7 @@ using Application.Validators;
 using Application;
 using System.Net;
 using KLN.Shared.CrossCuttingConcerns;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controller
 {
@@ -36,6 +37,7 @@ namespace API.Controller
         // POST: api/Video
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetVideoResponse>))]
         public async Task<IActionResult> CreateVideo([FromForm] AddVideoRequest addVideoRequest)
         {
@@ -46,6 +48,7 @@ namespace API.Controller
         // PUT: api/Video/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetVideoResponse>))]
         public async Task<IActionResult> PutVideo(Guid id, [FromForm] UpdateVideoRequest updateVideoRequest)
         {
@@ -64,6 +67,7 @@ namespace API.Controller
         //}
 
         [HttpGet("total")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetTotalVideoResponse>))]
         public async Task<IActionResult> GetTotalVideoAsync([FromQuery] GetTotalVideoRequest input)
         {
@@ -73,6 +77,7 @@ namespace API.Controller
 
         // DELETE: api/Video/ids
         [HttpDelete("ids")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
         public async Task<IActionResult> DeleteMultipleVideo([FromBody] List<Guid> ids)
         {

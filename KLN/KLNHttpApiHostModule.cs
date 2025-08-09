@@ -40,8 +40,8 @@ namespace KLN
 
             app.UseCors("AllowSpecificOrigin");
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseRequestLocalization((RequestLocalizationOptions)data[0]);
 
