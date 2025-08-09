@@ -80,7 +80,6 @@ namespace API.Controller
         }
 
         [HttpGet("total")]
-        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetTotalMusicResponse>))]
         public async Task<IActionResult> GetTotalMusicAsync([FromQuery] GetTotalMusicRequest input)
         {

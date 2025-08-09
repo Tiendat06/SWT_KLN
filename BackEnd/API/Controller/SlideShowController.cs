@@ -66,7 +66,6 @@ namespace API.Controller
         }
 
         [HttpGet("total")]
-        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetTotalSlideImageResponse>))]
         public async Task<IActionResult> CountTotalSlideImagePerSlideShow([FromQuery] GetSlideShowRequest input)
         {
@@ -105,7 +104,7 @@ namespace API.Controller
 
         // DELETE: api/SlideImage/ids
         [HttpDelete("SlideImage")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
         public async Task<IActionResult> DeleteSlideImages([FromBody] DeleteSlideImageRequest deleteSlideImagesRequest)

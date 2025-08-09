@@ -67,7 +67,6 @@ namespace API.Controller
         //}
 
         [HttpGet("total")]
-        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetTotalVideoResponse>))]
         public async Task<IActionResult> GetTotalVideoAsync([FromQuery] GetTotalVideoRequest input)
         {
