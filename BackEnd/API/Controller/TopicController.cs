@@ -6,6 +6,7 @@ using Application;
 using Application.Validators;
 using KLN.Shared.CrossCuttingConcerns;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -37,6 +38,7 @@ namespace API.Controllers
 
         // POST: api/Topic
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetTopicResponse>))]
         public async Task<IActionResult> CreateTopic([FromForm] AddTopicRequest addTopicRequest)
         {
@@ -46,6 +48,7 @@ namespace API.Controllers
 
         // PUT: api/Topic/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetTopicResponse>))]
         public async Task<IActionResult> PutTopic(Guid id, [FromForm] UpdateTopicRequest updateTopicRequest)
         {
@@ -55,6 +58,7 @@ namespace API.Controllers
 
         //DELETE: api/Topic/ids
         [HttpDelete("ids")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
         public async Task<IActionResult> DeleteTopic([FromBody] List<Guid> ids)
         {
@@ -64,6 +68,7 @@ namespace API.Controllers
 
         // POST: api/Topic/Media/5
         [HttpPost("Media")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetTopicMediaResponse>))]
         public async Task<IActionResult> AddTopicMedia([FromBody] AddTopicMediaRequest addTopicMediaRequest)
         {
@@ -73,6 +78,7 @@ namespace API.Controllers
 
         // PUT: api/Topic/Media/5
         [HttpPut("Media")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetTopicMediaResponse>))]
         public async Task<IActionResult> UpdateTopicMedia([FromBody] UpdateTopicMediaRequest updateTopicMediaRequest)
         {
@@ -82,6 +88,7 @@ namespace API.Controllers
 
         // DELETE: api/Topic/Media/5
         [HttpDelete("Media")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
         public async Task<IActionResult> DeleteTopicMedia([FromBody] DeleteTopicMediaRequest request)
         {
