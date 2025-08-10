@@ -107,7 +107,7 @@ const VideoTable = () => {
                         justifyContent: 'space-around',
                         alignItems: 'center'
                     }} header="Thao tác" body={(rowData) => (<KLNTableAction
-                        editActionLink={`${AppRoutesEnum.AdminRoute}/manage-multimedia/video/${rowData.videoId}`}
+                        editActionLink={`${AppRoutesEnum.AdminRoute}/manage-multimedia/${rowData.videoId}`}
                         onClickDelete={() => showModal(rowData)}
                     />)}></KLNColumn>
                 </KLNDataTable>

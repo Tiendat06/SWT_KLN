@@ -22,6 +22,7 @@ const KLNUploadFile = ({
                            fileSizeLimitMb = 250,
                            fileFieldName = 'file',
                            uploadFileOption = UploadFileOption.Multimedia,
+                           dispatch = null,
                        }) => {
     const {toast} = useAppContext();
 
@@ -30,16 +31,23 @@ const KLNUploadFile = ({
         const isSizeOk = files[0].size <= fileSizeLimitMb * 1024 * 1024;
         // console.log({isFile, isSizeOk, type: files[0].type})
         if (isFile && isSizeOk) {
-            setData({
-                ...data,
-                [fileFieldName]: files[0]
-            });
+            if (typeof dispatch === "function"){
+                dispatch(setData({
+                    ...data,
+                    [fileFieldName]: files[0],
+                }))
+            } else{
+                setData({
+                    ...data,
+                    [fileFieldName]: files[0]
+                });
+            }
             setPreviewImage(URL.createObjectURL(files[0]));
         } else {
             showToast({
                 toastRef: toast,
                 severity: 'error',
-                summary: 'Tải nhạc lỗi',
+                summary: 'Tải file lỗi',
                 detail: INVALID_FILE
             });
         }

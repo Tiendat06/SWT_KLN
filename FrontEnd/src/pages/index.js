@@ -27,6 +27,7 @@ import ManageTopic from "~/pages/B2B/ManageTopic/ManageTopic";
 import TopicDetail from "~/pages/B2B/ManageTopic/TopicDetail";
 import LoginPage from "~/pages/B2B/Login/Login";
 import CreateMultimedia from "~/pages/B2B/ManageMultimedia/CreateMultimedia";
+
 import CreateBookAndMagazine from "~/pages/B2B/ManageMagazine/CreateBookAndMagazine";
 import CreateImage from "~/pages/B2B/ManageImage/CreateImage";
 import UpdateBookAndMagazine from "~/pages/B2B/ManageMagazine/UpdateBookAndMagazine";
@@ -37,6 +38,7 @@ import ManageSlideShow from "~/pages/B2B/ManageSlideShow/ManageSlideShow";
 import CreateSlideShow from "~/pages/B2B/ManageSlideShow/CreateSlideShow";
 import EditSlideShow from "~/pages/B2B/ManageSlideShow/EditSlideShow";
 import SlideShowDetail from "~/pages/B2B/ManageSlideShow/SlideShowDetail";
+import UpdateMultimedia from "~/pages/B2B/ManageMultimedia/UpdateMultimedia";
 
 
 export { Home, BlogContent };
@@ -65,8 +67,8 @@ export {
     EditTopic,
     CreateBookAndMagazine,
     CreateImage,
-    UpdateBookAndMagazine
-
+    UpdateBookAndMagazine,
+    UpdateMultimedia
 };
 
 export { LoginPage };
