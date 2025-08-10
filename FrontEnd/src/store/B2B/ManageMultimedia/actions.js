@@ -6,6 +6,14 @@ import {
     GET_IMAGES,
     GET_SLIDESHOW, SET_VIDEO, GET_VIDEO, SET_AUDIO, GET_AUDIO, ADD_IMAGE,
 } from './constansts';
+import {SET_SLIDESHOW} from "~/store/B2B/ManageSlideShow/constants";
+
+export const setSlideShowAction = payLoad => {
+    return {
+        type: SET_SLIDESHOW,
+        payLoad,
+    }
+}
 
 export const getSlideShowAction = payLoad => {
     return {

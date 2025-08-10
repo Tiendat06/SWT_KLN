@@ -6,7 +6,8 @@ import MultimediaLayouts from "~/features/B2B/ManageMultimedia/Base/MultimediaLa
 import DeleteMany from "~/features/B2B/ManageMultimedia/Base/DeleteMany";
 import CreateVideoForm from "~/features/B2B/ManageMultimedia/Video/CreateVideoForm";
 import CreateAudioForm from "~/features/B2B/ManageMultimedia/Audio/CreateAudioForm";
+import UpdateImageForm from "~/features/B2B/ManageMultimedia/Image/UpdateImageForm";
 
 export {AudioTable, ImageTable, VideoTable, CreateImageForm, MultimediaLayouts, DeleteMany, CreateAudioForm};
 
-export {CreateVideoForm};
+export {CreateVideoForm, UpdateImageForm};

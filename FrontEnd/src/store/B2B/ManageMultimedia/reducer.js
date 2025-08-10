@@ -6,11 +6,13 @@ import {
     GET_IMAGES,
     GET_SLIDESHOW, SET_VIDEO, GET_VIDEO, SET_AUDIO, GET_AUDIO, ADD_IMAGE,
 } from "./constansts";
+import {SET_SLIDESHOW} from "~/store/B2B/ManageSlideShow/constants";
 
 export const initialState = {
     // isUpdated: false,
 
     slideShow: {},
+    slideShowList: {},
 
     image: {},
     imageList: [],
@@ -26,10 +28,16 @@ const reducer = (state, action) => {
     let newState;
     switch (action.type) {
         // slideshow
-        case GET_SLIDESHOW:
+        case SET_SLIDESHOW:
             newState = {
                 ...state,
                 slideShow: action.payLoad,
+            }
+            break;
+        case GET_SLIDESHOW:
+            newState = {
+                ...state,
+                slideShowList: [...action.payLoad]
             }
             break;
         // image

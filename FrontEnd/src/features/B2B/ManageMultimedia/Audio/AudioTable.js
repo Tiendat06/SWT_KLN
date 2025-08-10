@@ -110,7 +110,7 @@ const AudioTable = () => {
                             justifyContent: 'space-around',
                             alignItems: 'center'
                         }} header="Thao tác" body={(rowData) => (<KLNTableAction
-                            editActionLink={`${AppRoutesEnum.AdminRoute}/manage-multimedia/music/${rowData.musicId}`}
+                            editActionLink={`${AppRoutesEnum.AdminRoute}/manage-multimedia/${rowData.musicId}`}
                             onClickDelete={() => showModal(rowData)}
                         />)}></KLNColumn>
                     </KLNDataTable>
