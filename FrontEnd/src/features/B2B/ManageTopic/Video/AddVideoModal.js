@@ -12,12 +12,16 @@ import {topicService} from "~/services/TopicService";
 import {
     addTopicVideoAction
 } from '~/store/B2B/ManageTopic/actions';
+import { showToast } from '~/utils/Toast';
+import { useAppContext } from '~/context/AppContext';
 
 const AddVideoModal = ({topicId}) => {
     const {
         addVideoModalVisible, setAddVideoModalVisible,
         addTempVideo, setIsUpdated, dispatch
     } = useManageTopicContext();
+
+    const { toast } = useAppContext();
 
     const [formData, setFormData] = useState({
         capture: '',
@@ -115,23 +119,18 @@ const AddVideoModal = ({topicId}) => {
                     dispatch(addTopicVideoAction(result.data));
                         alert(`Thêm ${mediaType} thành công!`);
                     } else {
-                        throw new Error('API response invalid');
+                        const errorMessage = result?.message || 'API response invalid';
+                        throw new Error(errorMessage);
                     }
                 } catch (apiError) {
-                    console.warn('API lỗi, sử dụng mock data:', apiError);
-                    
-                    // API lỗi - tạo mock data và cập nhật UI
-                    const mockVideoData = {
-                        id: Date.now() + Math.random(),
-                        ...mediaData,
-                        videoLink: previewUrl,
-                        topicId: topicId,
-                        createdAt: new Date().toISOString()
-                    };
-                    
-                    // Cập nhật UI với mock data
-                    dispatch(addTopicVideoAction(mockVideoData));
-                    alert(`Thêm ${mediaType} thành công!`);
+                    console.error('Error adding video:', apiError);
+                    const errorMessage = apiError?.message || 'Có lỗi xảy ra khi thêm video';
+                    showToast({
+                        toastRef: toast,
+                        severity: 'error',
+                        summary: `Thêm ${mediaType}`,
+                        detail: errorMessage
+                    });
                 }
                 
                 setIsUpdated(prev => !prev);
@@ -147,11 +146,15 @@ const AddVideoModal = ({topicId}) => {
                 // Thêm vào context thông qua reducer
                 addTempVideo(videoWithId);
                 
-                alert(`Thêm ${mediaType} thành công!`);
-                console.log(`Thêm ${mediaType} vào danh sách thành công.`, videoWithId);
+                showToast({
+                    toastRef: toast,
+                    severity: 'success',
+                    summary: `Thêm ${mediaType}`,
+                    detail: `Thêm ${mediaType} thành công!`
+                });
+                
+                handleClose();
             }
-            
-            handleClose();
             
         } catch (error) {
             console.error('Error adding media:', error);

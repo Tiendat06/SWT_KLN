@@ -12,5 +12,9 @@ namespace Domain.Interfaces
         Task<IEnumerable<SolemnVisit>> GetAllSolemnVisitsAsync(int page, int fetch);
         Task<SolemnVisit?> GetSolemnVisitByIdAsync(Guid id);
         Task<int> CountSolemnVisitAsync();
+        Task<SolemnVisit?> GetSolemnVisitByNameAsync(string name);
+        Task CreateSolemnVisitAsync(SolemnVisit solemnVisit);
+        Task<IEnumerable<SolemnVisit>> GetSolemnVisitByIdsAsync(List<Guid> ids);
+        Task SoftDeleteMultipleSolemnVisitByIdsAsync(List<Guid> ids);
     }
 }

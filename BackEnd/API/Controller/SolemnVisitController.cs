@@ -5,6 +5,7 @@ using API.Controller.Base;
 using Application.Validators;
 using Application;
 using KLN.Shared.CrossCuttingConcerns;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controller
 {
@@ -32,6 +33,37 @@ namespace API.Controller
             var solemnVisit = await _solemnVisitService.GetSolemnVisitByIdAsync(id);
 
             return ApiSuccess(solemnVisit);
+        }
+
+        // POST: api/SolemnVisit
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetSolemnVisitResponse>))]
+        public async Task<IActionResult> CreateSolemnVisit([FromForm] AddSolemnVisitRequest addSolemnVisitRequest)
+        {
+            var solemnVisit = await _solemnVisitValidator.CreateSolemnVisitAsyncValidator(addSolemnVisitRequest);
+
+            return ApiSuccess(solemnVisit);
+        }
+
+        // PUT: api/SolemnVisit/5
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetSolemnVisitResponse>))]
+        public async Task<IActionResult> UpdateSolemnVisit(Guid id, [FromForm] UpdateSolemnVisitRequest request)
+        {
+            var updatedSolemnVisit = await _solemnVisitValidator.UpdateSolemnVisitAsyncValidator(id, request);
+            return ApiSuccess(updatedSolemnVisit);
+        }
+
+        // DELETE: api/SolemnVisit/ids
+        [HttpDelete("ids")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
+        public async Task<IActionResult> DeleteSolemnVisits([FromQuery] List<Guid> ids)
+        {
+            var result = await _solemnVisitService.DeleteMultipleSolemnVisitAsync(ids);
+            return ApiSuccess(result);
         }
     }
 }

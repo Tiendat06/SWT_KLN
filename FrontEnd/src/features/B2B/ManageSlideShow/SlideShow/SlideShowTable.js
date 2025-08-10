@@ -67,8 +67,6 @@ const SlideShowTable = () => {
                 ""
             );
             
-            console.log('SlideShowTable - API response:', result);
-            
             if (result && result.data) {
                 let slideshowsData;
                 
@@ -85,24 +83,24 @@ const SlideShowTable = () => {
                     slideshowsData = result.data;
                 }
                 
-                console.log('SlideShowTable - slideshowsData:', slideshowsData);
-                console.log('SlideShowTable - is array?', Array.isArray(slideshowsData));
-                
                 const slideshowsArray = Array.isArray(slideshowsData) ? slideshowsData : [];
-                
-                console.log('SlideShowTable - final array:', slideshowsArray);
                 
                 setAllSlideshows(slideshowsArray);
                 dispatch(getSlideshowsAction(slideshowsArray));
                 
             } else {
-                console.warn('API response structure invalid, falling back to mock data');
-                throw new Error('API response invalid');
+                const errorMessage = result?.message || 'API response invalid';
+                throw new Error(errorMessage);
             }
         } catch (error) {
-            console.warn('API lỗi, sử dụng mock data:', error);
-            setAllSlideshows(mockSlideshows);
-            dispatch(getSlideshowsAction(mockSlideshows));
+            console.error('Error fetching slideshows:', error);
+            const errorMessage = error?.message || 'Có lỗi xảy ra khi tải danh sách slideshow';
+            showToast({
+                toastRef: toast,
+                severity: 'error',
+                summary: 'Lỗi tải dữ liệu',
+                detail: errorMessage
+            });
         } finally {
             setLoading(false);
         }
@@ -112,15 +110,6 @@ const SlideShowTable = () => {
         const startIndex = currentPage * selectedPageOption.code;
         const endIndex = startIndex + selectedPageOption.code;
         const paginatedData = allSlideshows.slice(startIndex, endIndex);
-        
-        console.log('Pagination:', {
-            currentPage,
-            pageSize: selectedPageOption.code,
-            startIndex,
-            endIndex,
-            totalItems: allSlideshows.length,
-            paginatedData
-        });
         
         setDisplayedSlideshows(paginatedData);
         setPageCount(Math.ceil(allSlideshows.length / selectedPageOption.code));
@@ -140,13 +129,11 @@ const SlideShowTable = () => {
     }, [allSlideshows, paginateClientSide]);
 
     const handlePageSizeChange = (newPageOption) => {
-        console.log('Page size changed to:', newPageOption);
         setSelectedPageOption(newPageOption);
         setCurrentPage(0);
     };
 
     const handlePageClick = useCallback((event) => {
-        console.log('Page clicked:', event.selected);
         setCurrentPage(event.selected);
     }, []);
 
@@ -185,19 +172,13 @@ const SlideShowTable = () => {
                 throw new Error('API delete failed');
             }
         } catch (error) {
-            console.warn('API lỗi, sử dụng mock delete:', error);
-            
-            const updatedSlideshows = allSlideshows.filter(s => !slideshowIds.includes(s.slideShowId));
-            setAllSlideshows(updatedSlideshows);
-            setSelectedSlideshows([]);
-            dispatch(setSlideshowAction(null));
-            setVisible(false);
-            
-            showToast({ 
-                toastRef: toast, 
-                severity: 'success', 
-                summary: 'Xóa danh mục', 
-                detail: `Xóa ${slideshowIds.length} danh mục thành công! (Mock data)` 
+            console.error('Error deleting slideshows:', error);
+            const errorMessage = error?.message || 'Có lỗi xảy ra khi xóa slideshow';
+            showToast({
+                toastRef: toast,
+                severity: 'error',
+                summary: 'Lỗi xóa slideshow',
+                detail: errorMessage
             });
         }
     };
@@ -221,7 +202,7 @@ const SlideShowTable = () => {
 
     const thumbnailBodyTemplate = (rowData) => {
         // Try to get poster image first, if not available, use first slideImage
-        const imageUrl = rowData.imageLink || (rowData.slideImage && rowData.slideImage.length > 0 ? rowData.slideImage[0].imageLink : null);
+        const imageUrl = rowData.image || (rowData.slideImage && rowData.slideImage.length > 0 ? rowData.slideImage[0].imageLink : null);
         
         if (imageUrl) {
             return (

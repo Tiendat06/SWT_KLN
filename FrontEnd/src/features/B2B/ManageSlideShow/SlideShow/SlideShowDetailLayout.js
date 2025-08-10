@@ -11,6 +11,9 @@ import AppRoutesEnum from '~/enum/Route/AppRoutesEnum';
 import { DateTimeFormat } from '~/utils/DateTimeFormat';
 import { setSlideshowImageAction, getSlideshowImagesAction, setSlideshowDetailAction } from '~/store/B2B/ManageSlideShow/actions';
 import { slideShowService } from '~/services/SlideShowService';
+import { Link } from 'react-router-dom';
+import { useAppContext } from '~/context/AppContext';
+import { showToast } from '~/utils/Toast';
 
 // Mock data (fallback)
 const mockDetail = {
@@ -46,6 +49,8 @@ const SlideShowDetailLayout = ({ slideShowId }) => {
         dispatch
     } = useManageSlideshowContext();
     
+    const { toast } = useAppContext();
+    
     const [detail, setDetail] = useState(null);
     const [selectedPageOption, setSelectedPageOption] = useState({ name: "10", code: 10 });
     const [pageCount, setPageCount] = useState(0);
@@ -63,7 +68,8 @@ const SlideShowDetailLayout = ({ slideShowId }) => {
                 if (result && result.data) {
                     found = result.data;
                 } else {
-                    throw new Error('API response invalid');
+                    const errorMessage = result?.message || 'API response invalid';
+                    throw new Error(errorMessage);
                 }
             }
             
@@ -75,11 +81,14 @@ const SlideShowDetailLayout = ({ slideShowId }) => {
             dispatch(setSlideshowDetailAction(found));
             
         } catch (error) {
-            console.warn('API lỗi, sử dụng mock data:', error);
-            setDetail(mockDetail);
-            const images = mockDetail.slideImage || [];
-            setAllImages(images);
-            dispatch(setSlideshowDetailAction(mockDetail));
+            console.error('Error fetching slideshow detail:', error);
+            const errorMessage = error?.message || 'Có lỗi xảy ra khi tải chi tiết slideshow';
+            showToast({
+                toastRef: toast,
+                severity: 'error',
+                summary: 'Lỗi tải dữ liệu',
+                detail: errorMessage
+            });
         } finally {
             setLoading(false);
         }
@@ -94,27 +103,16 @@ const SlideShowDetailLayout = ({ slideShowId }) => {
         const endIndex = startIndex + selectedPageOption.code;
         const paginatedImages = allImages.slice(startIndex, endIndex);
         
-        console.log('SlideShowDetailLayout - Pagination:', {
-            currentPage,
-            pageSize: selectedPageOption.code,
-            startIndex,
-            endIndex,
-            totalImages: allImages.length,
-            paginatedImages
-        });
-        
         dispatch(getSlideshowImagesAction(paginatedImages));
         setPageCount(Math.ceil(allImages.length / selectedPageOption.code));
     }, [allImages, currentPage, selectedPageOption.code, dispatch]);
 
     const handlePageSizeChange = (newPageOption) => {
-        console.log('SlideShowDetailLayout - Page size changed to:', newPageOption);
         setSelectedPageOption(newPageOption);
         setCurrentPage(0);
     };
 
     const handlePageClick = useCallback((event) => {
-        console.log('SlideShowDetailLayout - Page clicked:', event.selected);
         setCurrentPage(event.selected);
     }, []);
 
@@ -129,13 +127,19 @@ const SlideShowDetailLayout = ({ slideShowId }) => {
 
     useEffect(() => {
         if (slideshowDetail && slideshowDetail.slideImage) {
-            console.log('SlideShowDetailLayout - slideshowDetail updated:', slideshowDetail.slideImage);
             setAllImages(slideshowDetail.slideImage);
+            dispatch(getSlideshowImagesAction(slideshowDetail.slideImage));
         }
     }, [slideshowDetail]);
 
+    // Force refresh khi isUpdated thay đổi
+    useEffect(() => {
+        if (isUpdated !== undefined) {
+            fetchSlideshowDetail();
+        }
+    }, [isUpdated, fetchSlideshowDetail]);
+
     const displayImages = slideshowImages;
-    console.log('SlideShowDetailLayout - displayImages:', displayImages);
 
     const handleAddImage = () => setAddImageModalVisible(true);
     
@@ -177,8 +181,8 @@ const SlideShowDetailLayout = ({ slideShowId }) => {
     );
 
     const items = [
-        { template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Slideshow</a> },
-        { template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Nhà trưng bày</a> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Slideshow</Link> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Nhà trưng bày</Link> },
         { template: () => <span>Chi tiết</span> }
     ];
 

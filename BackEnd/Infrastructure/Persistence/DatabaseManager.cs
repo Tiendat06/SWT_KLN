@@ -17,7 +17,7 @@ namespace Infrastructure.Persistence
         public DbSet<LogMusic> LogMusics { get; set; }
         //public DbSet<LogSlideImage> LogSlideImages { get; set; }
         public DbSet<LogSlideShow> LogSlideShows { get; set; }
-        public DbSet<LogSolemVisit> LogSolemVisits { get; set; }
+        public DbSet<LogSolemnVisit> LogSolemVisits { get; set; }
         public DbSet<LogVideo> LogVideos { get; set; }
         public DbSet<Magazine> Magazines { get; set; }
         public DbSet<Music> Musics { get; set; }

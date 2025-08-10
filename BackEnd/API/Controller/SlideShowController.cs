@@ -6,6 +6,7 @@ using Application.Validators;
 using Application;
 using KLN.Shared.CrossCuttingConcerns;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controller
 {
@@ -36,6 +37,7 @@ namespace API.Controller
 
         // POST: api/SlideShow
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetSlideShowResponse>))]
         public async Task<IActionResult> CreateSlideShow([FromForm] AddSlideShowRequest addSlideShowRequest)
         {
@@ -45,6 +47,7 @@ namespace API.Controller
 
         // PUT: api/SlideShow/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetSlideShowResponse>))]
         public async Task<IActionResult> PutSlideShow(Guid id, [FromForm] UpdateSlideShowRequest updateSlideShowRequest)
         {
@@ -54,6 +57,7 @@ namespace API.Controller
 
         // DELETE: api/SlideShow
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
         public async Task<IActionResult> DeleteSlideShows([FromBody] DeleteSlideShowsRequest deleteSlideShowsRequest)
         {
@@ -80,6 +84,7 @@ namespace API.Controller
 
         // POST: api/SlideImage
         [HttpPost("SlideImage")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetSlideImageListResponse>))]
         public async Task<IActionResult> AddSlideImage([FromForm] AddSlideImagesRequest addSlideImageRequest)
         {
@@ -89,6 +94,7 @@ namespace API.Controller
 
         // PUT: api/SlideImage/5
         [HttpPut("SlideImage")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetSlideImageListResponse>))]
         public async Task<IActionResult> UpdateSlideImage([FromForm] UpdateSlideImagesRequest updateSlideImageRequest)
         {
@@ -98,6 +104,7 @@ namespace API.Controller
 
         // DELETE: api/SlideImage/ids
         [HttpDelete("SlideImage")]
+        [Authorize(Roles = "Admin")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
         public async Task<IActionResult> DeleteSlideImages([FromBody] DeleteSlideImageRequest deleteSlideImagesRequest)

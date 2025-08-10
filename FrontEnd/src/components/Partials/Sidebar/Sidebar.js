@@ -14,6 +14,7 @@ const Sidebar = () => {
         {id: 3, title: 'Chuyên đề hay về Bác', path: `${AppRoutesEnum.AdminRoute}/manage-topic`, icon: (<FontAwesomeIcon icon={faFolderMinus} />)},
         {id: 4, title: 'Nhà trưng bày', path: `${AppRoutesEnum.AdminRoute}/manage-exhibition`, icon: (<FontAwesomeIcon icon={faHome} />)},
         {id: 5, title: 'Hiện vật & Hình Ảnh', path: `${AppRoutesEnum.AdminRoute}/manage-images`, icon: (<FontAwesomeIcon icon={faImage} />)},
+        {id: 6, title: 'Quản lí Blog', path: `${AppRoutesEnum.AdminRoute}/manage-blog`, icon: (<FontAwesomeIcon icon={faBook} />)},
     ];
 
     return (

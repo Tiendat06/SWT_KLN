@@ -3,7 +3,7 @@ import { KLNButton, KLNBreadCrumb, KLNCollapsibleMediaSection } from '~/componen
 import { useManageSlideshowContext } from '~/context/B2B/ManageSlideShow/ManageSlideshowContext';
 import { InputText } from 'primereact/inputtext';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAppContext } from '~/context/AppContext';
 import { showToast } from '~/utils/Toast';
 import { addSlideshowAction } from '~/store/B2B/ManageSlideShow/actions';
@@ -33,8 +33,8 @@ const CreateSlideShowLayout = () => {
     const { toast } = useAppContext();
 
     const items = [
-        { template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Slideshow</a> },
-        { template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Nhà trưng bày</a> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Slideshow</Link> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Nhà trưng bày</Link> },
         { template: () => <span>Thêm mới</span> }
     ];
 
@@ -104,83 +104,42 @@ const CreateSlideShowLayout = () => {
             return;
         }
         
-        setIsSubmitting(true);
         try {
-            // Validate tempImages - make sure they have valid file objects
-            const validImages = tempImages.filter(img => img.file && img.file instanceof File);
-            if (validImages.length === 0) {
-                showToast({ toastRef: toast, severity: 'error', summary: 'Lỗi', detail: 'Vui lòng thêm ít nhất một ảnh!' });
-                setIsSubmitting(false);
-                return;
-            }
+            setIsSubmitting(true);
             
-            const images = validImages.map(img => ({
-                file: img.file,
-                capture: img.capture || ''
-            }));
-            
-            console.log('Submitting slideshow with data:', {
+            const formDataToSend = {
                 title: formData.title,
                 description: formData.description,
-                posterImage: posterImage?.name,
-                imagesCount: images.length,
-                mediaType: MediaType.TDTMemorial,
-                slideShowType: SlideShowType.ExhibitionHouse
-            });
+                posterImage: posterImage,
+                images: tempImages
+            };
             
             const createResult = await slideShowService.createSlideShowWithImages(
-                {
-                    title: formData.title,
-                    description: formData.description,
-                    posterImage: posterImage,
-                    images
-                },
+                formDataToSend,
                 MediaType.TDTMemorial,
                 SlideShowType.ExhibitionHouse,
                 TEST_USER_ID
             );
             
-            console.log('API Response:', createResult);
-            
-            // Check if API returned error (UseFetchAPI returns {status, message} for errors, but success responses may also have these fields along with data)
-            if (createResult && createResult.status && createResult.message && !createResult.data) {
-                console.error('API Error Details:', {
-                    status: createResult.status,
-                    message: createResult.message,
-                    fullResponse: createResult
-                });
-                showToast({ 
-                    toastRef: toast, 
-                    severity: 'error', 
-                    summary: 'Lỗi API', 
-                    detail: `${createResult.status}: ${createResult.message || 'Unknown error'}` 
-                });
-                throw new Error(`API Error ${createResult.status}: ${createResult.message || 'Unknown error'}`);
-            }
-            
             if (createResult && createResult.data) {
+                // API thành công
                 dispatch(addSlideshowAction(createResult.data));
                 showToast({ toastRef: toast, severity: 'success', summary: 'Thêm danh mục', detail: 'Thêm danh mục thành công!' });
                 clearTempMedia();
                 navigate(`${AppRoutesEnum.AdminRoute}/manage-exhibition`);
-                return;
             } else {
-                console.error('API response structure issue:', createResult);
-                throw new Error('API response invalid - no data field');
+                const errorMessage = createResult?.message || 'API response invalid';
+                throw new Error(errorMessage);
             }
         } catch (error) {
-            console.warn('API lỗi, sử dụng mock data:', error);
-            // Mock
-            const mockSlideshow = {
-                slideShowId: Date.now() + Math.random(),
-                ...formData,
-                slideImage: tempImages,
-                createDate: new Date().toISOString()
-            };
-            dispatch(addSlideshowAction(mockSlideshow));
-            showToast({ toastRef: toast, severity: 'success', summary: 'Thêm danh mục', detail: 'Thêm danh mục thành công! (Mock data)' });
-            clearTempMedia();
-            navigate(`${AppRoutesEnum.AdminRoute}/manage-exhibition`);
+            console.error('Error creating slideshow:', error);
+            const errorMessage = error?.message || 'Có lỗi xảy ra khi tạo slideshow';
+            showToast({
+                toastRef: toast,
+                severity: 'error',
+                summary: 'Lỗi tạo slideshow',
+                detail: errorMessage
+            });
         } finally {
             setIsSubmitting(false);
         }

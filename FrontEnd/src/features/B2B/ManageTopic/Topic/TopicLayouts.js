@@ -126,7 +126,6 @@ const TopicLayouts = () => {
             if (deleteResult) {
                 dispatch(deleteTopicAction(topicIds));
                 
-                console.log('Topics deleted successfully');
                 showToast({ toastRef: toast, severity: 'success', summary: 'Xóa chuyên đề', detail: 'Xóa chuyên đề thành công' });
             }
         } catch (error) {

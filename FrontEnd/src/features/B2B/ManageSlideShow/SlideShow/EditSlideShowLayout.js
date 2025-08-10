@@ -3,7 +3,7 @@ import { KLNButton, KLNBreadCrumb, KLNCollapsibleMediaSection } from '~/componen
 import { useManageSlideshowContext } from '~/context/B2B/ManageSlideShow/ManageSlideshowContext';
 import { InputText } from 'primereact/inputtext';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAppContext } from '~/context/AppContext';
 import { showToast } from '~/utils/Toast';
 import { updateSlideshowAction } from '~/store/B2B/ManageSlideShow/actions';
@@ -35,8 +35,8 @@ const EditSlideShowLayout = ({ slideShowId }) => {
     const { toast } = useAppContext();
 
     const items = [
-        { template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Slideshow</a> },
-        { template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Nhà trưng bày</a> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Slideshow</Link> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-exhibition`}>Nhà trưng bày</Link> },
         { template: () => <span>Chỉnh sửa</span> }
     ];
 
@@ -176,21 +176,20 @@ const EditSlideShowLayout = ({ slideShowId }) => {
                     });
                     throw new Error(`API Error ${updateResult.status}: ${updateResult.message || 'Unknown error'}`);
                 } else {
-                    throw new Error('API response invalid');
+                    const errorMessage = updateResult?.message || 'API response invalid';
+                    throw new Error(errorMessage);
                 }
-            } catch (apiError) {
-                console.warn('API lỗi, sử dụng mock data:', apiError);
-                
-                // Fallback to mock
-                const mockUpdatedSlideshow = {
-                    slideShowId,
-                    ...formData,
-                    slideImage: slideImages,
-                    updateDate: new Date().toISOString()
-                };
-                dispatch(updateSlideshowAction(mockUpdatedSlideshow));
-                showToast({ toastRef: toast, severity: 'success', summary: 'Cập nhật danh mục', detail: 'Cập nhật thành công! (Mock data)' });
-                navigate(`${AppRoutesEnum.AdminRoute}/manage-exhibition`);
+            } catch (error) {
+                console.error('Error updating slideshow:', error);
+                const errorMessage = error?.message || 'Có lỗi xảy ra khi cập nhật slideshow';
+                showToast({
+                    toastRef: toast,
+                    severity: 'error',
+                    summary: 'Lỗi cập nhật slideshow',
+                    detail: errorMessage
+                });
+            } finally {
+                setIsSubmitting(false);
             }
         } finally {
             setIsSubmitting(false);

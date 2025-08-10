@@ -30,6 +30,10 @@
         public static readonly string assetFolderSlideImage = $"{assetFolderSlideShow}/SlideShow";
         public static readonly string assetFolderSlideShowImage = $"{assetFolderSlideShow}/SlideShow";
 
+        // solemn visit
+        public static readonly string assetFolderSolemnVisit = "KLN/SolemnVisit";
+        public static readonly string assetFolderSolemnVisitImage = $"{assetFolderSolemnVisit}/image";
+
         // topic
         public static readonly string assetFolderTopic = "KLN/Topic";
         public static readonly string assetFolderTopicImage = $"{assetFolderTopic}/image";

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { KLNButton, KLNBreadCrumb, KLNCollapsibleMediaSection } from "~/components";
 import { useManageTopicContext } from "~/context/B2B/ManageTopic/ManageTopicContext";
 import { InputText } from "primereact/inputtext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useAppContext } from "~/context/AppContext";
 import { showToast } from "~/utils/Toast";
 import { topicService } from "~/services/TopicService";
@@ -35,8 +35,8 @@ const EditTopicLayout = () => {
     const { toast } = useAppContext();
 
     const items = [
-        { template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Chuyên đề hay về Bác</a> },
-        { template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Danh sách chuyên đề</a> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Chuyên đề hay về Bác</Link> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Danh sách chuyên đề</Link> },
         { template: () => <span>Chỉnh sửa</span> }
     ];
 
@@ -122,7 +122,6 @@ const EditTopicLayout = () => {
         try {
             // Thử delete từ backend
             await Promise.all(selectedImages.map(imageId => topicService.deleteTopicImageService(topicId, imageId)));
-            console.log('API xóa ảnh thành công');
         } catch (apiError) {
             console.warn('API lỗi khi xóa ảnh, tiếp tục cập nhật UI:', apiError);
         }
@@ -144,7 +143,6 @@ const EditTopicLayout = () => {
         try {
             // Thử delete từ backend
             await Promise.all(selectedVideos.map(videoId => topicService.deleteTopicVideoService(topicId, videoId)));
-            console.log('API xóa video thành công');
         } catch (apiError) {
             console.warn('API lỗi khi xóa video, tiếp tục cập nhật UI:', apiError);
         }
@@ -178,26 +176,18 @@ const EditTopicLayout = () => {
                 navigate(`${AppRoutesEnum.AdminRoute}/manage-topic`);
                 return;
             } else {
-                throw new Error('API response invalid');
+                const errorMessage = updateResult?.message || 'API response invalid';
+                throw new Error(errorMessage);
             }
         } catch (error) {
-            console.warn('API lỗi, sử dụng mock data:', error);
-            
-            // API lỗi - tạo mock updated topic và vẫn điều hướng
-            const mockUpdatedTopic = {
-                topicId: topicId,
-                ...formData,
-                updatedAt: new Date().toISOString()
-            };
-            
-            dispatch(updateTopicAction(mockUpdatedTopic));
-            showToast({ 
-                toastRef: toast, 
-                severity: 'success', 
-                summary: 'Cập nhật chuyên đề', 
-                detail: 'Cập nhật thành công!' 
+            console.error('Error updating topic:', error);
+            const errorMessage = error?.message || 'Có lỗi xảy ra khi cập nhật chuyên đề';
+            showToast({
+                toastRef: toast,
+                severity: 'error',
+                summary: 'Lỗi cập nhật chuyên đề',
+                detail: errorMessage
             });
-            navigate(`${AppRoutesEnum.AdminRoute}/manage-topic`);
         } finally {
             setIsSubmitting(false);
         }

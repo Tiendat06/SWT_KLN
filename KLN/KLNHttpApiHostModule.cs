@@ -40,8 +40,8 @@ namespace KLN
 
             app.UseCors("AllowSpecificOrigin");
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseRequestLocalization((RequestLocalizationOptions)data[0]);
 
@@ -159,6 +159,9 @@ namespace KLN
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT_KEY_SECRET"])),
                     ValidateIssuer = false, 
                     ValidateAudience = false,
+                    ValidateLifetime = true,
+                    RequireExpirationTime = true,
+                    ClockSkew = TimeSpan.Zero
                 };
             });
 
@@ -235,6 +238,7 @@ namespace KLN
             builder.Services.AddScoped<IMusicValidator, MusicValidator>();
             builder.Services.AddScoped<IVideoValidator, VideoValidator>();
             builder.Services.AddScoped<ITopicValidator, TopicValidator>();
+            builder.Services.AddScoped<IAccountValidator, AccountValidator>();
 
             // Repository
             builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -248,12 +252,14 @@ namespace KLN
             builder.Services.AddScoped<ISlideShowRepository, SlideShowRepository>();
             builder.Services.AddScoped<ISlideShowTypeRepository, SlideShowTypeRepository>();
             builder.Services.AddScoped<ILogSlideShowRepository, LogSlideShowRepository>();
+            builder.Services.AddScoped<ILogSolemnVisitRepository, LogSolemnVisitRepository>();
             builder.Services.AddScoped<ISolemnVisitRepository, SolemnVisitRepository>();
             builder.Services.AddScoped<IVideoRepository, VideoRepository>();
             builder.Services.AddScoped<ILogVideoRepository, LogVideoRepository>();
             builder.Services.AddScoped<IMusicRepository, MusicRepository>();
             builder.Services.AddScoped<ILogMusicRepository, LogMusicRepository>();
             builder.Services.AddScoped<ITopicRepository, TopicRepository>();
+            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
             // Services
             builder.Services.AddScoped<IUserService, UserService>();
@@ -271,6 +277,7 @@ namespace KLN
             builder.Services.AddScoped<IMusicService, MusicService>();
             builder.Services.AddScoped<ILogMusicService, LogMusicService>();
             builder.Services.AddScoped<ITopicService, TopicService>();
+            builder.Services.AddScoped<IAccountService, AccountService>();
 
         }
     }

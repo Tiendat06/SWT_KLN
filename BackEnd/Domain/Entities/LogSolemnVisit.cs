@@ -3,14 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
-    [Table("LogSolemVisit")]
-    public class LogSolemVisit
+    [Table("LogSolemnVisit")]
+    public class LogSolemnVisit
     {
         // ok
         [Key]
         [Required]
         [Column("logSolemnId", TypeName ="int")]
-        public required int? LogSolemnId { get; set; }
+        public int LogSolemnId { get; set; }
 
         //[Column("version", TypeName = "varchar")]
         //public string? Version { get; set; } = string.Empty;

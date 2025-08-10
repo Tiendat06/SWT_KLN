@@ -28,5 +28,8 @@ export const ADD_IMAGE_TITLE = 'Thêm hình ảnh & hiện vật';
 export const UPDATE_MULTIMEDIA_IMAGE_TITLE = 'Chỉnh sửa hình ảnh';
 export const UPDATE_MULTIMEDIA_VIDEO_TITLE = 'Chỉnh sửa video';
 export const UPDATE_MULTIMEDIA_AUDIO_TITLE = 'Chỉnh sửa nhạc';
+export const MANAGE_BLOG_TITLE = 'Quản lý blog';
+export const ADD_BLOG_TITLE = 'Thêm blog';
+export const EDIT_BLOG_TITLE = 'Chỉnh sửa blog';
 
 export const TEST_USER_ID = '203ce6cd-b6eb-4045-a4c4-9cd574f2ea2f';

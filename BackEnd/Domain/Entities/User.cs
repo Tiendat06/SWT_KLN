@@ -69,7 +69,7 @@ namespace Domain.Entities
 
         // log solemVisit 1 - n
         //[NotMapped]
-        public virtual ICollection<LogSolemVisit>? LogSolemVisits { get; set; }
+        public virtual ICollection<LogSolemnVisit>? LogSolemVisits { get; set; }
 
         // slide show 1 - n
         //[NotMapped]

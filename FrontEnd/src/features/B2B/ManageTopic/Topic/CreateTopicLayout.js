@@ -3,7 +3,7 @@ import { KLNButton, KLNBreadCrumb, KLNCollapsibleMediaSection } from "~/componen
 import { useManageTopicContext } from "~/context/B2B/ManageTopic/ManageTopicContext";
 import { InputText } from "primereact/inputtext";
 import { faImage, faVideo } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAppContext } from "~/context/AppContext";
 import { showToast } from "~/utils/Toast";
 import { topicService } from "~/services/TopicService";
@@ -25,8 +25,8 @@ const CreateTopicLayout = () => {
     const { toast } = useAppContext();
 
     const items = [
-        { template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Chuyên đề hay về Bác</a> },
-        { template: () => <a href={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Danh sách chuyên đề</a> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Chuyên đề hay về Bác</Link> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-topic`}>Danh sách chuyên đề</Link> },
         { template: () => <span>Thêm mới</span> }
     ];
 
@@ -68,29 +68,18 @@ const CreateTopicLayout = () => {
                 navigate(`${AppRoutesEnum.AdminRoute}/manage-topic`);
                 return;
             } else {
-                throw new Error('API response invalid');
+                const errorMessage = createResult?.message || 'API response invalid';
+                throw new Error(errorMessage);
             }
         } catch (error) {
-            console.warn('API lỗi, sử dụng mock data:', error);
-            
-            // API lỗi - tạo mock topic và vẫn điều hướng
-            const mockTopic = {
-                topicId: Date.now() + Math.random(),
-                ...formData,
-                images: tempImages,
-                videos: tempVideos,
-                createdAt: new Date().toISOString()
-            };
-            
-            dispatch(addTopicAction(mockTopic));
-            showToast({ 
-                toastRef: toast, 
-                severity: 'success', 
-                summary: 'Thêm chuyên đề', 
-                detail: 'Thêm chuyên đề thành công!' 
+            console.error('Error creating topic:', error);
+            const errorMessage = error?.message || 'Có lỗi xảy ra khi tạo chuyên đề';
+            showToast({
+                toastRef: toast,
+                severity: 'error',
+                summary: 'Lỗi tạo chuyên đề',
+                detail: errorMessage
             });
-            clearTempMedia();
-            navigate(`${AppRoutesEnum.AdminRoute}/manage-topic`);
         } finally {
             setIsSubmitting(false);
         }

@@ -116,9 +116,13 @@ const EditImageModal = () => {
             
             const updateData = {
                 id: editingImage.id,
-                capture: formData.capture,
-                imageFile: formData.file // Có thể null nếu không thay đổi ảnh
+                capture: formData.capture
             };
+            
+            // Chỉ thêm imageFile nếu có file mới được chọn
+            if (formData.file) {
+                updateData.imageFile = formData.file;
+            }
             
             const result = await topicService.updateImageService(updateData);
             if (result && result.data) {
