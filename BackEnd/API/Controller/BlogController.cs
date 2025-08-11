@@ -6,6 +6,7 @@ using API.Controller.Base;
 using Application.Validators;
 using System.Net;
 using KLN.Shared.CrossCuttingConcerns;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -39,6 +40,7 @@ namespace API.Controllers
         // POST: api/Blog
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetBlogResponse>))]
         public async Task<IActionResult> CreateBlog([FromForm] AddBlogRequest addBlogRequest)
         {
@@ -49,6 +51,7 @@ namespace API.Controllers
         // PUT: api/Blog/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetBlogResponse>))]
         public async Task<IActionResult> PutBlog(Guid id, [FromForm] UpdateBlogRequest updateBlogRequest)
         {
@@ -59,6 +62,7 @@ namespace API.Controllers
 
         // DELETE: api/Blog/ids
         [HttpDelete("ids")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteBlog([FromBody] List<Guid> ids)
         {
             var isDeleted = await _blogService.DeleteMultipleBlogsAsync(ids);

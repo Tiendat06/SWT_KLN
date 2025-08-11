@@ -6,6 +6,7 @@ using Application.Validators;
 using Application;
 using KLN.Shared.CrossCuttingConcerns;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controller
 {
@@ -37,6 +38,7 @@ namespace API.Controller
         // POST: api/Music
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetMusicResponse>))]
         public async Task<IActionResult> CreateMusic([FromForm] AddMusicRequest addMusicRequest)
         {
@@ -47,6 +49,7 @@ namespace API.Controller
         // PUT: api/Music/id
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetMusicResponse>))]
         public async Task<IActionResult> UpdateMusic(Guid id, [FromForm] UpdateMusicRequest updateMusicRequest)
         {
@@ -56,6 +59,7 @@ namespace API.Controller
 
         // DELETE: api/Music/ids
         [HttpDelete("ids")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteMultipleMusic([FromBody] List<Guid> ids)
         {
             // Convert strings to Guids, filter out invalid ones

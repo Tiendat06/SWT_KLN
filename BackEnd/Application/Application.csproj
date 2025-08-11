@@ -12,6 +12,7 @@
 		<PackageReference Include="FluentValidation" Version="11.11.0" />
 		<PackageReference Include="Google.Apis.YouTube.v3" Version="1.69.0.3680" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
 	</ItemGroup>
 
   <ItemGroup>

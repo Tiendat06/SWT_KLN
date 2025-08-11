@@ -2,7 +2,7 @@ const TabViewEnum = Object.freeze({
     /**
      * Image tab in manage multimedia
      * */
-    ManageMultimediaTabImage: 0,
+    ManageMultimediaTabImage: 8,
 
     /**
      * Video tab in manage multimedia

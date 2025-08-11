@@ -148,7 +148,7 @@ namespace Application.Services
                     var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
 
                     // Update PortraitImage if provided
-                    if (request.PortraitImage != null)
+                    if (request.PortraitImage != null && request.PortraitImage.Length > 0)
                     {
                         if (!FileOperations.CheckFileType(allowedContentTypes, request.PortraitImage))
                         {
@@ -167,7 +167,7 @@ namespace Application.Services
                     }
 
                     // Update LetterImage if provided
-                    if (request.LetterImage != null)
+                    if (request.LetterImage != null && request.LetterImage.Length > 0)
                     {
                         if (!FileOperations.CheckFileType(allowedContentTypes, request.LetterImage))
                         {

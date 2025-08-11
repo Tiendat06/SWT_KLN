@@ -8,7 +8,7 @@ import DeleteImage from "~/features/B2B/ManageMultimedia/Image/DeleteImage";
 import {
     getImagesAction,
     setImageAction,
-    getSlideShowAction,
+    setSlideShowAction,
     deleteImageAction
 } from '~/store/B2B/ManageMultimedia/actions';
 import {useManageMultimediaContext} from "~/context/B2B/ManageMultimedia/ManageMultimedia";
@@ -64,7 +64,7 @@ const ImageTable = ({slideShowType = SlideShowType.TDTArtistic, mediaType = Medi
 
             if (slideShowData?.slideImage){
                 dispatch(getImagesAction(slideShowData?.slideImage));
-                dispatch(getSlideShowAction({
+                dispatch(setSlideShowAction({
                     ...slideShowData,
                     slideImage: slideShowData?.slideImage.slice(startIndex, endIndex),
                 }));
@@ -83,7 +83,7 @@ const ImageTable = ({slideShowType = SlideShowType.TDTArtistic, mediaType = Medi
     const paginateSlideImages = (images) => {
         const startIndex = (currentPage - 1) * selectedPageOption.code;
         const endIndex = startIndex + selectedPageOption.code;
-        dispatch(getSlideShowAction({
+        dispatch(setSlideShowAction({
             ...slideShow,
             slideImage: images.slice(startIndex, endIndex),
         }));
@@ -143,7 +143,7 @@ const ImageTable = ({slideShowType = SlideShowType.TDTArtistic, mediaType = Medi
                             alignItems: 'center'
                         }} header="Thao tác" body={(rowData) => (<KLNTableAction
                             editActionLink={`${AppRoutesEnum.AdminRoute}${
-                                slideShowType === SlideShowType.TDTArtistic ? '/manage-multimedia/image/':
+                                slideShowType === SlideShowType.TDTArtistic ? '/manage-multimedia/':
                                 slideShowType === SlideShowType.Artifact ? '/manage-images/': ''
                             }${rowData.id}`}
                             onClickDelete={() => showModal(rowData)}

@@ -92,7 +92,7 @@ const addSlideImageInSpecificSlideShowService = async (slideshowId, createDataAr
     });
 }
 
-export const createSlideShowWithImages = async (slideShowData, type = MediaType.None, slideShowType = SlideShowType.None, userId = null) => {
+const createSlideShowWithImages = async (slideShowData, type = MediaType.None, slideShowType = SlideShowType.None, userId = null) => {
     const formData = new FormData();
     formData.append('Title', slideShowData.title);
     formData.append('Description', slideShowData.description || '');
@@ -247,6 +247,16 @@ const deleteSlideshowImagesService = async (slideshowId, imageIds) => {
     })
 }
 
+const getSlideImageByIdService = async (id, slideShowId) => {
+    return await UseFetchAPI({
+        api: `${slideShowRoute}/SlideImage`,
+        params: {
+            slideImageId: id,
+            slideShowId
+        },
+    })
+}
+
 export const slideShowService = {
     getSlideShowByIdService,
     getSlideShowListService,
@@ -259,7 +269,8 @@ export const slideShowService = {
     updateSlideshowImageService,
     deleteSlideshowService,
     deleteSlideshowImageService,
-    deleteSlideshowImagesService
+    deleteSlideshowImagesService,
+    getSlideImageByIdService
 }
 
 

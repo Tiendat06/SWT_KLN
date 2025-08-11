@@ -1,4 +1,5 @@
 using KLN.Shared.CrossCuttingConcerns;
+
 namespace Application.Interfaces
 {
     public interface IBlogService
