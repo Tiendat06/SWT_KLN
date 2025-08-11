@@ -9,6 +9,7 @@ import loginRoutes, { loginTRoutes } from "~/routes/B2B/loginRoutes";
 import manageMagazineRoutes, {manageMagazineJRoutes} from "~/routes/B2B/manageMagazineRoutes";
 import manageSlideShowRoutes, {manageSlideShowKRoutes} from "~/routes/B2B/manageSlideShowRoutes";
 import manageBlogRoutes, {manageBlogKRoutes} from "~/routes/B2B/manageBlogRoutes";
+import manageSolemnVisitRoutes, {manageSolemnVisitKRoutes} from "~/routes/B2B/manageSolemnVisitRoutes";
 
 
 export {siteJRoutes, aboutJRoutes, memorialAreaJRoutes, handiworkJRoutes};
@@ -20,6 +21,8 @@ export {loginTRoutes};
 export {manageSlideShowKRoutes};
 
 export {manageBlogKRoutes};
+
+export {manageSolemnVisitKRoutes};
 
 
 const appRoutes = [
@@ -34,6 +37,7 @@ const appRoutes = [
     ...loginRoutes,
     ...manageSlideShowRoutes,
     ...manageBlogRoutes,
+    ...manageSolemnVisitRoutes,
 ];
 
 export default appRoutes;

@@ -36,6 +36,7 @@ const EditBlogLayout = () => {
     // Breadcrumb items
     const items = [
         { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-blog`}>Blog</Link> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-blog`}>Danh sách blog</Link> },
         { template: () => <span>Chỉnh sửa</span> }
     ];
 

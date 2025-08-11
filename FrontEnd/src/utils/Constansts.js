@@ -29,4 +29,12 @@ export const MANAGE_BLOG_TITLE = 'Quản lý blog';
 export const ADD_BLOG_TITLE = 'Thêm blog';
 export const EDIT_BLOG_TITLE = 'Chỉnh sửa blog';
 
+// Solemn Visit Titles
+export const MANAGE_SOLEMN_VISIT_TITLE = 'Quản lý lãnh đạo viếng thăm';
+export const ADD_SOLEMN_VISIT_TITLE = 'Thêm lãnh đạo viếng thăm';
+export const EDIT_SOLEMN_VISIT_TITLE = 'Chỉnh sửa lãnh đạo viếng thăm';
+
+// File Upload Constants
+export const MAX_FILE_SIZE = 4 * 1024 * 1024 * 1024; // 4GB
+
 export const TEST_USER_ID = '203ce6cd-b6eb-4045-a4c4-9cd574f2ea2f';
