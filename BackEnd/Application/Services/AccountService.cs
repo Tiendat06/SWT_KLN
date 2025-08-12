@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Application.Services
@@ -39,13 +40,18 @@ namespace Application.Services
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.UTF8.GetBytes(_config["JWT_KEY_SECRET"]);
 
+                var refreshToken = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+                var refreshTokenExpiry = DateTime.UtcNow.AddDays(7);
+
                 var claims = new[]
                 {
                     new Claim("accountId", account.AccountId.ToString()),
                     new Claim(ClaimTypes.Name, account.UserName),
                     new Claim(ClaimTypes.Role, MapRole((int)account.RoleId)),
                     new Claim(JwtRegisteredClaimNames.Email, account.User.Email ?? ""),
-                    new Claim("userId", account.User.UserId.ToString())
+                    new Claim("userId", account.User.UserId.ToString()),
+                    new Claim("refreshToken", refreshToken),
+                    new Claim("refreshTokenExpiry", refreshTokenExpiry.ToString("o"))
                 };
 
                 var tokenDescriptor = new SecurityTokenDescriptor
@@ -68,7 +74,8 @@ namespace Application.Services
                     Token = tokenHandler.WriteToken(token),
                     Username = account.UserName,
                     Email = account.User.Email,
-                    RoleName = MapRole((int)account.RoleId)
+                    RoleName = MapRole((int)account.RoleId),
+                    RefreshToken = refreshToken
                 };
             }
             catch (Exception ex)
@@ -84,6 +91,72 @@ namespace Application.Services
                 1 => "Admin",
                 2 => "User",
                 _ => "Guest"
+            };
+        }
+
+        public async Task<GetLoginReqponse> RefreshTokenAsync(string expiredAccessToken)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(_config["JWT_KEY_SECRET"]);
+
+            // Read expired token
+            var principal = tokenHandler.ValidateToken(expiredAccessToken, new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = false // ignore expiry
+            }, out SecurityToken validatedToken);
+
+            // Extract refresh token & expiry
+            var refreshToken = principal.Claims.FirstOrDefault(c => c.Type == "refreshToken")?.Value;
+            var refreshTokenExpiryStr = principal.Claims.FirstOrDefault(c => c.Type == "refreshTokenExpiry")?.Value;
+
+            if (string.IsNullOrEmpty(refreshToken) || string.IsNullOrEmpty(refreshTokenExpiryStr))
+                throw new SecurityTokenException("Refresh token missing");
+
+            if (!DateTime.TryParse(refreshTokenExpiryStr, out var refreshTokenExpiry) || refreshTokenExpiry < DateTime.UtcNow)
+                throw new SecurityTokenException("Refresh token expired");
+
+            // Get account
+            var accountId = principal.Claims.FirstOrDefault(c => c.Type == "accountId")?.Value;
+            var account = await _accountRepository.GetAccountByIdAsync(Guid.Parse(accountId));
+            if (account == null)
+                throw new SecurityTokenException("Invalid account");
+
+            // Create new access token with same refresh token info
+            var claims = new[]
+            {
+                new Claim("accountId", account.AccountId.ToString()),
+                new Claim(ClaimTypes.Name, account.UserName),
+                new Claim(ClaimTypes.Role, MapRole((int)account.RoleId)),
+                new Claim(JwtRegisteredClaimNames.Email, account.User.Email ?? ""),
+                new Claim("userId", account.User.UserId.ToString()),
+                new Claim("refreshToken", refreshToken),
+                new Claim("refreshTokenExpiry", refreshTokenExpiry.ToString("o"))
+            };
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddHours(1), // New access token: 1 hour
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256Signature
+                )
+            };
+
+            var newToken = tokenHandler.CreateToken(tokenDescriptor);
+
+            return new GetLoginReqponse
+            {
+                AccountId = account.AccountId,
+                Token = tokenHandler.WriteToken(newToken),
+                RefreshToken = refreshToken, // Same refresh token until it expires
+                Username = account.UserName,
+                Email = account.User.Email,
+                RoleName = MapRole((int)account.RoleId)
             };
         }
     }
