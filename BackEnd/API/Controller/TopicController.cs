@@ -60,7 +60,7 @@ namespace API.Controllers
         [HttpDelete("ids")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
-        public async Task<IActionResult> DeleteTopic([FromBody] List<Guid> ids)
+        public async Task<IActionResult> DeleteTopic([FromForm] List<Guid> ids)
         {
             var result = await _topicService.DeleteMultipleTopicAsync(ids);
             return ApiSuccess(result);
@@ -70,7 +70,7 @@ namespace API.Controllers
         [HttpPost("Media")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CustomResponse<GetTopicMediaResponse>))]
-        public async Task<IActionResult> AddTopicMedia([FromBody] AddTopicMediaRequest addTopicMediaRequest)
+        public async Task<IActionResult> AddTopicMedia([FromForm] AddTopicMediaRequest addTopicMediaRequest)
         {
             var topicMedia = await _topicValidator.AddTopicMediaAsyncValidator(addTopicMediaRequest);
             return ApiSuccess(topicMedia, HttpStatusCode.Created);
@@ -80,7 +80,7 @@ namespace API.Controllers
         [HttpPut("Media")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetTopicMediaResponse>))]
-        public async Task<IActionResult> UpdateTopicMedia([FromBody] UpdateTopicMediaRequest updateTopicMediaRequest)
+        public async Task<IActionResult> UpdateTopicMedia([FromForm] UpdateTopicMediaRequest updateTopicMediaRequest)
         {
             var updatedTopicMedia = await _topicValidator.UpdateTopicMediaAsyncValidator(updateTopicMediaRequest);
             return ApiSuccess(updatedTopicMedia);
@@ -90,7 +90,7 @@ namespace API.Controllers
         [HttpDelete("Media")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<bool>))]
-        public async Task<IActionResult> DeleteTopicMedia([FromBody] DeleteTopicMediaRequest request)
+        public async Task<IActionResult> DeleteTopicMedia([FromForm] DeleteTopicMediaRequest request)
         {
             var result = await _topicService.DeleteTopicMediaAsync(request);
             return ApiSuccess(result);
