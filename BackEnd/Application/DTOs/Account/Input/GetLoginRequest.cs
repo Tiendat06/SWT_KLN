@@ -26,7 +26,7 @@ namespace Application
         public int? roleId { get; set; }
         public string Token { get; set; }
         public string RoleName { get; set; }
-        public string? TokenExpiration { get; set; }
+        public string? RefreshToken { get; set; }
         public string? PasswordResetToken { get; set; }
     }
 

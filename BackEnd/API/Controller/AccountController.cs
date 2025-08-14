@@ -21,7 +21,8 @@ namespace API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController(
-        IAccountValidator _accountValidator
+        IAccountValidator _accountValidator,
+        IAccountService _accountService
         ) : KLNBaseController
     {
         // POST api/account/login
@@ -31,6 +32,17 @@ namespace API.Controllers
         public async Task<IActionResult> Login([FromForm] LoginRequest loginRequest)
         {
             var result = await _accountValidator.LoginAsyncValidator(loginRequest);
+            return ApiSuccess(result);
+        }
+
+        // POST api/account/refresh
+        [HttpPost("refresh")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetLoginReqponse>))]
+        public async Task<IActionResult> Refresh([FromForm] string refreshTokenRequest)
+        {
+            // Validate the refresh token and generate a new access token
+            var result = await _accountService.RefreshTokenAsync(refreshTokenRequest);
             return ApiSuccess(result);
         }
     }
