@@ -24,6 +24,13 @@ namespace Infrastructure.Repositories
                     a.IsHidden == false
                 );
         }
+
+        public async Task<Account> GetAccountByIdAsync(Guid accountId)
+        {
+            return await _context.Accounts
+                .Include(a => a.User)
+                .FirstOrDefaultAsync(a => a.AccountId == accountId);
+        }
     }
 
 }
