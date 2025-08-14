@@ -14,6 +14,8 @@ import {
 } from '~/store/B2B/ManageTopic/actions';
 import { showToast } from '~/utils/Toast';
 import { useAppContext } from '~/context/AppContext';
+import MediaType from "~/enum/MediaType/MediaType";
+import { TEST_USER_ID } from "~/utils/Constansts";
 
 const AddImageModal = ({topicId}) => {
     const {
@@ -103,13 +105,16 @@ const AddImageModal = ({topicId}) => {
             };
             
             if (topicId) {
-                // Thêm vào topic hiện có
                 try {
-                const result = await topicService.addImageToTopicService(topicId, mediaData);
-                
-                if (result && result.data) {
-                        // API thành công - sử dụng data từ server
-                    dispatch(addTopicImageAction(result.data));
+                    const result = await topicService.addTopicMediaService({
+                        topicId,
+                        mediaTypeId: MediaType.None,
+                        userId: TEST_USER_ID,
+                        images: [ { capture: mediaData.capture, imageFile: mediaData.imageFile } ],
+                        videos: []
+                    });
+                    if (result && result.data) {
+                        dispatch(addTopicImageAction(result.data));
                         alert(`Thêm ${mediaType} thành công!`);
                     } else {
                         const errorMessage = result?.message || 'API response invalid';
@@ -136,7 +141,6 @@ const AddImageModal = ({topicId}) => {
                     imageLink: previewUrl
                 };
                 
-                // Thêm vào context thông qua reducer
                 addTempImage(imageWithId);
                 
                 showToast({
@@ -215,7 +219,7 @@ const AddImageModal = ({topicId}) => {
                     <Card title={<h6 className="mb-0" style={{fontWeight: 'bold'}}>Xem trước</h6>}>
                         <div style={{
                             height: 350
-                        }} className={clsx(styles["create-image__preview--image"])}>
+                        }} className={clsx(styles["create-image__preview--image"]) }>
                             <div style={{
                                 height: "60%"
                             }} className={clsx(styles['create-image__preview--image__src'])}>

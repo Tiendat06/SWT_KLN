@@ -17,6 +17,8 @@ import { AddImageModal, AddVideoModal } from "~/features/B2B/ManageTopic";
 import { faImage, faVideo } from '@fortawesome/free-solid-svg-icons';
 import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
+import MediaType from "~/enum/MediaType/MediaType";
+import { TEST_USER_ID } from "~/utils/Constansts";
 
 const EditTopicLayout = () => {
     const { 
@@ -46,7 +48,6 @@ const EditTopicLayout = () => {
             setLoading(true);
             let topic = topics.find(t => t.topicId === topicId);
             if (!topic) {
-                // Fetch topic from backend
                 try {
                     const res = await topicService.getTopicByIdService(topicId);
                     topic = res?.data;
@@ -56,28 +57,13 @@ const EditTopicLayout = () => {
             }
             if (topic && isMounted) {
                 setFormData({ capture: topic.capture });
-                // Fetch media
-                try {
-                    const [imagesResult, videosResult] = await Promise.all([
-                        topicService.getTopicImagesService(topicId),
-                        topicService.getTopicVideosService(topicId)
-                    ]);
-                    if (imagesResult?.data?.topicImages) {
-                        setTopicImages(imagesResult.data.topicImages);
-                        dispatch(getTopicImagesAction(imagesResult.data.topicImages));
-                    } else {
-                        setTopicImages([]);
-                    }
-                    if (videosResult?.data?.topicVideos) {
-                        setTopicVideos(videosResult.data.topicVideos);
-                        dispatch(getTopicVideosAction(videosResult.data.topicVideos));
-                    } else {
-                        setTopicVideos([]);
-                    }
-                } catch {
-                    setTopicImages([]);
-                    setTopicVideos([]);
-                }
+                // Lấy media trực tiếp từ response nếu có
+                const images = Array.isArray(topic.topicImages) ? topic.topicImages : [];
+                const videos = Array.isArray(topic.topicVideos) ? topic.topicVideos : [];
+                setTopicImages(images);
+                setTopicVideos(videos);
+                dispatch(getTopicImagesAction(images));
+                dispatch(getTopicVideosAction(videos));
             } else if (isMounted) {
                 setFormData({ capture: '' });
                 setTopicImages([]);
@@ -92,7 +78,6 @@ const EditTopicLayout = () => {
     // Sync với context khi có thay đổi từ modal (thêm media mới)
     useEffect(() => {
         if (contextTopicImages.length > 0) {
-            // Lọc ra những images thuộc về topic hiện tại (nếu có topicId trong data)
             const currentTopicImages = contextTopicImages.filter(img => 
                 !img.topicId || img.topicId === topicId
             );
@@ -102,11 +87,10 @@ const EditTopicLayout = () => {
 
     useEffect(() => {
         if (contextTopicVideos.length > 0) {
-            // Lọc ra những videos thuộc về topic hiện tại (nếu có topicId trong data)
             const currentTopicVideos = contextTopicVideos.filter(video => 
                 !video.topicId || video.topicId === topicId
             );
-            setTopicVideos(currentTopicVideos);
+        setTopicVideos(currentTopicVideos);
         }
     }, [contextTopicVideos, topicId]);
 
@@ -118,18 +102,20 @@ const EditTopicLayout = () => {
     const handleAddVideo = () => setAddVideoModalVisible(true);
     const handleDeleteImages = async () => {
         if (selectedImages.length === 0) return;
-        
         try {
-            // Thử delete từ backend
-            await Promise.all(selectedImages.map(imageId => topicService.deleteTopicImageService(topicId, imageId)));
+            await topicService.deleteTopicMediaService({
+                topicId,
+                mediaTypeId: MediaType.None,
+                userId: TEST_USER_ID,
+                imageIds: selectedImages,
+                videoIds: []
+            });
         } catch (apiError) {
             console.warn('API lỗi khi xóa ảnh, tiếp tục cập nhật UI:', apiError);
         }
-        
-        // Luôn cập nhật UI bất kể API thành công hay lỗi
         dispatch(deleteTopicImageAction(selectedImages));
         setTopicImages(prev => prev.filter(img => !selectedImages.includes(img.id)));
-            setSelectedImages([]);
+        setSelectedImages([]);
         showToast({ 
             toastRef: toast, 
             severity: 'success', 
@@ -139,18 +125,20 @@ const EditTopicLayout = () => {
     };
     const handleDeleteVideos = async () => {
         if (selectedVideos.length === 0) return;
-        
         try {
-            // Thử delete từ backend
-            await Promise.all(selectedVideos.map(videoId => topicService.deleteTopicVideoService(topicId, videoId)));
+            await topicService.deleteTopicMediaService({
+                topicId,
+                mediaTypeId: MediaType.None,
+                userId: TEST_USER_ID,
+                imageIds: [],
+                videoIds: selectedVideos
+            });
         } catch (apiError) {
             console.warn('API lỗi khi xóa video, tiếp tục cập nhật UI:', apiError);
         }
-        
-        // Luôn cập nhật UI bất kể API thành công hay lỗi
         dispatch(deleteTopicVideoAction(selectedVideos));
         setTopicVideos(prev => prev.filter(video => !selectedVideos.includes(video.id)));
-            setSelectedVideos([]);
+        setSelectedVideos([]);
         showToast({ 
             toastRef: toast, 
             severity: 'success', 
@@ -170,7 +158,6 @@ const EditTopicLayout = () => {
         try {
             const updateResult = await topicService.updateTopicService(topicId, formData);
             if (updateResult && updateResult.data) {
-                // API thành công
                 dispatch(updateTopicAction(updateResult.data));
                 showToast({ toastRef: toast, severity: 'success', summary: 'Cập nhật chuyên đề', detail: 'Cập nhật thành công!' });
                 navigate(`${AppRoutesEnum.AdminRoute}/manage-topic`);

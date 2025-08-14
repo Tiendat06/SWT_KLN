@@ -59,9 +59,8 @@ const CreateTopicLayout = () => {
         const topicData = { ...formData, images: tempImages, videos: tempVideos };
         
         try {
-            const createResult = await topicService.createTopicWithMediaService(topicData);
+            const createResult = await topicService.createTopicService(topicData);
             if (createResult && createResult.data) {
-                // API thành công
                 dispatch(addTopicAction(createResult.data));
                 showToast({ toastRef: toast, severity: 'success', summary: 'Thêm chuyên đề', detail: 'Thêm chuyên đề thành công!' });
                 clearTempMedia();

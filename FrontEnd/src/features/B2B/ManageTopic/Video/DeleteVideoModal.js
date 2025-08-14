@@ -4,6 +4,8 @@ import {useManageTopicContext} from "~/context/B2B/ManageTopic/ManageTopicContex
 import {deleteTopicVideoAction} from '~/store/B2B/ManageTopic/actions';
 import {topicService} from "~/services/TopicService";
 import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
+import MediaType from "~/enum/MediaType/MediaType";
+import { TEST_USER_ID } from "~/utils/Constansts";
 
 const DeleteVideoModal = ({topicId}) => {
     const {
@@ -15,24 +17,21 @@ const DeleteVideoModal = ({topicId}) => {
         try {
             let videoIds = [];
             
-            // Nếu có selectedVideos (multiple delete)
             if (selectedVideos && selectedVideos.length > 0) {
                 videoIds = selectedVideos.map(video => video.id);
-            } 
-            // Nếu có selectedTopicVideo (single delete)
-            else if (selectedTopicVideo) {
+            } else if (selectedTopicVideo) {
                 videoIds = [selectedTopicVideo.id];
             }
             
             if (videoIds.length > 0) {
-                // Gọi API xóa nhiều
-                if (videoIds.length === 1) {
-                    await topicService.deleteTopicVideoService(topicId, videoIds[0]);
-                } else {
-                    await topicService.deleteTopicVideosService(topicId, videoIds);
-                }
+                await topicService.deleteTopicMediaService({
+                    topicId,
+                    mediaTypeId: MediaType.None,
+                    userId: TEST_USER_ID,
+                    imageIds: [],
+                    videoIds
+                });
                 
-                // Dispatch action để cập nhật store
                 dispatch(deleteTopicVideoAction(videoIds));
                 setSelectedVideos([]);
             }

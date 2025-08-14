@@ -66,7 +66,6 @@ const EditImageModal = () => {
                 file: file
             }));
 
-            // Tạo preview URL
             const reader = new FileReader();
             reader.onload = (e) => {
                 setPreviewUrl(e.target.result);
@@ -119,14 +118,12 @@ const EditImageModal = () => {
                 capture: formData.capture
             };
             
-            // Chỉ thêm imageFile nếu có file mới được chọn
             if (formData.file) {
                 updateData.imageFile = formData.file;
             }
             
             const result = await topicService.updateImageService(updateData);
             if (result && result.data) {
-                // Update store with updated image
                 dispatch(updateTopicImageAction(result.data));
             }
             
@@ -206,7 +203,7 @@ const EditImageModal = () => {
                     <Card title={<h6 className="mb-0" style={{fontWeight: 'bold'}}>Xem trước</h6>}>
                         <div style={{
                             height: 350
-                        }} className={clsx(styles["create-image__preview--image"])}>
+                        }} className={clsx(styles["create-image__preview--image"]) }>
                             <div style={{
                                 height: "60%"
                             }} className={clsx(styles['create-image__preview--image__src'])}>

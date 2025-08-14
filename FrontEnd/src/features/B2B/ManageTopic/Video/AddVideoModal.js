@@ -14,6 +14,8 @@ import {
 } from '~/store/B2B/ManageTopic/actions';
 import { showToast } from '~/utils/Toast';
 import { useAppContext } from '~/context/AppContext';
+import MediaType from "~/enum/MediaType/MediaType";
+import { TEST_USER_ID } from "~/utils/Constansts";
 
 const AddVideoModal = ({topicId}) => {
     const {
@@ -112,11 +114,17 @@ const AddVideoModal = ({topicId}) => {
             if (topicId) {
                 // Thêm vào topic hiện có
                 try {
-                const result = await topicService.addVideoToTopicService(topicId, mediaData);
-                
-                if (result && result.data) {
+                    const result = await topicService.addTopicMediaService({
+                        topicId,
+                        mediaTypeId: MediaType.None,
+                        userId: TEST_USER_ID,
+                        images: [],
+                        videos: [ { capture: mediaData.capture, videoFile: mediaData.videoFile } ]
+                    });
+                    
+                    if (result && result.data) {
                         // API thành công - sử dụng data từ server
-                    dispatch(addTopicVideoAction(result.data));
+                        dispatch(addTopicVideoAction(result.data));
                         alert(`Thêm ${mediaType} thành công!`);
                     } else {
                         const errorMessage = result?.message || 'API response invalid';

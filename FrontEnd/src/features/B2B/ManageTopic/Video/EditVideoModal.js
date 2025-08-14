@@ -219,7 +219,7 @@ const EditVideoModal = () => {
                     <Card title={<h6 className="mb-0" style={{fontWeight: 'bold'}}>Xem trước</h6>}>
                         <div style={{
                             height: 350
-                        }} className={clsx(styles["create-video__preview--video"])}>
+                        }} className={clsx(styles["create-video__preview--video"]) }>
                             <div style={{
                                 height: "60%"
                             }} className={clsx(styles['create-video__preview--video__src'])}>
