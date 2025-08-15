@@ -58,7 +58,6 @@ namespace Infrastructure.Repositories
         public async Task<SlideShow?> GetSlideShowByIdAsync(Guid id)
         {
             return await _context.SlideShows
-                .AsNoTracking()
                 .Include(slideShow => slideShow.User)
                 .ThenInclude(user => user.Account)
                 .ThenInclude(account => account.Role)
