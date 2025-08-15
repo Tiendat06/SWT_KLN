@@ -225,12 +225,7 @@ namespace Application.Services
                                 throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}, {CommonFileType.JPG}, {string.Join(", ", allowedContentTypesVideo)}"));
                             }
                         }
-                    }
-
-                    topicEntity.Capture = updateTopicRequest.Capture;
-                    topicEntity.Description = updateTopicRequest.Description;
-
-                    topicEntity.Images = JsonSerializer.Serialize(
+                        topicEntity.Images = JsonSerializer.Serialize(
                             topicImagesList.Select((img, index) => new GetTopicImagesResponse
                             {
                                 Id = index + 1,
@@ -239,14 +234,18 @@ namespace Application.Services
                             })
                          );
 
-                    topicEntity.Videos = JsonSerializer.Serialize(
-                        topicVideosList.Select((vid, index) => new GetTopicVideoLinkResponse
-                        {
-                            Id = index + 1,
-                            Capture = vid.Capture,
-                            VideoLink = vid.ImageUrl
-                        })
-                     );
+                        topicEntity.Videos = JsonSerializer.Serialize(
+                            topicVideosList.Select((vid, index) => new GetTopicVideoLinkResponse
+                            {
+                                Id = index + 1,
+                                Capture = vid.Capture,
+                                VideoLink = vid.ImageUrl
+                            })
+                         );
+                    }
+
+                    topicEntity.Capture = updateTopicRequest.Capture;
+                    topicEntity.Description = updateTopicRequest.Description;
 
                     topicEntity.LogTopics ??= new List<LogTopic>();
                     topicEntity.LogTopics.Add(new LogTopic
