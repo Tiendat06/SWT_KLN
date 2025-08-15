@@ -154,16 +154,9 @@ namespace Application.Services
 
                 var allowedContentTypesImage = new[] { CommonFileType.JPEG, CommonFileType.PNG, CommonFileType.JPG };
                 var allowedContentTypesVideo = new[] { CommonFileType.MP4, CommonFileType.AVI, CommonFileType.MOV, CommonFileType.WMV, CommonFileType.FLV, CommonFileType.MKV, CommonFileType.WEBM, CommonFileType.MPEG };
-                int totalImageCount = updateTopicRequest.TopicMedia.Count(m =>
-                        FileOperations.CheckFileType(allowedContentTypesImage, m.MediaLink));
 
-                int totalVideoCount = updateTopicRequest.TopicMedia.Count(m =>
-                    FileOperations.CheckFileType(allowedContentTypesVideo, m.MediaLink));
-
-                if (totalImageCount > 3 || totalVideoCount > 3)
-                {
-                    throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["MaxItems"], _localizer["TopicMedia"]));
-                }
+                List<(string ImageUrl, string Capture)> topicImagesList = new List<(string, string)>();
+                List<(string ImageUrl, string Capture)> topicVideosList = new List<(string, string)>();
 
                 try
                 {
@@ -172,19 +165,24 @@ namespace Application.Services
 
                     await uow.TrackEntity(topicEntity);
 
-                    topicEntity.Capture = updateTopicRequest.Capture;
-                    topicEntity.Description = updateTopicRequest.Description;
-
                     var asssetFolderTopicImage = CommonCloudinaryAttribute.assetFolderTopicImage;
                     var assetFolderTopicVideo = CommonCloudinaryAttribute.assetFolderTopicVideo;
                     var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
                     var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "upload");
 
-                    List<(string ImageUrl, string Capture)> topicImagesList = new List<(string, string)>();
-                    List<(string ImageUrl, string Capture)> topicVideosList = new List<(string, string)>();
-
                     if (updateTopicRequest.TopicMedia != null && updateTopicRequest.TopicMedia.Any())
                     {
+                        int totalImageCount = updateTopicRequest.TopicMedia.Count(m =>
+                                FileOperations.CheckFileType(allowedContentTypesImage, m.MediaLink));
+
+                        int totalVideoCount = updateTopicRequest.TopicMedia.Count(m =>
+                            FileOperations.CheckFileType(allowedContentTypesVideo, m.MediaLink));
+
+                        if (totalImageCount > 3 || totalVideoCount > 3)
+                        {
+                            throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["MaxItems"], _localizer["TopicMedia"]));
+                        }
+
                         foreach (var topicMediaRequest in updateTopicRequest.TopicMedia)
                         {
                             // check meida type
@@ -229,6 +227,8 @@ namespace Application.Services
                         }
                     }
 
+                    topicEntity.Capture = updateTopicRequest.Capture;
+                    topicEntity.Description = updateTopicRequest.Description;
 
                     topicEntity.Images = JsonSerializer.Serialize(
                             topicImagesList.Select((img, index) => new GetTopicImagesResponse
