@@ -202,6 +202,7 @@ const AddImageModal = ({topicId}) => {
                                     options={KLNButtonEnum.blackBtn}
                                     hasFileInput={true}
                                     acceptedFileType={acceptedFileTypes}
+                                    fileInputId="topicImageId"
                                     onHandleFileChange={handleUpload}
                                     style={{
                                         cursor: "pointer",

@@ -208,6 +208,7 @@ const AddVideoModal = ({topicId}) => {
                                     options={KLNButtonEnum.blackBtn}
                                     hasFileInput={true}
                                     acceptedFileType={acceptedFileTypes}
+                                    fileInputId="topic-add-video-input" // Custom ID để tránh conflicts
                                     onHandleFileChange={handleUpload}
                                     style={{
                                         cursor: "pointer",

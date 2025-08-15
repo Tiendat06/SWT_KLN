@@ -78,7 +78,6 @@ const CreateBlogLayout = () => {
         }
     };
 
-    // Hàm map mediaTypeId sang tên module
     const getModuleNameByMediaTypeId = (mediaTypeId) => {
         switch (mediaTypeId) {
             case MediaType.TDTMemorial: return 'Khu lưu niệm bác Tôn';
@@ -149,6 +148,7 @@ const CreateBlogLayout = () => {
                                         options={KLNButtonEnum.blackBtn}
                                         hasFileInput={true}
                                         acceptedFileType=".jpg,.jpeg,.png,.gif,.bmp,.webp"
+                                        fileInputId="blog-create-poster-input" // Custom ID để tránh conflicts
                                         onHandleFileChange={handlePosterUpload}
                                         style={{
                                             cursor: "pointer",

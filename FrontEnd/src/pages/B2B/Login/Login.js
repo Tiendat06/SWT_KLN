@@ -5,8 +5,10 @@ import { useNavigate } from "react-router-dom";
 import styles from "~/styles/Pages/B2B/Auth/login.module.scss";
 import illustration from "~/assets/img/admin/login/admin_loginPage.png";
 import { authService } from "~/services/LoginService";
-import { showToast } from "~/utils/ShowToast";
+import { showToast } from "~/utils/Toast";
 import { useAppContext } from "~/context/AppContext";
+import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
+import { getUserRoleFromToken } from "~/utils/JwtUtils";
 
 const LoginPage = () => {
     const [username, setUsername] = useState("");
@@ -32,15 +34,40 @@ const LoginPage = () => {
             const result = await authService.loginService(username, password);
             
             if (result && result.data) {
-                showToast({
-                    toastRef: toast,
-                    severity: 'success',
-                    summary: 'Thành công',
-                    detail: `Chào mừng ${result.data.Username || result.data.username}!`
-                });
+                const token = result.data.Token || result.data.token;
                 
-                // Redirect về trang admin
-                navigate('/admin');
+                if (token) {
+                    const userRole = getUserRoleFromToken(token);
+                    const username = result.data.Username || result.data.username;
+                    
+                    showToast({
+                        toastRef: toast,
+                        severity: 'success',
+                        summary: 'Thành công',
+                        detail: `Chào mừng ${username}!`
+                    });
+                    
+                    // Navigate dựa trên role
+                    if (userRole === 'Admin') {
+                        navigate(AppRoutesEnum.AdminRoute);
+                    } else if (userRole === 'User') {
+                        navigate(AppRoutesEnum.CustomerRoute);
+                    } else {
+                        showToast({
+                            toastRef: toast,
+                            severity: 'error',
+                            summary: 'Lỗi phân quyền',
+                            detail: 'Không thể xác định quyền truy cập của tài khoản'
+                        });
+                    }
+                } else {
+                    showToast({
+                        toastRef: toast,
+                        severity: 'error',
+                        summary: 'Lỗi',
+                        detail: 'Không nhận được token xác thực từ server'
+                    });
+                }
             } else {
                 showToast({
                     toastRef: toast,

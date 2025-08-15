@@ -20,6 +20,7 @@ const KLNButton = ({
                        onHandleFileChange = () => {
                        },
                        acceptedFileType = 'image/*',
+                       fileInputId = 'fileUpload', // Thêm prop để custom file input ID
                        isLoading = false,
                        mode = "light",
                        ...props
@@ -76,7 +77,7 @@ const KLNButton = ({
                 ) :
                 (
                     <>
-                        <label htmlFor="fileUpload" style={style} className={clsx(buttonStyle, btnClassName)}
+                        <label htmlFor={fileInputId} style={style} className={clsx(buttonStyle, btnClassName)}
                                onClick={onClick}>
                             <span className="d-flex align-items-center justify-content-center">
                                 {isLoading && <KLNProgressSpinner
@@ -92,7 +93,7 @@ const KLNButton = ({
                             </span>
                         </label>
                         <input type="file"
-                               id="fileUpload"
+                               id={fileInputId}
                                accept={acceptedFileType}
                                onChange={onHandleFileChange}
                                style={{display: "none"}}

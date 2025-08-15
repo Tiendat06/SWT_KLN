@@ -25,10 +25,7 @@ const KLNCollapsibleMediaSection = ({
 }) => {
     const [collapsed, setCollapsed] = useState(isCollapsed);
 
-    // Debug: log khi mediaList thay đổi
-    useEffect(() => {
-        console.log(`${title} - mediaList updated:`, mediaList);
-    }, [mediaList, title]);
+
 
     const handleToggleCollapse = () => {
         setCollapsed(!collapsed);

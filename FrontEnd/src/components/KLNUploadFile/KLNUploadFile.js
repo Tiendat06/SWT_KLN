@@ -23,6 +23,7 @@ const KLNUploadFile = ({
                            fileFieldName = 'file',
                            uploadFileOption = UploadFileOption.Multimedia,
                            dispatch = null,
+                           fileInputId = null,
                        }) => {
     const {toast} = useAppContext();
 
@@ -109,6 +110,7 @@ const KLNUploadFile = ({
                         <KLNButton
                             options={KLNButtonEnum.blackBtn}
                             hasFileInput={true}
+                            fileInputId={fileInputId || "klnUploadFileId"}
                             onHandleFileChange={handleUpload}
                             style={{
                                 cursor: "pointer",

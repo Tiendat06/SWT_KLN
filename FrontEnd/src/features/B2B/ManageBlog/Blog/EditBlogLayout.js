@@ -167,6 +167,7 @@ const EditBlogLayout = () => {
                                         options={KLNButtonEnum.blackBtn}
                                         hasFileInput={true}
                                         acceptedFileType=".jpg,.jpeg,.png,.gif,.bmp,.webp"
+                                        fileInputId="blog-edit-poster-input" // Custom ID để tránh conflicts
                                         onHandleFileChange={handlePosterUpload}
                                         style={{
                                             cursor: "pointer",

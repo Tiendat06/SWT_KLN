@@ -153,8 +153,8 @@ const EditSlideShowLayout = ({ slideShowId }) => {
                     {
                         title: formData.title,
                         description: formData.description,
-                        posterImage: posterImage, // Include poster image if changed
-                        images: [] // Không cập nhật images trong edit slideshow, chỉ cập nhật thông tin cơ bản
+                        posterImage: posterImage,
+                        images: []
                     },
                     MediaType.TDTMemorial,
                     SlideShowType.ExhibitionHouse,
@@ -226,6 +226,7 @@ const EditSlideShowLayout = ({ slideShowId }) => {
                                             options={KLNButtonEnum.blackBtn}
                                             hasFileInput={true}
                                             acceptedFileType=".jpg,.jpeg,.png,.gif,.bmp,.webp"
+                                            fileInputId="slideshow-edit-poster-input" // Custom ID để tránh conflicts
                                             onHandleFileChange={handlePosterUpload}
                                             style={{
                                                 cursor: "pointer",

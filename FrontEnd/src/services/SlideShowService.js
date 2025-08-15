@@ -75,7 +75,6 @@ const addSlideImageInSpecificSlideShowService = async (slideshowId, createDataAr
         formData.append("UserId", userId);
     }
     
-    // Xử lý SlideImages như mảng theo cấu trúc backend
     createDataArray.forEach((createData, index) => {
         formData.append(`SlideImages[${index}].Capture`, createData.capture);
         

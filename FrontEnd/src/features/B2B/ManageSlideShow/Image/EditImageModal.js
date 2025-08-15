@@ -237,6 +237,7 @@ const EditImageModal = ({ slideShowId }) => {
                                     options={KLNButtonEnum.blackBtn}
                                     hasFileInput={true}
                                     acceptedFileType={acceptedFileTypes}
+                                    fileInputId="slideshow-edit-image-input" // Custom ID để tránh conflicts
                                     onHandleFileChange={handleUpload}
                                     style={{
                                         cursor: "pointer",

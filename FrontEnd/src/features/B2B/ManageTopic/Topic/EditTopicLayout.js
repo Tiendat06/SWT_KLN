@@ -54,12 +54,15 @@ const EditTopicLayout = () => {
                 } catch {
                     topic = null;
                 }
+
             }
             if (topic && isMounted) {
                 setFormData({ capture: topic.capture });
-                // Lấy media trực tiếp từ response nếu có
-                const images = Array.isArray(topic.topicImages) ? topic.topicImages : [];
-                const videos = Array.isArray(topic.topicVideos) ? topic.topicVideos : [];
+                const images = Array.isArray(topic.images) ? topic.images : 
+                             Array.isArray(topic.topicImages) ? topic.topicImages : [];
+                const videos = Array.isArray(topic.videos) ? topic.videos : 
+                             Array.isArray(topic.topicVideos) ? topic.topicVideos : [];
+                
                 setTopicImages(images);
                 setTopicVideos(videos);
                 dispatch(getTopicImagesAction(images));

@@ -106,6 +106,7 @@ const CreateSlideShowLayout = () => {
         
         try {
             setIsSubmitting(true);
+
             
             const formDataToSend = {
                 title: formData.title,
@@ -173,6 +174,7 @@ const CreateSlideShowLayout = () => {
                                             options={KLNButtonEnum.blackBtn}
                                             hasFileInput={true}
                                             acceptedFileType=".jpg,.jpeg,.png,.gif,.bmp,.webp"
+                                            fileInputId="slideshowAddId"
                                             onHandleFileChange={handlePosterUpload}
                                             style={{
                                                 cursor: "pointer",

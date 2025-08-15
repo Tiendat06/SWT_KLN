@@ -202,6 +202,7 @@ const EditVideoModal = () => {
                                     options={6}
                                     hasFileInput={true}
                                     acceptedFileType={acceptedFileTypes}
+                                    fileInputId="topic-edit-video-input" // Custom ID để tránh conflicts
                                     onHandleFileChange={handleUpload}
                                     style={{
                                         cursor: "pointer",

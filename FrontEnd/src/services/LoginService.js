@@ -1,5 +1,7 @@
 import Cookies from "js-cookie";
 import UseFetchAPI from "~/hooks/UseFetchAPI";
+import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
+
 
 const accountRoute = 'api/account';
 
@@ -70,7 +72,7 @@ const refreshTokenService = async (refreshToken) => {
 const logoutService = () => {
     clearTokens();
     if (typeof window !== 'undefined') {
-        window.location.href = '/login';
+        window.location.href = `${AppRoutesEnum.AdminRoute}/login`;
     }
 };
 
