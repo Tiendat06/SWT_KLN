@@ -466,6 +466,25 @@ namespace Application.Services
                         }
                         else
                         {
+                            if (imageRequest.ImageLink != null && imageRequest.ImageLink.Length > 0)
+                            {
+                                // Check if the image type is correct or not
+                                if (!FileOperations.CheckFileType(allowedContentTypes, imageRequest.ImageLink))
+                                {
+                                    throw new ArgumentException(CommonExtensions.GetValidateMessage(
+                                        _localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}"));
+                                }
+                                var filePath = await FileOperations.SaveFileToLocal(folderPath, imageRequest.ImageLink);
+                                var publicId = $"{nameof(SlideShow)}_{request.SlideShowId}_{Guid.NewGuid()}";
+
+                                var result = cloudinary.UploadFileFromLocalToCloudinary(filePath, CommonCloudinaryAttribute.assetFolderSlideShowImage, publicId)
+                                    ?? throw new InvalidOperationException(_localizer["UploadSlideImageCloudinaryFailed"]);
+
+                                secureUrl = result["secure_url"]?.ToString()
+                                    ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
+
+                                FileOperations.DeleteFileFromLocal(filePath, folderPath);
+                            }
                             // Add new image
                             slideImageList.Add(new GetSlideImageResponse
                             {
