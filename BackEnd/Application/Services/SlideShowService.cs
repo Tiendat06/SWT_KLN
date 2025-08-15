@@ -150,8 +150,6 @@ namespace Application.Services
                     var slideShowEntity = await _slideShowRepository.GetSlideShowByIdAsync(id)
                         ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["SlideShow"]));
 
-                    await uow.TrackEntity(slideShowEntity);
-
                     slideShowEntity.Title = updateSlideShowRequest.Title;
                     slideShowEntity.Description = updateSlideShowRequest.Description;
                     slideShowEntity.MediaTypeId = updateSlideShowRequest.MediaTypeId;
