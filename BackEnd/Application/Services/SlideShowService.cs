@@ -490,8 +490,8 @@ namespace Application.Services
                             {
                                 Id = 0, // will be reassigned
                                 Capture = imageRequest.Capture,
-                                ImageLink = (secureUrl == null) ? secureUrl : imageRequest.ImageLink?.ToString()
-                        });
+                                ImageLink = secureUrl ?? imageRequest.ImageLink?.ToString();
+                            });
                         }
                     }
 
