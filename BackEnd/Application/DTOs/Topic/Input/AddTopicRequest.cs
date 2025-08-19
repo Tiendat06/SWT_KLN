@@ -106,7 +106,7 @@ namespace Application
 
                     return hasImages || hasVideos;
                 })
-                .WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicImages/TopicVideos"]));
+                .WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicMedia"]));
 
             // Ensure total size across both does not exceed 4GB
             RuleFor(x => x)
