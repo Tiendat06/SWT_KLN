@@ -321,11 +321,27 @@ namespace Application.Services
         {
             var allowedContentTypesImage = new[] { CommonFileType.JPEG, CommonFileType.PNG, CommonFileType.JPG };
             var allowedContentTypesVideo = new[] { CommonFileType.MP4, CommonFileType.AVI, CommonFileType.MOV, CommonFileType.WMV, CommonFileType.FLV, CommonFileType.MKV, CommonFileType.WEBM, CommonFileType.MPEG };
-            int totalImageCount = addTopicMediaRequest.TopicImages.Count(m =>
-                    FileOperations.CheckFileType(allowedContentTypesImage, m.ImageLink));
 
-            int totalVideoCount = addTopicMediaRequest.TopicVideos.Count(m =>
+            var images = addTopicMediaRequest.TopicImages ?? new List<AddTopicImageRequest>();
+            var videos = addTopicMediaRequest.TopicVideos ?? new List<AddTopicVideoRequest>();
+            var hasImages = images.Any(i => i.ImageLink != null);
+            var hasVideos = videos.Any(v => v.VideoLink != null);
+            if (!hasImages && !hasVideos)
+            {
+                throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["NotEmpty"], _localizer["TopicMedia"]));
+            }
+
+            // Check file type for images and videos
+            int totalImageCount = images.Count(m => m.ImageLink != null &&
+                FileOperations.CheckFileType(allowedContentTypesImage, m.ImageLink));
+
+            int totalVideoCount = videos.Count(m => m.VideoLink != null &&
                 FileOperations.CheckFileType(allowedContentTypesVideo, m.VideoLink));
+            
+            if (totalImageCount != images.Count || totalVideoCount != videos.Count)
+            {
+                throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], _localizer["TopicMedia"]));
+            }
 
             if (totalImageCount > 3 || totalVideoCount > 3)
             {
@@ -362,12 +378,12 @@ namespace Application.Services
 
                     int imageIndex = currentImages.Count;
                     int videoIndex = currentVideos.Count;
-                    // Sort to control upload order
-                    var orderedImages = addTopicMediaRequest.TopicImages.OrderBy(i => i.Id).ToList();
-                    var orderedVideos = addTopicMediaRequest.TopicVideos.OrderBy(i => i.Id).ToList();
-                    // Upload new images
-                    foreach (var topicImage in orderedImages)
+
+                    // Upload new images (include sorting by id)
+                    foreach (var topicImage in images.OrderBy(i => i.Id))
                     {
+                        if (topicImage.ImageLink == null) continue;
+
                         var filePath = await FileOperations.SaveFileToLocal(folderPath, topicImage.ImageLink);
                         var publicId = $"{nameof(Domain.Entities.Topic)}_{id}_img_{Guid.NewGuid()}";
 
@@ -388,12 +404,13 @@ namespace Application.Services
                     }
 
                     // Upload new videos
-                    foreach (var topicVideo in orderedVideos)
+                    foreach (var topicVideo in videos.OrderBy(v => v.Id))
                     {
-                        var filePath = await FileOperations.SaveFileToLocal(folderPath, topicVideo.VideoLink);
-                        var publicId = $"{nameof(Domain.Entities.Topic)}_{id}_vid_{Guid.NewGuid()}";
+                        if (topicVideo.VideoLink == null) continue;
 
+                        var filePath = await FileOperations.SaveFileToLocal(folderPath, topicVideo.VideoLink);
                         var videoUrl = await _youtube.UploadVideoToYouTube(filePath, topicVideo.Capture);
+
                         FileOperations.DeleteFileFromLocal(filePath, folderPath);
 
                         currentVideos.Add(new GetTopicVideoLinkResponse
@@ -443,13 +460,9 @@ namespace Application.Services
         {
             var allowedContentTypesImage = new[] { CommonFileType.JPEG, CommonFileType.PNG, CommonFileType.JPG };
             var allowedContentTypesVideo = new[] { CommonFileType.MP4, CommonFileType.AVI, CommonFileType.MOV, CommonFileType.WMV, CommonFileType.FLV, CommonFileType.MKV, CommonFileType.WEBM, CommonFileType.MPEG };
-            int totalImageCount = updateTopicMediaRequest.TopicImages.Count(m =>
-                    FileOperations.CheckFileType(allowedContentTypesImage, m.ImageLink));
-
-            int totalVideoCount = updateTopicMediaRequest.TopicVideos.Count(m =>
-                FileOperations.CheckFileType(allowedContentTypesVideo, m.VideoLink));
-
-            if (totalImageCount > 3 || totalVideoCount > 3)
+            
+            if ((updateTopicMediaRequest.TopicImages?.Count ?? 0) > 3 
+                || (updateTopicMediaRequest.TopicVideos?.Count ?? 0) > 3)
             {
                 throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["MaxItems"], _localizer["TopicMedia"]));
             }
@@ -462,7 +475,6 @@ namespace Application.Services
                     var topicEntity = await _topicRepository.GetTopicByIdAsync(id)
                         ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], _localizer["Topic"]));
 
-                    await uow.TrackEntity(topicEntity);
                     var asssetFolderTopicImage = CommonCloudinaryAttribute.assetFolderTopicImage;
                     var assetFolderTopicVideo = CommonCloudinaryAttribute.assetFolderTopicVideo;
                     var cloudinaryOperations = new CloudinaryOperations(_cloudinary);
@@ -482,99 +494,144 @@ namespace Application.Services
                     var currentVideos = string.IsNullOrWhiteSpace(topicEntity.Videos)
                         ? new List<GetTopicVideoLinkResponse>()
                         : JsonSerializer.Deserialize<List<GetTopicVideoLinkResponse>>(topicEntity.Videos!)!;
+                    
+                    int imageIndex = currentImages.Count;
+                    int videoIndex = currentVideos.Count;
 
                     // Update existing images 
-                    foreach (var imageRequest in updateTopicMediaRequest.TopicImages)
+                    if (updateTopicMediaRequest.TopicImages != null)
                     {
-                        string secureUrl = null;
-
-                        if (imageRequest.Id > 0)
+                        foreach (var imageRequest in updateTopicMediaRequest.TopicImages)
                         {
-                            // Upload and replace
-                            var existing = currentImages.FirstOrDefault(x => x.Id == imageRequest.Id)
-                                ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], $"ImageId {imageRequest.Id}"));
-                            if (imageRequest.ImageLink != null && imageRequest.ImageLink.Length > 0)
+                            if (imageRequest.ImageLink == null) continue;
+                            string secureUrl = null;
+
+                            if (imageRequest.Id > 0)
                             {
-                                if (!FileOperations.CheckFileType(allowedContentTypesImage, imageRequest.ImageLink))
+                                // Upload and replace
+                                var existing = currentImages.FirstOrDefault(x => x.Id == imageRequest.Id)
+                                    ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], $"ImageId {imageRequest.Id}"));
+                                if (imageRequest.ImageLink != null && imageRequest.ImageLink.Length > 0)
                                 {
-                                    throw new ArgumentException(CommonExtensions.GetValidateMessage(
-                                        _localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}, {CommonFileType.JPG}"));
+                                    if (!FileOperations.CheckFileType(allowedContentTypesImage, imageRequest.ImageLink))
+                                    {
+                                        throw new ArgumentException(CommonExtensions.GetValidateMessage(
+                                            _localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}, {CommonFileType.JPG}"));
+                                    }
+
+                                    var filePath = await FileOperations.SaveFileToLocal(folderPath, imageRequest.ImageLink);
+                                    var publicId = $"{nameof(Domain.Entities.Topic)}_{id}_img_{Guid.NewGuid()}";
+
+                                    var result = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePath, CommonCloudinaryAttribute.assetFolderTopicImage, publicId)
+                                        ?? throw new InvalidOperationException(_localizer["UpdateImageCloudinaryFailed"]);
+
+                                    secureUrl = result["secure_url"]?.ToString()
+                                        ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
+
+                                    FileOperations.DeleteFileFromLocal(filePath, folderPath);
+                                }
+                                if (secureUrl != null)
+                                {
+                                    existing.ImageLink = secureUrl;
+                                }
+                                existing.Capture = imageRequest.Capture;
+                            }
+                            else
+                            {
+                                // Upload and replace
+                                var existing = imageRequest.ImageLink;
+                                if (imageRequest.ImageLink != null && imageRequest.ImageLink.Length > 0)
+                                {
+                                    if (!FileOperations.CheckFileType(allowedContentTypesImage, imageRequest.ImageLink))
+                                    {
+                                        throw new ArgumentException(CommonExtensions.GetValidateMessage(
+                                            _localizer["InvalidFileType"], $"{CommonFileType.JPEG}, {CommonFileType.PNG}, {CommonFileType.JPG}"));
+                                    }
+
+                                    var filePath = await FileOperations.SaveFileToLocal(folderPath, imageRequest.ImageLink);
+                                    var publicId = $"{nameof(Domain.Entities.Topic)}_{id}_img_{Guid.NewGuid()}";
+
+                                    var result = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePath, CommonCloudinaryAttribute.assetFolderTopicImage, publicId)
+                                        ?? throw new InvalidOperationException(_localizer["UpdateImageCloudinaryFailed"]);
+
+                                    secureUrl = result["secure_url"]?.ToString()
+                                        ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
+
+                                    FileOperations.DeleteFileFromLocal(filePath, folderPath);
                                 }
 
-                                var filePath = await FileOperations.SaveFileToLocal(folderPath, imageRequest.ImageLink);
-                                var publicId = $"{nameof(Domain.Entities.Topic)}_{id}_img_{Guid.NewGuid()}";
-
-                                var result = cloudinaryOperations.UploadFileFromLocalToCloudinary(filePath, CommonCloudinaryAttribute.assetFolderTopicImage, publicId)
-                                    ?? throw new InvalidOperationException(_localizer["UpdateImageCloudinaryFailed"]);
-
-                                secureUrl = result["secure_url"]?.ToString()
-                                    ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], "secure_url"));
-
-                                FileOperations.DeleteFileFromLocal(filePath, folderPath);
+                                currentImages.Add(new GetTopicImagesResponse
+                                {
+                                    Id = 0,
+                                    Capture = imageRequest.Capture,
+                                    ImageLink = secureUrl
+                                });
                             }
-                            if (secureUrl != null)
-                            {
-                                existing.ImageLink = secureUrl;
-                            }
-                            existing.Capture = imageRequest.Capture;
                         }
-                        else
+
+                        // Re-index image Ids
+                        for (int i = 0; i < currentImages.Count; i++)
                         {
-                            currentImages.Add(new GetTopicImagesResponse
-                            {
-                                Id = 0,
-                                Capture = imageRequest.Capture,
-                                ImageLink = (secureUrl == null) ? secureUrl : imageRequest.ImageLink?.ToString()
-                            });
+                            currentImages[i].Id = i + 1;
                         }
-                    }
-
-                    // Re-index image Ids
-                    for (int i = 0; i < currentImages.Count; i++)
-                    {
-                        currentImages[i].Id = i + 1;
                     }
 
                     // Update existing videos
-                    foreach (var videoRequest in updateTopicMediaRequest.TopicVideos)
+                    else if (updateTopicMediaRequest.TopicVideos != null)
                     {
-                        string videoUrl = null;
-                        if (videoRequest.Id > 0)
-                        {   
-                            var existing = currentVideos.FirstOrDefault(x => x.Id == videoRequest.Id)
-                                ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], $"VideoId {videoRequest.Id}"));
-                            if (!FileOperations.CheckFileType(allowedContentTypesVideo, videoRequest.VideoLink))
-                            {
-                                throw new ArgumentException(CommonExtensions.GetValidateMessage(
-                                    _localizer["InvalidFileType"], string.Join(", ", allowedContentTypesVideo)));
-                            }
-
-                            var filePath = await FileOperations.SaveFileToLocal(folderPath, videoRequest.VideoLink);
-                            videoUrl = await _youtube.UploadVideoToYouTube(filePath, videoRequest.Capture);
-
-                            FileOperations.DeleteFileFromLocal(filePath, folderPath);
-                            if (videoUrl != null)
-                            {
-                                existing.VideoLink = videoUrl;
-                            }
-                            
-                            existing.Capture = videoRequest.Capture;
-                        }
-                        else
+                        foreach (var videoRequest in updateTopicMediaRequest.TopicVideos)
                         {
-                            currentVideos.Add(new GetTopicVideoLinkResponse
+                            if (videoRequest.VideoLink == null) continue;
+                            string videoUrl = null;
+                            if (videoRequest.Id > 0)
                             {
-                                Id = 0,
-                                Capture = videoRequest.Capture,
-                                VideoLink = videoUrl
-                            });
-                        }
-                    }
+                                var existing = currentVideos.FirstOrDefault(x => x.Id == videoRequest.Id)
+                                    ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], $"VideoId {videoRequest.Id}"));
+                                if (!FileOperations.CheckFileType(allowedContentTypesVideo, videoRequest.VideoLink))
+                                {
+                                    throw new ArgumentException(CommonExtensions.GetValidateMessage(
+                                        _localizer["InvalidFileType"], string.Join(", ", allowedContentTypesVideo)));
+                                }
 
-                    // Re-index video Ids
-                    for (int i = 0; i < currentVideos.Count; i++)
-                    {
-                        currentVideos[i].Id = i + 1;
+                                var filePath = await FileOperations.SaveFileToLocal(folderPath, videoRequest.VideoLink);
+                                videoUrl = await _youtube.UploadVideoToYouTube(filePath, videoRequest.Capture);
+
+                                FileOperations.DeleteFileFromLocal(filePath, folderPath);
+                                if (videoUrl != null)
+                                {
+                                    existing.VideoLink = videoUrl;
+                                }
+
+                                existing.Capture = videoRequest.Capture;
+                            }
+                            else
+                            {
+                                var existing = videoRequest.VideoLink;
+                                if (!FileOperations.CheckFileType(allowedContentTypesVideo, videoRequest.VideoLink))
+                                {
+                                    throw new ArgumentException(CommonExtensions.GetValidateMessage(
+                                        _localizer["InvalidFileType"], string.Join(", ", allowedContentTypesVideo)));
+                                }
+
+                                var filePath = await FileOperations.SaveFileToLocal(folderPath, videoRequest.VideoLink);
+                                videoUrl = await _youtube.UploadVideoToYouTube(filePath, videoRequest.Capture);
+
+                                FileOperations.DeleteFileFromLocal(filePath, folderPath);
+
+                                currentVideos.Add(new GetTopicVideoLinkResponse
+                                {
+                                    Id = 0,
+                                    Capture = videoRequest.Capture,
+                                    VideoLink = videoUrl
+                                });
+                            }
+                        }
+
+                        // Re-index video Ids
+                        for (int i = 0; i < currentVideos.Count; i++)
+                        {
+                            currentVideos[i].Id = i + 1;
+                        }
                     }
 
                     // Serialize back to entity
