@@ -321,11 +321,27 @@ namespace Application.Services
         {
             var allowedContentTypesImage = new[] { CommonFileType.JPEG, CommonFileType.PNG, CommonFileType.JPG };
             var allowedContentTypesVideo = new[] { CommonFileType.MP4, CommonFileType.AVI, CommonFileType.MOV, CommonFileType.WMV, CommonFileType.FLV, CommonFileType.MKV, CommonFileType.WEBM, CommonFileType.MPEG };
-            int totalImageCount = addTopicMediaRequest.TopicImages.Count(m =>
-                    FileOperations.CheckFileType(allowedContentTypesImage, m.ImageLink));
 
-            int totalVideoCount = addTopicMediaRequest.TopicVideos.Count(m =>
+            var images = addTopicMediaRequest.TopicImages ?? new List<AddTopicImageRequest>();
+            var videos = addTopicMediaRequest.TopicVideos ?? new List<AddTopicVideoRequest>();
+            var hasImages = images.Any(i => i.ImageLink != null);
+            var hasVideos = videos.Any(v => v.VideoLink != null);
+            if (!hasImages && !hasVideos)
+            {
+                throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["NotEmpty"], _localizer["TopicMedia"]));
+            }
+
+            // Check file type for images and videos
+            int totalImageCount = images.Count(m => m.ImageLink != null &&
+                FileOperations.CheckFileType(allowedContentTypesImage, m.ImageLink));
+
+            int totalVideoCount = videos.Count(m => m.VideoLink != null &&
                 FileOperations.CheckFileType(allowedContentTypesVideo, m.VideoLink));
+            
+            if (totalImageCount != images.Count || totalVideoCount != videos.Count)
+            {
+                throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["InvalidFileType"], _localizer["TopicMedia"]));
+            }
 
             if (totalImageCount > 3 || totalVideoCount > 3)
             {
@@ -362,12 +378,12 @@ namespace Application.Services
 
                     int imageIndex = currentImages.Count;
                     int videoIndex = currentVideos.Count;
-                    // Sort to control upload order
-                    var orderedImages = addTopicMediaRequest.TopicImages.OrderBy(i => i.Id).ToList();
-                    var orderedVideos = addTopicMediaRequest.TopicVideos.OrderBy(i => i.Id).ToList();
-                    // Upload new images
-                    foreach (var topicImage in orderedImages)
+
+                    // Upload new images (include sorting by id)
+                    foreach (var topicImage in images.OrderBy(i => i.Id))
                     {
+                        if (topicImage.ImageLink == null) continue;
+
                         var filePath = await FileOperations.SaveFileToLocal(folderPath, topicImage.ImageLink);
                         var publicId = $"{nameof(Domain.Entities.Topic)}_{id}_img_{Guid.NewGuid()}";
 
@@ -388,12 +404,13 @@ namespace Application.Services
                     }
 
                     // Upload new videos
-                    foreach (var topicVideo in orderedVideos)
+                    foreach (var topicVideo in videos.OrderBy(v => v.Id))
                     {
-                        var filePath = await FileOperations.SaveFileToLocal(folderPath, topicVideo.VideoLink);
-                        var publicId = $"{nameof(Domain.Entities.Topic)}_{id}_vid_{Guid.NewGuid()}";
+                        if (topicVideo.VideoLink == null) continue;
 
+                        var filePath = await FileOperations.SaveFileToLocal(folderPath, topicVideo.VideoLink);
                         var videoUrl = await _youtube.UploadVideoToYouTube(filePath, topicVideo.Capture);
+
                         FileOperations.DeleteFileFromLocal(filePath, folderPath);
 
                         currentVideos.Add(new GetTopicVideoLinkResponse

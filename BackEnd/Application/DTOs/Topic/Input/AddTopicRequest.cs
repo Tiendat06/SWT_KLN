@@ -35,8 +35,8 @@ namespace Application
         public Guid? TopicId { get; set; }
         public int MediaTypeId { get; set; }
         public Guid UserId { get; set; }
-        public List<AddTopicImageRequest> TopicImages { get; set; }
-        public List<AddTopicVideoRequest> TopicVideos { get; set; }
+        public List<AddTopicImageRequest>? TopicImages { get; set; }
+        public List<AddTopicVideoRequest>? TopicVideos { get; set; }
     }
 
     public class AddTopicRequestValidator : AbstractValidator<AddTopicRequest>
@@ -97,6 +97,18 @@ namespace Application
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]))
                 .NotEqual(Guid.Empty).WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]));
 
+            // Ensure at least one of Images or Videos exists
+            RuleFor(x => x)
+                .Must(r =>
+                {
+                    var hasImages = r.TopicImages != null && r.TopicImages.Any(i => i.ImageLink != null);
+                    var hasVideos = r.TopicVideos != null && r.TopicVideos.Any(v => v.VideoLink != null);
+
+                    return hasImages || hasVideos;
+                })
+                .WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicImages/TopicVideos"]));
+
+            // Ensure total size across both does not exceed 4GB
             RuleFor(x => x)
                 .Must(request =>
                 {
