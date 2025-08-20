@@ -83,33 +83,34 @@ namespace Application
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]))
                 .NotEqual(Guid.Empty).WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]));
 
-            RuleFor(x => x.TopicImages)
-                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicImage"]))
-                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicImage"]));
+            // Ensure at least one of Images or Videos exists
+            RuleFor(x => x)
+                .Must(r =>
+                {
+                    var hasImages = r.TopicImages != null && r.TopicImages.Any(i => i.ImageLink != null);
+                    var hasVideos = r.TopicVideos != null && r.TopicVideos.Any(v => v.VideoLink != null);
 
-            RuleFor(x => x.TopicVideos)
-                .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicVideo"]))
-                .NotEmpty().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicVideo"]));
+                    return hasImages || hasVideos;
+                })
+                .WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicMedia"]));
 
+            // Ensure total size across both does not exceed 4GB
             RuleFor(x => x)
                 .Must(request =>
                 {
                     long totalSize = 0;
-
                     if (request.TopicImages != null)
                     {
                         totalSize += request.TopicImages
                             .Where(i => i.ImageLink != null)
                             .Sum(i => i.ImageLink.Length);
                     }
-
                     if (request.TopicVideos != null)
                     {
                         totalSize += request.TopicVideos
                             .Where(v => v.VideoLink != null)
                             .Sum(v => v.VideoLink.Length);
                     }
-
                     return totalSize <= MaxTotalSizeInBytes;
                 })
                 .WithMessage(CommonExtensions.GetValidateMessage(localizer["MaxFileSize"], "4GB"));
