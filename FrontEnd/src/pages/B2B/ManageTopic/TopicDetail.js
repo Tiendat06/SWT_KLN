@@ -30,8 +30,8 @@ const TopicDetail = () => {
             {/* Modal Components */}
             <AddImageModal topicId={topicId} />
             <AddVideoModal topicId={topicId} />
-            <EditImageModal />
-            <EditVideoModal />
+            <EditImageModal topicId={topicId} />
+            <EditVideoModal topicId={topicId} />
             <DeleteImageModal topicId={topicId} />
             <DeleteVideoModal topicId={topicId} />
         </ManageTopicProvider>

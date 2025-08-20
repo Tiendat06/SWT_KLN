@@ -108,7 +108,7 @@ const AddImageModal = ({topicId}) => {
                 try {
                     const result = await topicService.addTopicMediaService({
                         topicId,
-                        mediaTypeId: MediaType.None,
+                        mediaTypeId: MediaType.PresidentTDT,
                         userId: TEST_USER_ID,
                         images: [ { capture: mediaData.capture, imageFile: mediaData.imageFile } ],
                         videos: []

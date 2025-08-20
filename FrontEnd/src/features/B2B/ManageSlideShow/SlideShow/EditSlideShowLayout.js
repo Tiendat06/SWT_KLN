@@ -8,6 +8,7 @@ import { useAppContext } from '~/context/AppContext';
 import { showToast } from '~/utils/Toast';
 import { updateSlideshowAction } from '~/store/B2B/ManageSlideShow/actions';
 import AddImageModal from '../Image/AddImageModal';
+import DeleteImageModal from '../Image/DeleteImageModal';
 import KLNButtonEnum from '~/enum/Button/KLNButtonEnum';
 import AppRoutesEnum from '~/enum/Route/AppRoutesEnum';
 import { slideShowService } from '~/services/SlideShowService';
@@ -21,7 +22,13 @@ import { TEST_USER_ID } from '~/utils/Constansts';
 
 const EditSlideShowLayout = ({ slideShowId }) => {
     const {
-        slideshows, setAddImageModalVisible, tempImages: contextTempImages, dispatch
+        slideshows, 
+        setAddImageModalVisible, 
+        setDeleteImageModalVisible,
+        selectedImages: contextSelectedImages,
+        setSelectedImages: setContextSelectedImages,
+        tempImages: contextTempImages, 
+        dispatch
     } = useManageSlideshowContext();
     const [formData, setFormData] = useState({ title: '', description: '' });
     const [posterImage, setPosterImage] = useState(null);
@@ -129,14 +136,26 @@ const EditSlideShowLayout = ({ slideShowId }) => {
     };
 
     const handleAddImage = () => setAddImageModalVisible(true);
+    
     const handleDeleteImages = () => {
         if (selectedImages.length > 0) {
-            setSlideImages(prev => prev.filter(img => !selectedImages.includes(img.id)));
-            setSelectedImages([]);
+            // Sync với context để DeleteImageModal có thể access
+            const imagesToDelete = slideImages.filter(img => selectedImages.includes(img.id));
+            setContextSelectedImages(imagesToDelete);
+            setDeleteImageModalVisible(true);
         }
     };
+    
     const handleImageSelection = (imageId, checked) => {
         setSelectedImages(prev => checked ? [...prev, imageId] : prev.filter(id => id !== imageId));
+    };
+    
+    const handleAfterDelete = (deletedImageIds) => {
+        // Cập nhật local state
+        setSlideImages(prev => prev.filter(img => !deletedImageIds.includes(img.id)));
+        setSelectedImages([]);
+        // Clear context selection
+        setContextSelectedImages([]);
     };
     
     const handleSubmit = async () => {
@@ -321,6 +340,10 @@ const EditSlideShowLayout = ({ slideShowId }) => {
                 </div>
             </div>
             <AddImageModal slideShowId={slideShowId} />
+            <DeleteImageModal 
+                slideshowId={slideShowId} 
+                onAfterDelete={handleAfterDelete}
+            />
         </div>
     );
 };

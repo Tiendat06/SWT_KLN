@@ -49,8 +49,7 @@ const SlideShowDetailLayout = ({ slideShowId }) => {
         dispatch
     } = useManageSlideshowContext();
     
-    // Debug: Log khi isUpdated thay đổi trong component
-    console.log('SlideShowDetailLayout - Render với isUpdated:', isUpdated);
+
     
     const { toast } = useAppContext();
     
@@ -67,9 +66,7 @@ const SlideShowDetailLayout = ({ slideShowId }) => {
         try {
             let found = null;
             
-            // Nếu forceApiCall hoặc không tìm thấy trong cache, gọi API
             if (forceApiCall || !slideshows.find(s => s.slideShowId === slideShowId)) {
-                console.log('SlideShowDetailLayout - Fetching from API, force:', forceApiCall);
                 const result = await slideShowService.getSlideShowByIdService(slideShowId);
                 if (result && result.data) {
                     found = result.data;
@@ -78,9 +75,7 @@ const SlideShowDetailLayout = ({ slideShowId }) => {
                     throw new Error(errorMessage);
                 }
             } else {
-                // Sử dụng cache
                 found = slideshows.find(s => s.slideShowId === slideShowId);
-                console.log('SlideShowDetailLayout - Using cached data');
             }
             
             setDetail(found);
@@ -105,7 +100,7 @@ const SlideShowDetailLayout = ({ slideShowId }) => {
     }, [slideShowId, slideshows, dispatch]);
 
     useEffect(() => {
-        fetchSlideshowDetail(false); // Normal load, use cache if available
+        fetchSlideshowDetail(false);
     }, [fetchSlideshowDetail]);
 
     const paginateSlideImages = useCallback(() => {
@@ -144,29 +139,21 @@ const SlideShowDetailLayout = ({ slideShowId }) => {
 
     useEffect(() => {
         if (isFirstMount) {
-            console.log('SlideShowDetailLayout - First mount, skipping isUpdated trigger');
             setIsFirstMount(false);
             return;
         }
         
-        console.log('SlideShowDetailLayout - isUpdated changed, force refetching...', isUpdated);
-        
         // Tạo function inline để tránh dependency issues
         const forceRefetch = async () => {
-            console.log('SlideShowDetailLayout - Starting force API call...');
             setLoading(true);
             try {
                 const result = await slideShowService.getSlideShowByIdService(slideShowId);
                 if (result && result.data) {
                     const found = result.data;
-                    console.log('SlideShowDetailLayout - API returned data:', found);
-                    
                     setDetail(found);
                     const images = found?.slideImage || [];
                     setAllImages(images);
                     dispatch(setSlideshowDetailAction(found));
-                    
-                    console.log('SlideShowDetailLayout - Updated with', images.length, 'images');
                 } else {
                     console.error('SlideShowDetailLayout - Invalid API response:', result);
                 }

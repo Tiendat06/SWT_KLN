@@ -5,7 +5,7 @@ import {deleteSlideshowImageAction, setSlideshowDetailAction} from '~/store/B2B/
 import {slideShowService} from "~/services/SlideShowService";
 import KLNButtonEnum from '~/enum/Button/KLNButtonEnum';
 
-const DeleteImageModal = ({slideshowId}) => {
+const DeleteImageModal = ({slideshowId, onAfterDelete}) => {
     const {
         selectedSlideshowImage, selectedImages, setSelectedImages, setIsUpdated, dispatch,
         deleteImageModalVisible, setDeleteImageModalVisible, slideshowDetail
@@ -47,13 +47,18 @@ const DeleteImageModal = ({slideshowId}) => {
                 setSelectedImages([]);
             }
             
+            // Gọi callback nếu có (cho EditSlideShowLayout)
+            if (onAfterDelete && typeof onAfterDelete === 'function') {
+                onAfterDelete(imageIds);
+            }
+            
             setIsUpdated(prev => !prev);
             setDeleteImageModalVisible(false);
         } catch (error) {
             console.error('Error deleting images:', error);
             setDeleteImageModalVisible(false);
         }
-    }, [selectedSlideshowImage, selectedImages, dispatch, setSelectedImages, setIsUpdated, setDeleteImageModalVisible, slideshowId, slideshowDetail]);
+    }, [selectedSlideshowImage, selectedImages, dispatch, setSelectedImages, setIsUpdated, setDeleteImageModalVisible, slideshowId, slideshowDetail, onAfterDelete]);
 
     const getDeleteMessage = () => {
         if (selectedImages && selectedImages.length > 1) {
