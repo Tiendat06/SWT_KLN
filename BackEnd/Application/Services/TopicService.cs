@@ -503,7 +503,21 @@ namespace Application.Services
                     {
                         foreach (var imageRequest in updateTopicMediaRequest.TopicImages)
                         {
-                            if (imageRequest.ImageLink == null) continue;
+                            if (imageRequest.ImageLink == null)
+                            {
+                                if (imageRequest.Id > 0)
+                                {
+                                    // If image ID is provided but no link, only change capture
+                                    var existing = currentImages.FirstOrDefault(x => x.Id == imageRequest.Id)
+                                        ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], $"ImageId {imageRequest.Id}"));
+                                    existing.Capture = imageRequest.Capture;
+                                    continue;
+                                }
+                                else
+                                {
+                                    throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["NotEmpty"], _localizer["ImageLink"]));
+                                } 
+                            }
                             string secureUrl = null;
 
                             if (imageRequest.Id > 0)
@@ -581,7 +595,21 @@ namespace Application.Services
                     {
                         foreach (var videoRequest in updateTopicMediaRequest.TopicVideos)
                         {
-                            if (videoRequest.VideoLink == null) continue;
+                            if (videoRequest.VideoLink == null)
+                            {
+                                if (videoRequest.Id > 0)
+                                {
+                                    // If video ID is provided but no link, only change capture
+                                    var existing = currentVideos.FirstOrDefault(x => x.Id == videoRequest.Id)
+                                        ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], $"VideoId {videoRequest.Id}"));
+                                    existing.Capture = videoRequest.Capture;
+                                    continue;
+                                }
+                                else
+                                {
+                                    throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["NotEmpty"], _localizer["VideoLink"]));
+                                }
+                            }
                             string videoUrl = null;
                             if (videoRequest.Id > 0)
                             {
