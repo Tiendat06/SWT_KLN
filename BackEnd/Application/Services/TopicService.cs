@@ -503,7 +503,8 @@ namespace Application.Services
                     {
                         foreach (var imageRequest in updateTopicMediaRequest.TopicImages)
                         {
-                            if (imageRequest.ImageLink == null) { 
+                            if (imageRequest.ImageLink == null)
+                            {
                                 if (imageRequest.Id > 0)
                                 {
                                     // If image ID is provided but no link, only change capture
@@ -512,6 +513,7 @@ namespace Application.Services
                                     existing.Capture = imageRequest.Capture;
                                     continue;
                                 };
+                            }
                             string secureUrl = null;
 
                             if (imageRequest.Id > 0)
