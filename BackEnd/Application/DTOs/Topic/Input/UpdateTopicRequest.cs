@@ -83,16 +83,16 @@ namespace Application
                 .NotNull().WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]))
                 .NotEqual(Guid.Empty).WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["UserId"]));
 
-            // Ensure at least one of Images or Videos exists
-            RuleFor(x => x)
-                .Must(r =>
-                {
-                    var hasImages = r.TopicImages != null && r.TopicImages.Any(i => i.ImageLink != null);
-                    var hasVideos = r.TopicVideos != null && r.TopicVideos.Any(v => v.VideoLink != null);
+            //// Ensure at least one of Images or Videos exists
+            //RuleFor(x => x)
+            //    .Must(r =>
+            //    {
+            //        var hasImages = r.TopicImages != null && r.TopicImages.Any(i => i.ImageLink != null);
+            //        var hasVideos = r.TopicVideos != null && r.TopicVideos.Any(v => v.VideoLink != null);
 
-                    return hasImages || hasVideos;
-                })
-                .WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicMedia"]));
+            //        return hasImages || hasVideos;
+            //    })
+            //    .WithMessage(CommonExtensions.GetValidateMessage(localizer["NotEmpty"], localizer["TopicMedia"]));
 
             // Ensure total size across both does not exceed 4GB
             RuleFor(x => x)
