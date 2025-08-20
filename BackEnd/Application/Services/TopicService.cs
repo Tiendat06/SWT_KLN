@@ -512,7 +512,11 @@ namespace Application.Services
                                         ?? throw new KeyNotFoundException(CommonExtensions.GetValidateMessage(_localizer["NotFound"], $"ImageId {imageRequest.Id}"));
                                     existing.Capture = imageRequest.Capture;
                                     continue;
-                                };
+                                }
+                                else
+                                {
+                                    throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["NotEmpty"], _localizer["ImageLink"]));
+                                } 
                             }
                             string secureUrl = null;
 
@@ -591,7 +595,8 @@ namespace Application.Services
                     {
                         foreach (var videoRequest in updateTopicMediaRequest.TopicVideos)
                         {
-                            if (videoRequest.VideoLink == null) { 
+                            if (videoRequest.VideoLink == null)
+                            {
                                 if (videoRequest.Id > 0)
                                 {
                                     // If video ID is provided but no link, only change capture
@@ -600,7 +605,11 @@ namespace Application.Services
                                     existing.Capture = videoRequest.Capture;
                                     continue;
                                 }
-                            };
+                                else
+                                {
+                                    throw new ArgumentException(CommonExtensions.GetValidateMessage(_localizer["NotEmpty"], _localizer["VideoLink"]));
+                                }
+                            }
                             string videoUrl = null;
                             if (videoRequest.Id > 0)
                             {
