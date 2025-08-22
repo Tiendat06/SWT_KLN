@@ -6,12 +6,15 @@ import {topicService} from "~/services/TopicService";
 import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 import MediaType from "~/enum/MediaType/MediaType";
 import { TEST_USER_ID } from "~/utils/Constansts";
+import { showToast } from '~/utils/Toast';
+import { useAppContext } from '~/context/AppContext';
 
 const DeleteImageModal = ({topicId}) => {
     const {
         selectedTopicImage, selectedImages, setSelectedImages, setIsUpdated, dispatch,
-        deleteImageModalVisible, setDeleteImageModalVisible
+        deleteImageModalVisible, setDeleteImageModalVisible, setSelectedImagesInTable
     } = useManageTopicContext();
+    const { toast } = useAppContext();
 
     const onClickDeleteItem = useCallback(async () => {
         try {
@@ -26,7 +29,7 @@ const DeleteImageModal = ({topicId}) => {
             if (imageIds.length > 0) {
                 await topicService.deleteTopicMediaService({
                     topicId,
-                    mediaTypeId: MediaType.None,
+                    mediaTypeId: MediaType.PresidentTDT,
                     userId: TEST_USER_ID,
                     imageIds,
                     videoIds: []
@@ -34,15 +37,30 @@ const DeleteImageModal = ({topicId}) => {
                 
                 dispatch(deleteTopicImageAction(imageIds));
                 setSelectedImages([]);
+                setSelectedImagesInTable([]);
             }
             
             setIsUpdated(prev => !prev);
             setDeleteImageModalVisible(false);
+            
+            showToast({ 
+                toastRef: toast, 
+                severity: 'success', 
+                summary: 'Xóa ảnh', 
+                detail: imageIds.length > 1 ? `Xóa ${imageIds.length} ảnh thành công!` : 'Xóa ảnh thành công!' 
+            });
         } catch (error) {
             console.error('Error deleting images:', error);
             setDeleteImageModalVisible(false);
+            
+            showToast({ 
+                toastRef: toast, 
+                severity: 'error', 
+                summary: 'Lỗi xóa ảnh', 
+                detail: 'Có lỗi xảy ra khi xóa ảnh. Vui lòng thử lại.' 
+            });
         }
-    }, [selectedTopicImage, selectedImages, dispatch, setSelectedImages, setIsUpdated, setDeleteImageModalVisible, topicId]);
+    }, [selectedTopicImage, selectedImages, dispatch, setSelectedImages, setSelectedImagesInTable, setIsUpdated, setDeleteImageModalVisible, topicId, toast]);
 
     const getDeleteMessage = () => {
         if (selectedImages && selectedImages.length > 1) {

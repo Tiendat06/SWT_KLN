@@ -24,8 +24,7 @@ const AddImageModal = ({ slideShowId }) => {
     } = useManageSlideshowContext();
     const { toast } = useAppContext();
     
-    // Debug: Log để check context sharing
-    console.log('AddImageModal - Render với isUpdated từ context:', isUpdated);
+
 
     const [formData, setFormData] = useState({
         capture: '',
@@ -138,10 +137,7 @@ const AddImageModal = ({ slideShowId }) => {
                             dispatch(setSlideshowDetailAction(updatedDetail));
                         }
                         
-                        setIsUpdated(prev => {
-                            console.log('AddImageModal - Triggering reload, prev:', prev, 'new:', !prev);
-                            return !prev;
-                        });
+                        setIsUpdated(prev => !prev);
                         
                         showToast({
                             toastRef: toast,

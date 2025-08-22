@@ -36,7 +36,10 @@ const KLNCollapsibleMediaSection = ({
             <div className="d-flex align-items-center gap-2 p-2 border rounded">
                 <input
                     type="checkbox"
-                    checked={selectedItems.includes(item.id)}
+                    checked={Array.isArray(selectedItems) && selectedItems.length > 0 && typeof selectedItems[0] === 'object' 
+                        ? selectedItems.some(selected => selected.id === item.id)
+                        : selectedItems.includes(item.id)
+                    }
                     onChange={e => onItemSelection(item.id, e.target.checked)}
                 />
                 {item.imageLink ? (

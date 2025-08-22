@@ -59,7 +59,12 @@ const AddVideoModal = ({topicId}) => {
             // Check file size (2GB limit)
             const maxSize = 2 * 1024 * 1024 * 1024; // 2GB in bytes
             if (file.size > maxSize) {
-                alert(`Kích thước file vượt quá giới hạn 2GB. File hiện tại: ${(file.size / (1024 * 1024 * 1024)).toFixed(2)}GB`);
+                showToast({
+                    toastRef: toast,
+                    severity: 'error',
+                    summary: 'Tải video lỗi',
+                    detail: `Kích thước file vượt quá giới hạn 2GB. File hiện tại: ${(file.size / (1024 * 1024 * 1024)).toFixed(2)}GB`
+                });
                 return;
             }
             
@@ -68,7 +73,12 @@ const AddVideoModal = ({topicId}) => {
             const fileType = file.name.split('.').pop().toLowerCase();
             
             if (!allowedTypes.includes(fileType)) {
-                alert(`Định dạng file không được hỗ trợ. Vui lòng chọn file ${acceptedFileTypes}`);
+                showToast({
+                    toastRef: toast,
+                    severity: 'error',
+                    summary: 'Tải video lỗi',
+                    detail: `Định dạng file không được hỗ trợ. Vui lòng chọn file ${acceptedFileTypes}`
+                });
                 return;
             }
             
@@ -116,16 +126,22 @@ const AddVideoModal = ({topicId}) => {
                 try {
                     const result = await topicService.addTopicMediaService({
                         topicId,
-                        mediaTypeId: MediaType.None,
+                        mediaTypeId: MediaType.PresidentTDT,
                         userId: TEST_USER_ID,
                         images: [],
                         videos: [ { capture: mediaData.capture, videoFile: mediaData.videoFile } ]
                     });
                     
                     if (result && result.data) {
-                        // API thành công - sử dụng data từ server
                         dispatch(addTopicVideoAction(result.data));
-                        alert(`Thêm ${mediaType} thành công!`);
+                        showToast({
+                            toastRef: toast,
+                            severity: 'success',
+                            summary: `Thêm ${mediaType}`,
+                            detail: `Thêm ${mediaType} thành công!`
+                        });
+                        setIsUpdated(prev => !prev);
+                        handleClose();
                     } else {
                         const errorMessage = result?.message || 'API response invalid';
                         throw new Error(errorMessage);
@@ -140,8 +156,6 @@ const AddVideoModal = ({topicId}) => {
                         detail: errorMessage
                     });
                 }
-                
-                setIsUpdated(prev => !prev);
             } else {
                 // Thêm vào danh sách temp trong CreateTopicModal
                 const tempId = Date.now() + Math.random();
@@ -151,7 +165,6 @@ const AddVideoModal = ({topicId}) => {
                     videoLink: previewUrl
                 };
                 
-                // Thêm vào context thông qua reducer
                 addTempVideo(videoWithId);
                 
                 showToast({
@@ -166,7 +179,12 @@ const AddVideoModal = ({topicId}) => {
             
         } catch (error) {
             console.error('Error adding media:', error);
-            alert(`Lỗi khi thêm ${mediaType}. Vui lòng thử lại.`);
+            showToast({
+                toastRef: toast,
+                severity: 'error',
+                summary: `Thêm ${mediaType}`,
+                detail: `Lỗi khi thêm ${mediaType}. Vui lòng thử lại.`
+            });
         } finally {
             setIsSubmitting(false);
         }

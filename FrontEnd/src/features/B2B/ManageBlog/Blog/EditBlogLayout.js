@@ -29,6 +29,8 @@ const EditBlogLayout = () => {
         imageFile: null,
     });
     const [posterPreview, setPosterPreview] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const { dispatch } = useManageBlogContext();
     const { toast } = useAppContext();
     const [posterImage, setPosterImage] = useState(null);
@@ -53,6 +55,7 @@ const EditBlogLayout = () => {
     useEffect(() => {
         const fetchBlog = async () => {
             try {
+                setIsLoading(true);
                 const res = await blogService.getBlogByIdService(blogId);
                 if (res && res.data) {
                     setFormData({
@@ -62,13 +65,17 @@ const EditBlogLayout = () => {
                         imageFile: null,
                     });
                     setPosterPreview(res.data.blogImage || '');
+                } else {
+                    showToast({ toastRef: toast, severity: 'error', summary: 'Lỗi', detail: 'Không tìm thấy blog!' });
                 }
             } catch (err) {
                 showToast({ toastRef: toast, severity: 'error', summary: 'Lỗi', detail: 'Không thể tải blog!' });
+            } finally {
+                setIsLoading(false);
             }
         };
         fetchBlog();
-    }, [blogId]);
+    }, [blogId, toast]);
 
     const handlePosterUpload = (input) => {
         let file;
@@ -114,11 +121,23 @@ const EditBlogLayout = () => {
     // Handle submit
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        if (!formData.title.trim()) {
+            showToast({ toastRef: toast, severity: 'error', summary: 'Lỗi', detail: 'Vui lòng nhập tiêu đề blog!' });
+            return;
+        }
+        
+        if (!formData.mediaTypeId) {
+            showToast({ toastRef: toast, severity: 'error', summary: 'Lỗi', detail: 'Vui lòng chọn module!' });
+            return;
+        }
+        
+        setIsSubmitting(true);
         try {
             const res = await blogService.updateBlogService(blogId, {
                 title: formData.title,
                 content: formData.content,
-                imageFile: formData.imageFile,
+                imageFile: posterImage,
                 description: '',
                 mediaTypeId: formData.mediaTypeId,
             }, formData.mediaTypeId);
@@ -131,6 +150,8 @@ const EditBlogLayout = () => {
             }
         } catch (err) {
             showToast({ toastRef: toast, severity: 'error', summary: 'Lỗi', detail: 'Có lỗi xảy ra khi cập nhật blog!' });
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -141,6 +162,14 @@ const EditBlogLayout = () => {
         setPosterPreview('');
         navigate(`${AppRoutesEnum.AdminRoute}/manage-blog`);
     };
+
+    if (isLoading) {
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '400px' }}>
+                <i className="pi pi-spin pi-spinner" style={{ fontSize: '2rem', color: '#3f51b5' }} />
+            </div>
+        );
+    }
 
     return (
         <div className="container py-4">
@@ -239,8 +268,24 @@ const EditBlogLayout = () => {
                     />
                 </div>
                 <div className="col-12 d-flex justify-content-center gap-3 mt-4">
-                    <KLNButton options={KLNButtonEnum.primaryBtn} type="submit" style={{ minWidth: 120, fontSize: '16px', padding: '8px 20px' }}>Lưu</KLNButton>
-                    <KLNButton options={KLNButtonEnum.whiteBtn} urlLink={`${AppRoutesEnum.AdminRoute}/manage-blog`} onClick={handleCancel} style={{ minWidth: 120, fontSize: '16px', padding: '8px 20px' }}>Hủy</KLNButton>
+                    <KLNButton 
+                        options={KLNButtonEnum.primaryBtn} 
+                        type="submit" 
+                        isLoading={isSubmitting}
+                        disabled={isSubmitting || isLoading}
+                        style={{ minWidth: 120, fontSize: '16px', padding: '8px 20px' }}
+                    >
+                        Cập nhật
+                    </KLNButton>
+                    <KLNButton 
+                        options={KLNButtonEnum.whiteBtn} 
+                        urlLink={`${AppRoutesEnum.AdminRoute}/manage-blog`} 
+                        onClick={handleCancel} 
+                        disabled={isSubmitting}
+                        style={{ minWidth: 120, fontSize: '16px', padding: '8px 20px' }}
+                    >
+                        Hủy
+                    </KLNButton>
                 </div>
             </form>
         </div>

@@ -69,7 +69,6 @@ const BlogLayouts = () => {
     const [allBlogs, setAllBlogs] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    // Thêm state quản lý visible cho modal
     const [visible, setVisible] = useState(false);
     const { toast } = useAppContext();
 
@@ -84,25 +83,39 @@ const BlogLayouts = () => {
 
     const handleDelete = useCallback(async (blogIds) => {
         try {
+            if (!blogIds || blogIds.length === 0) {
+                showToast({ toastRef: toast, severity: 'warning', summary: 'Xóa blog', detail: 'Vui lòng chọn ít nhất một blog để xóa' });
+                return;
+            }
+
             const deleteResult = await blogService.deleteBlogsService(blogIds);
-            if (deleteResult) {
+            
+            const isSuccess = deleteResult && (!deleteResult.status || deleteResult.status === 200 || deleteResult.status === 204);
+            
+            if (isSuccess) {
+                setAllBlogs(prev => prev.filter(blog => !blogIds.includes(blog.blogId)));
                 dispatch(deleteBlogAction(blogIds));
+                
                 showToast({ toastRef: toast, severity: 'success', summary: 'Xóa blog', detail: 'Xóa blog thành công!' });
+            } else {
+                const errorMsg = deleteResult?.message || 'API không trả về kết quả hợp lệ';
+                showToast({ toastRef: toast, severity: 'error', summary: 'Xóa blog', detail: errorMsg });
             }
         } catch (error) {
-            showToast({ toastRef: toast, severity: 'error', summary: 'Xóa blog', detail: 'Có lỗi xảy ra khi xóa blog!' });
+            console.error('Error deleting blogs:', error);
+            const errorMessage = error?.message || 'Có lỗi xảy ra khi xóa blog';
+            showToast({ toastRef: toast, severity: 'error', summary: 'Xóa blog', detail: errorMessage });
         } finally {
             dispatch(setSelectedBlogsAction([]));
             setVisible(false);
         }
-    }, [setDeleteAction, setVisible, dispatch, toast]);
+    }, [dispatch, toast, setVisible]);
 
     const handleDeleteMany = useCallback(async () => {
         const blogIds = selectedBlogs.map(blog => blog.blogId || blog);
         await handleDelete(blogIds);
     }, [selectedBlogs, handleDelete]);
 
-    // Paginate blogs when data changes
     const paginateBlogs = useCallback((blogsData) => {
         const startIndex = (currentPage - 1) * selectedPageOption.code;
         const endIndex = startIndex + selectedPageOption.code;
@@ -110,7 +123,6 @@ const BlogLayouts = () => {
         dispatch(getBlogsAction(paginatedData));
     }, [currentPage, selectedPageOption.code, dispatch]);
 
-    // Fetch blogs
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
@@ -134,12 +146,10 @@ const BlogLayouts = () => {
         fetchBlogs();
     }, [selectedPageOption.code, isUpdated, paginateBlogs, dispatch]);
 
-    // Handle pagination when page or pageSize changes
     useEffect(() => {
         paginateBlogs(allBlogs);
     }, [currentPage, selectedPageOption, allBlogs, paginateBlogs]);
 
-    // Cập nhật pageCount khi allBlogs thay đổi
     useEffect(() => {
         const newPageCount = Math.ceil(allBlogs.length / selectedPageOption.code);
         setPageCount(newPageCount);
@@ -154,7 +164,6 @@ const BlogLayouts = () => {
         setCurrentPage(event.selected + 1);
     }, []);
 
-    // Table template functions
     const onDelete = (blog) => {
         dispatch(setSelectedBlogsAction([blog]));
         showDeleteModal();

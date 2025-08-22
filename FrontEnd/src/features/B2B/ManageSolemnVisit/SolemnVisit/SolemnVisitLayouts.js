@@ -70,16 +70,24 @@ const SolemnVisitLayouts = () => {
 
     const handleDelete = useCallback(async (solemnVisitIds) => {
         try {
+            if (!solemnVisitIds || solemnVisitIds.length === 0) {
+                showToast({ toastRef: toast, severity: 'warning', summary: 'Xóa lãnh đạo viếng thăm', detail: 'Vui lòng chọn ít nhất một lãnh đạo để xóa' });
+                return;
+            }
+
             const deleteResult = await solemnVisitService.deleteSolemnVisitService(solemnVisitIds);
             
             if (deleteResult) {
                 dispatch(deleteSolemnVisitAction(solemnVisitIds));
                 
                 showToast({ toastRef: toast, severity: 'success', summary: 'Xóa lãnh đạo viếng thăm', detail: 'Xóa lãnh đạo viếng thăm thành công' });
+            } else {
+                showToast({ toastRef: toast, severity: 'error', summary: 'Xóa lãnh đạo viếng thăm', detail: 'API không trả về kết quả hợp lệ' });
             }
         } catch (error) {
             console.error('Error deleting solemn visits:', error);
-            showToast({ toastRef: toast, severity: 'error', summary: 'Xóa lãnh đạo viếng thăm', detail: 'Có lỗi xảy ra khi xóa lãnh đạo viếng thăm' });
+            const errorMessage = error?.message || 'Có lỗi xảy ra khi xóa lãnh đạo viếng thăm';
+            showToast({ toastRef: toast, severity: 'error', summary: 'Xóa lãnh đạo viếng thăm', detail: errorMessage });
         } finally {
             resetSelection();
             setVisible(false);

@@ -27,7 +27,8 @@ const EditSlideShowLayout = ({ slideShowId }) => {
         setDeleteImageModalVisible,
         selectedImages: contextSelectedImages,
         setSelectedImages: setContextSelectedImages,
-        tempImages: contextTempImages, 
+        tempImages: contextTempImages,
+        isUpdated,
         dispatch
     } = useManageSlideshowContext();
     const [formData, setFormData] = useState({ title: '', description: '' });
@@ -47,49 +48,55 @@ const EditSlideShowLayout = ({ slideShowId }) => {
         { template: () => <span>Chỉnh sửa</span> }
     ];
 
+    const fetchSlideshow = async (forceApiCall = false) => {
+        setLoading(true);
+        let slideshow = null;
+        
+        if (!forceApiCall) {
+            slideshow = slideshows.find(s => s.slideShowId === slideShowId);
+        }
+        
+        if (!slideshow || forceApiCall) {
+            try {
+                const result = await slideShowService.getSlideShowByIdService(slideShowId);
+                if (result && result.data) {
+                    slideshow = result.data;
+                }
+            } catch (error) {
+                console.warn('API lỗi, không tìm thấy slideshow:', error);
+                slideshow = null;
+            }
+        }
+        
+        if (slideshow) {
+            setFormData({ title: slideshow.title, description: slideshow.description });
+            setSlideImages(slideshow.slideImage || []);
+            // Set current poster image if exists - check multiple field names
+            const posterImageUrl = slideshow.imageLink || slideshow.image || slideshow.posterImage || slideshow.thumbnailUrl;
+            if (posterImageUrl) {
+                setCurrentPosterUrl(posterImageUrl);
+                setPosterPreview(posterImageUrl);
+            }
+        } else {
+            setFormData({ title: '', description: '' });
+            setSlideImages([]);
+            setCurrentPosterUrl('');
+            setPosterPreview('');
+        }
+        setLoading(false);
+    };
+
     useEffect(() => {
-        let isMounted = true;
-        const fetchSlideshow = async () => {
-            setLoading(true);
-            let slideshow = slideshows.find(s => s.slideShowId === slideShowId);
-            if (!slideshow) {
-                try {
-                    const result = await slideShowService.getSlideShowByIdService(slideShowId);
-                    if (result && result.data) {
-                        slideshow = result.data;
-                    }
-                } catch (error) {
-                    console.warn('API lỗi, không tìm thấy slideshow:', error);
-                    slideshow = null;
-                }
-            }
-            if (slideshow && isMounted) {
-                setFormData({ title: slideshow.title, description: slideshow.description });
-                setSlideImages(slideshow.slideImage || []);
-                // Set current poster image if exists - check multiple field names
-                const posterImageUrl = slideshow.imageLink || slideshow.image || slideshow.posterImage || slideshow.thumbnailUrl;
-                if (posterImageUrl) {
-                    setCurrentPosterUrl(posterImageUrl);
-                    setPosterPreview(posterImageUrl);
-                }
-            } else if (isMounted) {
-                setFormData({ title: '', description: '' });
-                setSlideImages([]);
-                setCurrentPosterUrl('');
-                setPosterPreview('');
-            }
-            setLoading(false);
-        };
-        fetchSlideshow();
-        return () => { isMounted = false; };
+        fetchSlideshow(false);
     }, [slideShowId, slideshows]);
 
-    // Sync với context khi có thay đổi từ modal (thêm ảnh mới)
     useEffect(() => {
-        if (contextTempImages.length > 0) {
-            setSlideImages(contextTempImages.filter(img => !img.slideShowId || img.slideShowId === slideShowId));
+        if (isUpdated !== undefined) {
+            fetchSlideshow(true);
         }
-    }, [contextTempImages, slideShowId]);
+    }, [isUpdated]);
+
+
 
     const handleInputChange = (field, value) => {
         setFormData(prev => ({ ...prev, [field]: value }));

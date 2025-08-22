@@ -112,13 +112,17 @@ const updateTopicService = async (id, topicData = {}) => {
 }
 
 const deleteTopicService = async (ids) => {
+    const formData = new FormData();
+    
+    ids.forEach((id, index) => {
+        formData.append(`ids[${index}]`, id);
+    });
+
     return await UseFetchAPI({
         api: `${topicRoute}/ids`,
         method: "DELETE",
-        body: JSON.stringify(ids),
-        headers: {
-            "Content-Type": "application/json",
-        }
+        body: formData,
+        headers: {}
     })
 }
 
@@ -154,7 +158,7 @@ const addTopicMediaService = async ({ topicId, mediaTypeId = MediaType.None, use
         method: "POST",
         body: formData,
         headers: {}
-    })
+    });
 }
 
 const updateTopicMediaService = async ({ topicId = null, mediaTypeId = MediaType.None, userId = TEST_USER_ID, images = [], videos = [] }) => {
@@ -183,13 +187,23 @@ const updateTopicMediaService = async ({ topicId = null, mediaTypeId = MediaType
 }
 
 const deleteTopicMediaService = async ({ topicId, mediaTypeId = MediaType.None, userId = TEST_USER_ID, imageIds = [], videoIds = [] }) => {
+    const formData = new FormData();
+    if (topicId) formData.append("TopicId", topicId);
+    formData.append("MediaTypeId", mediaTypeId);
+    formData.append("UserId", userId);
+    
+    imageIds.forEach((id, index) => {
+        formData.append(`ImageIds[${index}]`, id);
+    });
+    videoIds.forEach((id, index) => {
+        formData.append(`VideoIds[${index}]`, id);
+    });
+
     return await UseFetchAPI({
         api: `${topicRoute}/Media`,
         method: "DELETE",
-        body: JSON.stringify({ topicId, mediaTypeId, userId, imageIds, videoIds }),
-        headers: {
-            "Content-Type": "application/json",
-        }
+        body: formData,
+        headers: {}
     })
 }
 

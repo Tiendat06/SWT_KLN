@@ -55,10 +55,17 @@ const updateSolemnVisitService = async (id, updatedSolemnVisit, userId) => {
 }
 
 const deleteSolemnVisitService = async (ids) => {
+    const queryParams = new URLSearchParams();
+    ids.forEach((id) => {
+        queryParams.append('ids', id);
+    });
+
     return await UseFetchAPI({
-        api: `${solemnVisitRoute}/ids`,
+        api: `${solemnVisitRoute}/ids?${queryParams.toString()}`,
         method: 'DELETE',
-        params: { ids }
+        headers: {
+            'Content-Type': 'application/json'
+        }
     });
 }
 

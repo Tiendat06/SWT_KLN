@@ -61,7 +61,12 @@ const AddImageModal = ({topicId}) => {
             const fileType = file.name.split('.').pop().toLowerCase();
             
             if (!allowedTypes.includes(fileType)) {
-                alert(`Định dạng file không được hỗ trợ. Vui lòng chọn file ${acceptedFileTypes}`);
+                showToast({
+                    toastRef: toast,
+                    severity: 'error',
+                    summary: 'Tải ảnh lỗi',
+                    detail: `Định dạng file không được hỗ trợ. Vui lòng chọn file ${acceptedFileTypes}`
+                });
                 return;
             }
             
@@ -115,7 +120,14 @@ const AddImageModal = ({topicId}) => {
                     });
                     if (result && result.data) {
                         dispatch(addTopicImageAction(result.data));
-                        alert(`Thêm ${mediaType} thành công!`);
+                        showToast({
+                            toastRef: toast,
+                            severity: 'success',
+                            summary: `Thêm ${mediaType}`,
+                            detail: `Thêm ${mediaType} thành công!`
+                        });
+                        setIsUpdated(prev => !prev);
+                        handleClose();
                     } else {
                         const errorMessage = result?.message || 'API response invalid';
                         throw new Error(errorMessage);
@@ -130,8 +142,6 @@ const AddImageModal = ({topicId}) => {
                         detail: errorMessage
                     });
                 }
-                
-                setIsUpdated(prev => !prev);
             } else {
                 // Thêm vào danh sách temp trong CreateTopicModal
                 const tempId = Date.now() + Math.random();

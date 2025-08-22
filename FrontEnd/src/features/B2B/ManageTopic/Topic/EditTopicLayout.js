@@ -105,55 +105,107 @@ const EditTopicLayout = () => {
     const handleAddVideo = () => setAddVideoModalVisible(true);
     const handleDeleteImages = async () => {
         if (selectedImages.length === 0) return;
+        
+        const confirmDelete = window.confirm(
+            selectedImages.length > 1 
+                ? `Bạn có chắc chắn muốn xóa ${selectedImages.length} ảnh đã chọn không?`
+                : 'Bạn có chắc chắn muốn xóa ảnh đã chọn không?'
+        );
+        
+        if (!confirmDelete) return;
+        
         try {
+            const imageIds = selectedImages.map(img => img.id);
             await topicService.deleteTopicMediaService({
                 topicId,
-                mediaTypeId: MediaType.None,
+                mediaTypeId: MediaType.PresidentTDT,
                 userId: TEST_USER_ID,
-                imageIds: selectedImages,
+                imageIds: imageIds,
                 videoIds: []
             });
+            
+            dispatch(deleteTopicImageAction(imageIds));
+            setTopicImages(prev => prev.filter(img => !imageIds.includes(img.id)));
+            setSelectedImages([]);
+            
+            showToast({ 
+                toastRef: toast, 
+                severity: 'success', 
+                summary: 'Xóa ảnh', 
+                detail: 'Xóa ảnh thành công!' 
+            });
         } catch (apiError) {
-            console.warn('API lỗi khi xóa ảnh, tiếp tục cập nhật UI:', apiError);
+            console.error('API lỗi khi xóa ảnh:', apiError);
+            showToast({ 
+                toastRef: toast, 
+                severity: 'error', 
+                summary: 'Lỗi xóa ảnh', 
+                detail: 'Có lỗi xảy ra khi xóa ảnh. Vui lòng thử lại.' 
+            });
         }
-        dispatch(deleteTopicImageAction(selectedImages));
-        setTopicImages(prev => prev.filter(img => !selectedImages.includes(img.id)));
-        setSelectedImages([]);
-        showToast({ 
-            toastRef: toast, 
-            severity: 'success', 
-            summary: 'Xóa ảnh', 
-            detail: 'Xóa ảnh thành công!' 
-        });
     };
     const handleDeleteVideos = async () => {
         if (selectedVideos.length === 0) return;
+        
+        const confirmDelete = window.confirm(
+            selectedVideos.length > 1 
+                ? `Bạn có chắc chắn muốn xóa ${selectedVideos.length} video đã chọn không?`
+                : 'Bạn có chắc chắn muốn xóa video đã chọn không?'
+        );
+        
+        if (!confirmDelete) return;
+        
         try {
+            const videoIds = selectedVideos.map(vid => vid.id);
             await topicService.deleteTopicMediaService({
                 topicId,
-                mediaTypeId: MediaType.None,
+                mediaTypeId: MediaType.PresidentTDT,
                 userId: TEST_USER_ID,
                 imageIds: [],
-                videoIds: selectedVideos
+                videoIds: videoIds
+            });
+            
+            dispatch(deleteTopicVideoAction(videoIds));
+            setTopicVideos(prev => prev.filter(video => !videoIds.includes(video.id)));
+            setSelectedVideos([]);
+            
+            showToast({ 
+                toastRef: toast, 
+                severity: 'success', 
+                summary: 'Xóa video', 
+                detail: 'Xóa video thành công!' 
             });
         } catch (apiError) {
-            console.warn('API lỗi khi xóa video, tiếp tục cập nhật UI:', apiError);
+            console.error('API lỗi khi xóa video:', apiError);
+            showToast({ 
+                toastRef: toast, 
+                severity: 'error', 
+                summary: 'Lỗi xóa video', 
+                detail: 'Có lỗi xảy ra khi xóa video. Vui lòng thử lại.' 
+            });
         }
-        dispatch(deleteTopicVideoAction(selectedVideos));
-        setTopicVideos(prev => prev.filter(video => !selectedVideos.includes(video.id)));
-        setSelectedVideos([]);
-        showToast({ 
-            toastRef: toast, 
-            severity: 'success', 
-            summary: 'Xóa video', 
-            detail: 'Xóa video thành công!' 
-        });
     };
     const handleImageSelection = (imageId, checked) => {
-        setSelectedImages(prev => checked ? [...prev, imageId] : prev.filter(id => id !== imageId));
+        if (checked) {
+            // Tìm object tương ứng với imageId trong topicImages
+            const imageObject = topicImages.find(img => img.id === imageId);
+            if (imageObject) {
+                setSelectedImages(prev => [...prev, imageObject]);
+            }
+        } else {
+            setSelectedImages(prev => prev.filter(img => img.id !== imageId));
+        }
     };
     const handleVideoSelection = (videoId, checked) => {
-        setSelectedVideos(prev => checked ? [...prev, videoId] : prev.filter(id => id !== videoId));
+        if (checked) {
+            // Tìm object tương ứng với videoId trong topicVideos
+            const videoObject = topicVideos.find(vid => vid.id === videoId);
+            if (videoObject) {
+                setSelectedVideos(prev => [...prev, videoObject]);
+            }
+        } else {
+            setSelectedVideos(prev => prev.filter(vid => vid.id !== videoId));
+        }
     };
     const handleSubmit = async () => {
         setIsSubmitting(true);

@@ -22,7 +22,7 @@ const DeleteBlogModal = ({ visible, setVisible, btnSaveOnClick, btnCancelOnClick
             showToast({ toastRef: toast, severity: 'error', summary: 'Xóa blog', detail: 'Có lỗi xảy ra khi xóa blog' });
             setVisible(false);
         }
-    }, [selectedBlogs, onDelete, setVisible]);
+    }, [selectedBlogs, onDelete, setVisible, toast]);
 
     const getDeleteMessage = () => {
         if (selectedBlogs && selectedBlogs.length > 1) {
