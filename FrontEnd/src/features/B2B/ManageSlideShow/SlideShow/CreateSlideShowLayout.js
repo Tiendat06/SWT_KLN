@@ -106,6 +106,7 @@ const CreateSlideShowLayout = () => {
         
         try {
             setIsSubmitting(true);
+
             
             const formDataToSend = {
                 title: formData.title,
@@ -152,7 +153,7 @@ const CreateSlideShowLayout = () => {
             <h2 style={{ marginLeft: 15, fontWeight: 'bold', fontSize: '24px' }}>Thêm danh mục trưng bày</h2>
             <KLNBreadCrumb items={items} />
             <div className="p-4">
-                {/* Ảnh bìa Section - Di chuyển lên đầu */}
+                {/* Ảnh bìa Section */}
                 <div className="mb-4">
                     <div className="d-flex flex-wrap">
                         <div className="col-lg-7 col-md-7 col-sm-12 p-3 pt-0">
@@ -173,6 +174,7 @@ const CreateSlideShowLayout = () => {
                                             options={KLNButtonEnum.blackBtn}
                                             hasFileInput={true}
                                             acceptedFileType=".jpg,.jpeg,.png,.gif,.bmp,.webp"
+                                            fileInputId="slideshowAddId"
                                             onHandleFileChange={handlePosterUpload}
                                             style={{
                                                 cursor: "pointer",

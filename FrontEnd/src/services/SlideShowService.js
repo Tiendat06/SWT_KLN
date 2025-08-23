@@ -75,7 +75,6 @@ const addSlideImageInSpecificSlideShowService = async (slideshowId, createDataAr
         formData.append("UserId", userId);
     }
     
-    // Xử lý SlideImages như mảng theo cấu trúc backend
     createDataArray.forEach((createData, index) => {
         formData.append(`SlideImages[${index}].Capture`, createData.capture);
         
@@ -122,7 +121,7 @@ const createSlideShowWithImages = async (slideShowData, type = MediaType.None, s
         }
         
         formData.append(`SlideImage[${idx}].Capture`, img.capture || '');
-        formData.append(`SlideImage[${idx}].slideImage`, img.file); // Thay đổi từ SlideImage thành slideImage
+        formData.append(`SlideImage[${idx}].slideImage`, img.file);
     });
     
     try {
@@ -130,7 +129,7 @@ const createSlideShowWithImages = async (slideShowData, type = MediaType.None, s
             api: `${slideShowRoute}`,
             method: 'POST',
             body: formData,
-            headers: null // Let UseFetchAPI handle FormData headers properly
+            headers: null
         });
         
         return result;
@@ -190,7 +189,6 @@ const updateSlideshowImageService = async (slideshowId, updateDataArray, type = 
         formData.append("UserId", userId);
     }
     
-    // Xử lý SlideImages như mảng theo cấu trúc backend
     updateDataArray.forEach((updateData, index) => {
         formData.append(`SlideImages[${index}].Id`, updateData.id);
         formData.append(`SlideImages[${index}].Capture`, updateData.capture);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { KLNModal, KLNButton } from '~/components';
 import { useManageSlideshowContext } from '~/context/B2B/ManageSlideShow/ManageSlideshowContext';
 import KLNButtonEnum from '~/enum/Button/KLNButtonEnum';
@@ -19,9 +19,12 @@ import { TEST_USER_ID } from '~/utils/Constansts';
 const AddImageModal = ({ slideShowId }) => {
     const {
         addImageModalVisible, setAddImageModalVisible,
-        addTempImage, setIsUpdated, dispatch, slideshowDetail
+        addTempImage, setIsUpdated, dispatch, slideshowDetail,
+        isUpdated
     } = useManageSlideshowContext();
     const { toast } = useAppContext();
+    
+
 
     const [formData, setFormData] = useState({
         capture: '',
@@ -32,6 +35,8 @@ const AddImageModal = ({ slideShowId }) => {
 
     const mediaType = 'ảnh';
     const acceptedFileTypes = '.jpg,.jpeg,.png,.gif,.bmp,.webp';
+
+
 
     const handleClose = () => {
         setAddImageModalVisible(false);
@@ -68,7 +73,7 @@ const AddImageModal = ({ slideShowId }) => {
                 file: file
             }));
 
-            // Tạo preview URL
+
             const reader = new FileReader();
             reader.onload = (e) => {
                 setPreviewUrl(e.target.result);
@@ -96,14 +101,17 @@ const AddImageModal = ({ slideShowId }) => {
         try {
             setIsSubmitting(true);
             
-            const mediaData = {
-                capture: formData.capture,
-                imageFile: formData.file,
-                preview: previewUrl
-            };
+            if (!formData.file) {
+                showToast({
+                    toastRef: toast,
+                    severity: 'error',
+                    summary: `Thêm ${mediaType}`,
+                    detail: 'Vui lòng chọn file ảnh trước khi lưu!'
+                });
+                return;
+            }
             
             if (slideShowId) {
-                // Thêm vào slideshow hiện có
                 try {
                     const createData = {
                         capture: formData.capture,
@@ -119,10 +127,8 @@ const AddImageModal = ({ slideShowId }) => {
                     );
                     
                     if (result && result.data) {
-                        // API thành công - sử dụng data từ server
                         dispatch(addSlideshowImageAction(result.data));
                         
-                        // Cập nhật slideshowDetail để trigger re-pagination
                         if (slideshowDetail) {
                             const updatedDetail = {
                                 ...slideshowDetail,
@@ -131,12 +137,16 @@ const AddImageModal = ({ slideShowId }) => {
                             dispatch(setSlideshowDetailAction(updatedDetail));
                         }
                         
+                        setIsUpdated(prev => !prev);
+                        
                         showToast({
                             toastRef: toast,
                             severity: 'success',
                             summary: `Thêm ${mediaType}`,
                             detail: `Thêm ${mediaType} thành công!`
                         });
+                        
+                        handleClose();
                     } else {
                         const errorMessage = result?.message || 'API response invalid';
                         throw new Error(errorMessage);
@@ -151,9 +161,7 @@ const AddImageModal = ({ slideShowId }) => {
                         detail: errorMessage
                     });
                 }
-                setIsUpdated(prev => !prev);
             } else {
-                // Thêm vào danh sách temp trong CreateSlideShowLayout
                 const tempId = Date.now() + Math.random();
                 const imageWithId = {
                     id: tempId,
@@ -162,8 +170,13 @@ const AddImageModal = ({ slideShowId }) => {
                     imageLink: previewUrl
                 };
                 
-                // Thêm vào context thông qua reducer
                 addTempImage(imageWithId);
+                
+                // Trigger reload để cập nhật UI
+                setIsUpdated(prev => {
+                    console.log('AddImageModal - Triggering reload (temp), prev:', prev, 'new:', !prev);
+                    return !prev;
+                });
                 
                 showToast({
                     toastRef: toast,
@@ -204,7 +217,7 @@ const AddImageModal = ({ slideShowId }) => {
             footerStyle={{display: 'flex', justifyContent: 'center', gap: '1rem', padding: '1rem'}}
             buttonSaveStyle={{minWidth: '100px'}}
             buttonCancelStyle={{minWidth: '100px'}}
-            buttonSaveDisabled={!formData.file || !formData.capture || isSubmitting}
+            buttonSaveDisabled={!formData.file || !formData.capture.trim() || isSubmitting}
         >
             <div className="d-flex flex-wrap mt-3">
                 <div className="col-lg-7 col-md-7 col-sm-12 p-3 pt-0">
@@ -225,6 +238,7 @@ const AddImageModal = ({ slideShowId }) => {
                                     options={KLNButtonEnum.blackBtn}
                                     hasFileInput={true}
                                     acceptedFileType={acceptedFileTypes}
+                                    fileInputId="slideshowImageId"
                                     onHandleFileChange={handleUpload}
                                     style={{
                                         cursor: "pointer",

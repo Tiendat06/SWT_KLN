@@ -8,6 +8,7 @@ import { useAppContext } from '~/context/AppContext';
 import { showToast } from '~/utils/Toast';
 import { updateSlideshowAction } from '~/store/B2B/ManageSlideShow/actions';
 import AddImageModal from '../Image/AddImageModal';
+import DeleteImageModal from '../Image/DeleteImageModal';
 import KLNButtonEnum from '~/enum/Button/KLNButtonEnum';
 import AppRoutesEnum from '~/enum/Route/AppRoutesEnum';
 import { slideShowService } from '~/services/SlideShowService';
@@ -21,7 +22,14 @@ import { TEST_USER_ID } from '~/utils/Constansts';
 
 const EditSlideShowLayout = ({ slideShowId }) => {
     const {
-        slideshows, setAddImageModalVisible, tempImages: contextTempImages, dispatch
+        slideshows, 
+        setAddImageModalVisible, 
+        setDeleteImageModalVisible,
+        selectedImages: contextSelectedImages,
+        setSelectedImages: setContextSelectedImages,
+        tempImages: contextTempImages,
+        isUpdated,
+        dispatch
     } = useManageSlideshowContext();
     const [formData, setFormData] = useState({ title: '', description: '' });
     const [posterImage, setPosterImage] = useState(null);
@@ -40,49 +48,55 @@ const EditSlideShowLayout = ({ slideShowId }) => {
         { template: () => <span>Chỉnh sửa</span> }
     ];
 
+    const fetchSlideshow = async (forceApiCall = false) => {
+        setLoading(true);
+        let slideshow = null;
+        
+        if (!forceApiCall) {
+            slideshow = slideshows.find(s => s.slideShowId === slideShowId);
+        }
+        
+        if (!slideshow || forceApiCall) {
+            try {
+                const result = await slideShowService.getSlideShowByIdService(slideShowId);
+                if (result && result.data) {
+                    slideshow = result.data;
+                }
+            } catch (error) {
+                console.warn('API lỗi, không tìm thấy slideshow:', error);
+                slideshow = null;
+            }
+        }
+        
+        if (slideshow) {
+            setFormData({ title: slideshow.title, description: slideshow.description });
+            setSlideImages(slideshow.slideImage || []);
+            // Set current poster image if exists - check multiple field names
+            const posterImageUrl = slideshow.imageLink || slideshow.image || slideshow.posterImage || slideshow.thumbnailUrl;
+            if (posterImageUrl) {
+                setCurrentPosterUrl(posterImageUrl);
+                setPosterPreview(posterImageUrl);
+            }
+        } else {
+            setFormData({ title: '', description: '' });
+            setSlideImages([]);
+            setCurrentPosterUrl('');
+            setPosterPreview('');
+        }
+        setLoading(false);
+    };
+
     useEffect(() => {
-        let isMounted = true;
-        const fetchSlideshow = async () => {
-            setLoading(true);
-            let slideshow = slideshows.find(s => s.slideShowId === slideShowId);
-            if (!slideshow) {
-                try {
-                    const result = await slideShowService.getSlideShowByIdService(slideShowId);
-                    if (result && result.data) {
-                        slideshow = result.data;
-                    }
-                } catch (error) {
-                    console.warn('API lỗi, không tìm thấy slideshow:', error);
-                    slideshow = null;
-                }
-            }
-            if (slideshow && isMounted) {
-                setFormData({ title: slideshow.title, description: slideshow.description });
-                setSlideImages(slideshow.slideImage || []);
-                // Set current poster image if exists - check multiple field names
-                const posterImageUrl = slideshow.imageLink || slideshow.image || slideshow.posterImage || slideshow.thumbnailUrl;
-                if (posterImageUrl) {
-                    setCurrentPosterUrl(posterImageUrl);
-                    setPosterPreview(posterImageUrl);
-                }
-            } else if (isMounted) {
-                setFormData({ title: '', description: '' });
-                setSlideImages([]);
-                setCurrentPosterUrl('');
-                setPosterPreview('');
-            }
-            setLoading(false);
-        };
-        fetchSlideshow();
-        return () => { isMounted = false; };
+        fetchSlideshow(false);
     }, [slideShowId, slideshows]);
 
-    // Sync với context khi có thay đổi từ modal (thêm ảnh mới)
     useEffect(() => {
-        if (contextTempImages.length > 0) {
-            setSlideImages(contextTempImages.filter(img => !img.slideShowId || img.slideShowId === slideShowId));
+        if (isUpdated !== undefined) {
+            fetchSlideshow(true);
         }
-    }, [contextTempImages, slideShowId]);
+    }, [isUpdated]);
+
+
 
     const handleInputChange = (field, value) => {
         setFormData(prev => ({ ...prev, [field]: value }));
@@ -129,14 +143,26 @@ const EditSlideShowLayout = ({ slideShowId }) => {
     };
 
     const handleAddImage = () => setAddImageModalVisible(true);
+    
     const handleDeleteImages = () => {
         if (selectedImages.length > 0) {
-            setSlideImages(prev => prev.filter(img => !selectedImages.includes(img.id)));
-            setSelectedImages([]);
+            // Sync với context để DeleteImageModal có thể access
+            const imagesToDelete = slideImages.filter(img => selectedImages.includes(img.id));
+            setContextSelectedImages(imagesToDelete);
+            setDeleteImageModalVisible(true);
         }
     };
+    
     const handleImageSelection = (imageId, checked) => {
         setSelectedImages(prev => checked ? [...prev, imageId] : prev.filter(id => id !== imageId));
+    };
+    
+    const handleAfterDelete = (deletedImageIds) => {
+        // Cập nhật local state
+        setSlideImages(prev => prev.filter(img => !deletedImageIds.includes(img.id)));
+        setSelectedImages([]);
+        // Clear context selection
+        setContextSelectedImages([]);
     };
     
     const handleSubmit = async () => {
@@ -153,8 +179,8 @@ const EditSlideShowLayout = ({ slideShowId }) => {
                     {
                         title: formData.title,
                         description: formData.description,
-                        posterImage: posterImage, // Include poster image if changed
-                        images: [] // Không cập nhật images trong edit slideshow, chỉ cập nhật thông tin cơ bản
+                        posterImage: posterImage,
+                        images: []
                     },
                     MediaType.TDTMemorial,
                     SlideShowType.ExhibitionHouse,
@@ -226,6 +252,7 @@ const EditSlideShowLayout = ({ slideShowId }) => {
                                             options={KLNButtonEnum.blackBtn}
                                             hasFileInput={true}
                                             acceptedFileType=".jpg,.jpeg,.png,.gif,.bmp,.webp"
+                                            fileInputId="slideshow-edit-poster-input" // Custom ID để tránh conflicts
                                             onHandleFileChange={handlePosterUpload}
                                             style={{
                                                 cursor: "pointer",
@@ -320,6 +347,10 @@ const EditSlideShowLayout = ({ slideShowId }) => {
                 </div>
             </div>
             <AddImageModal slideShowId={slideShowId} />
+            <DeleteImageModal 
+                slideshowId={slideShowId} 
+                onAfterDelete={handleAfterDelete}
+            />
         </div>
     );
 };

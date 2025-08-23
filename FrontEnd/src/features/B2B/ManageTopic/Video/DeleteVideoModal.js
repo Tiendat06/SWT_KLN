@@ -4,46 +4,63 @@ import {useManageTopicContext} from "~/context/B2B/ManageTopic/ManageTopicContex
 import {deleteTopicVideoAction} from '~/store/B2B/ManageTopic/actions';
 import {topicService} from "~/services/TopicService";
 import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
+import MediaType from "~/enum/MediaType/MediaType";
+import { TEST_USER_ID } from "~/utils/Constansts";
+import { showToast } from '~/utils/Toast';
+import { useAppContext } from '~/context/AppContext';
 
 const DeleteVideoModal = ({topicId}) => {
     const {
         selectedTopicVideo, selectedVideos, setSelectedVideos, setIsUpdated, dispatch,
-        deleteVideoModalVisible, setDeleteVideoModalVisible
+        deleteVideoModalVisible, setDeleteVideoModalVisible, setSelectedVideosInTable
     } = useManageTopicContext();
+    const { toast } = useAppContext();
 
     const onClickDeleteItem = useCallback(async () => {
         try {
             let videoIds = [];
             
-            // Nếu có selectedVideos (multiple delete)
             if (selectedVideos && selectedVideos.length > 0) {
                 videoIds = selectedVideos.map(video => video.id);
-            } 
-            // Nếu có selectedTopicVideo (single delete)
-            else if (selectedTopicVideo) {
+            } else if (selectedTopicVideo) {
                 videoIds = [selectedTopicVideo.id];
             }
             
             if (videoIds.length > 0) {
-                // Gọi API xóa nhiều
-                if (videoIds.length === 1) {
-                    await topicService.deleteTopicVideoService(topicId, videoIds[0]);
-                } else {
-                    await topicService.deleteTopicVideosService(topicId, videoIds);
-                }
+                await topicService.deleteTopicMediaService({
+                    topicId,
+                    mediaTypeId: MediaType.PresidentTDT,
+                    userId: TEST_USER_ID,
+                    imageIds: [],
+                    videoIds
+                });
                 
-                // Dispatch action để cập nhật store
                 dispatch(deleteTopicVideoAction(videoIds));
                 setSelectedVideos([]);
+                setSelectedVideosInTable([]);
             }
             
             setIsUpdated(prev => !prev);
             setDeleteVideoModalVisible(false);
+            
+            showToast({ 
+                toastRef: toast, 
+                severity: 'success', 
+                summary: 'Xóa video', 
+                detail: videoIds.length > 1 ? `Xóa ${videoIds.length} video thành công!` : 'Xóa video thành công!' 
+            });
         } catch (error) {
             console.error('Error deleting videos:', error);
             setDeleteVideoModalVisible(false);
+            
+            showToast({ 
+                toastRef: toast, 
+                severity: 'error', 
+                summary: 'Lỗi xóa video', 
+                detail: 'Có lỗi xảy ra khi xóa video. Vui lòng thử lại.' 
+            });
         }
-    }, [selectedTopicVideo, selectedVideos, dispatch, setSelectedVideos, setIsUpdated, setDeleteVideoModalVisible, topicId]);
+    }, [selectedTopicVideo, selectedVideos, dispatch, setSelectedVideos, setSelectedVideosInTable, setIsUpdated, setDeleteVideoModalVisible, topicId, toast]);
 
     const getDeleteMessage = () => {
         if (selectedVideos && selectedVideos.length > 1) {

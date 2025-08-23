@@ -49,6 +49,8 @@ const SlideShowDetailLayout = ({ slideShowId }) => {
         dispatch
     } = useManageSlideshowContext();
     
+
+    
     const { toast } = useAppContext();
     
     const [detail, setDetail] = useState(null);
@@ -57,13 +59,14 @@ const SlideShowDetailLayout = ({ slideShowId }) => {
     const [currentPage, setCurrentPage] = useState(0);
     const [allImages, setAllImages] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [isFirstMount, setIsFirstMount] = useState(true);
 
-    const fetchSlideshowDetail = useCallback(async () => {
+    const fetchSlideshowDetail = useCallback(async (forceApiCall = false) => {
         setLoading(true);
         try {
-            let found = slideshows.find(s => s.slideShowId === slideShowId);
+            let found = null;
             
-            if (!found) {
+            if (forceApiCall || !slideshows.find(s => s.slideShowId === slideShowId)) {
                 const result = await slideShowService.getSlideShowByIdService(slideShowId);
                 if (result && result.data) {
                     found = result.data;
@@ -71,6 +74,8 @@ const SlideShowDetailLayout = ({ slideShowId }) => {
                     const errorMessage = result?.message || 'API response invalid';
                     throw new Error(errorMessage);
                 }
+            } else {
+                found = slideshows.find(s => s.slideShowId === slideShowId);
             }
             
             setDetail(found);
@@ -95,7 +100,7 @@ const SlideShowDetailLayout = ({ slideShowId }) => {
     }, [slideShowId, slideshows, dispatch]);
 
     useEffect(() => {
-        fetchSlideshowDetail();
+        fetchSlideshowDetail(false);
     }, [fetchSlideshowDetail]);
 
     const paginateSlideImages = useCallback(() => {
@@ -132,12 +137,41 @@ const SlideShowDetailLayout = ({ slideShowId }) => {
         }
     }, [slideshowDetail]);
 
-    // Force refresh khi isUpdated thay đổi
     useEffect(() => {
-        if (isUpdated !== undefined) {
-            fetchSlideshowDetail();
+        if (isFirstMount) {
+            setIsFirstMount(false);
+            return;
         }
-    }, [isUpdated, fetchSlideshowDetail]);
+        
+        // Tạo function inline để tránh dependency issues
+        const forceRefetch = async () => {
+            setLoading(true);
+            try {
+                const result = await slideShowService.getSlideShowByIdService(slideShowId);
+                if (result && result.data) {
+                    const found = result.data;
+                    setDetail(found);
+                    const images = found?.slideImage || [];
+                    setAllImages(images);
+                    dispatch(setSlideshowDetailAction(found));
+                } else {
+                    console.error('SlideShowDetailLayout - Invalid API response:', result);
+                }
+            } catch (error) {
+                console.error('Error force fetching slideshow detail:', error);
+                showToast({
+                    toastRef: toast,
+                    severity: 'error',
+                    summary: 'Lỗi tải dữ liệu',
+                    detail: 'Có lỗi xảy ra khi tải chi tiết slideshow'
+                });
+            } finally {
+                setLoading(false);
+            }
+        };
+        
+        forceRefetch();
+    }, [isUpdated, slideShowId, dispatch, toast, isFirstMount]);
 
     const displayImages = slideshowImages;
 

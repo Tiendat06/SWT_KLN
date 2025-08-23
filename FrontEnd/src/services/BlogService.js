@@ -68,7 +68,11 @@ const updateBlogService = async (blogId, blogData, mediaType = MediaType.None) =
 
 // Xóa nhiều blog
 const deleteBlogsService = async (ids) => {
-    return await UseFetchAPI({
+    if (!ids || ids.length === 0) {
+        throw new Error('Danh sách ID không hợp lệ');
+    }
+
+    const result = await UseFetchAPI({
         api: `${blogRoute}/ids`,
         method: "DELETE",
         body: JSON.stringify(ids),
@@ -76,6 +80,12 @@ const deleteBlogsService = async (ids) => {
             "Content-Type": "application/json",
         }
     });
+    
+    if (result?.status && result.status !== 200 && result.status !== 204) {
+        throw new Error(result.message || `HTTP ${result.status}: Lỗi xóa blog`);
+    }
+    
+    return result;
 };
 
 export const blogService = {

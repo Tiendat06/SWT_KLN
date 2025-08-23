@@ -17,6 +17,8 @@ import { AddImageModal, AddVideoModal } from "~/features/B2B/ManageTopic";
 import { faImage, faVideo } from '@fortawesome/free-solid-svg-icons';
 import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
+import MediaType from "~/enum/MediaType/MediaType";
+import { TEST_USER_ID } from "~/utils/Constansts";
 
 const EditTopicLayout = () => {
     const { 
@@ -46,38 +48,25 @@ const EditTopicLayout = () => {
             setLoading(true);
             let topic = topics.find(t => t.topicId === topicId);
             if (!topic) {
-                // Fetch topic from backend
                 try {
                     const res = await topicService.getTopicByIdService(topicId);
                     topic = res?.data;
                 } catch {
                     topic = null;
                 }
+
             }
             if (topic && isMounted) {
                 setFormData({ capture: topic.capture });
-                // Fetch media
-                try {
-                    const [imagesResult, videosResult] = await Promise.all([
-                        topicService.getTopicImagesService(topicId),
-                        topicService.getTopicVideosService(topicId)
-                    ]);
-                    if (imagesResult?.data?.topicImages) {
-                        setTopicImages(imagesResult.data.topicImages);
-                        dispatch(getTopicImagesAction(imagesResult.data.topicImages));
-                    } else {
-                        setTopicImages([]);
-                    }
-                    if (videosResult?.data?.topicVideos) {
-                        setTopicVideos(videosResult.data.topicVideos);
-                        dispatch(getTopicVideosAction(videosResult.data.topicVideos));
-                    } else {
-                        setTopicVideos([]);
-                    }
-                } catch {
-                    setTopicImages([]);
-                    setTopicVideos([]);
-                }
+                const images = Array.isArray(topic.images) ? topic.images : 
+                             Array.isArray(topic.topicImages) ? topic.topicImages : [];
+                const videos = Array.isArray(topic.videos) ? topic.videos : 
+                             Array.isArray(topic.topicVideos) ? topic.topicVideos : [];
+                
+                setTopicImages(images);
+                setTopicVideos(videos);
+                dispatch(getTopicImagesAction(images));
+                dispatch(getTopicVideosAction(videos));
             } else if (isMounted) {
                 setFormData({ capture: '' });
                 setTopicImages([]);
@@ -92,7 +81,6 @@ const EditTopicLayout = () => {
     // Sync với context khi có thay đổi từ modal (thêm media mới)
     useEffect(() => {
         if (contextTopicImages.length > 0) {
-            // Lọc ra những images thuộc về topic hiện tại (nếu có topicId trong data)
             const currentTopicImages = contextTopicImages.filter(img => 
                 !img.topicId || img.topicId === topicId
             );
@@ -102,11 +90,10 @@ const EditTopicLayout = () => {
 
     useEffect(() => {
         if (contextTopicVideos.length > 0) {
-            // Lọc ra những videos thuộc về topic hiện tại (nếu có topicId trong data)
             const currentTopicVideos = contextTopicVideos.filter(video => 
                 !video.topicId || video.topicId === topicId
             );
-            setTopicVideos(currentTopicVideos);
+        setTopicVideos(currentTopicVideos);
         }
     }, [contextTopicVideos, topicId]);
 
@@ -119,50 +106,106 @@ const EditTopicLayout = () => {
     const handleDeleteImages = async () => {
         if (selectedImages.length === 0) return;
         
-        try {
-            // Thử delete từ backend
-            await Promise.all(selectedImages.map(imageId => topicService.deleteTopicImageService(topicId, imageId)));
-        } catch (apiError) {
-            console.warn('API lỗi khi xóa ảnh, tiếp tục cập nhật UI:', apiError);
-        }
+        const confirmDelete = window.confirm(
+            selectedImages.length > 1 
+                ? `Bạn có chắc chắn muốn xóa ${selectedImages.length} ảnh đã chọn không?`
+                : 'Bạn có chắc chắn muốn xóa ảnh đã chọn không?'
+        );
         
-        // Luôn cập nhật UI bất kể API thành công hay lỗi
-        dispatch(deleteTopicImageAction(selectedImages));
-        setTopicImages(prev => prev.filter(img => !selectedImages.includes(img.id)));
+        if (!confirmDelete) return;
+        
+        try {
+            const imageIds = selectedImages.map(img => img.id);
+            await topicService.deleteTopicMediaService({
+                topicId,
+                mediaTypeId: MediaType.PresidentTDT,
+                userId: TEST_USER_ID,
+                imageIds: imageIds,
+                videoIds: []
+            });
+            
+            dispatch(deleteTopicImageAction(imageIds));
+            setTopicImages(prev => prev.filter(img => !imageIds.includes(img.id)));
             setSelectedImages([]);
-        showToast({ 
-            toastRef: toast, 
-            severity: 'success', 
-            summary: 'Xóa ảnh', 
-            detail: 'Xóa ảnh thành công!' 
-        });
+            
+            showToast({ 
+                toastRef: toast, 
+                severity: 'success', 
+                summary: 'Xóa ảnh', 
+                detail: 'Xóa ảnh thành công!' 
+            });
+        } catch (apiError) {
+            console.error('API lỗi khi xóa ảnh:', apiError);
+            showToast({ 
+                toastRef: toast, 
+                severity: 'error', 
+                summary: 'Lỗi xóa ảnh', 
+                detail: 'Có lỗi xảy ra khi xóa ảnh. Vui lòng thử lại.' 
+            });
+        }
     };
     const handleDeleteVideos = async () => {
         if (selectedVideos.length === 0) return;
         
-        try {
-            // Thử delete từ backend
-            await Promise.all(selectedVideos.map(videoId => topicService.deleteTopicVideoService(topicId, videoId)));
-        } catch (apiError) {
-            console.warn('API lỗi khi xóa video, tiếp tục cập nhật UI:', apiError);
-        }
+        const confirmDelete = window.confirm(
+            selectedVideos.length > 1 
+                ? `Bạn có chắc chắn muốn xóa ${selectedVideos.length} video đã chọn không?`
+                : 'Bạn có chắc chắn muốn xóa video đã chọn không?'
+        );
         
-        // Luôn cập nhật UI bất kể API thành công hay lỗi
-        dispatch(deleteTopicVideoAction(selectedVideos));
-        setTopicVideos(prev => prev.filter(video => !selectedVideos.includes(video.id)));
+        if (!confirmDelete) return;
+        
+        try {
+            const videoIds = selectedVideos.map(vid => vid.id);
+            await topicService.deleteTopicMediaService({
+                topicId,
+                mediaTypeId: MediaType.PresidentTDT,
+                userId: TEST_USER_ID,
+                imageIds: [],
+                videoIds: videoIds
+            });
+            
+            dispatch(deleteTopicVideoAction(videoIds));
+            setTopicVideos(prev => prev.filter(video => !videoIds.includes(video.id)));
             setSelectedVideos([]);
-        showToast({ 
-            toastRef: toast, 
-            severity: 'success', 
-            summary: 'Xóa video', 
-            detail: 'Xóa video thành công!' 
-        });
+            
+            showToast({ 
+                toastRef: toast, 
+                severity: 'success', 
+                summary: 'Xóa video', 
+                detail: 'Xóa video thành công!' 
+            });
+        } catch (apiError) {
+            console.error('API lỗi khi xóa video:', apiError);
+            showToast({ 
+                toastRef: toast, 
+                severity: 'error', 
+                summary: 'Lỗi xóa video', 
+                detail: 'Có lỗi xảy ra khi xóa video. Vui lòng thử lại.' 
+            });
+        }
     };
     const handleImageSelection = (imageId, checked) => {
-        setSelectedImages(prev => checked ? [...prev, imageId] : prev.filter(id => id !== imageId));
+        if (checked) {
+            // Tìm object tương ứng với imageId trong topicImages
+            const imageObject = topicImages.find(img => img.id === imageId);
+            if (imageObject) {
+                setSelectedImages(prev => [...prev, imageObject]);
+            }
+        } else {
+            setSelectedImages(prev => prev.filter(img => img.id !== imageId));
+        }
     };
     const handleVideoSelection = (videoId, checked) => {
-        setSelectedVideos(prev => checked ? [...prev, videoId] : prev.filter(id => id !== videoId));
+        if (checked) {
+            // Tìm object tương ứng với videoId trong topicVideos
+            const videoObject = topicVideos.find(vid => vid.id === videoId);
+            if (videoObject) {
+                setSelectedVideos(prev => [...prev, videoObject]);
+            }
+        } else {
+            setSelectedVideos(prev => prev.filter(vid => vid.id !== videoId));
+        }
     };
     const handleSubmit = async () => {
         setIsSubmitting(true);
@@ -170,7 +213,6 @@ const EditTopicLayout = () => {
         try {
             const updateResult = await topicService.updateTopicService(topicId, formData);
             if (updateResult && updateResult.data) {
-                // API thành công
                 dispatch(updateTopicAction(updateResult.data));
                 showToast({ toastRef: toast, severity: 'success', summary: 'Cập nhật chuyên đề', detail: 'Cập nhật thành công!' });
                 navigate(`${AppRoutesEnum.AdminRoute}/manage-topic`);

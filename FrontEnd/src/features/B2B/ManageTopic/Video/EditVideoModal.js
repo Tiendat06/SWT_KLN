@@ -10,15 +10,20 @@ import styles from "~/styles/Pages/B2B/ManageMultimedia/createVideo.module.scss"
 import solar_upload_icon_1 from "~/assets/img/icon/solar_upload-linear.png";
 import {BROWSER_CANNOT_READ_IMG} from "~/utils/ErrorMessage";
 import {showToast} from "~/utils/Toast";
+import {useAppContext} from "~/context/AppContext";
 import {
-    updateTopicVideoAction
+    updateTopicVideoAction,
+    setTopicDetailAction
 } from '~/store/B2B/ManageTopic/actions';
+import MediaType from '~/enum/MediaType/MediaType';
+import {TEST_USER_ID} from '~/utils/Constansts';
 
-const EditVideoModal = () => {
+const EditVideoModal = ({ topicId }) => {
     const {
         editVideoModalVisible, setEditVideoModalVisible,
-        editingVideo, setIsUpdated, dispatch
+        editingVideo, setIsUpdated, dispatch, topicDetail
     } = useManageTopicContext();
+    const { toast } = useAppContext();
 
     const [formData, setFormData] = useState({
         capture: '',
@@ -26,7 +31,6 @@ const EditVideoModal = () => {
     });
     const [previewUrl, setPreviewUrl] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const toast = useRef(null);
     
     const mediaType = 'video';
     const acceptedFileTypes = '.mp4,.avi,.mov,.wmv,.mkv,.webm';
@@ -124,12 +128,25 @@ const EditVideoModal = () => {
     };
 
     const handleSubmit = async () => {
+        if (!formData.capture.trim()) {
+            showToast({
+                toastRef: toast,
+                severity: 'error',
+                summary: `Cập nhật ${mediaType}`,
+                detail: 'Vui lòng nhập tên nội dung!'
+            });
+            return;
+        }
+
         try {
             setIsSubmitting(true);
             
             const updateData = {
                 id: editingVideo.id,
-                capture: formData.capture
+                capture: formData.capture,
+                topicId: topicId,
+                mediaTypeId: MediaType.TDTMemorial,
+                userId: TEST_USER_ID
             };
             
             // Chỉ thêm videoFile nếu có file mới được chọn
@@ -138,28 +155,52 @@ const EditVideoModal = () => {
             }
             
             const result = await topicService.updateVideoService(updateData);
+            
             if (result && result.data) {
-                // Update store with updated video
                 dispatch(updateTopicVideoAction(result.data));
+                
+                if (topicDetail) {
+                    const updatedDetail = {
+                        ...topicDetail,
+                        topicVideos: topicDetail.topicVideos.map(vid => 
+                            vid.id === result.data.id ? result.data : vid
+                        )
+                    };
+                    dispatch(setTopicDetailAction(updatedDetail));
+                }
+                
+                showToast({
+                    toastRef: toast,
+                    severity: 'success',
+                    summary: `Cập nhật ${mediaType}`,
+                    detail: `Cập nhật ${mediaType} thành công.`
+                });
+                
+                setIsUpdated(prev => !prev);
+                handleClose();
+                
+            } else if (result && result.status && result.message && !result.data) {
+                console.error('API Error Details:', result);
+                showToast({ 
+                    toastRef: toast, 
+                    severity: 'error', 
+                    summary: 'Lỗi API', 
+                    detail: `${result.status}: ${result.message || 'Unknown error'}`
+                });
+                throw new Error(`API Error ${result.status}: ${result.message || 'Unknown error'}`);
+            } else {
+                const errorMessage = result?.message || 'API response invalid';
+                throw new Error(errorMessage);
             }
-            
-            showToast({
-                toastRef: toast,
-                severity: 'success',
-                summary: `Cập nhật ${mediaType}`,
-                detail: `Cập nhật ${mediaType} thành công.`
-            });
-            
-            setIsUpdated(prev => !prev);
-            handleClose();
             
         } catch (error) {
             console.error('Error updating video:', error);
+            const errorMessage = error?.message || 'Có lỗi xảy ra khi cập nhật video';
             showToast({
                 toastRef: toast,
                 severity: 'error',
                 summary: `Cập nhật ${mediaType}`,
-                detail: `Lỗi khi cập nhật ${mediaType}. Vui lòng thử lại.`
+                detail: errorMessage
             });
         } finally {
             setIsSubmitting(false);
@@ -202,6 +243,7 @@ const EditVideoModal = () => {
                                     options={6}
                                     hasFileInput={true}
                                     acceptedFileType={acceptedFileTypes}
+                                    fileInputId="topic-edit-video-input" // Custom ID để tránh conflicts
                                     onHandleFileChange={handleUpload}
                                     style={{
                                         cursor: "pointer",
@@ -219,7 +261,7 @@ const EditVideoModal = () => {
                     <Card title={<h6 className="mb-0" style={{fontWeight: 'bold'}}>Xem trước</h6>}>
                         <div style={{
                             height: 350
-                        }} className={clsx(styles["create-video__preview--video"])}>
+                        }} className={clsx(styles["create-video__preview--video"]) }>
                             <div style={{
                                 height: "60%"
                             }} className={clsx(styles['create-video__preview--video__src'])}>

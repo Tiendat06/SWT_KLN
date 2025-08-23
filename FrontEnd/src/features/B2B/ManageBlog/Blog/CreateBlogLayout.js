@@ -32,11 +32,13 @@ const CreateBlogLayout = () => {
         imageFile: null,
     });
     const [posterPreview, setPosterPreview] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const { dispatch } = useManageBlogContext();
 
     // Breadcrumb items
     const items = [
         { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-blog`}>Blog</Link> },
+        { template: () => <Link to={`${AppRoutesEnum.AdminRoute}/manage-blog`}>Danh sách blog</Link> },
         { template: () => <span>Thêm mới</span> }
     ];
 
@@ -77,7 +79,6 @@ const CreateBlogLayout = () => {
         }
     };
 
-    // Hàm map mediaTypeId sang tên module
     const getModuleNameByMediaTypeId = (mediaTypeId) => {
         switch (mediaTypeId) {
             case MediaType.TDTMemorial: return 'Khu lưu niệm bác Tôn';
@@ -94,6 +95,18 @@ const CreateBlogLayout = () => {
     // Handle submit
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        if (!formData.title.trim()) {
+            showToast({ toastRef: toast, severity: 'error', summary: 'Lỗi', detail: 'Vui lòng nhập tiêu đề blog!' });
+            return;
+        }
+        
+        if (!formData.mediaTypeId) {
+            showToast({ toastRef: toast, severity: 'error', summary: 'Lỗi', detail: 'Vui lòng chọn module!' });
+            return;
+        }
+        
+        setIsSubmitting(true);
         const payload = {
             title: formData.title,
             content: formData.content,
@@ -112,6 +125,8 @@ const CreateBlogLayout = () => {
             }
         } catch (err) {
             showToast({ toastRef: toast, severity: 'error', summary: 'Lỗi', detail: 'Có lỗi xảy ra khi thêm blog!' });
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -148,6 +163,7 @@ const CreateBlogLayout = () => {
                                         options={KLNButtonEnum.blackBtn}
                                         hasFileInput={true}
                                         acceptedFileType=".jpg,.jpeg,.png,.gif,.bmp,.webp"
+                                        fileInputId="blog-create-poster-input" // Custom ID để tránh conflicts
                                         onHandleFileChange={handlePosterUpload}
                                         style={{
                                             cursor: "pointer",
@@ -230,8 +246,24 @@ const CreateBlogLayout = () => {
                     />
                 </div>
                 <div className="col-12 d-flex justify-content-center gap-3 mt-4">
-                    <KLNButton options={KLNButtonEnum.primaryBtn} type="submit" style={{ minWidth: 120, fontSize: '16px', padding: '8px 20px' }}>Lưu</KLNButton>
-                    <KLNButton options={KLNButtonEnum.whiteBtn} urlLink={`${AppRoutesEnum.AdminRoute}/manage-blog`} onClick={handleCancel} style={{ minWidth: 120, fontSize: '16px', padding: '8px 20px' }}>Hủy</KLNButton>
+                    <KLNButton 
+                        options={KLNButtonEnum.primaryBtn} 
+                        type="submit" 
+                        isLoading={isSubmitting}
+                        disabled={isSubmitting}
+                        style={{ minWidth: 120, fontSize: '16px', padding: '8px 20px' }}
+                    >
+                        Lưu
+                    </KLNButton>
+                    <KLNButton 
+                        options={KLNButtonEnum.whiteBtn} 
+                        urlLink={`${AppRoutesEnum.AdminRoute}/manage-blog`} 
+                        onClick={handleCancel} 
+                        disabled={isSubmitting}
+                        style={{ minWidth: 120, fontSize: '16px', padding: '8px 20px' }}
+                    >
+                        Hủy
+                    </KLNButton>
                 </div>
             </form>
         </div>

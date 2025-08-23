@@ -1,34 +1,34 @@
 import { KLNModal } from "~/components";
 import React, { useCallback } from "react";
-import { useManageBlogContext } from "~/context/B2B/ManageBlog/ManageBlogContext";
+import { useManageSolemnVisitContext } from "~/context/B2B/ManageSolemnVisit/ManageSolemnVisitContext";
 import { showToast } from "~/utils/Toast";
 import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 import { useAppContext } from "~/context/AppContext";
 
-const DeleteBlogModal = ({ visible, setVisible, btnSaveOnClick, btnCancelOnClick, onDelete }) => {
-    const { selectedBlogs } = useManageBlogContext();
+const DeleteSolemnVisitModal = ({ visible, setVisible, btnSaveOnClick, btnCancelOnClick, onDelete }) => {
+    const { selectedSolemnVisits } = useManageSolemnVisitContext();
     const { toast } = useAppContext();
 
     const onClickDeleteItem = useCallback(async () => {
         try {
-            let blogIds = [];
-            if (selectedBlogs && selectedBlogs.length > 0) {
-                blogIds = selectedBlogs.map(blog => blog.blogId || blog);
+            let solemnVisitIds = [];
+            if (selectedSolemnVisits && selectedSolemnVisits.length > 0) {
+                solemnVisitIds = selectedSolemnVisits.map(visit => visit.solemnVisitId || visit);
             }
-            if (blogIds.length > 0 && onDelete) {
-                await onDelete(blogIds);
+            if (solemnVisitIds.length > 0 && onDelete) {
+                await onDelete(solemnVisitIds);
             }
         } catch (error) {
-            showToast({ toastRef: toast, severity: 'error', summary: 'Xóa blog', detail: 'Có lỗi xảy ra khi xóa blog' });
+            showToast({ toastRef: toast, severity: 'error', summary: 'Xóa lãnh đạo viếng thăm', detail: 'Có lỗi xảy ra khi xóa lãnh đạo viếng thăm' });
             setVisible(false);
         }
-    }, [selectedBlogs, onDelete, setVisible, toast]);
+    }, [selectedSolemnVisits, onDelete, setVisible]);
 
     const getDeleteMessage = () => {
-        if (selectedBlogs && selectedBlogs.length > 1) {
-            return `Bạn có chắc chắn muốn xóa ${selectedBlogs.length} blog đã chọn không ?`;
-        } else if (selectedBlogs && selectedBlogs.length === 1) {
-            return `Bạn có chắc chắn muốn xóa blog '${selectedBlogs[0]?.blogTitle || ''}' đã chọn không ?`;
+        if (selectedSolemnVisits && selectedSolemnVisits.length > 1) {
+            return `Bạn có chắc chắn muốn xóa ${selectedSolemnVisits.length} lãnh đạo viếng thăm đã chọn không ?`;
+        } else if (selectedSolemnVisits && selectedSolemnVisits.length === 1) {
+            return `Bạn có chắc chắn muốn xóa lãnh đạo viếng thăm '${selectedSolemnVisits[0]?.solemnVisitName || ''}' đã chọn không ?`;
         }
         return 'Bạn có chắc chắn muốn xóa không ?';
     };
@@ -70,4 +70,6 @@ const DeleteBlogModal = ({ visible, setVisible, btnSaveOnClick, btnCancelOnClick
     );
 };
 
-export default DeleteBlogModal; 
+export default DeleteSolemnVisitModal;
+
+

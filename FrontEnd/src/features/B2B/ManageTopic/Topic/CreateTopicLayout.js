@@ -11,6 +11,7 @@ import { addTopicAction } from '~/store/B2B/ManageTopic/actions';
 import { AddImageModal, AddVideoModal } from "~/features/B2B/ManageTopic";
 import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
+import MediaType from "~/enum/MediaType/MediaType";
 
 const CreateTopicLayout = () => {
     const {
@@ -56,12 +57,11 @@ const CreateTopicLayout = () => {
     };
     const handleSubmit = async () => {
         setIsSubmitting(true);
-        const topicData = { ...formData, images: tempImages, videos: tempVideos };
+        const topicData = { ...formData, mediaTypeId: MediaType.PresidentTDT, images: tempImages, videos: tempVideos };
         
         try {
-            const createResult = await topicService.createTopicWithMediaService(topicData);
+            const createResult = await topicService.createTopicService(topicData);
             if (createResult && createResult.data) {
-                // API thành công
                 dispatch(addTopicAction(createResult.data));
                 showToast({ toastRef: toast, severity: 'success', summary: 'Thêm chuyên đề', detail: 'Thêm chuyên đề thành công!' });
                 clearTempMedia();

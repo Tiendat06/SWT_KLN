@@ -14,6 +14,8 @@ import {
 } from '~/store/B2B/ManageTopic/actions';
 import { showToast } from '~/utils/Toast';
 import { useAppContext } from '~/context/AppContext';
+import MediaType from "~/enum/MediaType/MediaType";
+import { TEST_USER_ID } from "~/utils/Constansts";
 
 const AddVideoModal = ({topicId}) => {
     const {
@@ -57,7 +59,12 @@ const AddVideoModal = ({topicId}) => {
             // Check file size (2GB limit)
             const maxSize = 2 * 1024 * 1024 * 1024; // 2GB in bytes
             if (file.size > maxSize) {
-                alert(`Kích thước file vượt quá giới hạn 2GB. File hiện tại: ${(file.size / (1024 * 1024 * 1024)).toFixed(2)}GB`);
+                showToast({
+                    toastRef: toast,
+                    severity: 'error',
+                    summary: 'Tải video lỗi',
+                    detail: `Kích thước file vượt quá giới hạn 2GB. File hiện tại: ${(file.size / (1024 * 1024 * 1024)).toFixed(2)}GB`
+                });
                 return;
             }
             
@@ -66,7 +73,12 @@ const AddVideoModal = ({topicId}) => {
             const fileType = file.name.split('.').pop().toLowerCase();
             
             if (!allowedTypes.includes(fileType)) {
-                alert(`Định dạng file không được hỗ trợ. Vui lòng chọn file ${acceptedFileTypes}`);
+                showToast({
+                    toastRef: toast,
+                    severity: 'error',
+                    summary: 'Tải video lỗi',
+                    detail: `Định dạng file không được hỗ trợ. Vui lòng chọn file ${acceptedFileTypes}`
+                });
                 return;
             }
             
@@ -112,12 +124,24 @@ const AddVideoModal = ({topicId}) => {
             if (topicId) {
                 // Thêm vào topic hiện có
                 try {
-                const result = await topicService.addVideoToTopicService(topicId, mediaData);
-                
-                if (result && result.data) {
-                        // API thành công - sử dụng data từ server
-                    dispatch(addTopicVideoAction(result.data));
-                        alert(`Thêm ${mediaType} thành công!`);
+                    const result = await topicService.addTopicMediaService({
+                        topicId,
+                        mediaTypeId: MediaType.PresidentTDT,
+                        userId: TEST_USER_ID,
+                        images: [],
+                        videos: [ { capture: mediaData.capture, videoFile: mediaData.videoFile } ]
+                    });
+                    
+                    if (result && result.data) {
+                        dispatch(addTopicVideoAction(result.data));
+                        showToast({
+                            toastRef: toast,
+                            severity: 'success',
+                            summary: `Thêm ${mediaType}`,
+                            detail: `Thêm ${mediaType} thành công!`
+                        });
+                        setIsUpdated(prev => !prev);
+                        handleClose();
                     } else {
                         const errorMessage = result?.message || 'API response invalid';
                         throw new Error(errorMessage);
@@ -132,8 +156,6 @@ const AddVideoModal = ({topicId}) => {
                         detail: errorMessage
                     });
                 }
-                
-                setIsUpdated(prev => !prev);
             } else {
                 // Thêm vào danh sách temp trong CreateTopicModal
                 const tempId = Date.now() + Math.random();
@@ -143,7 +165,6 @@ const AddVideoModal = ({topicId}) => {
                     videoLink: previewUrl
                 };
                 
-                // Thêm vào context thông qua reducer
                 addTempVideo(videoWithId);
                 
                 showToast({
@@ -158,7 +179,12 @@ const AddVideoModal = ({topicId}) => {
             
         } catch (error) {
             console.error('Error adding media:', error);
-            alert(`Lỗi khi thêm ${mediaType}. Vui lòng thử lại.`);
+            showToast({
+                toastRef: toast,
+                severity: 'error',
+                summary: `Thêm ${mediaType}`,
+                detail: `Lỗi khi thêm ${mediaType}. Vui lòng thử lại.`
+            });
         } finally {
             setIsSubmitting(false);
         }
@@ -200,6 +226,7 @@ const AddVideoModal = ({topicId}) => {
                                     options={KLNButtonEnum.blackBtn}
                                     hasFileInput={true}
                                     acceptedFileType={acceptedFileTypes}
+                                    fileInputId="topic-add-video-input" // Custom ID để tránh conflicts
                                     onHandleFileChange={handleUpload}
                                     style={{
                                         cursor: "pointer",

@@ -10,15 +10,20 @@ import styles from "~/styles/Pages/B2B/ManageMultimedia/createImage.module.scss"
 import solar_upload_icon_1 from "~/assets/img/icon/solar_upload-linear.png";
 import {BROWSER_CANNOT_READ_IMG} from "~/utils/ErrorMessage";
 import {showToast} from "~/utils/Toast";
+import {useAppContext} from "~/context/AppContext";
 import {
-    updateTopicImageAction
+    updateTopicImageAction,
+    setTopicDetailAction
 } from '~/store/B2B/ManageTopic/actions';
+import MediaType from '~/enum/MediaType/MediaType';
+import {TEST_USER_ID} from '~/utils/Constansts';
 
-const EditImageModal = () => {
+const EditImageModal = ({ topicId }) => {
     const {
         editImageModalVisible, setEditImageModalVisible,
-        editingImage, setIsUpdated, dispatch
+        editingImage, setIsUpdated, dispatch, topicDetail
     } = useManageTopicContext();
+    const { toast } = useAppContext();
 
     const [formData, setFormData] = useState({
         capture: '',
@@ -26,7 +31,6 @@ const EditImageModal = () => {
     });
     const [previewUrl, setPreviewUrl] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const toast = useRef(null);
     
     const mediaType = 'ảnh';
     const acceptedFileTypes = '.jpg,.jpeg,.png,.gif,.bmp,.webp';
@@ -66,7 +70,6 @@ const EditImageModal = () => {
                 file: file
             }));
 
-            // Tạo preview URL
             const reader = new FileReader();
             reader.onload = (e) => {
                 setPreviewUrl(e.target.result);
@@ -111,42 +114,78 @@ const EditImageModal = () => {
     };
 
     const handleSubmit = async () => {
+        if (!formData.capture.trim()) {
+            showToast({
+                toastRef: toast,
+                severity: 'error',
+                summary: `Cập nhật ${mediaType}`,
+                detail: 'Vui lòng nhập tên nội dung!'
+            });
+            return;
+        }
+
         try {
             setIsSubmitting(true);
             
             const updateData = {
                 id: editingImage.id,
-                capture: formData.capture
+                capture: formData.capture,
+                topicId: topicId,
+                mediaTypeId: MediaType.TDTMemorial,
+                userId: TEST_USER_ID
             };
             
-            // Chỉ thêm imageFile nếu có file mới được chọn
             if (formData.file) {
                 updateData.imageFile = formData.file;
             }
             
             const result = await topicService.updateImageService(updateData);
+            
             if (result && result.data) {
-                // Update store with updated image
                 dispatch(updateTopicImageAction(result.data));
+                
+                if (topicDetail) {
+                    const updatedDetail = {
+                        ...topicDetail,
+                        topicImages: topicDetail.topicImages.map(img => 
+                            img.id === result.data.id ? result.data : img
+                        )
+                    };
+                    dispatch(setTopicDetailAction(updatedDetail));
+                }
+                
+                showToast({
+                    toastRef: toast,
+                    severity: 'success',
+                    summary: `Cập nhật ${mediaType}`,
+                    detail: `Cập nhật ${mediaType} thành công.`
+                });
+                
+                setIsUpdated(prev => !prev);
+                handleClose();
+                
+            } else if (result && result.status && result.message && !result.data) {
+                console.error('API Error Details:', result);
+                showToast({ 
+                    toastRef: toast, 
+                    severity: 'error', 
+                    summary: 'Lỗi API', 
+                    detail: `${result.status}: ${result.message || 'Unknown error'}`
+                });
+                throw new Error(`API Error ${result.status}: ${result.message || 'Unknown error'}`);
+            } else {
+                const errorMessage = result?.message || 'API response invalid';
+                throw new Error(errorMessage);
             }
-            
-            showToast({
-                toastRef: toast,
-                severity: 'success',
-                summary: `Cập nhật ${mediaType}`,
-                detail: `Cập nhật ${mediaType} thành công.`
-            });
-            
-            setIsUpdated(prev => !prev);
-            handleClose();
             
         } catch (error) {
             console.error('Error updating image:', error);
+            const errorMessage = error?.message || 'Có lỗi xảy ra khi cập nhật ảnh';
             showToast({
                 toastRef: toast,
                 severity: 'error',
                 summary: `Cập nhật ${mediaType}`,
-                detail: `Lỗi khi cập nhật ${mediaType}. Vui lòng thử lại.`
+                detail: errorMessage
             });
         } finally {
             setIsSubmitting(false);
@@ -189,6 +228,7 @@ const EditImageModal = () => {
                                     options={6}
                                     hasFileInput={true}
                                     acceptedFileType={acceptedFileTypes}
+                                    fileInputId="topic-edit-image-input"
                                     onHandleFileChange={handleUpload}
                                     style={{
                                         cursor: "pointer",
@@ -206,7 +246,7 @@ const EditImageModal = () => {
                     <Card title={<h6 className="mb-0" style={{fontWeight: 'bold'}}>Xem trước</h6>}>
                         <div style={{
                             height: 350
-                        }} className={clsx(styles["create-image__preview--image"])}>
+                        }} className={clsx(styles["create-image__preview--image"]) }>
                             <div style={{
                                 height: "60%"
                             }} className={clsx(styles['create-image__preview--image__src'])}>
