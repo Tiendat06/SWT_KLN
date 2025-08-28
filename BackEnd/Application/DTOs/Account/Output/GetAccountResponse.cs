@@ -14,4 +14,9 @@ namespace Application
         public Guid? AccountId { get; set; }
         
     }
+
+    public class RefreshToken
+    {
+        public string? refreshToken { get; set; }
+    }
 }

@@ -18,7 +18,7 @@ namespace Application
         public string Password { get; set; }
     }
 
-    public class GetLoginReqponse
+    public class GetLoginResponse
     {
         public string Username { get; set; }
         public string Email { get; set; }
@@ -27,6 +27,7 @@ namespace Application
         public string Token { get; set; }
         public string RoleName { get; set; }
         public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiry { get; set; }
         public string? PasswordResetToken { get; set; }
     }
 

@@ -23,7 +23,7 @@ namespace Application.Validators
         {
             _accountService = accountService;
         }
-        public async Task<GetLoginReqponse> LoginAsyncValidator(LoginRequest loginRequest)
+        public async Task<GetLoginResponse> LoginAsyncValidator(LoginRequest loginRequest)
         {
             var validator = new LoginRequestValidator(_localizer);
             var result = await validator.ValidateAsync(loginRequest);
