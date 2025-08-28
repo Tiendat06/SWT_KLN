@@ -4,46 +4,63 @@ import {useManageTopicContext} from "~/context/B2B/ManageTopic/ManageTopicContex
 import {deleteTopicImageAction} from '~/store/B2B/ManageTopic/actions';
 import {topicService} from "~/services/TopicService";
 import KLNButtonEnum from "~/enum/Button/KLNButtonEnum";
+import MediaType from "~/enum/MediaType/MediaType";
+import { TEST_USER_ID } from "~/utils/Constansts";
+import { showToast } from '~/utils/Toast';
+import { useAppContext } from '~/context/AppContext';
 
 const DeleteImageModal = ({topicId}) => {
     const {
         selectedTopicImage, selectedImages, setSelectedImages, setIsUpdated, dispatch,
-        deleteImageModalVisible, setDeleteImageModalVisible
+        deleteImageModalVisible, setDeleteImageModalVisible, setSelectedImagesInTable
     } = useManageTopicContext();
+    const { toast } = useAppContext();
 
     const onClickDeleteItem = useCallback(async () => {
         try {
             let imageIds = [];
             
-            // Nếu có selectedImages (multiple delete)
             if (selectedImages && selectedImages.length > 0) {
                 imageIds = selectedImages.map(img => img.id);
-            } 
-            // Nếu có selectedTopicImage (single delete)
-            else if (selectedTopicImage) {
+            } else if (selectedTopicImage) {
                 imageIds = [selectedTopicImage.id];
             }
             
             if (imageIds.length > 0) {
-                // Gọi API xóa nhiều
-                if (imageIds.length === 1) {
-                    await topicService.deleteTopicImageService(topicId, imageIds[0]);
-                } else {
-                    await topicService.deleteTopicImagesService(topicId, imageIds);
-                }
+                await topicService.deleteTopicMediaService({
+                    topicId,
+                    mediaTypeId: MediaType.PresidentTDT,
+                    userId: TEST_USER_ID,
+                    imageIds,
+                    videoIds: []
+                });
                 
-                // Dispatch action để cập nhật store
                 dispatch(deleteTopicImageAction(imageIds));
                 setSelectedImages([]);
+                setSelectedImagesInTable([]);
             }
             
             setIsUpdated(prev => !prev);
             setDeleteImageModalVisible(false);
+            
+            showToast({ 
+                toastRef: toast, 
+                severity: 'success', 
+                summary: 'Xóa ảnh', 
+                detail: imageIds.length > 1 ? `Xóa ${imageIds.length} ảnh thành công!` : 'Xóa ảnh thành công!' 
+            });
         } catch (error) {
             console.error('Error deleting images:', error);
             setDeleteImageModalVisible(false);
+            
+            showToast({ 
+                toastRef: toast, 
+                severity: 'error', 
+                summary: 'Lỗi xóa ảnh', 
+                detail: 'Có lỗi xảy ra khi xóa ảnh. Vui lòng thử lại.' 
+            });
         }
-    }, [selectedTopicImage, selectedImages, dispatch, setSelectedImages, setIsUpdated, setDeleteImageModalVisible, topicId]);
+    }, [selectedTopicImage, selectedImages, dispatch, setSelectedImages, setSelectedImagesInTable, setIsUpdated, setDeleteImageModalVisible, topicId, toast]);
 
     const getDeleteMessage = () => {
         if (selectedImages && selectedImages.length > 1) {

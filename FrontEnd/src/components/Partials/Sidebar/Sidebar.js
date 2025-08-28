@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import styles from '~/styles/Layouts/sidebar.module.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { faFile, faBook, faFolderMinus, faHome, faImage } from '@fortawesome/free-solid-svg-icons'
+import { faFile, faBook, faFolderMinus, faHome, faImage, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import {useAdminContext} from "~/context/AdminContext";
 import AppRoutesEnum from "~/enum/Route/AppRoutesEnum";
 import {Link} from "react-router-dom";
@@ -15,6 +15,7 @@ const Sidebar = () => {
         {id: 4, title: 'Nhà trưng bày', path: `${AppRoutesEnum.AdminRoute}/manage-exhibition`, icon: (<FontAwesomeIcon icon={faHome} />)},
         {id: 5, title: 'Hiện vật & Hình Ảnh', path: `${AppRoutesEnum.AdminRoute}/manage-images`, icon: (<FontAwesomeIcon icon={faImage} />)},
         {id: 6, title: 'Quản lí Blog', path: `${AppRoutesEnum.AdminRoute}/manage-blog`, icon: (<FontAwesomeIcon icon={faBook} />)},
+        {id: 7, title: "Quản lí lãnh đạo viếng", path: `${AppRoutesEnum.AdminRoute}/manage-solemn-visit`, icon: (<FontAwesomeIcon icon={faEnvelope} />)},
     ];
 
     return (

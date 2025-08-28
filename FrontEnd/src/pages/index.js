@@ -42,6 +42,9 @@ import UpdateMultimedia from "~/pages/B2B/ManageMultimedia/UpdateMultimedia";
 import ManageBlog from "~/pages/B2B/ManageBlog/ManageBlog";
 import CreateBlog from "~/pages/B2B/ManageBlog/CreateBlog";
 import EditBlog from "~/pages/B2B/ManageBlog/EditBlog";
+import ManageSolemnVisit from "~/pages/B2B/ManageSolemnVisit/ManageSolemnVisit";
+import CreateSolemnVisit from "~/pages/B2B/ManageSolemnVisit/CreateSolemnVisit";
+import EditSolemnVisit from "~/pages/B2B/ManageSolemnVisit/EditSolemnVisit";
 
 
 export { Home, BlogContent };
@@ -83,5 +86,8 @@ export {
     SlideShowDetail,
     ManageBlog,
     CreateBlog,
-    EditBlog
+    EditBlog,
+    ManageSolemnVisit,
+    CreateSolemnVisit,
+    EditSolemnVisit
 };

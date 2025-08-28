@@ -1,7 +1,7 @@
 import UseFetchAPI from "~/hooks/UseFetchAPI";
 import MediaType from "~/enum/MediaType/MediaType";
 import TopicType from "~/enum/Topic/TopicType";
-import {DEFAULT_FETCH, DEFAULT_PAGE} from "~/utils/Constansts";
+import {DEFAULT_FETCH, DEFAULT_PAGE, TEST_USER_ID} from "~/utils/Constansts";
 
 const topicRoute = 'api/Topic';
 
@@ -24,36 +24,105 @@ const getTopicByIdService = async (id) => {
     })
 }
 
-const createTopicService = async (topicData) => {
+const createTopicService = async (topicData = {}) => {
+    const formData = new FormData();
+    if (topicData.capture !== undefined) formData.append("Capture", topicData.capture);
+    if (topicData.description !== undefined) formData.append("Description", topicData.description || "");
+    formData.append("MediaTypeId", topicData.mediaTypeId != null ? topicData.mediaTypeId : MediaType.None);
+    formData.append("UserId", topicData.userId || TEST_USER_ID);
+
+    const topicMedia = Array.isArray(topicData.topicMedia) ? topicData.topicMedia : [];
+    const images = Array.isArray(topicData.images) ? topicData.images : [];
+    const videos = Array.isArray(topicData.videos) ? topicData.videos : [];
+
+    let index = 0;
+    topicMedia.forEach((m) => {
+        if (m && m.mediaFile) {
+            formData.append(`TopicMedia[${index}].Capture`, m.capture || "");
+            formData.append(`TopicMedia[${index}].MediaLink`, m.mediaFile);
+            index += 1;
+        }
+    });
+    images.forEach((img) => {
+        if (img && img.imageFile) {
+            formData.append(`TopicMedia[${index}].Capture`, img.capture || "");
+            formData.append(`TopicMedia[${index}].MediaLink`, img.imageFile);
+            index += 1;
+        }
+    });
+    videos.forEach((vid) => {
+        if (vid && vid.videoFile) {
+            formData.append(`TopicMedia[${index}].Capture`, vid.capture || "");
+            formData.append(`TopicMedia[${index}].MediaLink`, vid.videoFile);
+            index += 1;
+        }
+    });
+
     return await UseFetchAPI({
         api: `${topicRoute}`,
         method: "POST",
-        body: JSON.stringify(topicData),
-        headers: {
-            "Content-Type": "application/json",
-        }
+        body: formData,
+        headers: {}
     })
 }
 
-const updateTopicService = async (id, topicData) => {
+const updateTopicService = async (id, topicData = {}) => {
+    const formData = new FormData();
+    if (topicData.capture !== undefined) formData.append("Capture", topicData.capture);
+    if (topicData.description !== undefined) formData.append("Description", topicData.description || "");
+    formData.append("MediaTypeId", topicData.mediaTypeId != null ? topicData.mediaTypeId : MediaType.None);
+    formData.append("UserId", topicData.userId || TEST_USER_ID);
+
+    const topicMedia = Array.isArray(topicData.topicMedia) ? topicData.topicMedia : [];
+    const images = Array.isArray(topicData.images) ? topicData.images : [];
+    const videos = Array.isArray(topicData.videos) ? topicData.videos : [];
+
+    let index = 0;
+    topicMedia.forEach((m) => {
+        if (m && (m.mediaFile || m.MediaLink)) {
+            formData.append(`TopicMedia[${index}].Capture`, m.capture || "");
+            const file = m.mediaFile || m.MediaLink;
+            if (file) formData.append(`TopicMedia[${index}].MediaLink`, file);
+            index += 1;
+        }
+    });
+    images.forEach((img) => {
+        if (img && (img.imageFile || img.ImageLink)) {
+            formData.append(`TopicMedia[${index}].Capture`, img.capture || "");
+            const file = img.imageFile || img.ImageLink;
+            if (file) formData.append(`TopicMedia[${index}].MediaLink`, file);
+            index += 1;
+        }
+    });
+    videos.forEach((vid) => {
+        if (vid && (vid.videoFile || vid.VideoLink)) {
+            formData.append(`TopicMedia[${index}].Capture`, vid.capture || "");
+            const file = vid.videoFile || vid.VideoLink;
+            if (file) formData.append(`TopicMedia[${index}].MediaLink`, file);
+            index += 1;
+        }
+    });
+
     return await UseFetchAPI({
         api: `${topicRoute}/${id}`,
         method: "PUT",
-        body: JSON.stringify(topicData),
-        headers: {
-            "Content-Type": "application/json",
-        }
+        body: formData,
+        headers: {}
     })
 }
 
 const deleteTopicService = async (ids) => {
+    const formData = new FormData();
+    
+    ids.forEach((id, index) => {
+        formData.append(`ids[${index}]`, id);
+    });
+
     return await UseFetchAPI({
-        api: `${topicRoute}`,
+        api: `${topicRoute}/ids`,
         method: "DELETE",
-        body: JSON.stringify({ ids }),
-        headers: {
-            "Content-Type": "application/json",
-        }
+        body: formData,
+        headers: {}
     })
 }
 
@@ -67,148 +136,83 @@ const getTotalTopicService = async (type = MediaType.None,
     })
 }
 
-// Media operations for topics
-const addImageToTopicService = async (topicId, imageData) => {
+const addTopicMediaService = async ({ topicId, mediaTypeId = MediaType.None, userId = TEST_USER_ID, images = [], videos = [] }) => {
     const formData = new FormData();
-    formData.append("topicId", topicId);
-    formData.append("imageFile", imageData.imageFile);
-    formData.append("capture", imageData.capture);
+    if (topicId) formData.append("TopicId", topicId);
+    formData.append("MediaTypeId", mediaTypeId);
+    formData.append("UserId", userId);
+
+    images.forEach((img, index) => {
+        formData.append(`TopicImages[${index}].Id`, img.id != null ? img.id : 0);
+        formData.append(`TopicImages[${index}].Capture`, img.capture || "");
+        if (img.imageFile) formData.append(`TopicImages[${index}].ImageLink`, img.imageFile);
+    });
+    videos.forEach((vid, index) => {
+        formData.append(`TopicVideos[${index}].Id`, vid.id != null ? vid.id : 0);
+        formData.append(`TopicVideos[${index}].Capture`, vid.capture || "");
+        if (vid.videoFile) formData.append(`TopicVideos[${index}].VideoLink`, vid.videoFile);
+    });
 
     return await UseFetchAPI({
-        api: `${topicRoute}/image`,
+        api: `${topicRoute}/Media`,
         method: "POST",
         body: formData,
-        headers: {
-            "Content-Type": "multipart/form-data",
-        }
-    })
+        headers: {}
+    });
 }
 
-const addVideoToTopicService = async (topicId, videoData) => {
+const updateTopicMediaService = async ({ topicId = null, mediaTypeId = MediaType.None, userId = TEST_USER_ID, images = [], videos = [] }) => {
     const formData = new FormData();
-    formData.append("topicId", topicId);
-    formData.append("videoFile", videoData.videoFile);
-    formData.append("capture", videoData.capture);
+    if (topicId) formData.append("TopicId", topicId);
+    formData.append("MediaTypeId", mediaTypeId);
+    formData.append("UserId", userId);
+
+    images.forEach((img, index) => {
+        if (img.id != null) formData.append(`TopicImages[${index}].Id`, img.id);
+        if (img.capture !== undefined) formData.append(`TopicImages[${index}].Capture`, img.capture || "");
+        if (img.imageFile) formData.append(`TopicImages[${index}].ImageLink`, img.imageFile);
+    });
+    videos.forEach((vid, index) => {
+        if (vid.id != null) formData.append(`TopicVideos[${index}].Id`, vid.id);
+        if (vid.capture !== undefined) formData.append(`TopicVideos[${index}].Capture`, vid.capture || "");
+        if (vid.videoFile) formData.append(`TopicVideos[${index}].VideoLink`, vid.videoFile);
+    });
 
     return await UseFetchAPI({
-        api: `${topicRoute}/video`,
-        method: "POST",
-        body: formData,
-        headers: {
-            "Content-Type": "multipart/form-data",
-        }
-    })
-}
-
-const updateTopicMediaService = async (mediaId, mediaData, mediaType = 'image') => {
-    return await UseFetchAPI({
-        api: `${topicRoute}/${mediaType}/${mediaId}`,
+        api: `${topicRoute}/Media`,
         method: "PUT",
-        body: JSON.stringify(mediaData),
-        headers: {
-            "Content-Type": "application/json",
-        }
-    })
-}
-
-const deleteTopicMediaService = async (mediaIds, mediaType = 'image') => {
-    return await UseFetchAPI({
-        api: `${topicRoute}/${mediaType}`,
-        method: "DELETE",
-        body: JSON.stringify({ ids: mediaIds }),
-        headers: {
-            "Content-Type": "application/json",
-        }
-    })
-}
-
-const getTopicImagesService = async (topicId) => {
-    return await UseFetchAPI({
-        api: `${topicRoute}/${topicId}/images`,
-    })
-}
-
-const getTopicVideosService = async (topicId) => {
-    return await UseFetchAPI({
-        api: `${topicRoute}/${topicId}/videos`,
-    })
-}
-
-// Create topic with media in one call
-const createTopicWithMediaService = async (topicData) => {
-    const formData = new FormData();
-    formData.append("capture", topicData.capture);
-    
-    // Add images
-    if (topicData.images && topicData.images.length > 0) {
-        topicData.images.forEach((image, index) => {
-            if (image.imageFile) {
-                formData.append(`images[${index}].file`, image.imageFile);
-                formData.append(`images[${index}].capture`, image.capture);
-                formData.append(`images[${index}].description`, image.description || '');
-            }
-        });
-    }
-    
-    // Add videos
-    if (topicData.videos && topicData.videos.length > 0) {
-        topicData.videos.forEach((video, index) => {
-            if (video.videoFile) {
-                formData.append(`videos[${index}].file`, video.videoFile);
-                formData.append(`videos[${index}].capture`, video.capture);
-                formData.append(`videos[${index}].description`, video.description || '');
-            }
-        });
-    }
-
-    return await UseFetchAPI({
-        api: `${topicRoute}/with-media`,
-        method: "POST",
         body: formData,
-        headers: {
-            "Content-Type": "multipart/form-data",
-        }
+        headers: {}
     })
 }
 
-// Delete specific image from topic
-const deleteTopicImageService = async (topicId, imageId) => {
-    return await UseFetchAPI({
-        api: `${topicRoute}/${topicId}/image/${imageId}`,
-        method: "DELETE"
-    })
-}
+const deleteTopicMediaService = async ({ topicId, mediaTypeId = MediaType.None, userId = TEST_USER_ID, imageIds = [], videoIds = [] }) => {
+    const formData = new FormData();
+    if (topicId) formData.append("TopicId", topicId);
+    formData.append("MediaTypeId", mediaTypeId);
+    formData.append("UserId", userId);
+    
+    imageIds.forEach((id, index) => {
+        formData.append(`ImageIds[${index}]`, id);
+    });
+    videoIds.forEach((id, index) => {
+        formData.append(`VideoIds[${index}]`, id);
+    });
 
-// Delete multiple images from topic
-const deleteTopicImagesService = async (topicId, imageIds) => {
     return await UseFetchAPI({
-        api: `${topicRoute}/${topicId}/images`,
+        api: `${topicRoute}/Media`,
         method: "DELETE",
-        body: JSON.stringify({ ids: imageIds }),
-        headers: {
-            "Content-Type": "application/json",
-        }
+        body: formData,
+        headers: {}
     })
 }
 
-// Delete specific video from topic
-const deleteTopicVideoService = async (topicId, videoId) => {
-    return await UseFetchAPI({
-        api: `${topicRoute}/${topicId}/video/${videoId}`,
-        method: "DELETE"
-    })
+const updateImageService = async ({ id, capture, imageFile, topicId = null, mediaTypeId = MediaType.None, userId = TEST_USER_ID }) => {
+    return updateTopicMediaService({ topicId, mediaTypeId, userId, images: [ { id, capture, imageFile } ] });
 }
 
-// Delete multiple videos from topic
-const deleteTopicVideosService = async (topicId, videoIds) => {
-    return await UseFetchAPI({
-        api: `${topicRoute}/${topicId}/videos`,
-        method: "DELETE",
-        body: JSON.stringify({ ids: videoIds }),
-        headers: {
-            "Content-Type": "application/json",
-        }
-    })
+const updateVideoService = async ({ id, capture, videoFile, topicId = null, mediaTypeId = MediaType.None, userId = TEST_USER_ID }) => {
+    return updateTopicMediaService({ topicId, mediaTypeId, userId, videos: [ { id, capture, videoFile } ] });
 }
 
 export const topicService = {
@@ -221,17 +225,9 @@ export const topicService = {
     getTotalTopicService,
     
     // Media operations
-    addImageToTopicService,
-    addVideoToTopicService,
+    addTopicMediaService,
     updateTopicMediaService,
     deleteTopicMediaService,
-    getTopicImagesService,
-    getTopicVideosService,
-    
-    // Combined operations
-    createTopicWithMediaService,
-    deleteTopicImageService,
-    deleteTopicImagesService,
-    deleteTopicVideoService,
-    deleteTopicVideosService
-}
+    updateImageService,
+    updateVideoService,
+};
