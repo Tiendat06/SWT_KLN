@@ -19,6 +19,10 @@ namespace Domain.Entities
 
         [Column("hide", TypeName ="bit")]
         public bool? IsHidden { get; set; } = false;
+        [Column("refreshToken", TypeName = "varchar")]
+        public string? RefreshToken { get; set; } = string.Empty;
+        [Column("refreshTokenExpiry", TypeName = "DateTime")]
+        public DateTime? RefreshTokenExpiry { get; set; } = DateTime.Now;
 
         [Column("passwordResetToken", TypeName ="varchar")]
         public string? PasswordResetToken { get; set; } = string.Empty;

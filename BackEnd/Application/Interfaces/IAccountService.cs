@@ -5,7 +5,7 @@ namespace Application.Interfaces
 {
     public interface IAccountService
     {
-        Task<GetLoginReqponse> LoginAsync(LoginRequest loginRequest);
-        Task<GetLoginReqponse> RefreshTokenAsync(string expiredAccessToken);
+        Task<GetLoginResponse> LoginAsync(LoginRequest loginRequest);
+        Task<GetLoginResponse> RefreshTokenAsync(string refreshToken);
     }
 }

@@ -20,46 +20,36 @@ namespace Application.Services
             _config = config;
         }
 
-        public async Task<GetLoginReqponse> LoginAsync(LoginRequest loginRequest)
+        public async Task<GetLoginResponse> LoginAsync(LoginRequest loginRequest)
         {
             try
             {
                 var account = await _accountRepository.GetAccountWithUserAsync(loginRequest.Username);
 
                 if (account == null)
-                    return null;
+                    throw new ArgumentException("Wrong username or password");
 
-                //// Verify hashed password
-                //if (!BCrypt.Net.BCrypt.Verify(loginRequest.Password, account.Password))
-                //    return null;
-
-                // Plain password check
+                // Verify password
                 if (account.Password != loginRequest.Password)
                     throw new ArgumentException("Wrong username or password");
 
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.UTF8.GetBytes(_config["JWT_KEY_SECRET"]);
 
-                var refreshToken = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-                var refreshTokenExpiry = DateTime.UtcNow.AddDays(7);
-
+                // Generate access token (JWT)
                 var claims = new[]
                 {
                     new Claim("accountId", account.AccountId.ToString()),
                     new Claim(ClaimTypes.Name, account.UserName),
                     new Claim(ClaimTypes.Role, MapRole((int)account.RoleId)),
                     new Claim(JwtRegisteredClaimNames.Email, account.User.Email ?? ""),
-                    new Claim("userId", account.User.UserId.ToString()),
-                    new Claim("refreshToken", refreshToken),
-                    new Claim("refreshTokenExpiry", refreshTokenExpiry.ToString("o"))
+                    new Claim("userId", account.User.UserId.ToString())
                 };
 
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(claims),
-                    Expires = DateTime.UtcNow.AddHours(int.Parse(_config["JWT_EXPIRE_HOURS"] ?? "1")),
-                    //Issuer = _config["JWT_ISSUER"],
-                    //Audience = _config["JWT_AUDIENCE"],
+                    Expires = DateTime.UtcNow.AddHours(int.Parse(_config["JWT_EXPIRE_HOURS"] ?? "1")), // 1 hour default
                     SigningCredentials = new SigningCredentials(
                         new SymmetricSecurityKey(key),
                         SecurityAlgorithms.HmacSha256Signature
@@ -68,14 +58,23 @@ namespace Application.Services
 
                 var token = tokenHandler.CreateToken(tokenDescriptor);
 
-                return new GetLoginReqponse
+                // Generate refresh token separately
+                var refreshToken = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+                var refreshTokenExpiry = DateTime.UtcNow.AddDays(7);
+
+                // Store refresh token in DB for validation/revocation
+                await _accountRepository.SaveRefreshTokenAsync(account.AccountId, refreshToken, refreshTokenExpiry);
+
+                return new GetLoginResponse
                 {
                     AccountId = account.AccountId,
                     Token = tokenHandler.WriteToken(token),
                     Username = account.UserName,
                     Email = account.User.Email,
                     RoleName = MapRole((int)account.RoleId),
-                    RefreshToken = refreshToken
+                    RefreshToken = refreshToken,
+                    RefreshTokenExpiry = refreshTokenExpiry,
+                    roleId = account.RoleId
                 };
             }
             catch (Exception ex)
@@ -94,70 +93,24 @@ namespace Application.Services
             };
         }
 
-        public async Task<GetLoginReqponse> RefreshTokenAsync(string expiredAccessToken)
+        public async Task<GetLoginResponse> RefreshTokenAsync(string refreshToken)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(_config["JWT_KEY_SECRET"]);
+            var userAccount = await _accountRepository.GetRefreshTokenAsync(refreshToken);
+            var storedToken = userAccount.RefreshToken;
+            if (storedToken == null || userAccount.RefreshTokenExpiry < DateTime.UtcNow)
+                throw new ArgumentException("Invalid or expired refresh token");
 
-            // Read expired token
-            var principal = tokenHandler.ValidateToken(expiredAccessToken, new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ValidateLifetime = false // ignore expiry
-            }, out SecurityToken validatedToken);
-
-            // Extract refresh token & expiry
-            var refreshToken = principal.Claims.FirstOrDefault(c => c.Type == "refreshToken")?.Value;
-            var refreshTokenExpiryStr = principal.Claims.FirstOrDefault(c => c.Type == "refreshTokenExpiry")?.Value;
-
-            if (string.IsNullOrEmpty(refreshToken) || string.IsNullOrEmpty(refreshTokenExpiryStr))
-                throw new SecurityTokenException("Refresh token missing");
-
-            if (!DateTime.TryParse(refreshTokenExpiryStr, out var refreshTokenExpiry) || refreshTokenExpiry < DateTime.UtcNow)
-                throw new SecurityTokenException("Refresh token expired");
-
-            // Get account
-            var accountId = principal.Claims.FirstOrDefault(c => c.Type == "accountId")?.Value;
-            var account = await _accountRepository.GetAccountByIdAsync(Guid.Parse(accountId));
+            var account = await _accountRepository.GetAccountByIdAsync(userAccount.AccountId);
             if (account == null)
-                throw new SecurityTokenException("Invalid account");
+                throw new ArgumentException("User not found");
 
-            // Create new access token with same refresh token info
-            var claims = new[]
+            // Issue new access token
+            return await LoginAsync(new LoginRequest
             {
-                new Claim("accountId", account.AccountId.ToString()),
-                new Claim(ClaimTypes.Name, account.UserName),
-                new Claim(ClaimTypes.Role, MapRole((int)account.RoleId)),
-                new Claim(JwtRegisteredClaimNames.Email, account.User.Email ?? ""),
-                new Claim("userId", account.User.UserId.ToString()),
-                new Claim("refreshToken", refreshToken),
-                new Claim("refreshTokenExpiry", refreshTokenExpiry.ToString("o"))
-            };
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddHours(1), // New access token: 1 hour
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature
-                )
-            };
-
-            var newToken = tokenHandler.CreateToken(tokenDescriptor);
-
-            return new GetLoginReqponse
-            {
-                AccountId = account.AccountId,
-                Token = tokenHandler.WriteToken(newToken),
-                RefreshToken = refreshToken, // Same refresh token until it expires
                 Username = account.UserName,
-                Email = account.User.Email,
-                RoleName = MapRole((int)account.RoleId)
-            };
+                Password = account.Password
+            });
         }
+
     }
 }

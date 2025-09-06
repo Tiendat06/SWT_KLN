@@ -6,5 +6,7 @@ namespace Domain.Interfaces
     {
         Task<Account> GetAccountWithUserAsync(string username);
         Task<Account> GetAccountByIdAsync(Guid accountId);
+        Task SaveRefreshTokenAsync(Guid accountId, string refreshToken, DateTime refreshTokenExpiry);
+        Task<Account?> GetRefreshTokenAsync(string refreshToken);
     }
 }

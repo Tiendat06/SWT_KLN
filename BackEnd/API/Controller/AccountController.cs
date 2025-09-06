@@ -28,7 +28,7 @@ namespace API.Controllers
         // POST api/account/login
         [HttpPost("login")]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetLoginReqponse>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetLoginResponse>))]
         public async Task<IActionResult> Login([FromForm] LoginRequest loginRequest)
         {
             var result = await _accountValidator.LoginAsyncValidator(loginRequest);
@@ -38,10 +38,10 @@ namespace API.Controllers
         // POST api/account/refresh
         [HttpPost("refresh")]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetLoginReqponse>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomResponse<GetLoginResponse>))]
         public async Task<IActionResult> Refresh([FromForm] string refreshTokenRequest)
         {
-            // Validate the refresh token and generate a new access token
+            // Validate the refresh token and login again
             var result = await _accountService.RefreshTokenAsync(refreshTokenRequest);
             return ApiSuccess(result);
         }

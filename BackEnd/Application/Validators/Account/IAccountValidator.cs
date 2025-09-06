@@ -2,6 +2,6 @@
 {
     public interface IAccountValidator
     {
-        public Task<GetLoginReqponse> LoginAsyncValidator(LoginRequest loginRequest);
+        public Task<GetLoginResponse> LoginAsyncValidator(LoginRequest loginRequest);
     }
 }
